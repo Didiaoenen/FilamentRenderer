@@ -6,7 +6,7 @@ endif()
 
 message(STATUS "TOOLCHAIN: ${CMAKE_TOOLCHAIN_FILE}")
 
-project(FREditor)
+project(FilamentRenderer)
 
 include(FetchContent)
 

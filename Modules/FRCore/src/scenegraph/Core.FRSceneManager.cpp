@@ -56,7 +56,7 @@ FR::FRScene* FR::FRSceneManager::LoadEmptyLightedScene()
 	auto& light = mCurrentScene->CreateActor("Directional Light");
 	light.AddComponent<FRCompLight>();
 	light.transform.SetLocalPosition({ 0.0f, 10.0f, 0.0f });
-	auto lightRyp = glm::radians(glm::vec3(-120.0f, -40.0f, 0.0f));
+	auto lightRyp = glm::radians(glm::vec3(0.0f, 0.0f, 0.0f));
 	light.transform.SetLocalRotation(glm::quat(glm::eulerAngleYXZ(lightRyp.y, lightRyp.x, lightRyp.z)));
 
 	auto& camera = mCurrentScene->CreateActor("Main Camera");

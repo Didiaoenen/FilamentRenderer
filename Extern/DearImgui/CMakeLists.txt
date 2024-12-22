@@ -37,9 +37,7 @@ add_library(${TARGET} STATIC ${PRIVATE_HDRS} ${PUBLIC_HDRS} ${SRCS})
 
 target_include_directories(${TARGET} PUBLIC ${PUBLIC_HDR_DIR} ${PRIVATE_HDR_DIR})
 
-if(VCPKG_TARGET_TRIPLET)
-    include_directories("${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include/SDL2")
-endif()
+target_link_libraries(${TARGET} PRIVATE sdl2 sdl2main)
 
 set_target_properties(${TARGET} PROPERTIES FOLDER "Third-party")
 

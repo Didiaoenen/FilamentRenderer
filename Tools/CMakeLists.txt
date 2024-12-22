@@ -1,0 +1,4 @@
+add_subdirectory(Fbx2Mesh)
+add_subdirectory(Gltf2Mesh)
+add_subdirectory(Convert2OzzModel)
+add_subdirectory(Convert2OzzAnimation)

@@ -1,0 +1,114 @@
+#include "Core.FRShaderLoader.h"
+
+#include "Core.FRShader.h"
+#include "Core.FRTexture.h"
+
+#include <EnumOpt.h>
+#include <Tools.FRFile.h>
+
+#include <sstream>
+#include <fstream>
+
+#include <glm/glm.hpp>
+
+#include <StringExtension.h>
+
+#include <FileConfig.h>
+#include <MaterialCompiler.h>
+
+#include <utils/Path.h>
+#include <filamat/MaterialBuilder.h>
+
+FR::FRShader* FR::FRShaderLoader::Create(const std::string& pFilePath)
+{
+	auto splits = StringExtension::Split(pFilePath, '.');
+	auto propInfos = ParseProperty(splits[0] + ".shader");
+	auto data = FRFile::ReadBinaryFile(splits[0] + ".filamat");
+	return new FRShader(propInfos, data);
+}
+
+void FR::FRShaderLoader::Recompile(FRShader& pShader, const std::string& pFilePath)
+{
+}
+
+bool FR::FRShaderLoader::Destroy(FRShader*& pShader)
+{
+	if (pShader)
+	{
+		delete pShader;
+		pShader = nullptr;
+
+		return true;
+	}
+
+    return false;
+}
+
+std::vector<FR::FRPropInfo> FR::FRShaderLoader::ParseProperty(const std::string& pFilePath)
+{
+	std::vector<FRPropInfo> propInfos;
+
+	filamat::MaterialBuilder::init();
+	filamat::MaterialBuilder builder;
+
+	matc::MaterialCompiler compiler;
+	if (compiler.run(matc::FileConfig{ utils::Path(pFilePath).getAbsolutePath() }, builder))
+	{
+		for (int i = 0; i < builder.getParameterCount(); ++i)
+		{
+			FRPropInfo& info = propInfos.emplace_back();
+			auto& parameter = builder.getParameters()[i];
+			info.name = parameter.name.c_str();
+			info.size = parameter.size;
+
+			info.sampler = parameter.isSampler();
+			if (!info.sampler)
+			{
+				info.uniformType = static_cast<FR::EUniformType>(parameter.uniformType);
+				switch (info.uniformType)
+				{
+				case FR::EUniformType::BOOL:
+					info.data = std::make_any<bool>(false);
+					break;
+				case FR::EUniformType::INT:
+					info.data = std::make_any<int>(0);
+					break;
+				case FR::EUniformType::FLOAT:
+					info.data = std::make_any<float>(0.f);
+					break;
+				case FR::EUniformType::FLOAT2:
+					info.data = std::make_any<glm::vec2>(0.f);
+					break;
+				case FR::EUniformType::FLOAT3:
+					info.data = std::make_any<glm::vec3>(0.f);
+					break;
+				case FR::EUniformType::FLOAT4:
+					info.data = std::make_any<glm::vec4>(0.f);
+					break;
+				case FR::EUniformType::MAT3:
+					info.data = std::make_any<glm::mat3>(1.f);
+					break;
+				case FR::EUniformType::MAT4:
+					info.data = std::make_any<glm::mat4>(1.f);
+					break;
+				default:
+					break;
+				}
+			}
+			else
+			{
+				info.samplerType = static_cast<FR::ESamplerType>(parameter.samplerType);
+				switch (info.samplerType)
+				{
+				case FR::ESamplerType::SAMPLER_2D:
+					info.data = std::make_any<FRTexture*>(nullptr);
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+
+	return propInfos;
+}

@@ -1,0 +1,26 @@
+<root>
+    <shader>:Shaders\aiDefaultMat.shader</shader>
+    <settings/>
+    <properties>
+        <property>
+            <name>baseColor</name>
+            <value>
+                <x>0.5</x>
+                <y>0.5</y>
+                <z>0.5</z>
+            </value>
+        </property>
+        <property>
+            <name>metallic</name>
+            <value>0</value>
+        </property>
+        <property>
+            <name>roughness</name>
+            <value>0.4</value>
+        </property>
+        <property>
+            <name>reflectance</name>
+            <value>0.5</value>
+        </property>
+    </properties>
+</root>

@@ -1,0 +1,46 @@
+#include "Core.FRTextureLoader.h"
+
+#include "Core.FRTexture.h"
+
+namespace FR
+{
+    FRImageParser FRTextureLoader::__STBI;
+}
+
+FR::FRTexture* FR::FRTextureLoader::Create(const std::string& pFilepath, ETexture::EMinFilter pFirstFilter, ETexture::EMagFilter pSecondFilter, bool pGenerateMipmap)
+{
+    uint8_t* data;
+    uint32_t size, width, height;
+    if (__STBI.LoadImage(pFilepath, &data, &size, &width, &height))
+    {
+        FRTexture* result = new FRTexture(width, height);
+        result->SetData(data, size);
+        result->SetSampler();
+        return result;
+    }
+    return nullptr;
+}
+
+FR::FRTexture* FR::FRTextureLoader::CreatePixel(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+{
+	std::array<uint8_t, 4> colorData = { r, g, b, a };
+	return FRTextureLoader::CreateFromMemory(colorData.data(), 1, 1, ETexture::EMinFilter::NEAREST, ETexture::EMagFilter::NEAREST, false);
+}
+
+FR::FRTexture* FR::FRTextureLoader::CreateFromMemory(uint8_t* pData, uint32_t pWidth, uint32_t pHeight,
+    ETexture::EMinFilter pFirstFilter, ETexture::EMagFilter pSecondFilter, bool pGenerateMipmap)
+{
+    FRTexture* result = new FRTexture(pWidth, pHeight);
+    result->SetData(pData, 4);
+    result->SetSampler();
+    return result;
+}
+
+//void FR::TextureLoader::Reload(Texture& pTexture, const std::string& pFilePath, ETextureFilteringMode pFirstFilter, ETextureFilteringMode pSecondFilter, bool pGenerateMipmap)
+//{
+//}
+
+bool FR::FRTextureLoader::Destroy(FRTexture*& pTextureInstance)
+{
+    return false;
+}

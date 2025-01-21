@@ -4,23 +4,22 @@
 
 #include <imgui.h>
 
-FR::GUI::FRAPanelTrans::FRAPanelTrans(glm::vec2 pDefaultPosition, glm::vec2 pDefaultSize,
+FR::GUI::FRAPanelTrans::FRAPanelTrans(const glm::vec2& pDefaultPosition, const glm::vec2& pDefaultSize,
 	EPanelHorizontal pDefaultHAlignment, EPanelVertical pDefaultVAlignment, bool pIgnoreConfigFile)
-	: mDefaultPosition(pDefaultPosition)
-	, mDefaultSize(pDefaultSize)
+	: mDefaultPosition(pDefaultPosition), mDefaultSize(pDefaultSize)
 	, mDefaultHAlignment(pDefaultHAlignment)
 	, mDefaultVAlignment(pDefaultVAlignment)
 	, mIgnoreConfigFile(pIgnoreConfigFile)
 {
 }
 
-void FR::GUI::FRAPanelTrans::SetPosition(glm::vec2 pPosition)
+void FR::GUI::FRAPanelTrans::SetPosition(const glm::vec2& pPosition)
 {
 	mPosition = pPosition;
 	mPositionChanged = true;
 }
 
-void FR::GUI::FRAPanelTrans::SetSize(glm::vec2 pSize)
+void FR::GUI::FRAPanelTrans::SetSize(const glm::vec2& pSize)
 {
 	mSize = pSize;
 	mSizeChanged = true;
@@ -72,7 +71,7 @@ void FR::GUI::FRAPanelTrans::Update()
 
 glm::vec2 FR::GUI::FRAPanelTrans::CalculatePositionAlignmentOffset(bool pDefault)
 {
-	glm::vec2 result(0.0f, 0.0f);
+	glm::vec2 result(0.f);
 
 	switch (pDefault ? mDefaultHAlignment : mHAlignment)
 	{

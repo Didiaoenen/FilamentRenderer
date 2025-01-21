@@ -44,6 +44,8 @@ namespace FR::GUI
 		glm::vec2 GetLabelSize();
 
 	protected:
+		virtual void _Draw_Impl() = 0;
+
 		virtual void SetItemSize();
 
 		virtual void SetItemAlign();
@@ -51,8 +53,6 @@ namespace FR::GUI
 		virtual void SetItemLayout();
 
 		virtual void DrawItemActivityOutline(glm::vec2 pMin, glm::vec2 pMax, bool pInactive = false, Color pColorActive = { 80.0f, 80.0f, 80.0f });
-
-		virtual void _Draw_Impl() = 0;
 
 		glm::vec2 CaculateSize();
 

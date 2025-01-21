@@ -6,7 +6,7 @@
 #include <imgui_internal.h>
 #include <IconsMaterialDesignIcons.h>
 
-FR::GUI::FRPanelWindow::FRPanelWindow(const std::string pName, bool pOpened, const FRPanelWindowSettings& pSetting)
+FR::GUI::FRPanelWindow::FRPanelWindow(const std::string& pName, bool pOpened, const FRPanelWindowSettings& pSetting)
 	: name(pName)
 	, mOpened(pOpened)
 	, resizable(pSetting.resizable)
@@ -48,23 +48,6 @@ void FR::GUI::FRPanelWindow::Focus()
 	ImGui::SetWindowFocus((name + mPanelID).c_str());
 }
 
-void FR::GUI::FRPanelWindow::SetOpened(bool pValue)
-{
-	if (pValue != mOpened)
-	{
-		mOpened = pValue;
-
-		if (mOpened)
-		{
-			OpenEvent.Invoke();
-		}
-		else
-		{
-			CloseEvent.Invoke();
-		}
-	}
-}
-
 bool FR::GUI::FRPanelWindow::IsOpened()
 {
 	return mOpened;
@@ -89,14 +72,19 @@ bool FR::GUI::FRPanelWindow::IsAppearing()
 	return false;
 }
 
+void FR::GUI::FRPanelWindow::ScrollToTop()
+{
+	mMustScrollToTop = true;
+}
+
 void FR::GUI::FRPanelWindow::ScrollToBottom()
 {
 	mMustScrollToBottom = true;
 }
 
-void FR::GUI::FRPanelWindow::ScrollToTop()
+bool FR::GUI::FRPanelWindow::IsScrolledToTop()
 {
-	mMustScrollToTop = true;
+	return mMustScrollToTop;
 }
 
 bool FR::GUI::FRPanelWindow::IsScrolledToBottom()
@@ -104,9 +92,21 @@ bool FR::GUI::FRPanelWindow::IsScrolledToBottom()
 	return mMustScrollToBottom;
 }
 
-bool FR::GUI::FRPanelWindow::IsScrolledToTop()
+void FR::GUI::FRPanelWindow::SetOpenState(bool pValue)
 {
-	return mMustScrollToTop;
+	if (pValue != mOpened)
+	{
+		mOpened = pValue;
+
+		if (mOpened)
+		{
+			OpenEvent.Invoke();
+		}
+		else
+		{
+			CloseEvent.Invoke();
+		}
+	}
 }
 
 void FR::GUI::FRPanelWindow::_Draw_Impl()
@@ -151,28 +151,21 @@ void FR::GUI::FRPanelWindow::_Draw_Impl()
 			mHovered = ImGui::IsWindowHovered();
 			mFocused = ImGui::IsWindowFocused();
 
-			auto scrollY = ImGui::GetScrollY();
-
-			mScrolledToBottom = scrollY == ImGui::GetScrollMaxY();
-			mScrolledToTop = scrollY == 0.0f;
-
-			if (!mOpened)
-			{
-		 		CloseEvent.Invoke();
-			}
+			mScrolledToTop = ImGui::GetScrollY() == 0.0f;
+			mScrolledToBottom = ImGui::GetScrollY() == ImGui::GetScrollMaxY();
 
 			Update();
-
-			if (mMustScrollToBottom)
-			{
-				ImGui::SetScrollY(ImGui::GetScrollMaxY());
-				mMustScrollToBottom = false;
-			}
 
 			if (mMustScrollToTop)
 			{
 				ImGui::SetScrollY(0.0f);
 				mMustScrollToTop = false;
+			}
+
+			if (mMustScrollToBottom)
+			{
+				ImGui::SetScrollY(ImGui::GetScrollMaxY());
+				mMustScrollToBottom = false;
 			}
 
 			DrawWidgets();

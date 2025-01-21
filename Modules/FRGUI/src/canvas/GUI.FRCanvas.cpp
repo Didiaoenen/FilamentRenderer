@@ -12,8 +12,7 @@ void FR::GUI::FRCanvas::AddPanel(FRAPanel* pPanel)
 
 void FR::GUI::FRCanvas::RemovePanel(FRAPanel* pPanel)
 {
-	mPanels.erase(std::remove_if(mPanels.begin(), mPanels.end(), 
-		[pPanel](FRAPanel* pItem)
+	mPanels.erase(std::remove_if(mPanels.begin(), mPanels.end(), [pPanel](FRAPanel* pItem)
 		{
 			return pPanel == pItem;
 		}));
@@ -53,7 +52,7 @@ void FR::GUI::FRCanvas::Draw()
 		ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
 		ImGui::DockSpace(dockspace_id, { 0.f, 0.f }, ImGuiDockNodeFlags_PassthruCentralNode);
 		ImGui::SetWindowPos({ 0.f, 0.f });
-		ImGuiIO io = ImGui::GetIO();
+		ImGuiIO& io = ImGui::GetIO();
 		ImGui::SetWindowSize(io.DisplaySize);
 		ImGui::End();
 

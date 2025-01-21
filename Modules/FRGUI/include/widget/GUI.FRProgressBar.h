@@ -8,7 +8,7 @@ namespace FR::GUI
 		: public FRAWidget
 	{
 	public:
-		FRProgressBar(float pFraction = 0.0f, const glm::vec2& pSize = {}, const std::string& pOverlay = "");
+		FRProgressBar(float pFraction = 0.f, const glm::vec2& pSize = {}, const std::string& pOverlay = "");
 
 	protected:
 		void _Draw_Impl() override;

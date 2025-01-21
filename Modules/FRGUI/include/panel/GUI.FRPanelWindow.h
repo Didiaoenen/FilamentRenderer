@@ -11,15 +11,13 @@ namespace FR::GUI
 		: public FRAPanelTrans
 	{
 	public:
-		FRPanelWindow(const std::string pName = "", bool pOpened = true, const FRPanelWindowSettings& pSetting = {});
+		FRPanelWindow(const std::string& pName = "", bool pOpened = true, const FRPanelWindowSettings& pSetting = {});
 
 		void Open();
 
 		void Close();
 
 		void Focus();
-
-		void SetOpened(bool pValue);
 
 		bool IsOpened();
 
@@ -29,13 +27,15 @@ namespace FR::GUI
 
 		bool IsAppearing();
 
+		void ScrollToTop();
+
 		void ScrollToBottom();
 
-		void ScrollToTop();
+		bool IsScrolledToTop();
 
 		bool IsScrolledToBottom();
 
-		bool IsScrolledToTop();
+		void SetOpenState(bool pValue);
 
 	protected:
 		void _Draw_Impl() override;
@@ -43,10 +43,10 @@ namespace FR::GUI
 		virtual void DrawGizmo() {}
 
 	public:
-		std::string name{};
+		std::string name;
 
-		glm::vec2 minSize{ 0.f, 0.f };
-		glm::vec2 maxSize{ 0.f, 0.f };
+		glm::vec2 minSize{ 0.f };
+		glm::vec2 maxSize{ 0.f };
 
 		bool resizable{ true };
 		bool closable{ false };
@@ -73,7 +73,7 @@ namespace FR::GUI
 		bool mMustScrollToBottom{ false };
 		bool mScrolledToTop{ false };
 		bool mScrolledToBottom{ false };
-		glm::vec2 mViewportOffset{ 0.0f };
+		glm::vec2 mViewportOffset{ 0.f };
 
 	};
 }

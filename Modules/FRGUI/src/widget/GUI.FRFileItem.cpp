@@ -5,7 +5,8 @@
 
 #include <Core.FRTexture.h>
 
-FR::GUI::FRFileItem::FRFileItem(const std::string& pName, glm::vec2 pSize, bool pDirectory, int pScalePercent, FRTexture* pBackgroud, FRTexture* pThumbnail, FRTexture* pColorFrame)
+FR::GUI::FRFileItem::FRFileItem(const std::string& pName, glm::vec2 pSize,
+	bool pDirectory, int pScalePercent, FRTexture* pBackgroud, FRTexture* pThumbnail, FRTexture* pColorFrame)
 	: name(pName)
 	, directory(pDirectory)
 	, scalePercent(pScalePercent)

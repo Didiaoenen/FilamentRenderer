@@ -97,21 +97,21 @@ void FR::GUI::FRAWidget::SetItemAlign()
 			}
 		}
 	}
-	break;
-	case EWidgetAlignment::RIGHT:
+		break;
+	case EWidgetAlignment::CENTER:
 	{
 		auto contentSize = ImGui::GetContentRegionMax();
-		ImGui::SetCursorPosX(contentSize.x - size.x);
+		ImGui::SetCursorPosX(contentSize.x * 0.5f - size.x * 0.5f);
 		if (position.y != 0.f)
 		{
 			ImGui::SetCursorPosY(position.y);
 		}
 	}
-	break;
-	case EWidgetAlignment::CENTER:
+		break;
+	case EWidgetAlignment::RIGHT:
 	{
 		auto contentSize = ImGui::GetContentRegionMax();
-		ImGui::SetCursorPosX(contentSize.x * 0.5f - size.x * 0.5f);
+		ImGui::SetCursorPosX(contentSize.x - size.x);
 		if (position.y != 0.f)
 		{
 			ImGui::SetCursorPosY(position.y);
@@ -165,7 +165,7 @@ glm::vec2 FR::GUI::FRAWidget::CaculateSize()
 	{
 		result = size;
 	}
-	break;
+		break;
 	case FR::GUI::EWidgetSizeType::RELATIVE:
 	{
 		result = size;

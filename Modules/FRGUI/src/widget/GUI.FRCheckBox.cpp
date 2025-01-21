@@ -18,13 +18,15 @@ void FR::GUI::FRCheckBox::SetItemAlign()
 			ImGui::SetCursorPosX(position.x);
 		}
 	}
-	break;
+		break;
+	case EWidgetAlignment::CENTER:
+		break;
 	case EWidgetAlignment::RIGHT:
 	{
 		auto contentSize = ImGui::GetWindowContentRegionMax();
 		ImGui::SetCursorPosX(contentSize.x - position.x - 22.0f);
 	}
-	break;
+		break;
 	default:
 		break;
 	}

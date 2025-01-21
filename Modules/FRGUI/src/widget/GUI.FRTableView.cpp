@@ -1,6 +1,7 @@
 #include "GUI.FRTableView.h"
 
-FR::GUI::FRTableView::FRTableView(const std::string& pName, bool pFixed, int pColumnsCount, glm::vec2 pCellSize, glm::vec2 pSize, ETableViewLayout pLayout)
+FR::GUI::FRTableView::FRTableView(const std::string& pName, bool pFixed,
+	int pColumnsCount, const glm::vec2& pCellSize, const glm::vec2& pSize, ETableViewLayout pLayout)
 	: FRAWidget(pName)
 	, name(pName)
 	, fixed(pFixed)

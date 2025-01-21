@@ -7,7 +7,7 @@ namespace FR::GUI
 	public:
 		virtual void Draw() = 0;
 
-	protected:
+	public:
 		virtual ~FRIDrawable() = default;
 
 	};

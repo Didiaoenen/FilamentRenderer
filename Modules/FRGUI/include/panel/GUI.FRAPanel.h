@@ -13,18 +13,18 @@ namespace FR::GUI
 	public:
 		FRAPanel();
 
-		void Draw() override;
+		virtual void Draw() override;
 
 		const std::string& GetPanelID() const;
 
 	protected:
 		virtual void _Draw_Impl() = 0;
 
+	public:
+		bool enabled{ true };
+
 	protected:
 		std::string mPanelID;
-
-	public:
-		bool enabled = true;
 
 	private:
 		static uint64_t __PANEL_ID_INCREMENT;

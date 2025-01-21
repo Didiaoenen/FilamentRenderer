@@ -116,7 +116,7 @@ namespace FR::GUI
 		: public FRAButton
 	{
 	public:
-		FRButtonInvisible(glm::vec2 pSize);
+		FRButtonInvisible(const glm::vec2& pSize);
 
 	protected:
 		void _Draw_Impl() override;

@@ -24,8 +24,7 @@ void FR::GUI::FRItemSelect::SetText(const std::string& content)
 
 void FR::GUI::FRItemSelect::SetTextReceivedEvent(std::function<void(std::string& pContext, std::pair<std::string, FRGroup*>)> pEvent)
 {
-	mDataReceivedEvent +=
-		[this, pEvent](auto pReceivedData)
+	mDataReceivedEvent += [this, pEvent](auto pReceivedData)
 		{
 			pEvent(mContext, pReceivedData);
 		};
@@ -129,5 +128,5 @@ void FR::GUI::FRItemSelect::_Draw_Impl()
 	SetItemLayout();
 
 	ImGui::SetItemAllowOverlap();
-	ImGui::ButtonEx(reinterpret_cast<const char*>(ICON_MDI_ADJUST), MathConvert::ToImVec2(size), ImGuiButtonFlags_None);
+	ImGui::ButtonEx(ICON_MDI_ADJUST, MathConvert::ToImVec2(size), ImGuiButtonFlags_None);
 }

@@ -9,14 +9,14 @@ namespace FR::GUI
 		: public FRAPanel
 	{
 	public:
-		FRAPanelTrans(glm::vec2 pDefaultPosition = { -1.f, -1.f }, glm::vec2 pDefaultSize = { -1.f, -1.f },
+		FRAPanelTrans(const glm::vec2& pDefaultPosition = { -1.f, -1.f }, const glm::vec2& pDefaultSize = { -1.f, -1.f },
 			EPanelHorizontal pDefaultHAlignment = EPanelHorizontal::LEFT,
 			EPanelVertical pDefaultVAlignment = EPanelVertical::TOP,
 			bool pIgnoreConfigFile = false);
 
-		void SetPosition(glm::vec2 pPosition);
+		void SetPosition(const glm::vec2& pPosition);
 
-		void SetSize(glm::vec2 pSize);
+		void SetSize(const glm::vec2& pSize);
 
 		void SetAlignment(EPanelHorizontal pHAlignment, EPanelVertical pVAlignment);
 
@@ -30,18 +30,22 @@ namespace FR::GUI
 
 	protected:
 		void Update();
+
 		virtual void _Draw_Impl() = 0;
 
 	private:
 		glm::vec2 CalculatePositionAlignmentOffset(bool pDefault = false);
 
 		void UpdatePosition();
+
 		void UpdateSize();
+
 		void CopyImGuiPosition();
+
 		void CopyImGuiSize();
 
 	public:
-		bool autoSize = true;
+		bool autoSize{ true };
 
 	protected:
 		glm::vec2 mDefaultPosition;
@@ -50,17 +54,17 @@ namespace FR::GUI
 		EPanelVertical mDefaultVAlignment;
 		bool mIgnoreConfigFile;
 
-		glm::vec2 mPosition{ 0.f, 0.f };
-		glm::vec2 mSize{ 0.f, 0.f };
+		glm::vec2 mPosition{ 0.f };
+		glm::vec2 mSize{ 0.f };
 
-		bool mPositionChanged = false;
-		bool mSizeChanged = false;
+		bool mPositionChanged{ false };
+		bool mSizeChanged{ false };
 
-		EPanelHorizontal mHAlignment = EPanelHorizontal::LEFT;
-		EPanelVertical mVAlignment = EPanelVertical::TOP;
+		EPanelHorizontal mHAlignment{ EPanelHorizontal::LEFT };
+		EPanelVertical mVAlignment{ EPanelVertical::TOP };
 		
-		bool mAlignmentChanged = false;
-		bool mFirstFrame = true;
+		bool mAlignmentChanged{ false };
+		bool mFirstFrame{ true };
 	};
 }
 

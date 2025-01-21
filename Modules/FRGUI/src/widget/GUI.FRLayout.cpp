@@ -70,7 +70,8 @@ void FR::GUI::FRSpacing::_Draw_Impl()
 	}
 }
 
-FR::GUI::FRTreeNode::FRTreeNode(const std::string& pName, const std::string& pOpenIcon, const std::string& pCloseIcon, bool pArrowClickToOpen)
+FR::GUI::FRTreeNode::FRTreeNode(const std::string& pName,
+	const std::string& pOpenIcon, const std::string& pCloseIcon, bool pArrowClickToOpen)
 	: FRDataWidget(name)
 	, name(pName)
 	, mOpenIcon(pOpenIcon)

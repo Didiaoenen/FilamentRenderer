@@ -141,7 +141,7 @@ void FR::GUI::FRButtonSmall::_Draw_Impl()
 	style.Colors[ImGuiCol_ButtonHovered] = defaultHoveredColor;
 }
 
-FR::GUI::FRButtonInvisible::FRButtonInvisible(glm::vec2 pSize)
+FR::GUI::FRButtonInvisible::FRButtonInvisible(const glm::vec2& pSize)
 {
 	size = pSize;
 }

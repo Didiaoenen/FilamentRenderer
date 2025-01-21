@@ -60,14 +60,14 @@ namespace FR::GUI
 
 	public:
 		std::string identifier;
-		bool showYellowRect = true;
+		bool showYellowRect{ true };
 
 		FREvent<> HoverEndEvent;
 		FREvent<> HoverStartEvent;
 		FREvent<T> DataReceivedEvent;
 
 	private:
-		bool mHovered = false;
+		bool mHovered{ false };
 
 	};
 }

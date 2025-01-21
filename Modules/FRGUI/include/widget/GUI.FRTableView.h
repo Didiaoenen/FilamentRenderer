@@ -16,7 +16,7 @@ namespace FR::GUI
 	{
 	public:
 		FRTableView(const std::string& pName, bool pFixed, int pColumnsCount,
-			glm::vec2 pCellSize, glm::vec2 pSize = {}, ETableViewLayout pLayout = ETableViewLayout::Horizontal);
+			const glm::vec2& pCellSize, const glm::vec2& pSize = {}, ETableViewLayout pLayout = ETableViewLayout::Horizontal);
 
 	protected:
 		void _Draw_Impl() override;

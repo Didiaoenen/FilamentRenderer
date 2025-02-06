@@ -34,6 +34,7 @@ namespace FR
 
 	protected:
 		FRPtrValue<T> mValue;
+
 	};
 }
 

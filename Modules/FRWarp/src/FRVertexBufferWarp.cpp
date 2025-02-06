@@ -9,7 +9,7 @@ FR::FRVertexBufferWarp::FRVertexBufferWarp(FREngineWarp* pEngine, Builder* pBuil
 
 void FR::FRVertexBufferWarp::SetBufferAt(FREngineWarp* pEngine, uint8_t pBufferIndex, FRBufferDescriptorWarp&& pBuffer, uint32_t pByteOffset)
 {
-	PtrValue(this)->setBufferAt(*PtrValue(pEngine), pBufferIndex, filament::backend::BufferDescriptor(std::move(RefValue(pBuffer))), pByteOffset);
+	PtrValue(this)->setBufferAt(*PtrValue(pEngine), pBufferIndex, FRBufferDescriptor(std::move(RefValue(pBuffer))), pByteOffset);
 }
 
 size_t FR::FRVertexBufferWarp::GetVertexCount()

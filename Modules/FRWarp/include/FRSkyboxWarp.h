@@ -29,6 +29,7 @@ namespace FR
 
 		private:
 			filament::Skybox::Builder mBuilder;
+
 		};
 
 		FRSkyboxWarp() = default;

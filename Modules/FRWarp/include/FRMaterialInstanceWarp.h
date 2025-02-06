@@ -16,6 +16,10 @@ namespace FR
 		: public FRPtrWarp<filament::MaterialInstance>
 	{
 	public:
+		using ECullingMode = filament::MaterialInstance::CullingMode;
+
+		using ETransparencyMode = filament::MaterialInstance::TransparencyMode;
+
 		FRMaterialInstanceWarp() = default;
 
 		FRMaterialInstanceWarp(FRMaterialWarp* pMaterial, const char* pName);
@@ -24,9 +28,9 @@ namespace FR
 
 		void SetParameter(const char* pName, FRTextureWarp* pTexture, FRTextureSamplerWarp& pSampler);
 		
-		void SetTransparencyMode(filament::TransparencyMode pMode);
+		void SetTransparencyMode(ETransparencyMode pMode);
 
-		void SetCullingMode(filament::backend::CullingMode pCulling);
+		void SetCullingMode(ECullingMode pCulling);
 
 		void SetDepthCulling(bool pEnable);
 

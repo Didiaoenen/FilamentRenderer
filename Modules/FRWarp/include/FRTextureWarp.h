@@ -67,6 +67,7 @@ namespace FR
 
 		private:
 			filament::Texture::Builder mBuilder;
+
 		};
 
 		FRTextureWarp() = default;

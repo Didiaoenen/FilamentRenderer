@@ -67,6 +67,11 @@ FR::FRSceneWarp* FR::FREngineWarp::CreateScene()
 	return new FR::FRSceneWarp(this);
 }
 
+FR::FRFenceWarp* FR::FREngineWarp::CreateFence()
+{
+	return new FR::FRFenceWarp(this);
+}
+
 FR::FRCameraWarp* FR::FREngineWarp::CreateCamera(FREntityWarp* pEntity)
 {
 	return new FR::FRCameraWarp(this, pEntity);
@@ -82,16 +87,20 @@ void FR::FREngineWarp::DestroyCameraComponent(FREntityWarp* pEntity)
 	PtrValue(this)->destroyCameraComponent(PtrValue(pEntity));
 }
 
-FR::FRFenceWarp* FR::FREngineWarp::CreateFence()
+FR::FRJobSystemWarp* FR::FREngineWarp::GetJobSystem()
 {
-	return new FR::FRFenceWarp(this);
+	return nullptr;
 }
 
-void FR::FREngineWarp::FlushAndWait()
+void FR::FREngineWarp::SetPaused(bool pPaused)
 {
 }
 
 void FR::FREngineWarp::Flush()
+{
+}
+
+void FR::FREngineWarp::FlushAndWait()
 {
 }
 
@@ -100,17 +109,8 @@ bool FR::FREngineWarp::IsPaused()
 	return false;
 }
 
-void FR::FREngineWarp::SetPaused(bool pPaused)
-{
-}
-
 void FR::FREngineWarp::Execute()
 {
-}
-
-FR::FRJobSystemWarp* FR::FREngineWarp::GetJobSystem()
-{
-	return nullptr;
 }
 
 void FR::FREngineWarp::Destroy()

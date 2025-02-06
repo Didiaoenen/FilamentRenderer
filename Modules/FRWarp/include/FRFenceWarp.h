@@ -11,11 +11,15 @@ namespace FR
 		: public FRPtrWarp<filament::Fence>
 	{
 	public:
+		using EMode = filament::Fence::Mode;
+
+		using EFenceStatus = filament::Fence::FenceStatus;
+
 		FRFenceWarp() = default;
 
 		FRFenceWarp(FREngineWarp* pEngine);
 
-		static filament::Fence::FenceStatus WaitAndDestroy(FRFenceWarp* pFence, filament::Fence::Mode pMode = filament::Fence::Mode::FLUSH);
+		static EFenceStatus WaitAndDestroy(FRFenceWarp* pFence, EMode pMode = EMode::FLUSH);
 	
 	};
 }

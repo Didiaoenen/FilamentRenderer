@@ -60,7 +60,7 @@ namespace FR
 		*/
 		static ozz::math::Float4x4 ToOzzMat4(const glm::mat4& pValue);
 
-		static filament::math::mat4 ToFMat4(const glm::mat4& pValue);
+		static filament::math::mat4f ToFMat4(const glm::mat4& pValue);
 
 		static glm::mat4 ToGlmMat4(const ozz::math::Float4x4& pValue);
 

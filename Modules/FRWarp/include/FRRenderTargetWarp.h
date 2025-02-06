@@ -13,12 +13,14 @@ namespace FR
 		: public FRPtrWarp<filament::RenderTarget>
 	{
 	public:
+		using EAttachmentPoint = filament::RenderTarget::AttachmentPoint;
 
 		class Builder
 		{
 			friend class FRRenderTargetWarp;
 
 		public:
+
 			Builder()
 				: mBuilder()
 			{
@@ -26,7 +28,7 @@ namespace FR
 
 			Builder& Texture(EAttachmentPoint pAttachment, FRTextureWarp* pTexture)
 			{
-				mBuilder.texture(static_cast<filament::RenderTarget::AttachmentPoint>(pAttachment), PtrValue(pTexture));
+				mBuilder.texture(pAttachment, PtrValue(pTexture));
 				return *this;
 			}
 
@@ -37,6 +39,7 @@ namespace FR
 
 		private:
 			filament::RenderTarget::Builder mBuilder;
+
 		};
 
 		FRRenderTargetWarp() = default;

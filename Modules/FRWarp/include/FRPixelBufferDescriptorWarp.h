@@ -9,14 +9,16 @@ namespace FR
 		: public FRObjWarp<filament::backend::PixelBufferDescriptor>
 	{
 	public:
+		using EPixelDataType = filament::backend::PixelDataType;
+
+		using EPixelDataFormat = filament::backend::PixelDataFormat;
 
 		using Callback = void(*)(void* pBuffer, size_t pSize, void* pUser);
 
 		FRPixelBufferDescriptorWarp() = default;
 
-		FRPixelBufferDescriptorWarp(void const* pBuffer, size_t pSize, filament::backend::PixelDataFormat pFormat,
-			filament::backend::PixelDataType pType, uint8_t pAlignment = 1,
-			uint32_t pLeft = 0, uint32_t pTop = 0, uint32_t pStride = 0,
+		FRPixelBufferDescriptorWarp(void const* pBuffer, size_t pSize, EPixelDataFormat pFormat, EPixelDataType pType,
+			uint8_t pAlignment = 1, uint32_t pLeft = 0, uint32_t pTop = 0, uint32_t pStride = 0,
 			Callback pCallback = nullptr, void* pUser = nullptr);
 
 	};

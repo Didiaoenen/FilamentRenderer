@@ -30,6 +30,7 @@ namespace FR
 
 	protected:
 		FRObjValue<T> mValue;
+
 	};
 }
 

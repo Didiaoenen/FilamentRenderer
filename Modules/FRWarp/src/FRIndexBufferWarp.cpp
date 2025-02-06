@@ -7,12 +7,12 @@ FR::FRIndexBufferWarp::FRIndexBufferWarp(FREngineWarp* pEngine, Builder* pBuilde
 	mValue = FRPtrValue(pBuilder->mBuilder.build(*PtrValue(pEngine)));
 }
 
+void FR::FRIndexBufferWarp::SetBuffer(FREngineWarp* pEngine, FRBufferDescriptorWarp&& pBuffer, uint32_t pByteOffset)
+{
+	PtrValue(this)->setBuffer(*PtrValue(pEngine), FRBufferDescriptor(std::move(RefValue(pBuffer))), pByteOffset);
+}
+
 size_t FR::FRIndexBufferWarp::GetIndexCount()
 {
 	return mValue->getIndexCount();
-}
-
-void FR::FRIndexBufferWarp::SetBuffer(FREngineWarp* pEngine, FRBufferDescriptorWarp&& pBuffer, uint32_t pByteOffset)
-{
-	PtrValue(this)->setBuffer(*PtrValue(pEngine), filament::backend::BufferDescriptor(std::move(RefValue(pBuffer))), pByteOffset);
 }

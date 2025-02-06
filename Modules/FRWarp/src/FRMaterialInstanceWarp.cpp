@@ -18,12 +18,12 @@ void FR::FRMaterialInstanceWarp::SetParameter(const char* pName, FRTextureWarp* 
 	PtrValue(this)->setParameter(pName, PtrValue(pTexture), RefValue(pSampler));
 }
 
-void FR::FRMaterialInstanceWarp::SetTransparencyMode(filament::TransparencyMode pMode)
+void FR::FRMaterialInstanceWarp::SetTransparencyMode(ETransparencyMode pMode)
 {
 	PtrValue(this)->setTransparencyMode(pMode);
 }
 
-void FR::FRMaterialInstanceWarp::SetCullingMode(filament::backend::CullingMode pCulling)
+void FR::FRMaterialInstanceWarp::SetCullingMode(ECullingMode pCulling)
 {
 	PtrValue(this)->setCullingMode(pCulling);
 }

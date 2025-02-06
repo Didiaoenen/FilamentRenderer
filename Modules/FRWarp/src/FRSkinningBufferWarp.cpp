@@ -14,7 +14,7 @@ void FR::FRSkinningBufferWarp::SetBones(FREngineWarp* pEngine, glm::mat4* pTrans
 	std::vector<filament::math::mat4f> temp;
 	for (size_t i = 0; i < pCount; i++)
 	{
-		temp.push_back(filament::math::mat4f(MathConvert::ToFMat4(pTransforms[i])));
+		temp.push_back(MathConvert::ToFMat4(pTransforms[i]));
 	}
 	PtrValue(this)->setBones(*PtrValue(pEngine), temp.data(), temp.size(), pOffset);
 }

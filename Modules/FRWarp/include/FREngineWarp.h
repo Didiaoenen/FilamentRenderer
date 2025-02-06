@@ -44,25 +44,25 @@ namespace FR
 
 		FRSceneWarp* CreateScene();
 
+		FRFenceWarp* CreateFence();
+
 		FRCameraWarp* CreateCamera(FREntityWarp* pEntity);
 
 		FRCameraWarp* GetCameraComponent(FREntityWarp* pEntity);
 
 		void DestroyCameraComponent(FREntityWarp* pEntity);
 
-		FRFenceWarp* CreateFence();
-
-		void FlushAndWait();
-
-		void Flush();
-
-		bool IsPaused();
+		FRJobSystemWarp* GetJobSystem();
 
 		void SetPaused(bool pPaused);
 
+		void Flush();
+
+		void FlushAndWait();
+
 		void Execute();
 
-		FRJobSystemWarp* GetJobSystem();
+		bool IsPaused();
 
 		void Destroy();
 
@@ -79,3 +79,4 @@ namespace FR
 	};
 }
 
+#include "FREngineWarp.inl"

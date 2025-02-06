@@ -9,19 +9,23 @@ namespace FR
 		: public FRObjWarp<filament::TextureSampler>
 	{
 	public:
+		using EWrapMode = filament::TextureSampler::WrapMode;
+
+		using EMagFilter = filament::TextureSampler::MagFilter;
+
+		using EMinFilter = filament::TextureSampler::MinFilter;
+
 		FRTextureSamplerWarp() = default;
 
-		FRTextureSamplerWarp(
-			filament::TextureSampler::MinFilter pMin, filament::TextureSampler::MagFilter pMag,
-			filament::TextureSampler::WrapMode pStr = filament::TextureSampler::WrapMode::CLAMP_TO_EDGE);
+		FRTextureSamplerWarp(EMinFilter pMin, EMagFilter pMag, EWrapMode pStr = EWrapMode::CLAMP_TO_EDGE);
 
-        void SetMinFilter(filament::TextureSampler::MinFilter pFilter);
+        void SetMinFilter(EMinFilter pFilter);
 
-		void SetMagFilter(filament::TextureSampler::MagFilter pFilter);
+		void SetMagFilter(EMagFilter pFilter);
 
-		void SetWrapModeS(filament::TextureSampler::WrapMode pMode);
+		void SetWrapModeS(EWrapMode pMode);
 
-		void SetWrapModeT(filament::TextureSampler::WrapMode pMode);
+		void SetWrapModeT(EWrapMode pMode);
 
 	};
 }

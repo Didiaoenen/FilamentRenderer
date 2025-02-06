@@ -42,6 +42,7 @@ namespace FR
 
 		private:
 			filament::SkinningBuffer::Builder mBuilder;
+
 		};
 
 		FRSkinningBufferWarp() = default;

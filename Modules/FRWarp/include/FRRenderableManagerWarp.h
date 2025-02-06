@@ -12,7 +12,6 @@
 
 namespace FR
 {
-
 	class FRRenderableManagerWarp
 		: public FRRefWarp<filament::RenderableManager>
 	{

@@ -6,7 +6,7 @@ FR::FRFenceWarp::FRFenceWarp(FREngineWarp* pEngine)
 	mValue = FRPtrValue(PtrValue(pEngine)->createFence());
 }
 
-filament::Fence::FenceStatus FR::FRFenceWarp::WaitAndDestroy(FRFenceWarp* pFence, filament::Fence::Mode pMode)
+FR::FRFenceWarp::EFenceStatus FR::FRFenceWarp::WaitAndDestroy(FRFenceWarp* pFence, EMode pMode)
 {
 	return filament::Fence::waitAndDestroy(PtrValue(pFence), pMode);
 }

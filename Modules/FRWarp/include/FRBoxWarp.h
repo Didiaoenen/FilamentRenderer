@@ -12,7 +12,7 @@ namespace FR
 	public:
 		FRBoxWarp() = default;
 
-		FRBoxWarp(glm::vec3 pCenter, glm::vec3 pHalfExtent);
+		FRBoxWarp(const glm::vec3& pCenter, const glm::vec3& pHalfExtent);
 
 	};
 }

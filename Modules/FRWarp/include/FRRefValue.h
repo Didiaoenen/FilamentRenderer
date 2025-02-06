@@ -44,5 +44,6 @@ namespace FR
 
 	private:
 		std::optional<std::reference_wrapper<T>> mStorage;
+
 	};
 }

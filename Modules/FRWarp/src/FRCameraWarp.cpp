@@ -9,19 +9,19 @@ FR::FRCameraWarp::FRCameraWarp(FREngineWarp* pEngine, FREntityWarp* pEntity)
 	mValue = FRPtrValue(PtrValue(pEngine)->createCamera(PtrValue(pEntity)));
 }
 
-void FR::FRCameraWarp::LookAt(glm::vec3 const& pEye, glm::vec3 const& pCenter, glm::vec3 const& pUp)
+void FR::FRCameraWarp::LookAt(const glm::vec3& pEye, const glm::vec3& pCenter, const glm::vec3& pUp)
 {
 	PtrValue(this)->lookAt(MathConvert::ToFVec3(pEye), MathConvert::ToFVec3(pCenter), MathConvert::ToFVec3(pUp));
 }
 
-void FR::FRCameraWarp::SetProjection(filament::Camera::Projection pProjection, double pLeft, double pRight, double pBottom, double pTop, double pNear, double pFar)
+void FR::FRCameraWarp::SetProjection(EProjection pProjection, double pLeft, double pRight, double pBottom, double pTop, double pNear, double pFar)
 {
-	PtrValue(this)->setProjection(pProjection, pLeft, pRight, pBottom, pTop, pNear, pFar);
+	PtrValue(this)->setProjection((filament::Camera::Projection)pProjection, pLeft, pRight, pBottom, pTop, pNear, pFar);
 }
 
-void FR::FRCameraWarp::SetProjection(double pFovInDegrees, double pAspect, double pNear, double pFar, filament::Camera::Fov pDirection)
+void FR::FRCameraWarp::SetProjection(double pFovInDegrees, double pAspect, double pNear, double pFar, EFov pDirection)
 {
-	PtrValue(this)->setProjection(pFovInDegrees, pAspect, pNear, pFar, pDirection);
+	PtrValue(this)->setProjection(pFovInDegrees, pAspect, pNear, pFar, (filament::Camera::Fov)pDirection);
 }
 
 void FR::FRCameraWarp::SetExposure(float pAperture, float pShutterSpeed, float pSensitivity)
@@ -29,14 +29,14 @@ void FR::FRCameraWarp::SetExposure(float pAperture, float pShutterSpeed, float p
 	PtrValue(this)->setExposure(pAperture, pShutterSpeed, pSensitivity);
 }
 
-void FR::FRCameraWarp::SetScaling(glm::vec2 pScaling)
+void FR::FRCameraWarp::SetScaling(const glm::vec2& pScaling)
 {
 	PtrValue(this)->setScaling({ pScaling.x, pScaling.y });
 }
 
-FR::FREntityWarp* FR::FRCameraWarp::GetEntity()
+glm::mat4 FR::FRCameraWarp::GetProjectionMatrix()
 {
-	return mEntity;
+	return MathConvert::ToGlmMat4(PtrValue(this)->getProjectionMatrix());
 }
 
 glm::mat4 FR::FRCameraWarp::GetViewMatrix()
@@ -44,7 +44,7 @@ glm::mat4 FR::FRCameraWarp::GetViewMatrix()
 	return MathConvert::ToGlmMat4(PtrValue(this)->getViewMatrix());
 }
 
-glm::mat4 FR::FRCameraWarp::GetProjectionMatrix()
+FR::FREntityWarp* FR::FRCameraWarp::GetEntity()
 {
-	return MathConvert::ToGlmMat4(PtrValue(this)->getProjectionMatrix());
+	return mEntity;
 }

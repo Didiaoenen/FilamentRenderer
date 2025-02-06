@@ -24,6 +24,7 @@ namespace FR
 
 	protected:
 		FRRefValue<T> mValue;
+
 	};
 }
 

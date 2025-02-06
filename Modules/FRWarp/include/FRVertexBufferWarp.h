@@ -11,6 +11,8 @@ namespace FR
 	class FRVertexBufferWarp
 		: public FRPtrWarp<filament::VertexBuffer>
 	{
+		using FRBufferDescriptor = filament::backend::BufferDescriptor;
+
 	public:
 
 		class Builder
@@ -18,6 +20,10 @@ namespace FR
 			friend class FRVertexBufferWarp;
 
 		public:
+			using EVertexAttribute = filament::VertexAttribute;
+
+			using EAttributeType = filament::VertexBuffer::AttributeType;
+
 			Builder()
 				: mBuilder()
 			{
@@ -36,15 +42,14 @@ namespace FR
 				return *this;
 			}
 
-			Builder& Attribute(
-				filament::VertexAttribute pAttribute, uint8_t pBufferIndex,
-				filament::VertexBuffer::AttributeType pAttributeType, uint32_t pByteOffset = 0, uint8_t pByteStride = 0)
+			Builder& Attribute(EVertexAttribute pAttribute, uint8_t pBufferIndex,
+				EAttributeType pAttributeType, uint32_t pByteOffset = 0, uint8_t pByteStride = 0)
 			{
 				mBuilder.attribute(pAttribute, pBufferIndex, pAttributeType, pByteOffset, pByteStride);
 				return *this;
 			}
 
-			Builder& Normalized(filament::VertexAttribute pAttribute, bool pNormalize = true)
+			Builder& Normalized(EVertexAttribute pAttribute, bool pNormalize = true)
 			{
 				mBuilder.normalized(pAttribute, pNormalize);
 				return *this;
@@ -57,6 +62,7 @@ namespace FR
 
 		private:
 			filament::VertexBuffer::Builder mBuilder;
+
 		};
 
 		FRVertexBufferWarp() = default;

@@ -20,18 +20,21 @@ namespace FR
 			friend class FRLightManagerWarp;
 
 		public:
+			using EResult = filament::LightManager::Builder::Result;
+
 			Builder(filament::LightManager::Type pType)
 				: mBuilder(pType)
 			{
 			}
 
-			filament::LightManager::Builder::Result Build(FREngineWarp* pEngine, FREntityWarp* pEntity)
+			EResult Build(FREngineWarp* pEngine, FREntityWarp* pEntity)
 			{
 				return mBuilder.build(*PtrValue(pEngine), PtrValue(pEntity));
 			}
 
 		private:
 			filament::LightManager::Builder mBuilder;
+
 		};
 
 		class Instance
@@ -51,6 +54,7 @@ namespace FR
 
 		private:
 			filament::LightManager::Instance mIns;
+
 		};
 
 		FRLightManagerWarp() = default;

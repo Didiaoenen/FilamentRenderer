@@ -14,25 +14,29 @@ namespace FR
 		: public FRPtrWarp<filament::Camera>
 	{
 	public:
+		using EFov = filament::Camera::Fov;
+
+		using EProjection = filament::Camera::Projection;
+
 		FRCameraWarp() = default;
 
 		FRCameraWarp(FREngineWarp* pEngine, FREntityWarp* pEntity);
 
-		void LookAt(glm::vec3 const& pEye, glm::vec3 const& pCenter, glm::vec3 const& pUp = { 0, 1, 0 });
+		void LookAt(const glm::vec3& pEye, const glm::vec3& pCenter, const glm::vec3& pUp = { 0, 1, 0 });
 
-		void SetProjection(filament::Camera::Projection pProjection, double pLeft, double pRight, double pBottom, double pTop, double pNear, double pFar);
+		void SetProjection(EProjection pProjection, double pLeft, double pRight, double pBottom, double pTop, double pNear, double pFar);
 
-		void SetProjection(double pFovInDegrees, double pAspect, double pNear, double pFar, filament::Camera::Fov pDirection = filament::Camera::Fov::VERTICAL);
+		void SetProjection(double pFovInDegrees, double pAspect, double pNear, double pFar, EFov pDirection = EFov::VERTICAL);
 
 		void SetExposure(float pAperture, float pShutterSpeed, float pSensitivity);
 
-		void SetScaling(glm::vec2 pScaling);
+		void SetScaling(const glm::vec2& pScaling);
 
-		FREntityWarp* GetEntity();
+		glm::mat4 GetProjectionMatrix();
 
 		glm::mat4 GetViewMatrix();
 
-		glm::mat4 GetProjectionMatrix();
+		FREntityWarp* GetEntity();
 
 	private:
 		FREntityWarp* mEntity{ nullptr };

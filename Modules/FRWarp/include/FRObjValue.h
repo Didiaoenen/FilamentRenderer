@@ -43,6 +43,7 @@ namespace FR
 
 	private:
 		T mStorage{};
+
 	};
 }
 

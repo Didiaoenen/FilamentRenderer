@@ -81,9 +81,9 @@ ozz::math::Float4x4 FR::MathConvert::ToOzzMat4(const glm::mat4& pValue)
 	return mat4;
 }
 
-filament::math::mat4 FR::MathConvert::ToFMat4(const glm::mat4& pValue)
+filament::math::mat4f FR::MathConvert::ToFMat4(const glm::mat4& pValue)
 {
-	filament::math::mat4 mat4;
+	filament::math::mat4f mat4;
 	for (int i = 0; i < 4; ++i)
 	{
 		for (int j = 0; j < 4; ++j)

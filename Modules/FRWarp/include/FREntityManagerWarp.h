@@ -17,17 +17,17 @@ namespace FR
 
 		FREntityManagerWarp(FREngineWarp* pEngine);
 
-		size_t GetEntityCount();
-
 		void Create(int pCount, std::vector<FREntityWarp*> pEntities);
 
 		void Destroy(int pCount, std::vector<FREntityWarp*> pEntities);
 
-		FREntityWarp* Create();
-
 		void Destroy(FREntityWarp* pEntity);
 
 		bool IsAlive(FREntityWarp* pEntity);
+
+		size_t GetEntityCount();
+
+		FREntityWarp* Create();
 
 	private:
 		std::vector<FREntityWarp*> mEntities;

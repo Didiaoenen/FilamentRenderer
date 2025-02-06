@@ -26,6 +26,7 @@
 #include <GUI.FRContextualMenu.h>
 #include <GUI.FRPluginTarget.h>
 #include <GUI.FRPluginSource.h>
+#include <GUI.FRTextureView.h>
 
 #include <Color.h>
 #include <Tools.FREvent.h>
@@ -91,7 +92,7 @@ namespace FR
 		static GUI::FRItemSelect& DrawMesh(GUI::FRWidgetContainer& pRoot, const std::string& pName, FRModel*& pData, FREvent<>* pUpdateNotifier = nullptr);
 		static GUI::FRItemSelect& DrawShader(GUI::FRWidgetContainer& pRoot, const std::string& pName, FRShader*& pData, FREvent<>* pUpdateNotifier = nullptr);
 		static GUI::FRItemSelect& DrawMaterial(GUI::FRWidgetContainer& pRoot, const std::string& pName, FRMaterial*& pData, FREvent<>* pUpdateNotifier = nullptr);
-		static GUI::FRImage& DrawTexture(GUI::FRWidgetContainer& pRoot, const std::string& pName, FRTexture*& pData, FREvent<>* pUpdateNotifier = nullptr);
+		static GUI::FRTextureView& DrawTexture(GUI::FRWidgetContainer& pRoot, const std::string& pName, FRTexture*& pData, FREvent<>* pUpdateNotifier = nullptr);
 		
 		static GUI::FRText& DrawAsset(GUI::FRWidgetContainer& pRoot, const std::string& pName, std::string& pData, FREvent<>* pUpdateNotifier = nullptr);
 		

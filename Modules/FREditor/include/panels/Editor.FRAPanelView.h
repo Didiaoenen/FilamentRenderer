@@ -38,9 +38,10 @@ namespace FR
 
 		void ResizeRenderTarget();
 
-	protected:
+	public:
 		virtual ~FRAPanelView() = default;
 
+	protected:
 		virtual void InitRenderTarget(const glm::vec2& pSize);
 
 	protected:

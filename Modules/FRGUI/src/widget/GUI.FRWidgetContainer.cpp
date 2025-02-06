@@ -8,7 +8,7 @@ FR::GUI::FRWidgetContainer::~FRWidgetContainer()
 
 void FR::GUI::FRWidgetContainer::RemoveWidget(FRAWidget* pWidget)
 {
-	auto found = std::find_if(mWidgets.begin(), mWidgets.end(), [pWidget](std::pair<FRAWidget*, EMemoryMode>& pair)
+	auto found = std::find_if(mWidgets.begin(), mWidgets.end(), [pWidget](WidgetPair& pair)
 		{
 			return pair.first == pWidget;
 		});
@@ -47,7 +47,7 @@ void FR::GUI::FRWidgetContainer::ConsiderWidget(FRAWidget* pWidget, bool pManage
 
 void FR::GUI::FRWidgetContainer::UnconsiderWidget(FRAWidget* pWidget)
 {
-	auto found = std::find_if(mWidgets.begin(), mWidgets.end(), [pWidget](std::pair<FRAWidget*, EMemoryMode>& pair)
+	auto found = std::find_if(mWidgets.begin(), mWidgets.end(), [pWidget](WidgetPair& pair)
 		{
 			return pair.first == pWidget;
 		});
@@ -59,9 +59,19 @@ void FR::GUI::FRWidgetContainer::UnconsiderWidget(FRAWidget* pWidget)
 	}
 }
 
+void FR::GUI::FRWidgetContainer::ReverseDrawOrder(bool pReversed)
+{
+	mReversedDrawOrder = pReversed;
+}
+
+std::vector<FR::GUI::FRWidgetContainer::WidgetPair>& FR::GUI::FRWidgetContainer::GetWidgets()
+{
+	return mWidgets;
+}
+
 void FR::GUI::FRWidgetContainer::CollectGarbages()
 {
-	auto found = std::remove_if(mWidgets.begin(), mWidgets.end(), [](std::pair<FRAWidget*, EMemoryMode>& item)
+	auto found = std::remove_if(mWidgets.begin(), mWidgets.end(), [](WidgetPair& item)
 		{
 			bool toDestroy = item.first && item.first->IsDestroyed();
 
@@ -95,14 +105,4 @@ void FR::GUI::FRWidgetContainer::DrawWidgets()
 			widget.first->Draw();
 		}
 	}
-}
-
-void FR::GUI::FRWidgetContainer::ReverseDrawOrder(bool pReversed)
-{
-	mReversedDrawOrder = pReversed;
-}
-
-std::vector<std::pair<FR::GUI::FRAWidget*, FR::GUI::EMemoryMode>>& FR::GUI::FRWidgetContainer::GetWidgets()
-{
-	return mWidgets;
 }

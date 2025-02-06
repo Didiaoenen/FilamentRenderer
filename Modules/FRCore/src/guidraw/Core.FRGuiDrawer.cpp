@@ -309,12 +309,10 @@ FR::GUI::FRItemSelect& FR::FRGuiDrawer::DrawMaterial(FRWidgetContainer& pRoot, c
 	return widget;
 }
 
-FR::GUI::FRImage& FR::FRGuiDrawer::DrawTexture(FRWidgetContainer& pRoot, const std::string& pName, FRTexture*& pData, FREvent<>* pUpdateNotifier)
+FR::GUI::FRTextureView& FR::FRGuiDrawer::DrawTexture(FRWidgetContainer& pRoot, const std::string& pName, FRTexture*& pData, FREvent<>* pUpdateNotifier)
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
-	auto& rightSide = pRoot.CreateWidget<FRGroup>();
-
-	auto& widget = rightSide.CreateWidget<FRImage>(pData ? pData : __EMPTY_TEXTURE, glm::vec2{ 75, 75 });
+	auto& widget = pRoot.CreateWidget<FRTextureView>(glm::vec2{ 75, 75 }, pData ? pData : __EMPTY_TEXTURE);
 	{
 		widget.AddPlugin<FRPluginTarget<GroupPair>>("File").DataReceivedEvent += [&widget, &pData, pUpdateNotifier](auto pReceivedData)
 			{
@@ -323,7 +321,7 @@ FR::GUI::FRImage& FR::FRGuiDrawer::DrawTexture(FRWidgetContainer& pRoot, const s
 					if (auto resource = GetService(FRTextureManager).GetResource(pReceivedData.first); resource)
 					{
 						pData = resource;
-						widget.textureID = resource;
+						widget.SetTexture(resource);
 
 						if (pUpdateNotifier)
 						{
@@ -333,22 +331,16 @@ FR::GUI::FRImage& FR::FRGuiDrawer::DrawTexture(FRWidgetContainer& pRoot, const s
 				}
 			};
 
-		widget.lineBreak = false;
-	}
-
-	auto& resetButton = rightSide.CreateWidget<FRButton>("Clear");
-	{
-		resetButton.idleBackgroundColor = ClearButtonColor;
-		resetButton.ClickedEvent += [&widget, &pData, pUpdateNotifier]
+		widget.SetClickedEvent([&widget, &pData, pUpdateNotifier]
 			{
 				pData = nullptr;
-				widget.textureID = __EMPTY_TEXTURE ? __EMPTY_TEXTURE : 0;
+				widget.SetTexture(__EMPTY_TEXTURE ? __EMPTY_TEXTURE : nullptr);
 
 				if (pUpdateNotifier)
 				{
 					pUpdateNotifier->Invoke();
 				}
-			};
+			});
 	}
 
 	return widget;

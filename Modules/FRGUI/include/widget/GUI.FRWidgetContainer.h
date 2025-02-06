@@ -10,20 +10,26 @@ namespace FR::GUI
 
 	class FRWidgetContainer
 	{
+		using WidgetPair = std::pair<FRAWidget*, EMemoryMode>;
+
 	public:
 		FRWidgetContainer() = default;
 
 		void RemoveWidget(FRAWidget* pWidget);
+
 		void RemoveAllWidgets();
 
 		void ConsiderWidget(FRAWidget* pWidget, bool pManageMemory = true);
+
 		void UnconsiderWidget(FRAWidget* pWidget);
+
+		void ReverseDrawOrder(bool pReversed = true);
+
+		std::vector<WidgetPair>& GetWidgets();
 
 		void CollectGarbages();
 
 		virtual void DrawWidgets();
-
-		void ReverseDrawOrder(bool pReversed = true);
 
 		template <typename T, typename ... Args>
 		T& CreateWidget(Args&&... pArgs)
@@ -34,14 +40,12 @@ namespace FR::GUI
 			return instance;
 		}
 
-		std::vector<std::pair<FRAWidget*, EMemoryMode>>& GetWidgets();
-
 	public:
 		virtual ~FRWidgetContainer();
 
 	protected:
 		bool mReversedDrawOrder{ false };
-		std::vector<std::pair<FRAWidget*, EMemoryMode>> mWidgets;
+		std::vector<WidgetPair> mWidgets;
 
 	};
 }

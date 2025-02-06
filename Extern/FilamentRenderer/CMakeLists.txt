@@ -1,7 +1,7 @@
 
 FetchContent_Declare(filament
   GIT_REPOSITORY https://github.com/google/filament.git
-  GIT_TAG main
+  GIT_TAG v1.56.3
 )
 
 set(BUILD_TESTING OFF CACHE BOOL "Don't build testing")

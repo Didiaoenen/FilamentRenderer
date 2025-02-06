@@ -24,15 +24,21 @@ namespace FR
 
 	private:
 		void OnShaderDropped();
+
 		void OnMaterialDropped();
 
 		void CreateShaderSelector();
+
 		void CreateMaterialSelector();
+
 		void CreateShaderSettings();
+
 		void CreateMaterialSettings();
+
 		void CreateHeaderButtons();
 
 		void GenerateShaderSettingsContent();
+
 		void GenerateMaterialSettingsContent();
 
 	private:

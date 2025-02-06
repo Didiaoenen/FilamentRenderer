@@ -72,23 +72,11 @@ namespace FR
 
 		auto& xyzButton = rightSide.CreateWidget<FRButton>("XYZ");
 		xyzButton.idleBackgroundColor = { 0.7f, 0.5f, 0.0f };
-		xyzButton.lineBreak = false;
+		xyzButton.enabled = true;
 
 		auto& rgbButton = rightSide.CreateWidget<FRButton>("RGB");
 		rgbButton.idleBackgroundColor = { 0.7f, 0.5f, 0.0f };
-		rgbButton.disabled = true;
-
-		xyzButton.ClickedEvent += [&]
-			{
-				xyzWidget.enabled = true;
-				rgbWidget.enabled = false;
-			};
-
-		rgbButton.ClickedEvent += [&]
-			{
-				xyzWidget.enabled = false;
-				rgbWidget.enabled = true;
-			};
+		rgbButton.enabled = false;
 	}
 
 	void DrawHybridVec4(FRWidgetContainer& pRoot, const std::string& pName, glm::vec4& pData, float pStep, float pMin, float pMax)
@@ -101,31 +89,21 @@ namespace FR
 		auto& xyzDispatcher = xyzWidget.AddPlugin<FRDataDispatcher<std::array<float, 4>>>();
 		xyzDispatcher.RegisterReference(reinterpret_cast<std::array<float, 4>&>(pData));
 		xyzWidget.lineBreak = false;
+		xyzWidget.enabled = true;
 
 		auto& rgbaWidget = rightSide.CreateWidget<FRColorEdit>(true, Color{ pData.x, pData.y, pData.z });
 		auto& rgbaDispatcher = rgbaWidget.AddPlugin<FRDataDispatcher<Color>>();
 		rgbaDispatcher.RegisterReference(reinterpret_cast<Color&>(pData));
-		rgbaWidget.enabled = false;
 		rgbaWidget.lineBreak = false;
+		rgbaWidget.enabled = false;
 
 		auto& xyzwButton = rightSide.CreateWidget<FRButton>("XYZW");
 		xyzwButton.idleBackgroundColor = { 0.7f, 0.5f, 0.0f };
-		xyzwButton.lineBreak = false;
+		xyzwButton.enabled = false;
 
 		auto& rgbaButton = rightSide.CreateWidget<FRButton>("RGBA");
 		rgbaButton.idleBackgroundColor = { 0.7f, 0.5f, 0.0f };
-
-		xyzwButton.ClickedEvent += [&]
-			{
-				xyzWidget.enabled = true;
-				rgbaWidget.enabled = false;
-			};
-
-		rgbaButton.ClickedEvent += [&]
-			{
-				xyzWidget.enabled = false;
-				rgbaWidget.enabled = true;
-			};
+		rgbaButton.enabled = true;
 	}
 }
 
@@ -263,22 +241,22 @@ void FR::FRMaterialEditor::GenerateShaderSettingsContent()
 			switch (prop.uniformType)
 			{
 			case FR::EUniformType::BOOL:
-				FRGuiDrawer::DrawBoolean(*mShaderSettingsColumns, UniformFormat(prop.name), reinterpret_cast<bool&>(prop.data));
+				FRGuiDrawer::DrawBoolean(*mShaderSettingsColumns, prop.name, reinterpret_cast<bool&>(prop.data));
 				break;
 			case FR::EUniformType::INT:
-				FRGuiDrawer::DrawScalar<int>(*mShaderSettingsColumns, UniformFormat(prop.name), reinterpret_cast<int&>(prop.data));
+				FRGuiDrawer::DrawScalar<int>(*mShaderSettingsColumns, prop.name, reinterpret_cast<int&>(prop.data));
 				break;
 			case FR::EUniformType::FLOAT:
-				FRGuiDrawer::DrawScalar<float>(*mShaderSettingsColumns, UniformFormat(prop.name), reinterpret_cast<float&>(prop.data), 0.01f, FRGuiDrawer::_MIN_FLOAT, FRGuiDrawer::_MAX_FLOAT);
+				FRGuiDrawer::DrawScalar<float>(*mShaderSettingsColumns, prop.name, reinterpret_cast<float&>(prop.data), 0.01f, FRGuiDrawer::_MIN_FLOAT, FRGuiDrawer::_MAX_FLOAT);
 				break;
 			case FR::EUniformType::FLOAT2:
-				FRGuiDrawer::DrawVec2(*mShaderSettingsColumns, UniformFormat(prop.name), reinterpret_cast<glm::vec2&>(prop.data), 0.01f, FRGuiDrawer::_MIN_FLOAT, FRGuiDrawer::_MAX_FLOAT);
+				FRGuiDrawer::DrawVec2(*mShaderSettingsColumns, prop.name, reinterpret_cast<glm::vec2&>(prop.data), 0.01f, FRGuiDrawer::_MIN_FLOAT, FRGuiDrawer::_MAX_FLOAT);
 				break;
 			case FR::EUniformType::FLOAT3:
-				DrawHybridVec3(*mShaderSettingsColumns, UniformFormat(prop.name), reinterpret_cast<glm::vec3&>(prop.data), 0.01f, FRGuiDrawer::_MIN_FLOAT, FRGuiDrawer::_MAX_FLOAT);
+				DrawHybridVec3(*mShaderSettingsColumns, prop.name, reinterpret_cast<glm::vec3&>(prop.data), 0.01f, FRGuiDrawer::_MIN_FLOAT, FRGuiDrawer::_MAX_FLOAT);
 				break;
 			case FR::EUniformType::FLOAT4:
-				DrawHybridVec4(*mShaderSettingsColumns, UniformFormat(prop.name), reinterpret_cast<glm::vec4&>(prop.data), 0.01f, FRGuiDrawer::_MIN_FLOAT, FRGuiDrawer::_MAX_FLOAT);
+				DrawHybridVec4(*mShaderSettingsColumns, prop.name, reinterpret_cast<glm::vec4&>(prop.data), 0.01f, FRGuiDrawer::_MIN_FLOAT, FRGuiDrawer::_MAX_FLOAT);
 				break;
 			default:
 				break;
@@ -289,7 +267,7 @@ void FR::FRMaterialEditor::GenerateShaderSettingsContent()
 			switch (prop.samplerType)
 			{
 			case FR::ESamplerType::SAMPLER_2D:
-				FRGuiDrawer::DrawTexture(*mShaderSettingsColumns, UniformFormat(prop.name), reinterpret_cast<FRTexture*&>(prop.data));
+				FRGuiDrawer::DrawTexture(*mShaderSettingsColumns, prop.name, reinterpret_cast<FRTexture*&>(prop.data));
 				break;
 			default:
 				break;

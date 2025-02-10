@@ -24,3 +24,8 @@ void FR::FRTextureSamplerWarp::SetWrapModeT(EWrapMode pMode)
 {
 	PtrValue(this).setWrapModeT(pMode);
 }
+
+void FR::FRTextureSamplerWarp::SetWrapModeR(EWrapMode pMode)
+{
+	PtrValue(this).setWrapModeR(pMode);
+}

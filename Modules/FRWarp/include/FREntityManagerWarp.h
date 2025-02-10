@@ -29,6 +29,9 @@ namespace FR
 
 		FREntityWarp* Create();
 
+	public:
+		virtual ~FREntityManagerWarp();
+
 	private:
 		std::vector<FREntityWarp*> mEntities;
 

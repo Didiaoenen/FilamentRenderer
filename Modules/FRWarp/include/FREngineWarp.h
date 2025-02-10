@@ -5,6 +5,8 @@
 #include "FRSwapChainWarp.h"
 #include <filament/Engine.h>
 
+#include <vector>
+
 namespace FR
 {
 	class FREntityWarp;
@@ -15,8 +17,14 @@ namespace FR
 	class FRFenceWarp;
 	class FRSceneWarp;
 	class FRCameraWarp;
+	class FRSkyboxWarp;
+	class FRTextureWarp;
 	class FRRendererWarp;
 	class FRSwapChainWarp;
+	class FRIndexBufferWarp;
+	class FRVertexBufferWarp;
+	class FRSkinningBufferWarp;
+	class FRIndirectLightWarp;
 
 	class FRLightManagerWarp;
 	class FRTransformManagerWarp;
@@ -27,6 +35,8 @@ namespace FR
 	{
 	public:
 		FREngineWarp();
+
+		FRJobSystemWarp* GetJobSystem();
 
 		FREntityManagerWarp* GetEntityManager();
 
@@ -48,34 +58,73 @@ namespace FR
 
 		FRCameraWarp* CreateCamera(FREntityWarp* pEntity);
 
-		FRCameraWarp* GetCameraComponent(FREntityWarp* pEntity);
-
 		void DestroyCameraComponent(FREntityWarp* pEntity);
 
-		FRJobSystemWarp* GetJobSystem();
+		void RegisterSkybox(FRSkyboxWarp* pSkybox);
+
+		void RegisterTexture(FRTextureWarp* pTexture);
+
+		void RegisterIndexBuffer(FRIndexBufferWarp* pIndexBuffer);
+
+		void RegisterVertexBuffer(FRVertexBufferWarp* pVertexBuffer);
+
+		void RegisterSknningBuffer(FRSkinningBufferWarp* pSkinningBuffer);
+
+		void RegisterIndirectLight(FRIndirectLightWarp* pIndirectLight);
 
 		void SetPaused(bool pPaused);
+
+		bool IsPaused();
 
 		void Flush();
 
 		void FlushAndWait();
-
-		void Execute();
-
-		bool IsPaused();
 
 		void Destroy();
 
 		void Destroy(FREntityWarp* pEntity);
 
 		template<typename T>
-		inline void Destroy(T* pPtr)
-		{
-			if (pPtr)
-			{
-				PtrValue(this)->destroy(PtrValue(pPtr));
-			}
-		}
+		void Destroy(T* pPtr);
+
+	public:
+		~FREngineWarp();
+
+	private:
+		FREntityManagerWarp* mEntityManager{ nullptr };
+
+		FRRenderableManagerWarp* mRenderableManager{ nullptr };
+
+		FRLightManagerWarp* mLightManager{ nullptr };
+
+		FRTransformManagerWarp* mTransformManager{ nullptr };
+
+		FRJobSystemWarp* mJobSystem{ nullptr };
+
+		std::vector<FRSwapChainWarp*> mSwapChains;
+
+		std::vector<FRRendererWarp*> mRenderers;
+
+		std::vector<FRViewWarp*> mViews;
+
+		std::vector<FRSceneWarp*> mScenes;
+
+		std::vector<FRFenceWarp*> mFences;
+
+		std::vector<FRCameraWarp*> mCameras;
+
+		std::vector<FRSkyboxWarp*> mSkyboxes;
+
+		std::vector<FRTextureWarp*> mTextures;
+
+		std::vector<FRIndexBufferWarp*> mIndexBuffers;
+
+		std::vector<FRVertexBufferWarp*> mVertexBuffers;
+
+		std::vector<FRSkinningBufferWarp*> mSkinningBuffers;
+
+		std::vector<FRIndirectLightWarp*> mIndirectLights;
+
 	};
 }
 

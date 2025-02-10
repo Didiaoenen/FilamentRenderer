@@ -15,6 +15,7 @@ namespace FR
 
 		using EMinFilter = filament::TextureSampler::MinFilter;
 
+	public:
 		FRTextureSamplerWarp() = default;
 
 		FRTextureSamplerWarp(EMinFilter pMin, EMagFilter pMag, EWrapMode pStr = EWrapMode::CLAMP_TO_EDGE);
@@ -26,6 +27,8 @@ namespace FR
 		void SetWrapModeS(EWrapMode pMode);
 
 		void SetWrapModeT(EWrapMode pMode);
+
+		void SetWrapModeR(EWrapMode pMode);
 
 	};
 }

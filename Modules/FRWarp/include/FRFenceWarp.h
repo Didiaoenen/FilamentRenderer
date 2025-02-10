@@ -15,6 +15,7 @@ namespace FR
 
 		using EFenceStatus = filament::Fence::FenceStatus;
 
+	public:
 		FRFenceWarp() = default;
 
 		FRFenceWarp(FREngineWarp* pEngine);

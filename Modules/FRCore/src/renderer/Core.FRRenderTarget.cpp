@@ -1,7 +1,6 @@
 #include "Core.FRRenderTarget.h"
 
 #include "Core.FRTexture.h"
-#include "EAttachmentPoint.h"
 
 #include <FREngineWarp.h>
 #include <FRFilamentHelper.h>
@@ -15,8 +14,8 @@ FR::FRRenderTarget::FRRenderTarget(FRTexture* mColorTexture, FRTexture* mDepthTe
 {
 	auto engine = FRFilamentHelper::GetEngine();
 	mRenderTarget = FRRenderTargetWarp::Builder()
-		.Texture(EAttachmentPoint::COLOR, mColorTexture->NativePtr())
-		.Texture(EAttachmentPoint::DEPTH, mDepthTexture->NativePtr())
+		.Texture(FRRenderTargetWarp::EAttachmentPoint::COLOR, mColorTexture->NativePtr())
+		.Texture(FRRenderTargetWarp::EAttachmentPoint::DEPTH, mDepthTexture->NativePtr())
 		.Build(engine);
 }
 

@@ -15,13 +15,14 @@ namespace FR
 		: public FRPtrWarp<filament::View>
 	{
 	public:
+		using EBlendMode = filament::View::BlendMode;
+
+	public:
 		FRViewWarp() = default;
 
 		FRViewWarp(FREngineWarp* pEngine);
 		
 		const std::string GetName();
-
-		filament::RenderTarget* GetRenderTarget();
 
 		void SetName(const std::string& pName);
 
@@ -35,16 +36,13 @@ namespace FR
 
 		void SetVisibleLayers(uint8_t pSelect, uint8_t pValue);
 
-		void SetBlendMode(filament::View::BlendMode pMode);
+		void SetBlendMode(EBlendMode pMode);
 
 		void SetShadowingEnabled(bool pEnabled);
 
 		void SetFrustumCullingEnabled(bool bEnabled);
 
 		void SetPostProcessingEnabled(bool pEnabled);
-
-	public:
-		~FRViewWarp();
 
 	};
 }

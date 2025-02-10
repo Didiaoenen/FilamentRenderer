@@ -20,9 +20,12 @@ namespace FR
 			friend class FRLightManagerWarp;
 
 		public:
+			using EType = filament::LightManager::Type;
+
 			using EResult = filament::LightManager::Builder::Result;
 
-			Builder(filament::LightManager::Type pType)
+		public:
+			Builder(EType pType)
 				: mBuilder(pType)
 			{
 			}
@@ -81,9 +84,9 @@ namespace FR
 
 		void SetSunAngularRadius(Instance pInstance, bool pSunAngular);
 
-		void Destroy(FREntityWarp* pEntity);
-
 		Instance GetInstance(FREntityWarp* pEntity);
+
+		void Destroy(FREntityWarp* pEntity);
 
 	};
 }

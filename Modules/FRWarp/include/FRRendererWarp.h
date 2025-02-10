@@ -14,6 +14,7 @@ namespace FR
 		: public FRPtrWarp<filament::Renderer>
 	{
 	public:
+
         struct FClearOptions
 		{
 			Color clearColor = {};

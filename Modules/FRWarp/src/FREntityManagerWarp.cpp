@@ -17,21 +17,32 @@ void FR::FREntityManagerWarp::Destroy(int pCount, std::vector<FREntityWarp*> pEn
 
 void FR::FREntityManagerWarp::Destroy(FREntityWarp* pEntity)
 {
+	PtrValue(this).destroy(PtrValue(pEntity));
 }
 
 bool FR::FREntityManagerWarp::IsAlive(FREntityWarp* pEntity)
 {
-	return false;
+	return PtrValue(this).isAlive(PtrValue(pEntity));
 }
 
 size_t FR::FREntityManagerWarp::GetEntityCount()
 {
-	return size_t();
+	return PtrValue(this).getEntityCount();
 }
 
 FR::FREntityWarp* FR::FREntityManagerWarp::Create()
 {
 	auto entity = new FREntityWarp(this);
-	mEntities.push_back(entity);
+	mEntities.emplace_back(entity);
 	return entity;
+}
+
+FR::FREntityManagerWarp::~FREntityManagerWarp()
+{
+	//for (const auto entity : mEntities)
+	//{
+	//	Destroy(entity);
+	//	delete entity;
+	//}
+	//mEntities.clear();
 }

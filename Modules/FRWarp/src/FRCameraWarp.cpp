@@ -16,12 +16,12 @@ void FR::FRCameraWarp::LookAt(const glm::vec3& pEye, const glm::vec3& pCenter, c
 
 void FR::FRCameraWarp::SetProjection(EProjection pProjection, double pLeft, double pRight, double pBottom, double pTop, double pNear, double pFar)
 {
-	PtrValue(this)->setProjection((filament::Camera::Projection)pProjection, pLeft, pRight, pBottom, pTop, pNear, pFar);
+	PtrValue(this)->setProjection(pProjection, pLeft, pRight, pBottom, pTop, pNear, pFar);
 }
 
 void FR::FRCameraWarp::SetProjection(double pFovInDegrees, double pAspect, double pNear, double pFar, EFov pDirection)
 {
-	PtrValue(this)->setProjection(pFovInDegrees, pAspect, pNear, pFar, (filament::Camera::Fov)pDirection);
+	PtrValue(this)->setProjection(pFovInDegrees, pAspect, pNear, pFar, pDirection);
 }
 
 void FR::FRCameraWarp::SetExposure(float pAperture, float pShutterSpeed, float pSensitivity)
@@ -47,4 +47,9 @@ glm::mat4 FR::FRCameraWarp::GetViewMatrix()
 FR::FREntityWarp* FR::FRCameraWarp::GetEntity()
 {
 	return mEntity;
+}
+
+FR::FRCameraWarp::~FRCameraWarp()
+{
+	mEntity = nullptr;
 }

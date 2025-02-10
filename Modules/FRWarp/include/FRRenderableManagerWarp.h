@@ -16,10 +16,16 @@ namespace FR
 		: public FRRefWarp<filament::RenderableManager>
 	{
 	public:
+		using EPrimitiveType = filament::RenderableManager::PrimitiveType;
+
+	public:
 
 		class Builder
 		{
 			friend class FRRenderableManagerWarp;
+
+		public:
+			using EResult = filament::RenderableManager::Builder::Result;
 
 		public:
 			Builder(size_t pCount)
@@ -33,8 +39,7 @@ namespace FR
 				return *this;
 			}
 
-			Builder& Geometry(
-				size_t pIndex, filament::RenderableManager::PrimitiveType pType,
+			Builder& Geometry(size_t pIndex, EPrimitiveType pType,
 				FRVertexBufferWarp* pVertices, FRIndexBufferWarp* pIndices, size_t pOffset, size_t pCount)
 			{
 				mBuilder.geometry(pIndex, pType, PtrValue(pVertices), PtrValue(pIndices), pOffset, pCount);
@@ -71,13 +76,14 @@ namespace FR
 				return *this;
 			}
 
-			filament::RenderableManager::Builder::Result Build(FREngineWarp* pEngine, FREntityWarp* pEntity)
+			EResult Build(FREngineWarp* pEngine, FREntityWarp* pEntity)
 			{
 				return mBuilder.build(*PtrValue(pEngine), PtrValue(pEntity));
 			}
 
 		private:
 			filament::RenderableManager::Builder mBuilder;
+
 		};
 
 		class Instance
@@ -95,6 +101,7 @@ namespace FR
 
 		private:
 			filament::RenderableManager::Instance mIns;
+
 		};
 
 		FRRenderableManagerWarp() = default;

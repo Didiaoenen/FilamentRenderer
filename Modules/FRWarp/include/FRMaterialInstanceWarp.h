@@ -20,6 +20,7 @@ namespace FR
 
 		using ETransparencyMode = filament::MaterialInstance::TransparencyMode;
 
+	public:
 		FRMaterialInstanceWarp() = default;
 
 		FRMaterialInstanceWarp(FRMaterialWarp* pMaterial, const char* pName);

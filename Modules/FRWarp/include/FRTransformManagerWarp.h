@@ -40,9 +40,11 @@ namespace FR
 
 		void SetTransform(Instance pInstance, const glm::mat4& pLocalTransform);
 
+		void Create(FREntityWarp* pEntity, Instance pParent, const glm::mat4& pLocalTransform);
+
 		Instance GetInstance(FREntityWarp* pEntity);
 
-		void Create(FREntityWarp* pEntity, Instance pParent, const glm::mat4& pLocalTransform);
+		void Destroy(FREntityWarp* pEntity);
 
 	};
 }

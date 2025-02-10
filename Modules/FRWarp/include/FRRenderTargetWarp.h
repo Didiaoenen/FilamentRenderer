@@ -2,7 +2,6 @@
 
 #include "FRPtrWarp.h"
 #include "FRTextureWarp.h"
-#include "EAttachmentPoint.h"
 #include <filament/RenderTarget.h>
 
 namespace FR
@@ -15,6 +14,7 @@ namespace FR
 	public:
 		using EAttachmentPoint = filament::RenderTarget::AttachmentPoint;
 
+	public:
 		class Builder
 		{
 			friend class FRRenderTargetWarp;

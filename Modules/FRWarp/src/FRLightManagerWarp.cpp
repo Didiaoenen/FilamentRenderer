@@ -58,12 +58,12 @@ void FR::FRLightManagerWarp::SetSunAngularRadius(Instance pInstance, bool pSunAn
 	PtrValue(this).setSunAngularRadius(pInstance.Ins(), pSunAngular);
 }
 
-void FR::FRLightManagerWarp::Destroy(FREntityWarp* pEntity)
-{
-	PtrValue(this).destroy(PtrValue(pEntity));
-}
-
 FR::FRLightManagerWarp::Instance FR::FRLightManagerWarp::GetInstance(FREntityWarp* pEntity)
 {
 	return Instance(this, pEntity);
+}
+
+void FR::FRLightManagerWarp::Destroy(FREntityWarp* pEntity)
+{
+	PtrValue(this).destroy(PtrValue(pEntity));
 }

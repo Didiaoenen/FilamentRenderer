@@ -10,5 +10,8 @@ namespace FR
 	public:
 		FRBaseWarp() = default;
 
+	public:
+		virtual ~FRBaseWarp() = default;
+
 	};
 }

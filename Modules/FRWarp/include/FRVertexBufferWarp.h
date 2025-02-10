@@ -24,6 +24,7 @@ namespace FR
 
 			using EAttributeType = filament::VertexBuffer::AttributeType;
 
+		public:
 			Builder()
 				: mBuilder()
 			{

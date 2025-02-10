@@ -18,6 +18,7 @@ namespace FR
 
 		using EProjection = filament::Camera::Projection;
 
+	public:
 		FRCameraWarp() = default;
 
 		FRCameraWarp(FREngineWarp* pEngine, FREntityWarp* pEntity);
@@ -37,6 +38,9 @@ namespace FR
 		glm::mat4 GetViewMatrix();
 
 		FREntityWarp* GetEntity();
+
+	public:
+		virtual ~FRCameraWarp();
 
 	private:
 		FREntityWarp* mEntity{ nullptr };

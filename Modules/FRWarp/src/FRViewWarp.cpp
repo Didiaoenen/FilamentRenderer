@@ -15,11 +15,6 @@ const std::string FR::FRViewWarp::GetName()
 	return PtrValue(this)->getName();
 }
 
-filament::RenderTarget* FR::FRViewWarp::GetRenderTarget()
-{
-	return PtrValue(this)->getRenderTarget();
-}
-
 void FR::FRViewWarp::SetName(const std::string& pName)
 {
 	PtrValue(this)->setName(pName.c_str());
@@ -50,7 +45,7 @@ void FR::FRViewWarp::SetVisibleLayers(uint8_t pSelect, uint8_t pValue)
 	PtrValue(this)->setVisibleLayers(pSelect, pValue);
 }
 
-void FR::FRViewWarp::SetBlendMode(filament::View::BlendMode pMode)
+void FR::FRViewWarp::SetBlendMode(EBlendMode pMode)
 {
 	PtrValue(this)->setBlendMode(pMode);
 }
@@ -68,9 +63,4 @@ void FR::FRViewWarp::SetFrustumCullingEnabled(bool bEnabled)
 void FR::FRViewWarp::SetPostProcessingEnabled(bool pEnabled)
 {
 	PtrValue(this)->setPostProcessingEnabled(pEnabled);
-}
-
-FR::FRViewWarp::~FRViewWarp()
-{
-
 }

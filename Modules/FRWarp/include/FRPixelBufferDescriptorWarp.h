@@ -13,8 +13,9 @@ namespace FR
 
 		using EPixelDataFormat = filament::backend::PixelDataFormat;
 
-		using Callback = void(*)(void* pBuffer, size_t pSize, void* pUser);
+		using Callback = filament::backend::BufferDescriptor::Callback;
 
+	public:
 		FRPixelBufferDescriptorWarp() = default;
 
 		FRPixelBufferDescriptorWarp(void const* pBuffer, size_t pSize, EPixelDataFormat pFormat, EPixelDataType pType,

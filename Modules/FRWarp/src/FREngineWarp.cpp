@@ -4,11 +4,14 @@
 #include "FRSceneWarp.h"
 #include "FRFenceWarp.h"
 #include "FRCameraWarp.h"
+#include "FRSkyboxWarp.h"
 #include "FRRendererWarp.h"
 #include "FRSwapChainWarp.h"
 
-#include "FREntityManagerWarp.h"
+#include "FRJobSystemWarp.h"
+
 #include "FRLightManagerWarp.h"
+#include "FREntityManagerWarp.h"
 #include "FRTransformManagerWarp.h"
 #include "FRRenderableManagerWarp.h"
 
@@ -25,61 +28,83 @@ FR::FREngineWarp::FREngineWarp()
 		.build();
 
 	mValue = FRPtrValue(engine);
+
+	mEntityManager = new FREntityManagerWarp(this);
+
+	mRenderableManager = new FRRenderableManagerWarp(this);
+
+	mLightManager = new FRLightManagerWarp(this);
+
+	mTransformManager = new FRTransformManagerWarp(this);
+
+	mJobSystem = new FRJobSystemWarp(this);
+}
+
+FR::FRJobSystemWarp* FR::FREngineWarp::GetJobSystem()
+{
+	return mJobSystem;
 }
 
 FR::FREntityManagerWarp* FR::FREngineWarp::GetEntityManager()
 {
-	return new FR::FREntityManagerWarp(this);
+	return mEntityManager;
 }
 
 FR::FRRenderableManagerWarp* FR::FREngineWarp::GetRenderableManager()
 {
-	return new FR::FRRenderableManagerWarp(this);
+	return mRenderableManager;
 }
 
 FR::FRLightManagerWarp* FR::FREngineWarp::GetLightManager()
 {
-	return new FR::FRLightManagerWarp(this);
+	return mLightManager;
 }
 
 FR::FRTransformManagerWarp* FR::FREngineWarp::GetTransformManager()
 {
-	return new FR::FRTransformManagerWarp(this);
+	return mTransformManager;
 }
 
 FR::FRSwapChainWarp* FR::FREngineWarp::CreateSwapChain(void* pWindow)
 {
-	return new FR::FRSwapChainWarp(this, pWindow);
+	auto swapChain = new FRSwapChainWarp(this, pWindow);
+	mSwapChains.emplace_back(swapChain);
+	return swapChain;
 }
 
 FR::FRRendererWarp* FR::FREngineWarp::CreateRenderer()
 {
-	return new FR::FRRendererWarp(this);
+	auto renderer = new FRRendererWarp(this);
+	mRenderers.emplace_back(renderer);
+	return renderer;
 }
 
 FR::FRViewWarp* FR::FREngineWarp::CreateView()
 {
-	return new FR::FRViewWarp(this);
+	auto view = new FRViewWarp(this);
+	mViews.emplace_back(view);
+	return view;
 }
 
 FR::FRSceneWarp* FR::FREngineWarp::CreateScene()
 {
-	return new FR::FRSceneWarp(this);
+	auto scene = new FRSceneWarp(this);
+	mScenes.emplace_back(scene);
+	return scene;
 }
 
 FR::FRFenceWarp* FR::FREngineWarp::CreateFence()
 {
-	return new FR::FRFenceWarp(this);
+	auto fence = new FRFenceWarp(this);
+	mFences.emplace_back(fence);
+	return fence;
 }
 
 FR::FRCameraWarp* FR::FREngineWarp::CreateCamera(FREntityWarp* pEntity)
 {
-	return new FR::FRCameraWarp(this, pEntity);
-}
-
-FR::FRCameraWarp* FR::FREngineWarp::GetCameraComponent(FREntityWarp* pEntity)
-{
-	return nullptr;
+	auto camera = new FRCameraWarp(this, pEntity);
+	mCameras.emplace_back(camera);
+	return camera;
 }
 
 void FR::FREngineWarp::DestroyCameraComponent(FREntityWarp* pEntity)
@@ -87,30 +112,54 @@ void FR::FREngineWarp::DestroyCameraComponent(FREntityWarp* pEntity)
 	PtrValue(this)->destroyCameraComponent(PtrValue(pEntity));
 }
 
-FR::FRJobSystemWarp* FR::FREngineWarp::GetJobSystem()
+void FR::FREngineWarp::RegisterSkybox(FRSkyboxWarp* pSkybox)
 {
-	return nullptr;
+	mSkyboxes.emplace_back(pSkybox);
+}
+
+void FR::FREngineWarp::RegisterTexture(FRTextureWarp* pTexture)
+{
+	mTextures.emplace_back(pTexture);
+}
+
+void FR::FREngineWarp::RegisterIndexBuffer(FRIndexBufferWarp* pIndexBuffer)
+{
+	mIndexBuffers.emplace_back(pIndexBuffer);
+}
+
+void FR::FREngineWarp::RegisterVertexBuffer(FRVertexBufferWarp* pVertexBuffer)
+{
+	mVertexBuffers.emplace_back(pVertexBuffer);
+}
+
+void FR::FREngineWarp::RegisterSknningBuffer(FRSkinningBufferWarp* pSkinningBuffer)
+{
+	mSkinningBuffers.emplace_back(pSkinningBuffer);
+}
+
+void FR::FREngineWarp::RegisterIndirectLight(FRIndirectLightWarp* pIndirectLight)
+{
+	mIndirectLights.emplace_back(pIndirectLight);
 }
 
 void FR::FREngineWarp::SetPaused(bool pPaused)
 {
-}
-
-void FR::FREngineWarp::Flush()
-{
-}
-
-void FR::FREngineWarp::FlushAndWait()
-{
+	PtrValue(this)->setPaused(pPaused);
 }
 
 bool FR::FREngineWarp::IsPaused()
 {
-	return false;
+	return PtrValue(this)->isPaused();
 }
 
-void FR::FREngineWarp::Execute()
+void FR::FREngineWarp::Flush()
 {
+	PtrValue(this)->flush();
+}
+
+void FR::FREngineWarp::FlushAndWait()
+{
+	PtrValue(this)->flushAndWait();
 }
 
 void FR::FREngineWarp::Destroy()
@@ -121,4 +170,9 @@ void FR::FREngineWarp::Destroy()
 void FR::FREngineWarp::Destroy(FREntityWarp* pEntity)
 {
 	PtrValue(this)->destroy(PtrValue(pEntity));
+}
+
+FR::FREngineWarp::~FREngineWarp()
+{
+
 }

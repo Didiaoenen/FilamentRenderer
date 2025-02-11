@@ -14,14 +14,14 @@ namespace FR
 		: public FRRefWarp<filament::LightManager>
 	{
 	public:
+		using EType = filament::LightManager::Type;
 
+	public:
 		class Builder
 		{
 			friend class FRLightManagerWarp;
 
 		public:
-			using EType = filament::LightManager::Type;
-
 			using EResult = filament::LightManager::Builder::Result;
 
 		public:

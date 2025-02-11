@@ -5,6 +5,7 @@
 FR::FRTextureWarp::FRTextureWarp(FREngineWarp* pEngine, Builder* pBuilder)
 {
 	mValue = FRPtrValue(pBuilder->mBuilder.build(*PtrValue(pEngine)));
+	pEngine->RegisterTexture(this);
 }
 
 void FR::FRTextureWarp::SetImage(FREngineWarp* pEngine, size_t pLevel, FRPixelBufferDescriptorWarp&& pBuffer)

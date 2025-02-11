@@ -4,4 +4,5 @@
 FR::FRRenderTargetWarp::FRRenderTargetWarp(FREngineWarp* pEngine, Builder* mBuilder)
 {
 	mValue = FRPtrValue(mBuilder->mBuilder.build(*PtrValue(pEngine)));
+	pEngine->RegisterRenderTarget(this);
 }

@@ -67,13 +67,13 @@ FR::FREntityWarp* FR::FRFilamentHelper::CreateEntity()
 void FR::FRFilamentHelper::DestroyEngine()
 {
 	GetEngine()->Destroy(mSwapChain);
-	mSwapChain = nullptr;
+	delete mSwapChain; mSwapChain = nullptr;
 
 	GetEngine()->Destroy(mRenderer);
-	mRenderer = nullptr;
+	delete mRenderer; mRenderer = nullptr;
 	
 	GetEngine()->Destroy();
-	mEngine = nullptr;
+	delete mEngine; mEngine = nullptr;
 }
 
 void FR::FRFilamentHelper::DestroyEntity(FREntityWarp* pEntity)

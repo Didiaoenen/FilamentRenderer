@@ -14,12 +14,14 @@ namespace FR
 		using FRBufferDescriptor = filament::backend::BufferDescriptor;
 
 	public:
+		using EIndexType = filament::IndexBuffer::IndexType;
+
+	public:
 		class Builder
 		{
 			friend class FRIndexBufferWarp;
 
 		public:
-			using EIndexType = filament::IndexBuffer::IndexType;
 
 			Builder()
 				: mBuilder()

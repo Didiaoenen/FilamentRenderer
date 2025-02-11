@@ -14,15 +14,13 @@ namespace FR
 		using FRBufferDescriptor = filament::backend::BufferDescriptor;
 
 	public:
+		using EVertexAttribute = filament::VertexAttribute;
+
+		using EAttributeType = filament::VertexBuffer::AttributeType;
 
 		class Builder
 		{
 			friend class FRVertexBufferWarp;
-
-		public:
-			using EVertexAttribute = filament::VertexAttribute;
-
-			using EAttributeType = filament::VertexBuffer::AttributeType;
 
 		public:
 			Builder()

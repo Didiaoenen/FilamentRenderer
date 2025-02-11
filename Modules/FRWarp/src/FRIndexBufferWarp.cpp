@@ -5,6 +5,7 @@
 FR::FRIndexBufferWarp::FRIndexBufferWarp(FREngineWarp* pEngine, Builder* pBuilder)
 {
 	mValue = FRPtrValue(pBuilder->mBuilder.build(*PtrValue(pEngine)));
+	pEngine->RegisterIndexBuffer(this);
 }
 
 void FR::FRIndexBufferWarp::SetBuffer(FREngineWarp* pEngine, FRBufferDescriptorWarp&& pBuffer, uint32_t pByteOffset)

@@ -19,10 +19,12 @@ namespace FR
 	class FRCameraWarp;
 	class FRSkyboxWarp;
 	class FRTextureWarp;
+	class FRMaterialWarp;
 	class FRRendererWarp;
 	class FRSwapChainWarp;
 	class FRIndexBufferWarp;
 	class FRVertexBufferWarp;
+	class FRRenderTargetWarp;
 	class FRSkinningBufferWarp;
 	class FRIndirectLightWarp;
 
@@ -67,6 +69,8 @@ namespace FR
 		void RegisterIndexBuffer(FRIndexBufferWarp* pIndexBuffer);
 
 		void RegisterVertexBuffer(FRVertexBufferWarp* pVertexBuffer);
+
+		void RegisterRenderTarget(FRRenderTargetWarp* pRenderTarget);
 
 		void RegisterSknningBuffer(FRSkinningBufferWarp* pSkinningBuffer);
 
@@ -120,6 +124,8 @@ namespace FR
 		std::vector<FRIndexBufferWarp*> mIndexBuffers;
 
 		std::vector<FRVertexBufferWarp*> mVertexBuffers;
+
+		std::vector<FRRenderTargetWarp*> mRenderTargets;
 
 		std::vector<FRSkinningBufferWarp*> mSkinningBuffers;
 

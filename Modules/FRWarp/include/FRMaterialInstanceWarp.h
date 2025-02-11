@@ -40,14 +40,10 @@ namespace FR
 		void SetDepthWrite(bool pEnable);
 
 		template<typename T>
-		inline void SetParameter(const std::string& pName, T const& value)
-		{
-			if (auto material = PtrValue(this)->getMaterial(); material->hasParameter(pName.c_str()))
-			{
-				PtrValue(this)->setParameter(pName.c_str(), value);
-			}
-		}
+		inline void SetParameter(const std::string& pName, T const& value);
 
 	};
+
+	#include "FRMaterialInstanceWarp.inl"
 }
 

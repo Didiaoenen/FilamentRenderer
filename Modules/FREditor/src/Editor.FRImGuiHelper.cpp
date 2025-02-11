@@ -53,32 +53,35 @@ FR::FRImGuiHelper::~FRImGuiHelper()
 
 	mPanels.clear();
 
-	auto cameraEntity = mUICamera->GetEntity();
+	//auto cameraEntity = mUICamera->GetEntity();
 
 	mEngine->Destroy(mUIView);
 	mEngine->Destroy(mUIScene);
-	mEngine->Destroy(mRenderable);
-	mEngine->DestroyCameraComponent(cameraEntity);
+	//mEngine->Destroy(mRenderable);
+	//mEngine->Destroy(mCameraEntity);
 
 	for (auto& mi : mMaterial2dInstances)
 	{
 		mEngine->Destroy(mi);
 	}
 	mEngine->Destroy(mMaterial2d);
-	mEngine->Destroy(mTexture);
+	//mEngine->Destroy(mTexture);
 
 	for (auto& vb : mVertexBuffers)
 	{
-		mEngine->Destroy(vb);
+		//mEngine->Destroy(vb);
 	}
 	for (auto& ib : mIndexBuffers)
 	{
-		mEngine->Destroy(ib);
+		//mEngine->Destroy(ib);
 	}
 
-	utils::EntityManager& em = utils::EntityManager::get();
-	em.destroy(mRenderable->Value());
-	em.destroy(cameraEntity->Value());
+	//utils::EntityManager& em = utils::EntityManager::get();
+	//em.destroy(mRenderable->Value());
+	//em.destroy(cameraEntity->Value());
+
+	FRFilamentHelper::DestroyEntity(mRenderable);
+	FRFilamentHelper::DestroyEntity(mCameraEntity);
 
 	FRFilamentHelper::DestroyEngine();
 

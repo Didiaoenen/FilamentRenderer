@@ -8,8 +8,7 @@
 FR::FRCamera::FRCamera(FROptRef<FRTransform> pTransform)
 	: FREntity(pTransform)
 {
-	auto entity = FRFilamentHelper::CreateEntity();
-	mCamera = FRFilamentHelper::GetEngine()->CreateCamera(entity);
+	mCamera = FRFilamentHelper::GetEngine()->CreateCamera(mEntity);
 	mCamera->SetExposure(16.0f, 1 / 125.0f, 100.0f);
 	mCamera->SetScaling({ 1.0, 1.0 });
 }

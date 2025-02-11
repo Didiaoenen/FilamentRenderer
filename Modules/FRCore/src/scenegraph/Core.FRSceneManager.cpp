@@ -11,11 +11,6 @@ FR::FRSceneManager::FRSceneManager()
 	//LoadEmptyScene();
 }
 
-FR::FRSceneManager::~FRSceneManager()
-{
-	UnloadCurrentScene();
-}
-
 void FR::FRSceneManager::Update()
 {
 	if (mDelayedLoadCall)
@@ -143,4 +138,9 @@ void FR::FRSceneManager::ForgetCurrentSceneSourcePath()
 	mCurrentSceneSourcePath = "";
 	mCurrentSceneLoadedFromPath = false;
 	CurrentSceneSourcePathChangedEvent.Invoke(mCurrentSceneSourcePath);
+}
+
+FR::FRSceneManager::~FRSceneManager()
+{
+	UnloadCurrentScene();
 }

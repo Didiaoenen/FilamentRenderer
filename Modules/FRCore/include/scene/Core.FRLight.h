@@ -1,6 +1,5 @@
 #pragma once
 
-#include "ELightType.h"
 #include "Core.FREntity.h"
 
 #include <Color.h>
@@ -17,7 +16,7 @@ namespace FR
 	public:
 		FRLight(FROptRef<FRTransform> pTransform = std::nullopt);
 
-		void CreateLight(ELightType pLightType);
+		void CreateLight(FRLightManagerWarp::EType pType);
 
 		void UploadData();
 
@@ -25,7 +24,7 @@ namespace FR
 		virtual ~FRLight() = default;
 
 	public:
-		ELightType type{ ELightType::DIRECTIONAL };
+		FRLightManagerWarp::EType type{ FRLightManagerWarp::EType::DIRECTIONAL };
 
 		glm::vec3 position{ 0.f };
 		glm::vec3 direction{ 0.f };

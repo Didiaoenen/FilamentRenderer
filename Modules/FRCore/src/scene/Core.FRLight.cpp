@@ -7,15 +7,14 @@
 FR::FRLight::FRLight(FROptRef<FRTransform> pTransform)
 	: FREntity(pTransform)
 {
-
 }
 
-void FR::FRLight::CreateLight(ELightType pLightType)
+void FR::FRLight::CreateLight(FRLightManagerWarp::EType pType)
 {
-	type = pLightType;
+	type = pType;
 	auto engine = FRFilamentHelper::GetEngine();
 	FRFilamentHelper::GetLightManager()->Destroy(mEntity);
-	FRLightManagerWarp::Builder(ConvertEnum(pLightType)).Build(engine, mEntity);
+	FRLightManagerWarp::Builder(pType).Build(engine, mEntity);
 }
 
 void FR::FRLight::UploadData()
@@ -29,16 +28,16 @@ void FR::FRLight::UploadData()
 
 	switch (type)
 	{
-	case FR::ELightType::SUN:
-	case FR::ELightType::DIRECTIONAL:
+	case FRLightManagerWarp::EType::SUN:
+	case FRLightManagerWarp::EType::DIRECTIONAL:
 		manager->SetIntensity(manager->GetInstance(mEntity), intensity);
 		break;
-	case FR::ELightType::POINT:
+	case FRLightManagerWarp::EType::POINT:
 		manager->SetFalloff(manager->GetInstance(mEntity), falloff);
 		manager->SetIntensity(manager->GetInstance(mEntity), intensity, filament::LightManager::EFFICIENCY_LED);
 		break;
-	case FR::ELightType::FOCUSED_SPOT:
-	case FR::ELightType::SPOT:
+	case FRLightManagerWarp::EType::FOCUSED_SPOT:
+	case FRLightManagerWarp::EType::SPOT:
 		manager->SetFalloff(manager->GetInstance(mEntity), falloff);
 		manager->SetIntensity(manager->GetInstance(mEntity), intensity, filament::LightManager::EFFICIENCY_LED);
 		manager->SetSpotLightCone(manager->GetInstance(mEntity), inner, outer);

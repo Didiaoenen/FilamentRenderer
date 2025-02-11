@@ -15,6 +15,7 @@
 void FR::FRApplication::Destroy()
 {
 	sceneManager = nullptr;
+	editorResources = nullptr;
 	guiHelper = nullptr;
 }
 

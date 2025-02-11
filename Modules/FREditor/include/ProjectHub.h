@@ -25,7 +25,7 @@ namespace FR
 		Result Run();
 
 	public:
-		~ProjectHub() = default;
+		~ProjectHub();
 
 	private:
 		bool mReadyToGo{ false };

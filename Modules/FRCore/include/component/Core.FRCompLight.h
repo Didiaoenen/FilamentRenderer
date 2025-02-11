@@ -37,7 +37,7 @@ namespace FR
 		void ValueChangeCallback(int pChoice, FRAWidget* pInner, FRAWidget* pInnerLabel, FRAWidget* pOuter, FRAWidget* pOuterLabel, FRAWidget* pFalloff, FRAWidget* pFalloffLabel);
 
 	public:
-		ELightType lightType;
+		FRLightManagerWarp::EType lightType;
 
 	protected:
 		FRLight mLight;

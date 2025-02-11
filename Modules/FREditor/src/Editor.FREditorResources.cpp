@@ -1,8 +1,10 @@
 #include "Editor.FREditorResources.h"
 
 #include <Core.FRMesh.h>
+#include <Core.FRModel.h>
 #include <Core.FRScene.h>
 #include <Core.FRShader.h>
+#include <Core.FRMaterial.h>
 
 #include <Core.FRModelLoader.h>
 #include <Core.FRShaderLoader.h>
@@ -63,4 +65,33 @@ FR::FRModel* FR::FREditorResources::GetModel(const std::string& pID)
 FR::FRMaterial* FR::FREditorResources::GetDefaultMaterial()
 {
 	return mDefaultMaterial;
+}
+
+FR::FREditorResources::~FREditorResources()
+{
+	for (const auto& [_, model] : mModels)
+	{
+		for (const auto& mesh : model->GetMeshes())
+		{
+			FRFilamentHelper::DestroyEntity(mesh->GetEntity());
+		}
+		for (const auto& material : model->GetMaterials())
+		{
+			if (material)
+			{
+				FRFilamentHelper::GetEngine()->Destroy(material->GetMaterialInstance());
+			}
+		}
+		FRFilamentHelper::DestroyEntity(model->GetEntity());
+	}
+	mModels.clear();
+
+	for (const auto& [_, shader] : mShaders)
+	{
+		FRFilamentHelper::GetEngine()->Destroy(shader->NativePtr());
+	}
+	mShaders.clear();
+
+	FRFilamentHelper::GetEngine()->Destroy(mDefaultMaterial->GetMaterialInstance());
+	FRFilamentHelper::GetEngine()->Destroy(mDefaultMaterial->GetShader()->NativePtr());
 }

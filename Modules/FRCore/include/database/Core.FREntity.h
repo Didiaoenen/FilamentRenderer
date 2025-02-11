@@ -25,7 +25,9 @@ namespace FR
         }
 
     public:
-        ~FREntity() = default;
+        virtual ~FREntity()
+        {
+        }
 
     protected:
         FREntityWarp* mEntity{ nullptr };

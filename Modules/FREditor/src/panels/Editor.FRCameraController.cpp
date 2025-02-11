@@ -229,6 +229,11 @@ FR::FRCamera* FR::FRCameraController::GetCamera()
 	return &mCamera;
 }
 
+FR::FRCameraController::~FRCameraController()
+{
+
+}
+
 std::optional<std::reference_wrapper<FR::FRActor>> FR::FRCameraController::GetTargetActor() const
 {
 	if (mLockedActor.has_value())

@@ -109,7 +109,7 @@ namespace FR
 
 		FRScene* mScene{ nullptr };
 		FRActor* mParent{ nullptr };
-		std::vector<FRActor*>	mChildren;
+		std::vector<FRActor*> mChildren;
 
 		std::vector<std::shared_ptr<FRComponent>> mComponents;
 

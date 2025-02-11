@@ -41,6 +41,9 @@ namespace FR
 
 		FRCamera* GetCamera();
 
+	public:
+		virtual ~FRCameraController();
+
 	private:
 		std::optional<std::reference_wrapper<FRActor>> GetTargetActor() const;
 		void HandleCameraPanning(const glm::vec2& pMouseOffset, bool pFirstMouse);

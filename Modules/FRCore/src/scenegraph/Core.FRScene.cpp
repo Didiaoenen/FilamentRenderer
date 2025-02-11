@@ -225,16 +225,32 @@ void FR::FRScene::OnComponentRemoved(FRComponent& pCompononent)
 {
 	if (auto result = dynamic_cast<FRCompModelRenderer*>(&pCompononent))
 	{
+		for (const auto modelRenderer : mFastAccessComponents.modelRenderers)
+		{
+			for (const auto mesh : modelRenderer->GetModel()->GetMeshes())
+			{
+				FRFilamentHelper::DestroyEntity(mesh->GetEntity());
+			}
+			FRFilamentHelper::DestroyEntity(modelRenderer->GetModel()->GetEntity());
+		}
 		mFastAccessComponents.modelRenderers.erase(std::remove(mFastAccessComponents.modelRenderers.begin(), mFastAccessComponents.modelRenderers.end(), result), mFastAccessComponents.modelRenderers.end());
 	}
 
 	if (auto result = dynamic_cast<FRCompCamera*>(&pCompononent))
 	{
+		for (const auto camera : mFastAccessComponents.cameras)
+		{
+			FRFilamentHelper::DestroyEntity(camera->GetCamera().GetEntity());
+		}
 		mFastAccessComponents.cameras.erase(std::remove(mFastAccessComponents.cameras.begin(), mFastAccessComponents.cameras.end(), result), mFastAccessComponents.cameras.end());
 	}
 
 	if (auto result = dynamic_cast<FRCompLight*>(&pCompononent))
 	{
+		for (const auto light : mFastAccessComponents.lights)
+		{
+			FRFilamentHelper::DestroyEntity(light->GetLight().GetEntity());
+		}
 		mFastAccessComponents.lights.erase(std::remove(mFastAccessComponents.lights.begin(), mFastAccessComponents.lights.end(), result), mFastAccessComponents.lights.end());
 	}
 }
@@ -399,10 +415,12 @@ FR::FRSceneWarp* FR::FRScene::NativePtr()
 
 FR::FRScene::~FRScene()
 {
-	std::for_each(mActors.begin(), mActors.end(), [](FRActor* element)
+	std::for_each(mActors.begin(), mActors.end(), [this](FRActor* pElement)
 		{
-			delete element;
+			delete pElement;
 		});
 
 	mActors.clear();
+
+	FRFilamentHelper::GetEngine()->Destroy(mScene);
 }

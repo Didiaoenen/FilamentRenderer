@@ -21,7 +21,7 @@ namespace FR
 			{
 				switch (compLight->lightType)
 				{
-				case ELightType::DIRECTIONAL:
+				case FRLightManagerWarp::EType::DIRECTIONAL:
 					mScene->AddLight(compLight->GetLight());
 					break;
 				default:

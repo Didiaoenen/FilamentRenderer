@@ -316,3 +316,8 @@ FR::ProjectHub::Result FR::ProjectHub::Run()
 
 	return { mReadyToGo, mProjectPath, mProjectName };
 }
+
+FR::ProjectHub::~ProjectHub()
+{
+
+}

@@ -64,8 +64,7 @@ void FR::FRActor::DetachFromParent()
 
 	if (mParent)
 	{
-		mParent->mChildren.erase(std::remove_if(mParent->mChildren.begin(), mParent->mChildren.end(), 
-			[this](FRActor* pElement)
+		mParent->mChildren.erase(std::remove_if(mParent->mChildren.begin(), mParent->mChildren.end(), [this](FRActor* pElement)
 			{
 				return pElement == this;
 			}));

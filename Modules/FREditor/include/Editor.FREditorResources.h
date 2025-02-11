@@ -24,7 +24,7 @@ namespace FR
 		FRMaterial* GetDefaultMaterial();
 
 	public:
-		~FREditorResources() = default;
+		virtual ~FREditorResources();
 
 	private:
 		FRMaterial* mDefaultMaterial{ nullptr };

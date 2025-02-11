@@ -8,7 +8,7 @@ FR::FRCompLight::FRCompLight(FRActor& pOwner)
 	: FRComponent(pOwner)
 	, mLight(pOwner.transform.GetFRTransform())
 {
-	lightType = ELightType::DIRECTIONAL;
+	lightType = FRLightManagerWarp::EType::DIRECTIONAL;
 	mLight.CreateLight(lightType);
 }
 
@@ -50,17 +50,17 @@ void FR::FRCompLight::OnInspector(FRWidgetContainer& pRoot)
 	auto& widgetInner = FRGuiDrawer::DrawScalar(pRoot, "Inner", mLight.inner, 0.1f);
 	auto& innerWidget = *pRoot.GetWidgets()[pRoot.GetWidgets().size() - 1].first;
 	auto& innerWidgetLabel = *pRoot.GetWidgets()[pRoot.GetWidgets().size() - 2].first;
-	innerWidget.enabled = innerWidgetLabel.enabled = lightType == ELightType::SPOT || lightType == ELightType::FOCUSED_SPOT;
+	innerWidget.enabled = innerWidgetLabel.enabled = lightType == FRLightManagerWarp::EType::SPOT || lightType == FRLightManagerWarp::EType::FOCUSED_SPOT;
 
 	auto& widgetOuter = FRGuiDrawer::DrawScalar(pRoot, "Outer", mLight.outer, 0.1f);
 	auto& outerWidget = *pRoot.GetWidgets()[pRoot.GetWidgets().size() - 1].first;
 	auto& outerWidgetLabel = *pRoot.GetWidgets()[pRoot.GetWidgets().size() - 2].first;
-	outerWidget.enabled = outerWidgetLabel.enabled = lightType == ELightType::SPOT || lightType == ELightType::FOCUSED_SPOT;
+	outerWidget.enabled = outerWidgetLabel.enabled = lightType == FRLightManagerWarp::EType::SPOT || lightType == FRLightManagerWarp::EType::FOCUSED_SPOT;
 
 	auto& widgetFalloff = FRGuiDrawer::DrawScalar(pRoot, "Falloff", mLight.falloff, 0.1f);
 	auto& falloffWidget = *pRoot.GetWidgets()[pRoot.GetWidgets().size() - 1].first;
 	auto& falloffWidgetLabel = *pRoot.GetWidgets()[pRoot.GetWidgets().size() - 2].first;
-	falloffWidget.enabled = falloffWidgetLabel.enabled = lightType == ELightType::SPOT || lightType == ELightType::FOCUSED_SPOT || lightType == ELightType::POINT;
+	falloffWidget.enabled = falloffWidgetLabel.enabled = lightType == FRLightManagerWarp::EType::SPOT || lightType == FRLightManagerWarp::EType::FOCUSED_SPOT || lightType == FRLightManagerWarp::EType::POINT;
 
 	auto& lightTypeWidget = FRGuiDrawer::DrawComboBox(pRoot, "Light Type", static_cast<int>(lightType),
 		{ "SUN", "DIRECTIONAL", "POINT", "FOCUSED_SPOT", "SPOT" }, this, &FRCompLight::ValueChangeCallback, &innerWidget, &innerWidgetLabel, &outerWidget, &outerWidgetLabel, &falloffWidget, &falloffWidgetLabel);
@@ -85,12 +85,12 @@ FR::FRLight& FR::FRCompLight::GetLight()
 
 void FR::FRCompLight::ValueChangeCallback(int pChoice, FRAWidget* pInner, FRAWidget* pInnerLabel, FRAWidget* pOuter, FRAWidget* pOuterLabel, FRAWidget* pFalloff, FRAWidget* pFalloffLabel)
 {
-	if (auto tempType = static_cast<ELightType>(pChoice); tempType != lightType)
+	if (auto tempType = static_cast<FRLightManagerWarp::EType>(pChoice); tempType != lightType)
 	{
 		lightType = tempType;
 		mLight.CreateLight(lightType);
-		pInner->enabled = pInnerLabel->enabled = lightType == ELightType::SPOT || lightType == ELightType::FOCUSED_SPOT;
-		pOuter->enabled = pOuterLabel->enabled = lightType == ELightType::SPOT || lightType == ELightType::FOCUSED_SPOT;
-		pFalloff->enabled = pFalloffLabel->enabled = lightType == ELightType::SPOT || lightType == ELightType::FOCUSED_SPOT || lightType == ELightType::POINT;
+		pInner->enabled = pInnerLabel->enabled = lightType == FRLightManagerWarp::EType::SPOT || lightType == FRLightManagerWarp::EType::FOCUSED_SPOT;
+		pOuter->enabled = pOuterLabel->enabled = lightType == FRLightManagerWarp::EType::SPOT || lightType == FRLightManagerWarp::EType::FOCUSED_SPOT;
+		pFalloff->enabled = pFalloffLabel->enabled = lightType == FRLightManagerWarp::EType::SPOT || lightType == FRLightManagerWarp::EType::FOCUSED_SPOT || lightType == FRLightManagerWarp::EType::POINT;
 	}
 }

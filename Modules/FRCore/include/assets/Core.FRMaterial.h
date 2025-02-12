@@ -8,13 +8,12 @@
 #include "Core.FRObject.h"
 #include "Core.FRShader.h"
 #include "Core.FRISerializable.h"
-#include "EMaterialDefine.h"
+#include <FRMaterialInstanceWarp.h>
 
 namespace FR
 {
 	class FRMesh;
 	class FRTexture;
-	class FRMaterialInstanceWarp;
 
 	class FRMaterial
 		: public FRObject, public FRISerializable
@@ -30,9 +29,9 @@ namespace FR
 
 		bool IsValid() const;
 
-		void SetTransparencyMode(ETransparencyMode pModel);
+		void SetTransparencyMode(FRMaterialInstanceWarp::ETransparencyMode pModel);
 
-		void SetCullingMode(ECullingMode pModel);
+		void SetCullingMode(FRMaterialInstanceWarp::ECullingMode pModel);
 
 		void SetDepthCulling(bool pCulling);
 

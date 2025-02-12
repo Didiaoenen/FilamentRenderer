@@ -14,15 +14,11 @@ namespace FR
 	class BoundingBox
 	{
 	public:
-		~BoundingBox();
-
 		BoundingBox();
 
 		BoundingBox(const glm::vec3& pMin, const glm::vec3& pMax);
 
 		BoundingBox(const BoundingBox& pOther);
-
-		BoundingBox(BoundingBox&& pOther);
 
 		void Set(const glm::vec3& pMin, const glm::vec3& pMax);
 
@@ -54,6 +50,9 @@ namespace FR
 		glm::vec3 Center() const;
 
 		glm::vec3 GetExtents() const;
+
+	public:
+		virtual ~BoundingBox();
 
 	private:
 		glm::vec3 mMin;

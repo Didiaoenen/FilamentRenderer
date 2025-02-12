@@ -4,14 +4,12 @@
 #include <vector>
 #include <string>
 
-#include <EUniformType.h>
-#include "EMaterialDefine.h"
 #include "Core.FRObject.h"
+#include <FRMaterialWarp.h>
 
 namespace FR
 {
 	class FRMaterial;
-	class FRMaterialWarp;
 	class FRMaterialInstanceWarp;
 
 	struct FRPropInfo
@@ -19,8 +17,8 @@ namespace FR
 		bool sampler;
 		std::string name;
 		std::string size;
-		ESamplerType samplerType;
-		EUniformType uniformType;
+		FRMaterialWarp::ESamplerType samplerType;
+		FRMaterialWarp::EUniformType uniformType;
 		std::any data;
 	};
 

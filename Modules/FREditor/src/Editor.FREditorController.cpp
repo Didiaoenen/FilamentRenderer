@@ -45,19 +45,20 @@ FR::FREditorController::FREditorController()
 
 	auto t = glm::mat4(1.0f);
 	auto transform = glm::translate(t, glm::vec3(0.0f, -10.0f, 0.0f)) * glm::scale(t, glm::vec3(10000.0f, 1.0f, 10000.0f));
+	planeModel->Build(FRFilamentHelper::CreateEntity());
 	for (const auto mesh : planeModel->GetMeshes())
 	{
+		mesh->Build(FRFilamentHelper::CreateEntity());
 		mesh->SetTransform(transform);
 		mesh->SetAxisAlignedBoundingBox();
 	}
 
 	auto material = new FRMaterial(gridShader);
 	material->SetParameter("baseColor", MathConvert::ToFVec3({ 0.176f, 0.176f, 0.176f }));
-	material->SetTransparencyMode(ETransparencyMode::DEFAULT);
-	material->SetCullingMode(ECullingMode::NONE);
+	material->SetTransparencyMode(FRMaterialInstanceWarp::ETransparencyMode::DEFAULT);
+	material->SetCullingMode(FRMaterialInstanceWarp::ECullingMode::NONE);
 
 	planeModel->SetMaterialAtIndex(0, material);
-	planeModel->SetAxisAlignedBoundingBox({});
 
 	scene->AddGizmo(planeModel);
 }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "FRPtrWarp.h"
-#include "EUniformType.h"
 #include <filament/Material.h>
 
 namespace FR
@@ -14,6 +13,13 @@ namespace FR
 	class FRMaterialWarp
 		: public FRPtrWarp<filament::Material>
 	{
+	public:
+		using EUniformType = filament::Material::ParameterType;
+
+		using ESamplerType = filament::Material::SamplerType;
+
+		using ESubpassType = filament::Material::SubpassType;
+
 	public:
 
 		class Builder

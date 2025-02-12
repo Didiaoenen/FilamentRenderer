@@ -107,11 +107,6 @@ FR::FRCameraWarp* FR::FREngineWarp::CreateCamera(FREntityWarp* pEntity)
 	return camera;
 }
 
-void FR::FREngineWarp::DestroyCameraComponent(FREntityWarp* pEntity)
-{
-	PtrValue(this)->destroyCameraComponent(PtrValue(pEntity));
-}
-
 void FR::FREngineWarp::RegisterSkybox(FRSkyboxWarp* pSkybox)
 {
 	mSkyboxes.emplace_back(pSkybox);

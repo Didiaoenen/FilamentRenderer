@@ -240,22 +240,22 @@ void FR::FRMaterialEditor::GenerateShaderSettingsContent()
 		{
 			switch (prop.uniformType)
 			{
-			case FR::EUniformType::BOOL:
+			case FRMaterialWarp::EUniformType::BOOL:
 				FRGuiDrawer::DrawBoolean(*mShaderSettingsColumns, prop.name, reinterpret_cast<bool&>(prop.data));
 				break;
-			case FR::EUniformType::INT:
+			case FRMaterialWarp::EUniformType::INT:
 				FRGuiDrawer::DrawScalar<int>(*mShaderSettingsColumns, prop.name, reinterpret_cast<int&>(prop.data));
 				break;
-			case FR::EUniformType::FLOAT:
+			case FRMaterialWarp::EUniformType::FLOAT:
 				FRGuiDrawer::DrawScalar<float>(*mShaderSettingsColumns, prop.name, reinterpret_cast<float&>(prop.data), 0.01f, FRGuiDrawer::_MIN_FLOAT, FRGuiDrawer::_MAX_FLOAT);
 				break;
-			case FR::EUniformType::FLOAT2:
+			case FRMaterialWarp::EUniformType::FLOAT2:
 				FRGuiDrawer::DrawVec2(*mShaderSettingsColumns, prop.name, reinterpret_cast<glm::vec2&>(prop.data), 0.01f, FRGuiDrawer::_MIN_FLOAT, FRGuiDrawer::_MAX_FLOAT);
 				break;
-			case FR::EUniformType::FLOAT3:
+			case FRMaterialWarp::EUniformType::FLOAT3:
 				DrawHybridVec3(*mShaderSettingsColumns, prop.name, reinterpret_cast<glm::vec3&>(prop.data), 0.01f, FRGuiDrawer::_MIN_FLOAT, FRGuiDrawer::_MAX_FLOAT);
 				break;
-			case FR::EUniformType::FLOAT4:
+			case FRMaterialWarp::EUniformType::FLOAT4:
 				DrawHybridVec4(*mShaderSettingsColumns, prop.name, reinterpret_cast<glm::vec4&>(prop.data), 0.01f, FRGuiDrawer::_MIN_FLOAT, FRGuiDrawer::_MAX_FLOAT);
 				break;
 			default:
@@ -266,7 +266,7 @@ void FR::FRMaterialEditor::GenerateShaderSettingsContent()
 		{
 			switch (prop.samplerType)
 			{
-			case FR::ESamplerType::SAMPLER_2D:
+			case FRMaterialWarp::ESamplerType::SAMPLER_2D:
 				FRGuiDrawer::DrawTexture(*mShaderSettingsColumns, prop.name, reinterpret_cast<FRTexture*&>(prop.data));
 				break;
 			default:

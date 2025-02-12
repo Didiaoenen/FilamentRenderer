@@ -6,42 +6,37 @@
 #include <FRFilamentHelper.h>
 
 FR::FRModel::FRModel()
-	: FREntity()
 {
 	mMaterials.fill(nullptr);
+}
+
+void FR::FRModel::Build(FREntityWarp* pEntity)
+{
+	mEntity = pEntity;
 
 	auto engine = FRFilamentHelper::GetEngine();
 	auto tcm = engine->GetTransformManager();
-	tcm->Create(mEntity, FRTransformManagerWarp::Instance{}, glm::mat4(1.0));
+	tcm->Create(mEntity, {}, glm::mat4(1.0));
 
 	FRRenderableManagerWarp::Builder builder(1);
-
 	builder.BoundingBox({ { -0.5f, -0.5f , -0.5f }, { 0.5f ,0.5f ,0.5f } });
 	builder.Build(engine, mEntity);
 }
 
-void FR::FRModel::AddMesh(FRMesh* pMesh)
+void FR::FRModel::AttachmentMesh(FRMesh* pMesh)
 {
+	pMesh->model = this;
 	mMeshes.push_back(pMesh);
-}
-
-const std::vector<FR::FRMesh*>& FR::FRModel::GetMeshes() const
-{
-    return mMeshes;
-}
-
-void FR::FRModel::InitMeshInfo()
-{
-	for (const auto& mesh : mMeshes)
-	{
-		mesh->CreateRenderer(this);
-		mesh->SetParentRender(this);
-	}
 }
 
 FR::SkeletonRig* FR::FRModel::GetSkeletonRig() const
 {
 	return mSkeletonRig;
+}
+
+const std::vector<FR::FRMesh*>& FR::FRModel::GetMeshes() const
+{
+    return mMeshes;
 }
 
 void FR::FRModel::FillMaterial(FRMaterial* pMaterial)
@@ -59,11 +54,11 @@ void FR::FRModel::SetMaterialAtIndex(uint8_t pIndex, FRMaterial* pMaterial)
 	mMeshes[pIndex]->SetMaterial(pMaterial);
 }
 
-void FR::FRModel::SetAxisAlignedBoundingBox(const FRBoxWarp& pBox)
+void FR::FRModel::SetAxisAlignedBoundingBox(FRBoxWarp&& pBox)
 {
 	auto engine = FRFilamentHelper::GetEngine();
 	auto rcm = engine->GetRenderableManager();
-	rcm->SetAxisAlignedBoundingBox(GetRenderInstance(), { { -500.0f, -500.0f, -500.0f }, { 500.0f, 500.0f, 500.0f } });
+	rcm->SetAxisAlignedBoundingBox(GetRenderInstance(), std::forward<FRBoxWarp>(pBox));
 }
 
 const std::array<FR::FRMaterial*, FR::FRModel::kMaterialMaxCount>& FR::FRModel::GetMaterials() const
@@ -86,6 +81,29 @@ FR::FRRenderableManagerWarp::Instance FR::FRModel::GetRenderInstance()
 	return FRFilamentHelper::GetRenderableManager()->GetInstance(mEntity);
 }
 
+FR::FREntityWarp* FR::FRModel::GetEntity()
+{
+	return mEntity;
+}
+
+FR::FRModel* FR::FRModel::Create()
+{
+	auto model = new FRModel();
+	model->path = path;
+
+	for (const auto& mesh : mMeshes)
+	{
+		model->AttachmentMesh(mesh->Create());
+	}
+
+	return model;
+}
+
 FR::FRModel::~FRModel()
 {
+	for (const auto& mesh : mMeshes)
+	{
+		delete mesh;
+	}
+	mMeshes.clear();
 }

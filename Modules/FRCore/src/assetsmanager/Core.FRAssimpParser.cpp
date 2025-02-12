@@ -141,5 +141,5 @@ void FR::FRAssimpParser::ProcessMesh(const aiScene* pScene, aiMesh* pMesh, FRMes
 	pOutMesh.materialIndex = pMesh->mMaterialIndex;
 
 	//
-	pOutMesh.CreateBuffers(meshData);
+	pOutMesh.meshData = meshData;
 }

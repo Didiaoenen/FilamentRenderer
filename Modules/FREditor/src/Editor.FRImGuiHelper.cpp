@@ -117,13 +117,13 @@ FR::FRImGuiHelper::FRImGuiHelper(const Window::Settings& pSetting, ETheme pTheme
 	
 	mUIView->SetScene(mUIScene);
 	mUIView->SetCamera(mUICamera);
-	mUIView->SetBlendMode(filament::View::BlendMode::TRANSLUCENT);
+	mUIView->SetBlendMode(FRViewWarp::EBlendMode::TRANSLUCENT);
 	mUIView->SetShadowingEnabled(false);
 	mUIView->SetPostProcessingEnabled(false);
 	
 	auto size = mWindow->GetSize();
 	mUIView->SetViewport({ 0, 0, static_cast<uint32_t>(size.x), static_cast<uint32_t>(size.y) });
-	mUICamera->SetProjection(filament::Camera::Projection::ORTHO, 0.f, size.x, size.y, 0.f, 0.f, 1.f);
+	mUICamera->SetProjection(FRCameraWarp::EProjection::ORTHO, 0.f, size.x, size.y, 0.f, 0.f, 1.f);
 
 	mRenderable = FRFilamentHelper::CreateEntity();
 	mUIScene->AddEntity(mRenderable);
@@ -143,7 +143,7 @@ FR::FRImGuiHelper::FRImGuiHelper(const Window::Settings& pSetting, ETheme pTheme
 
 	CreateAtlasTexture(mEngine);
 
-	mSampler = FRTextureSamplerWarp(filament::TextureSampler::MinFilter::NEAREST, filament::TextureSampler::MagFilter::NEAREST);
+	mSampler = FRTextureSamplerWarp(FRTextureSamplerWarp::EMinFilter::NEAREST, FRTextureSamplerWarp::EMagFilter::NEAREST);
 	mMaterial2d->SetDefaultParameter("albedo", mTexture, mSampler);
 
 	SetTheme(ETheme::Dark);
@@ -197,17 +197,17 @@ void FR::FRImGuiHelper::CreateAtlasTexture(FREngineWarp* pEngine)
 	int width, height;
 	io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 	size_t size = (size_t)(width * height * 4);
-	FRPixelBufferDescriptorWarp pb(pixels, size, filament::Texture::Format::RGBA, filament::Texture::Type::UBYTE);
+	FRPixelBufferDescriptorWarp pb(pixels, size, FRTextureWarp::EFormat::RGBA, FRTextureWarp::EType::UBYTE);
 	mTexture = FRTextureWarp::Builder()
 		.Width((uint32_t)width)
 		.Height((uint32_t)height)
 		.Levels((uint8_t)1)
-		.Format(filament::Texture::InternalFormat::RGBA8)
-		.Sampler(filament::Texture::Sampler::SAMPLER_2D)
+		.Format(FRTextureWarp::EInternalFormat::RGBA8)
+		.Sampler(FRTextureWarp::ESampler::SAMPLER_2D)
 		.Build(pEngine);
 	mTexture->SetImage(pEngine, 0, std::move(pb));
 
-	mSampler = FRTextureSamplerWarp(filament::TextureSampler::MinFilter::LINEAR, filament::TextureSampler::MagFilter::LINEAR);
+	mSampler = FRTextureSamplerWarp(FRTextureSamplerWarp::EMinFilter::LINEAR, FRTextureSamplerWarp::EMagFilter::LINEAR);
 	mMaterial2d->SetDefaultParameter("albedo", mTexture, mSampler);
 }
 
@@ -393,7 +393,7 @@ void FR::FRImGuiHelper::CreateIndexBuffer(size_t pBufferIndex, size_t pCapacity)
 	mEngine->Destroy(mIndexBuffers[pBufferIndex]);
 	mIndexBuffers[pBufferIndex] = FRIndexBufferWarp::Builder()
 		.IndexCount(pCapacity)
-		.BufferType(filament::IndexBuffer::IndexType::USHORT)
+		.BufferType(FRIndexBufferWarp::EIndexType::USHORT)
 		.Build(mEngine);
 }
 
@@ -404,10 +404,10 @@ void FR::FRImGuiHelper::CreateVertexBuffer(size_t pBufferIndex, size_t pCapacity
 	mVertexBuffers[pBufferIndex] = FRVertexBufferWarp::Builder()
 		.BufferCount(1)
 		.VertexCount(pCapacity)
-		.Attribute(filament::VertexAttribute::POSITION, 0, filament::VertexBuffer::AttributeType::FLOAT2, 0, sizeof(ImDrawVert))
-		.Attribute(filament::VertexAttribute::UV0, 0, filament::VertexBuffer::AttributeType::FLOAT2, sizeof(glm::vec2), sizeof(ImDrawVert))
-		.Attribute(filament::VertexAttribute::COLOR, 0, filament::VertexBuffer::AttributeType::UBYTE4, 2 * sizeof(glm::vec2), sizeof(ImDrawVert))
-		.Normalized(filament::VertexAttribute::COLOR)
+		.Attribute(FRVertexBufferWarp::EVertexAttribute::POSITION, 0, FRVertexBufferWarp::EAttributeType::FLOAT2, 0, sizeof(ImDrawVert))
+		.Attribute(FRVertexBufferWarp::EVertexAttribute::UV0, 0, FRVertexBufferWarp::EAttributeType::FLOAT2, sizeof(glm::vec2), sizeof(ImDrawVert))
+		.Attribute(FRVertexBufferWarp::EVertexAttribute::COLOR, 0, FRVertexBufferWarp::EAttributeType::UBYTE4, 2 * sizeof(glm::vec2), sizeof(ImDrawVert))
+		.Normalized(FRVertexBufferWarp::EVertexAttribute::COLOR)
 		.Build(mEngine);
 }
 
@@ -476,7 +476,7 @@ void FR::FRImGuiHelper::ProcessImGuiCommands(ImDrawData* pCommands, const ImGuiI
 					(uint16_t)(pcmd.ClipRect.w - pcmd.ClipRect.y));
 				if (texture)
 				{
-					FRTextureSamplerWarp sampler(filament::TextureSampler::MinFilter::LINEAR, filament::TextureSampler::MagFilter::LINEAR);
+					FRTextureSamplerWarp sampler(FRTextureSamplerWarp::EMinFilter::LINEAR, FRTextureSamplerWarp::EMagFilter::LINEAR);
 					materialInstance->SetParameter("albedo", texture, sampler);
 				}
 				else
@@ -484,7 +484,7 @@ void FR::FRImGuiHelper::ProcessImGuiCommands(ImDrawData* pCommands, const ImGuiI
 					materialInstance->SetParameter("albedo", mTexture, mSampler);
 				}
 				rbuilder
-					.Geometry(primIndex, filament::RenderableManager::PrimitiveType::TRIANGLES,
+					.Geometry(primIndex, FRRenderableManagerWarp::EPrimitiveType::TRIANGLES,
 						mVertexBuffers[bufferIndex], mIndexBuffers[bufferIndex],
 						pcmd.IdxOffset, pcmd.ElemCount)
 					.BlendOrder(primIndex, primIndex)

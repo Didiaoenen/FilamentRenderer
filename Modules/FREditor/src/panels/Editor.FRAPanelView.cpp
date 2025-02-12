@@ -92,10 +92,10 @@ void FR::FRAPanelView::ResizeRenderTarget()
 void FR::FRAPanelView::InitRenderTarget(const glm::vec2& pSize)
 {
 	mColorTexture = mColorTextures[mRenderFrames % 2] = new FRTexture(
-		pSize.x, pSize.y, ETexture::EInternalFormat::RGBA8, ETexture::ESampler::SAMPLER_2D, { ETexture::EUsage::COLOR_ATTACHMENT, ETexture::EUsage::SAMPLEABLE });
+		pSize.x, pSize.y, FRTextureWarp::EInternalFormat::RGBA8, FRTextureWarp::ESampler::SAMPLER_2D, { FRTextureWarp::EUsage::COLOR_ATTACHMENT, FRTextureWarp::EUsage::SAMPLEABLE });
 
 	mDepthTexture = mDepthTextures[mRenderFrames % 2] = new FRTexture(
-		pSize.x, pSize.y, ETexture::EInternalFormat::DEPTH24, ETexture::ESampler::SAMPLER_2D, { ETexture::EUsage::DEPTH_ATTACHMENT });
+		pSize.x, pSize.y, FRTextureWarp::EInternalFormat::DEPTH24, FRTextureWarp::ESampler::SAMPLER_2D, { FRTextureWarp::EUsage::DEPTH_ATTACHMENT });
 
 	mRenderTarget = mRenderTargets[mRenderFrames % 2] = new FRRenderTarget(mColorTexture, mDepthTexture);
 

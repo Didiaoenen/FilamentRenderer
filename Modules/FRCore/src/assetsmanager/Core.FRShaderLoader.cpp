@@ -64,31 +64,31 @@ std::vector<FR::FRPropInfo> FR::FRShaderLoader::ParseProperty(const std::string&
 			info.sampler = parameter.isSampler();
 			if (!info.sampler)
 			{
-				info.uniformType = static_cast<FR::EUniformType>(parameter.uniformType);
+				info.uniformType = parameter.uniformType;
 				switch (info.uniformType)
 				{
-				case FR::EUniformType::BOOL:
+				case FRMaterialWarp::EUniformType::BOOL:
 					info.data = std::make_any<bool>(false);
 					break;
-				case FR::EUniformType::INT:
+				case FRMaterialWarp::EUniformType::INT:
 					info.data = std::make_any<int>(0);
 					break;
-				case FR::EUniformType::FLOAT:
+				case FRMaterialWarp::EUniformType::FLOAT:
 					info.data = std::make_any<float>(0.f);
 					break;
-				case FR::EUniformType::FLOAT2:
+				case FRMaterialWarp::EUniformType::FLOAT2:
 					info.data = std::make_any<glm::vec2>(0.f);
 					break;
-				case FR::EUniformType::FLOAT3:
+				case FRMaterialWarp::EUniformType::FLOAT3:
 					info.data = std::make_any<glm::vec3>(0.f);
 					break;
-				case FR::EUniformType::FLOAT4:
+				case FRMaterialWarp::EUniformType::FLOAT4:
 					info.data = std::make_any<glm::vec4>(0.f);
 					break;
-				case FR::EUniformType::MAT3:
+				case FRMaterialWarp::EUniformType::MAT3:
 					info.data = std::make_any<glm::mat3>(1.f);
 					break;
-				case FR::EUniformType::MAT4:
+				case FRMaterialWarp::EUniformType::MAT4:
 					info.data = std::make_any<glm::mat4>(1.f);
 					break;
 				default:
@@ -97,10 +97,10 @@ std::vector<FR::FRPropInfo> FR::FRShaderLoader::ParseProperty(const std::string&
 			}
 			else
 			{
-				info.samplerType = static_cast<FR::ESamplerType>(parameter.samplerType);
+				info.samplerType = parameter.samplerType;
 				switch (info.samplerType)
 				{
-				case FR::ESamplerType::SAMPLER_2D:
+				case FRMaterialWarp::ESamplerType::SAMPLER_2D:
 					info.data = std::make_any<FRTexture*>(nullptr);
 					break;
 				default:

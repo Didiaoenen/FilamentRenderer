@@ -34,10 +34,8 @@ FR::FRModel* FR::FROzzModelLoader::Create(const std::string& pFilepath)
 
 		for (auto mesh : dataTree.meshs)
 		{
-			result->AddMesh(mesh);
+			result->AttachmentMesh(mesh);
 		}
-
-		result->InitMeshInfo();
 
 		return result;
 	}

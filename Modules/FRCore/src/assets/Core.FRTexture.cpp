@@ -12,29 +12,29 @@ FR::FRTexture::FRTexture(const std::string& pPath)
 }
 
 FR::FRTexture::FRTexture(const uint32_t pWidth, const uint32_t pHeight,
-	ETexture::EInternalFormat pInternalFormat, ETexture::ESampler pType, std::vector<ETexture::EUsage> pUsages)
+	FRTextureWarp::EInternalFormat pInternalFormat, FRTextureWarp::ESampler pType, std::vector<FRTextureWarp::EUsage> pUsages)
 {
 	width = pWidth;
 	height = pHeight;
 
-	auto usages = ConvertEnum(ETexture::EUsage::NONE);
+	auto usages = FRTextureWarp::EUsage::NONE;
 	for (const auto usage : pUsages)
 	{
-		usages |= ConvertEnum(usage);
+		usages |= usage;
 	}
 
 	auto engine = FRFilamentHelper::GetEngine();
 	mTexture = FRTextureWarp::Builder()
 		.Width(pWidth).Height(pHeight).Levels(mipCount).Usage(usages)
-		.Format(ConvertEnum(pInternalFormat))
-		.Sampler(ConvertEnum(pType))
+		.Format(pInternalFormat)
+		.Sampler(pType)
 		.Build(engine);
 }
 
 void FR::FRTexture::SetData(void* pData, uint32_t pSize)
 {
 	auto engine = FRFilamentHelper::GetEngine();
-	FRPixelBufferDescriptorWarp buffer(pData, pSize, ConvertEnum(ETexture::EFormat::RGBA), ConvertEnum(ETexture::EType::UBYTE));
+	FRPixelBufferDescriptorWarp buffer(pData, pSize, FRTextureWarp::EFormat::RGBA, FRTextureWarp::EType::UBYTE);
 	mTexture->SetImage(engine, 0, std::move(buffer));
 	mTexture->GenerateMipmaps(engine);
 }
@@ -47,10 +47,10 @@ FR::FRTextureSamplerWarp& FR::FRTexture::GetSampler()
 void FR::FRTexture::SetSampler()
 {	
 	mSampler = FRTextureSamplerWarp();
-	mSampler.SetMinFilter(ConvertEnum(ETexture::EMinFilter::LINEAR_MIPMAP_LINEAR));
-	mSampler.SetMagFilter(ConvertEnum(ETexture::EMagFilter::LINEAR));
-	mSampler.SetWrapModeS(ConvertEnum(ETexture::EWrapMode::REPEAT));
-	mSampler.SetWrapModeT(ConvertEnum(ETexture::EWrapMode::REPEAT));
+	mSampler.SetMinFilter(FRTextureSamplerWarp::EMinFilter::LINEAR_MIPMAP_LINEAR);
+	mSampler.SetMagFilter(FRTextureSamplerWarp::EMagFilter::LINEAR);
+	mSampler.SetWrapModeS(FRTextureSamplerWarp::EWrapMode::REPEAT);
+	mSampler.SetWrapModeT(FRTextureSamplerWarp::EWrapMode::REPEAT);
 }
 
 FR::FRTextureWarp* FR::FRTexture::NativePtr()

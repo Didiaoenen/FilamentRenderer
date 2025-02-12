@@ -78,13 +78,13 @@ glm::mat4 FR::FRCamera::CalculateProjectionMatrix(uint16_t pWidth, uint16_t pHei
 		const auto bottom = -size;
 		const auto top = -bottom;
 
-		mCamera->SetProjection(filament::Camera::Projection::ORTHO, left, right, bottom, top, near, far);
+		mCamera->SetProjection(FRCameraWarp::EProjection::ORTHO, left, right, bottom, top, near, far);
 		return mCamera->GetProjectionMatrix();
 	}
 
 	case EProjectionMode::PERSPECTIVE:
 	{
-		mCamera->SetProjection(fov, ratio, near, far, filament::Camera::Fov::VERTICAL);
+		mCamera->SetProjection(fov, ratio, near, far, FRCameraWarp::EFov::VERTICAL);
 		return mCamera->GetProjectionMatrix();
 	}
 	default:

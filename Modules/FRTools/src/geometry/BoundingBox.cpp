@@ -1,9 +1,5 @@
 #include "BoundingBox.h"
 
-FR::BoundingBox::~BoundingBox()
-{
-}
-
 FR::BoundingBox::BoundingBox()
 {
 	mMin = glm::vec3(FLT_MAX);
@@ -17,12 +13,6 @@ FR::BoundingBox::BoundingBox(const glm::vec3& pMin, const glm::vec3& pMax)
 }
 
 FR::BoundingBox::BoundingBox(const BoundingBox& pOther)
-{
-	mMin = pOther.mMin;
-	mMax = pOther.mMax;
-}
-
-FR::BoundingBox::BoundingBox(BoundingBox&& pOther)
 {
 	mMin = pOther.mMin;
 	mMax = pOther.mMax;
@@ -197,4 +187,9 @@ glm::vec3 FR::BoundingBox::Center() const
 glm::vec3 FR::BoundingBox::GetExtents() const
 {
 	return mMax - mMin;
+}
+
+FR::BoundingBox::~BoundingBox()
+{
+
 }

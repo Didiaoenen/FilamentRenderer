@@ -12,7 +12,17 @@ namespace FR
 		: public FRPtrWarp<filament::Texture>
 	{
 	public:
+		using EType = filament::Texture::Type;
+		
+		using EUsage = filament::Texture::Usage;
 
+		using EFormat = filament::Texture::Format;
+
+		using ESampler = filament::Texture::Sampler;
+
+		using EInternalFormat = filament::Texture::InternalFormat;
+
+	public:
 		class Builder
 		{
 			friend class FRTextureWarp;
@@ -42,19 +52,19 @@ namespace FR
 				return *this;
 			}
 
-			Builder& Usage(filament::Texture::Usage usage)
+			Builder& Usage(EUsage usage)
 			{
 				mBuilder.usage(usage);
 				return *this;
 			}
 
-			Builder& Format(filament::Texture::InternalFormat pFormat)
+			Builder& Format(EInternalFormat pFormat)
 			{
 				mBuilder.format(pFormat);
 				return *this;
 			}
 
-			Builder& Sampler(filament::Texture::Sampler pTarget)
+			Builder& Sampler(ESampler pTarget)
 			{
 				mBuilder.sampler(pTarget);
 				return *this;

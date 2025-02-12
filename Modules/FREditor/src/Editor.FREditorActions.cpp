@@ -153,8 +153,9 @@ FR::FRActor& FR::FREditorActions::CreateActorWithModel(const std::string& pPath,
 	const auto material = GetService(FRMaterialManager)[":Materials/Default.mat"];
 	if (model && material)
 	{
-		model->FillMaterial(material);
-		modelRenderer.SetModel(model);
+		auto clone = model->Create();
+		modelRenderer.SetModel(clone);
+		clone->FillMaterial(material);
 	}
 
 	if (pFocusOnCreation)

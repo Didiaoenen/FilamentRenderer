@@ -151,7 +151,7 @@ bool FR::FROzzModelParser::LoadMesh(const std::string& pFileName, FRModelData& p
 		meshPtr->attachmentName = std::string(reinterpret_cast<const char*>(mesh.attachment_names.data()), mesh.attachment_names.size());
 		meshPtr->boundingBox.Merge(meshData.positions.back());
 		meshPtr->indexCount = meshPtr->indices.size();
-		meshPtr->CreateBuffers(meshData);
+		meshPtr->meshData = meshData;
 	}
 
 	return true;

@@ -1,12 +1,13 @@
 #pragma once
 
+#include "Core.FRObject.h"
+#include <FRTransformManagerWarp.h>
+#include <FRRenderableManagerWarp.h>
+
 #include <array>
 #include <string>
 #include <vector>
 #include <glm/glm.hpp>
-#include <FRTransformManagerWarp.h>
-#include <FRRenderableManagerWarp.h>
-#include "Core.FREntity.h"
 
 namespace FR
 {
@@ -15,6 +16,7 @@ namespace FR
 	class SkeletonRig;
 
 	class FRBoxWarp;
+	class FREntityWarp;
 
 	struct FRModelData
 	{
@@ -25,7 +27,7 @@ namespace FR
 	};
 
 	class FRModel
-		: public FREntity
+		: public FRObject
 	{
 		friend class FRModelLoader;
 		friend class FROzzModelLoader;
@@ -35,19 +37,19 @@ namespace FR
 	public:
 		FRModel();
 
-		void InitMeshInfo();
+		void Build(FREntityWarp* pEntity);
 
-		void AddMesh(FRMesh* pMesh);
-
-		const std::vector<FRMesh*>& GetMeshes() const;
+		void AttachmentMesh(FRMesh* pMesh);
 
 		SkeletonRig* GetSkeletonRig() const;
+
+		const std::vector<FRMesh*>& GetMeshes() const;
 
 		void FillMaterial(FRMaterial* pMaterial);
 
 		void SetMaterialAtIndex(uint8_t pIndex, FRMaterial* pMaterial);
 
-		void SetAxisAlignedBoundingBox(const FRBoxWarp& pBox);
+		void SetAxisAlignedBoundingBox(FRBoxWarp&& pBox);
 
 		const std::array<FRMaterial*, kMaterialMaxCount>& GetMaterials() const;
 
@@ -59,18 +61,23 @@ namespace FR
 		
 		FRRenderableManagerWarp::Instance GetRenderInstance();
 
+		FREntityWarp* GetEntity();
+
+		FRModel* Create();
+
 	public:
 		~FRModel();
 
 		//void ComputeBoundingSphere();
 
 	public:
-		const std::string path;
+		std::string path;
 
 	private:
 		std::vector<FRMesh*> mMeshes;
 		std::array<FRMaterial*, kMaterialMaxCount> mMaterials;
 
+		FREntityWarp* mEntity{ nullptr };
 		SkeletonRig* mSkeletonRig{ nullptr };
 
 		std::vector<std::string> mMaterialNames;

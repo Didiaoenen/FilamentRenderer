@@ -1,11 +1,11 @@
 #pragma once
 
-#include <string>
-#include <vector>
+#include "Core.FRObject.h"
 #include <FRTextureWarp.h>
 #include <FRTextureSamplerWarp.h>
-#include "Core.FRObject.h"
-#include "ETextureDefine.h"
+
+#include <string>
+#include <vector>
 
 namespace FR
 {
@@ -18,8 +18,8 @@ namespace FR
 		FRTexture(const std::string& pPath);
 
 		FRTexture(const uint32_t pWidth, const uint32_t pHeight,
-			ETexture::EInternalFormat pInternalFormat = ETexture::EInternalFormat::RGBA8,
-			ETexture::ESampler pType = ETexture::ESampler::SAMPLER_2D, std::vector<ETexture::EUsage> pUsages = { ETexture::EUsage::NONE });
+			FRTextureWarp::EInternalFormat pInternalFormat = FRTextureWarp::EInternalFormat::RGBA8,
+			FRTextureWarp::ESampler pType = FRTextureWarp::ESampler::SAMPLER_2D, std::vector<FRTextureWarp::EUsage> pUsages = { FRTextureWarp::EUsage::NONE });
 
 		void SetData(void* pData, uint32_t pSize);
 

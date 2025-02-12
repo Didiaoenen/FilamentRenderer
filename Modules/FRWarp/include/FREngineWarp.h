@@ -60,8 +60,6 @@ namespace FR
 
 		FRCameraWarp* CreateCamera(FREntityWarp* pEntity);
 
-		void DestroyCameraComponent(FREntityWarp* pEntity);
-
 		void RegisterSkybox(FRSkyboxWarp* pSkybox);
 
 		void RegisterTexture(FRTextureWarp* pTexture);

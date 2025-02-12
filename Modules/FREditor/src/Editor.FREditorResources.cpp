@@ -11,6 +11,9 @@
 #include <Core.FRTextureLoader.h>
 #include <Core.FRMaterialLoader.h>
 
+#include <FRFilamentHelper.h>
+#include <FRTextureSamplerWarp.h>
+
 #include <Tools.FRPathUtils.h>
 
 #include <utils/Path.h>
@@ -19,8 +22,8 @@ FR::FREditorResources::FREditorResources()
 {
 	std::string editorPath = FRPathUtils::GetEditorPath("");
 
-	mTextures["FileIcon_Texture"] = FRTextureLoader::Create(utils::Path::concat(editorPath, "Icons/FileIcon.png"), ETexture::EMinFilter::LINEAR, ETexture::EMagFilter::LINEAR, false);
-	mTextures["DirectoryIcon_Texture"] = FRTextureLoader::Create(utils::Path::concat(editorPath, "Icons/DirectoryIcon.png"), ETexture::EMinFilter::LINEAR, ETexture::EMagFilter::LINEAR, false);
+	mTextures["FileIcon_Texture"] = FRTextureLoader::Create(utils::Path::concat(editorPath, "Icons/FileIcon.png"), FRTextureSamplerWarp::EMinFilter::LINEAR, FRTextureSamplerWarp::EMagFilter::LINEAR, false);
+	mTextures["DirectoryIcon_Texture"] = FRTextureLoader::Create(utils::Path::concat(editorPath, "Icons/DirectoryIcon.png"), FRTextureSamplerWarp::EMinFilter::LINEAR, FRTextureSamplerWarp::EMagFilter::LINEAR, false);
 
 	mModels["Plane"] = FRModelLoader::Create(utils::Path::concat(editorPath, "Models/Plane.fbx"));
 	mModels["Camera"] = FRModelLoader::Create(utils::Path::concat(editorPath, "Models/Camera.fbx"));
@@ -28,8 +31,8 @@ FR::FREditorResources::FREditorResources()
 	mShaders["Grid"] = FRShaderLoader::Create(utils::Path::concat(editorPath, "Shaders/grid.shader"));
 
 	{
-		mTextures["Empty_Texture"] = FRTextureLoader::Create(utils::Path::concat(editorPath, "Textures/Empty.png"), ETexture::EMinFilter::LINEAR, ETexture::EMagFilter::LINEAR, false);
-		mTextures["DarkBackground_Texture"] = FRTextureLoader::Create(utils::Path::concat(editorPath, "Textures/DarkBackground.png"), ETexture::EMinFilter::LINEAR, ETexture::EMagFilter::LINEAR, false);
+		mTextures["Empty_Texture"] = FRTextureLoader::Create(utils::Path::concat(editorPath, "Textures/Empty.png"), FRTextureSamplerWarp::EMinFilter::LINEAR, FRTextureSamplerWarp::EMagFilter::LINEAR, false);
+		mTextures["DarkBackground_Texture"] = FRTextureLoader::Create(utils::Path::concat(editorPath, "Textures/DarkBackground.png"), FRTextureSamplerWarp::EMinFilter::LINEAR, FRTextureSamplerWarp::EMagFilter::LINEAR, false);
 	}
 
 	mDefaultMaterial = FRMaterialLoader::Create(utils::Path::concat(editorPath, "Materials/Default.mat"));

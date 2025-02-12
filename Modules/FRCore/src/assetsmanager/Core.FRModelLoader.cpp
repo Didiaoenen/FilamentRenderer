@@ -21,13 +21,12 @@ FR::FRModel* FR::FRModelLoader::Create(const std::string& pFilepath)
 
 		for (auto mesh : dataTree.meshs)
 		{
-			result->AddMesh(mesh);
-			mesh->CreateRenderer(result);
-			mesh->SetParentRender(result);
+			result->AttachmentMesh(mesh);
 		}
 
 		return result;
 	}
+
 	return nullptr;
 }
 

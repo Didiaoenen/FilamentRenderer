@@ -8,7 +8,7 @@
 FR::FRTexture* FR::FRTextureManager::CreateResource(const std::string& pPath)
 {
     std::string realPath = FRPathUtils::GetRealPath(pPath);
-	if (FRTexture* texture = FRTextureLoader::Create(realPath, ETexture::EMinFilter::LINEAR_MIPMAP_LINEAR, ETexture::EMagFilter::LINEAR, false))
+	if (FRTexture* texture = FRTextureLoader::Create(realPath, FRTextureSamplerWarp::EMinFilter::LINEAR_MIPMAP_LINEAR, FRTextureSamplerWarp::EMagFilter::LINEAR, false))
 	{
 		*reinterpret_cast<std::string*>(reinterpret_cast<char*>(texture) + offsetof(FRTexture, path)) = pPath;
 		return texture;

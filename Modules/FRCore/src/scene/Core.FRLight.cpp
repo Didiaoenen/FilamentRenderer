@@ -34,12 +34,12 @@ void FR::FRLight::UploadData()
 		break;
 	case FRLightManagerWarp::EType::POINT:
 		manager->SetFalloff(manager->GetInstance(mEntity), falloff);
-		manager->SetIntensity(manager->GetInstance(mEntity), intensity, filament::LightManager::EFFICIENCY_LED);
+		manager->SetIntensity(manager->GetInstance(mEntity), intensity, FRLightManagerWarp::C_EFFICIENCY_LED);
 		break;
 	case FRLightManagerWarp::EType::FOCUSED_SPOT:
 	case FRLightManagerWarp::EType::SPOT:
 		manager->SetFalloff(manager->GetInstance(mEntity), falloff);
-		manager->SetIntensity(manager->GetInstance(mEntity), intensity, filament::LightManager::EFFICIENCY_LED);
+		manager->SetIntensity(manager->GetInstance(mEntity), intensity, FRLightManagerWarp::C_EFFICIENCY_LED);
 		manager->SetSpotLightCone(manager->GetInstance(mEntity), inner, outer);
 		break;
 	default:

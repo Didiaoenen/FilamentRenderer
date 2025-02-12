@@ -1,10 +1,12 @@
 #pragma once
 
-#include <vector>
+#include "Core.FRObject.h"
+
 #include <BoundingBox.h>
 #include <FRTransformManagerWarp.h>
 #include <FRRenderableManagerWarp.h>
-#include "Core.FREntity.h"
+
+#include <vector>
 
 namespace FR
 {
@@ -40,22 +42,18 @@ namespace FR
 	};
 
 	class FRMesh
-		: public FREntity
+		: public FRObject
 	{
 	public:
 		FRMesh();
 
-		void CreateBuffers(FRMeshData& pMeshData);
-
-		void CreateRenderer(FRModel* pModel);
-
-		uint32_t GetVertexCount() const;
+		void Build(FREntityWarp* pEntity);
 
 		uint32_t GetIndexCount() const;
 
-		uint32_t GetMaterialIndex() const;
+		uint32_t GetVertexCount() const;
 
-		void SetParentRender(FRModel* pModel);
+		uint32_t GetMaterialIndex() const;
 
 		void SetMaterial(FRMaterial* pMaterial);
 
@@ -71,37 +69,47 @@ namespace FR
 
 		void UpdateAttachment(glm::mat4 pTrans);
 
-		int32_t GetAttachmentJoint();
+		FREntityWarp* GetEntity();
+
+		FRMesh* Create();
+
+	private:
+		void BuildBuffers();
 
 	public:
-		~FRMesh() = default;
+		virtual ~FRMesh();
 
 	public:
 		std::string name;
 
-		uint32_t indexCount;
-		uint32_t indexOffset;
+		uint32_t indexCount{ 0 };
+		uint32_t indexOffset{ 0 };
 		std::vector<FRVertex> vertexs;
 		std::vector<uint32_t> indices;
 		
 		std::vector<uint16_t> jointRemaps;
 		std::vector<glm::mat4> inverseBindPoses;
 
-		uint32_t materialIndex;
+		uint32_t materialIndex{ 0 };
 
 		BoundingBox boundingBox;
 
 		std::string attachmentName;
 
-		int32_t mAttachmentJoint{ -1 };
+		int32_t attachmentJoint{ -1 };
 
 		glm::mat4 transform{ 1.0f };
 
 		glm::mat4 inverseTrans{ 1.0f };
 
+		FRModel* model{ nullptr };
+
+		FRMeshData meshData;
+
 	private:
-		FRMaterial* mMaterial;
-		
+		FRMaterial* mMaterial{ nullptr };
+
+		FREntityWarp* mEntity{ nullptr };
 		FRIndexBufferWarp* mIndexBuffer{ nullptr };
 		FRVertexBufferWarp* mVertexBuffer{ nullptr };
 		FRSkinningBufferWarp* mSkinningBuffer{ nullptr };

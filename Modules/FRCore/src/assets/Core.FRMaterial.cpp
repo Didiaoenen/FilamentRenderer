@@ -7,6 +7,7 @@
 #include "Core.FRSerializer.h"
 
 #include <MathConvert.h>
+#include <FRMaterialWarp.h>
 #include <FRMaterialInstanceWarp.h>
 
 FR::FRMaterial::FRMaterial(FRShader* pShader)
@@ -91,14 +92,14 @@ bool FR::FRMaterial::IsValid() const
 	return HasShader();
 }
 
-void FR::FRMaterial::SetTransparencyMode(ETransparencyMode pModel)
+void FR::FRMaterial::SetTransparencyMode(FRMaterialInstanceWarp::ETransparencyMode pModel)
 {
-	mMaterialInstance->SetTransparencyMode(ConvertEnum(pModel));
+	mMaterialInstance->SetTransparencyMode(pModel);
 }
 
-void FR::FRMaterial::SetCullingMode(ECullingMode pModel)
+void FR::FRMaterial::SetCullingMode(FRMaterialInstanceWarp::ECullingMode pModel)
 {
-	mMaterialInstance->SetCullingMode(ConvertEnum(pModel));
+	mMaterialInstance->SetCullingMode(pModel);
 }
 
 void FR::FRMaterial::SetDepthCulling(bool pCulling)
@@ -124,37 +125,37 @@ void FR::FRMaterial::UploadData() const
 		{
 			switch (prop.uniformType)
 			{
-			case FR::EUniformType::BOOL:
+			case FRMaterialWarp::EUniformType::BOOL:
 				if (prop.data.type() == typeid(bool))
 				{
 					mMaterialInstance->SetParameter(prop.name.c_str(), std::any_cast<bool>(prop.data));
 				}
 				break;
-			case FR::EUniformType::INT:
+			case FRMaterialWarp::EUniformType::INT:
 				if (prop.data.type() == typeid(int))
 				{
 					mMaterialInstance->SetParameter(prop.name.c_str(), std::any_cast<int>(prop.data));
 				}
 				break;
-			case FR::EUniformType::FLOAT:
+			case FRMaterialWarp::EUniformType::FLOAT:
 				if (prop.data.type() == typeid(float))
 				{
 					mMaterialInstance->SetParameter(prop.name.c_str(), std::any_cast<float>(prop.data));
 				}
 			break;
-			case FR::EUniformType::FLOAT2:
+			case FRMaterialWarp::EUniformType::FLOAT2:
 				if (prop.data.type() == typeid(glm::vec2))
 				{
 					mMaterialInstance->SetParameter(prop.name.c_str(), MathConvert::ToFVec2(std::any_cast<glm::vec2>(prop.data)));
 				}
 				break;
-			case FR::EUniformType::FLOAT3:
+			case FRMaterialWarp::EUniformType::FLOAT3:
 				if (prop.data.type() == typeid(glm::vec3))
 				{
 					mMaterialInstance->SetParameter(prop.name.c_str(), MathConvert::ToFVec3(std::any_cast<glm::vec3>(prop.data)));
 				}
 				break;
-			case FR::EUniformType::FLOAT4:
+			case FRMaterialWarp::EUniformType::FLOAT4:
 				if (prop.data.type() == typeid(glm::vec4))
 				{
 					mMaterialInstance->SetParameter(prop.name.c_str(), MathConvert::ToFVec4(std::any_cast<glm::vec4>(prop.data)));
@@ -168,7 +169,7 @@ void FR::FRMaterial::UploadData() const
 		{
 			switch (prop.samplerType)
 			{
-			case FR::ESamplerType::SAMPLER_2D:
+			case FRMaterialWarp::ESamplerType::SAMPLER_2D:
 				if (prop.data.type() == typeid(FRTexture*))
 				{
 					if (auto tex = std::any_cast<FRTexture*>(prop.data))
@@ -230,37 +231,37 @@ void FR::FRMaterial::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode*
 			{
 				switch (prop.uniformType)
 				{
-				case FR::EUniformType::BOOL:
+				case FRMaterialWarp::EUniformType::BOOL:
 					if (prop.data.type() == typeid(bool))
 					{
 						FRSerializer::SerializeInt(pDoc, property, "value", std::any_cast<bool>(prop.data));
 					}
 					break;
-				case FR::EUniformType::INT:
+				case FRMaterialWarp::EUniformType::INT:
 					if (prop.data.type() == typeid(int))
 					{
 						FRSerializer::SerializeInt(pDoc, property, "value", std::any_cast<int>(prop.data));
 					}
 					break;
-				case FR::EUniformType::FLOAT:
+				case FRMaterialWarp::EUniformType::FLOAT:
 					if (prop.data.type() == typeid(float))
 					{
 						FRSerializer::SerializeFloat(pDoc, property, "value", std::any_cast<float>(prop.data));
 					}
 					break;
-				case FR::EUniformType::FLOAT2:
+				case FRMaterialWarp::EUniformType::FLOAT2:
 					if (prop.data.type() == typeid(glm::vec2))
 					{
 						FRSerializer::SerializeVec2(pDoc, property, "value", std::any_cast<glm::vec2>(prop.data));
 					}
 					break;
-				case FR::EUniformType::FLOAT3:
+				case FRMaterialWarp::EUniformType::FLOAT3:
 					if (prop.data.type() == typeid(glm::vec3))
 					{
 						FRSerializer::SerializeVec3(pDoc, property, "value", std::any_cast<glm::vec3>(prop.data));
 					}
 					break;
-				case FR::EUniformType::FLOAT4:
+				case FRMaterialWarp::EUniformType::FLOAT4:
 					if (prop.data.type() == typeid(glm::vec4))
 					{
 						FRSerializer::SerializeVec4(pDoc, property, "value", std::any_cast<glm::vec4>(prop.data));
@@ -274,7 +275,7 @@ void FR::FRMaterial::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode*
 			{
 				switch (prop.samplerType)
 				{
-				case FR::ESamplerType::SAMPLER_2D:
+				case FRMaterialWarp::ESamplerType::SAMPLER_2D:
 					if (prop.data.type() == typeid(FRTexture*))
 					{
 						FRSerializer::SerializeTexture(pDoc, property, "value", std::any_cast<FRTexture*>(prop.data));
@@ -321,22 +322,22 @@ void FR::FRMaterial::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNod
 						{
 							switch (prop.uniformType)
 							{
-							case FR::EUniformType::BOOL:
+							case FRMaterialWarp::EUniformType::BOOL:
 								prop.data = std::any_cast<bool>(FRSerializer::DeserializeBoolean(pDoc, property, "value"));
 								break;
-							case FR::EUniformType::INT:
+							case FRMaterialWarp::EUniformType::INT:
 								prop.data = std::any_cast<int>(FRSerializer::DeserializeInt(pDoc, property, "value"));
 								break;
-							case FR::EUniformType::FLOAT:
+							case FRMaterialWarp::EUniformType::FLOAT:
 								prop.data = std::any_cast<float>(FRSerializer::DeserializeFloat(pDoc, property, "value"));
 								break;
-							case FR::EUniformType::FLOAT2:
+							case FRMaterialWarp::EUniformType::FLOAT2:
 								prop.data = std::any_cast<glm::vec2>(FRSerializer::DeserializeVec2(pDoc, property, "value"));
 								break;
-							case FR::EUniformType::FLOAT3:
+							case FRMaterialWarp::EUniformType::FLOAT3:
 								prop.data = std::any_cast<glm::vec3>(FRSerializer::DeserializeVec3(pDoc, property, "value"));
 								break;
-							case FR::EUniformType::FLOAT4:
+							case FRMaterialWarp::EUniformType::FLOAT4:
 								prop.data = std::any_cast<glm::vec4>(FRSerializer::DeserializeVec4(pDoc, property, "value"));
 								break;
 							default:
@@ -347,7 +348,7 @@ void FR::FRMaterial::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNod
 						{
 							switch (prop.samplerType)
 							{
-							case FR::ESamplerType::SAMPLER_2D:
+							case FRMaterialWarp::ESamplerType::SAMPLER_2D:
 								prop.data = std::any_cast<FRTexture*>(FRSerializer::DeserializeTexture(pDoc, property, "value"));
 								break;
 							default:

@@ -78,6 +78,9 @@ void FR::FRFilamentHelper::DestroyEngine()
 
 void FR::FRFilamentHelper::DestroyEntity(FREntityWarp* pEntity)
 {
-	GetEngine()->Destroy(pEntity);
-	GetEntityManager()->Destroy(pEntity);
+	if (pEntity)
+	{
+		GetEngine()->Destroy(pEntity);
+		GetEntityManager()->Destroy(pEntity);
+	}
 }

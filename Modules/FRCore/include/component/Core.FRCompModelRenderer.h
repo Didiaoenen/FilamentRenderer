@@ -6,6 +6,7 @@
 namespace FR
 {
 	class FRModel;
+	class FREntityWarp;
 
 	class FRCompModelRenderer
 		: public FRComponent
@@ -33,15 +34,19 @@ namespace FR
 
 		virtual EComponentType GetType() override;
 
+	public:
+		virtual ~FRCompModelRenderer();
+
 	private:
 		FRModel* mModel{ nullptr };
-
-		FREvent<> mModelChangedEvent;
+		std::vector<FREntityWarp*> mEntities;
 
 		//BoundingSphere m_customBoundingSphere{ {}, 1.0f };
 
 		std::array<GUI::FRAWidget*, kMaxCount> mMeshFields;
 		std::array<GUI::FRAWidget*, kMaxCount> mMaterialFields;
+
+		FREvent<> mModelChangedEvent;
 
 	};
 }

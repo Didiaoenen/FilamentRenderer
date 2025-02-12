@@ -30,9 +30,9 @@ size_t FR::FRMaterialWarp::GetParameters(ParameterInfo* pParameters, size_t pCou
 		parameter.name = parameters[i].name;
 		parameter.isSampler = parameters[i].isSampler;
 		parameter.isSubpass = parameters[i].isSubpass;
-		parameter.uniformType = static_cast<FR::EUniformType>(parameters[i].type);
-		parameter.samplerType = static_cast<FR::ESamplerType>(parameters[i].samplerType);
-		parameter.subpassType = static_cast<FR::ESubpassType>(parameters[i].subpassType);
+		parameter.uniformType = static_cast<FRMaterialWarp::EUniformType>(parameters[i].type);
+		parameter.samplerType = static_cast<FRMaterialWarp::ESamplerType>(parameters[i].samplerType);
+		parameter.subpassType = static_cast<FRMaterialWarp::ESubpassType>(parameters[i].subpassType);
 	}
 
 	return pCount;

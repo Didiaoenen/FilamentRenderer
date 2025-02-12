@@ -16,6 +16,8 @@ namespace FR
 	public:
 		using EType = filament::LightManager::Type;
 
+		static constexpr float C_EFFICIENCY_LED = filament::LightManager::EFFICIENCY_LED;
+
 	public:
 		class Builder
 		{

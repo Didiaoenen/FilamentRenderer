@@ -75,10 +75,10 @@ void FR::FRCompAnimator::OnUpdate(float pDeltaTime)
 					}
 					else
 					{
-						if (mesh->GetAttachmentJoint() >= 0)
+						if (mesh->attachmentJoint >= 0)
 						{
 							skinningMat.resize(1);
-							int32_t attachmentJoint = mesh->GetAttachmentJoint();
+							int32_t attachmentJoint = mesh->attachmentJoint;
 							skinningMat[0] = mAnimator.GetJointWorldMatNoScale(attachmentJoint);
 							mesh->UpdateAttachment(MathConvert::ToGlmMat4(skinningMat[0]));
 						}

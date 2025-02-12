@@ -225,14 +225,6 @@ void FR::FRScene::OnComponentRemoved(FRComponent& pCompononent)
 {
 	if (auto result = dynamic_cast<FRCompModelRenderer*>(&pCompononent))
 	{
-		for (const auto modelRenderer : mFastAccessComponents.modelRenderers)
-		{
-			for (const auto mesh : modelRenderer->GetModel()->GetMeshes())
-			{
-				FRFilamentHelper::DestroyEntity(mesh->GetEntity());
-			}
-			FRFilamentHelper::DestroyEntity(modelRenderer->GetModel()->GetEntity());
-		}
 		mFastAccessComponents.modelRenderers.erase(std::remove(mFastAccessComponents.modelRenderers.begin(), mFastAccessComponents.modelRenderers.end(), result), mFastAccessComponents.modelRenderers.end());
 	}
 

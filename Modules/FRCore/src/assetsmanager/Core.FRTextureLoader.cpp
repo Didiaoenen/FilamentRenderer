@@ -7,7 +7,7 @@ namespace FR
     FRImageParser FRTextureLoader::__STBI;
 }
 
-FR::FRTexture* FR::FRTextureLoader::Create(const std::string& pFilepath, ETexture::EMinFilter pFirstFilter, ETexture::EMagFilter pSecondFilter, bool pGenerateMipmap)
+FR::FRTexture* FR::FRTextureLoader::Create(const std::string& pFilepath, FRTextureSamplerWarp::EMinFilter pFirstFilter, FRTextureSamplerWarp::EMagFilter pSecondFilter, bool pGenerateMipmap)
 {
     uint8_t* data;
     uint32_t size, width, height;
@@ -24,11 +24,11 @@ FR::FRTexture* FR::FRTextureLoader::Create(const std::string& pFilepath, ETextur
 FR::FRTexture* FR::FRTextureLoader::CreatePixel(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
 	std::array<uint8_t, 4> colorData = { r, g, b, a };
-	return FRTextureLoader::CreateFromMemory(colorData.data(), 1, 1, ETexture::EMinFilter::NEAREST, ETexture::EMagFilter::NEAREST, false);
+	return FRTextureLoader::CreateFromMemory(colorData.data(), 1, 1, FRTextureSamplerWarp::EMinFilter::NEAREST, FRTextureSamplerWarp::EMagFilter::NEAREST, false);
 }
 
 FR::FRTexture* FR::FRTextureLoader::CreateFromMemory(uint8_t* pData, uint32_t pWidth, uint32_t pHeight,
-    ETexture::EMinFilter pFirstFilter, ETexture::EMagFilter pSecondFilter, bool pGenerateMipmap)
+    FRTextureSamplerWarp::EMinFilter pFirstFilter, FRTextureSamplerWarp::EMagFilter pSecondFilter, bool pGenerateMipmap)
 {
     FRTexture* result = new FRTexture(pWidth, pHeight);
     result->SetData(pData, 4);

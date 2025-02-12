@@ -42,14 +42,18 @@ FR::FRComponent::EComponentType FR::FRCompModelRenderer::GetType()
 void FR::FRCompModelRenderer::SetModel(FRModel* pModel)
 {
 	mModel = pModel;
-	auto transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -4.0f));
-	for (const auto mesh : pModel->GetMeshes())
-	{
-		mesh->SetTransform(transform);
-	}
+
+	mEntities.emplace_back(FRFilamentHelper::CreateEntity());
+
+	mModel->Build(mEntities.back());
 
 	if (auto scene = owner.GetScene())
 	{
+		for (const auto& mesh : mModel->GetMeshes())
+		{
+			mEntities.emplace_back(FRFilamentHelper::CreateEntity());
+			mesh->Build(mEntities.back());
+		}
 		scene->AddModel(pModel);
 	}
 
@@ -147,4 +151,15 @@ void FR::FRCompModelRenderer::OnInspector(GUI::FRWidgetContainer& pRoot)
 			}
 		}
 	}
+}
+
+FR::FRCompModelRenderer::~FRCompModelRenderer()
+{
+	for (const auto& entity : mEntities)
+	{
+		FRFilamentHelper::DestroyEntity(entity);
+	}
+	mEntities.clear();
+
+	delete mModel;
 }

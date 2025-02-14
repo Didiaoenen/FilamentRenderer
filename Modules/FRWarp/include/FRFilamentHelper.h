@@ -42,9 +42,9 @@ namespace FR
 		static void DestroyEntity(FREntityWarp* pEntity);
 
 	private:
-		inline static FREngineWarp* mEngine = nullptr;
-		inline static FRRendererWarp* mRenderer = nullptr;
-		inline static FRSwapChainWarp* mSwapChain = nullptr;
+		inline static FREngineWarp* mEngine{ nullptr };
+		inline static FRRendererWarp* mRenderer{ nullptr };
+		inline static FRSwapChainWarp* mSwapChain{ nullptr };
 
 	};
 }

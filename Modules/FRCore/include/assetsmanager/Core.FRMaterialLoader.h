@@ -9,8 +9,6 @@ namespace FR
 	class FRMaterialLoader
 	{
 	public:
-		FRMaterialLoader() = default;
-
 		static FRMaterial* Create(const std::string& pPath);
 
 		static void Reload(FRMaterial& pMaterial, const std::string& pPath);
@@ -18,9 +16,6 @@ namespace FR
 		static void Save(FRMaterial& pMaterial, const std::string& pPath);
 
 		static bool Destroy(FRMaterial*& pMaterial);
-
-	public:
-		~FRMaterialLoader() = default;
 
 	};
 }

@@ -7,11 +7,6 @@
 #include <FRSwapChainWarp.h>
 #include <FRFilamentHelper.h>
 
-namespace FR
-{
-	FRTexture* FRARenderer::mEmptyTexture = nullptr;
-}
-
 FR::FRARenderer::FRARenderer()
 	: mIsDrawing(false)
 {

@@ -37,8 +37,6 @@ FR::FREditorResources::FREditorResources()
 		mTextures["DarkBackground_Texture"] = FRTextureLoader::Create(utils::Path::concat(editorPath, "Textures/DarkBackground.png"), FRTextureSamplerWarp::EMinFilter::LINEAR, FRTextureSamplerWarp::EMagFilter::LINEAR, false);
 	}
 
-	mDefaultMaterial = FRMaterialLoader::Create(utils::Path::concat(editorPath, "Materials/Default.mat"));
-
 	mTextures["IBL"] = GetService(FRKtxManager)[":IBL/lightroom_14b/lightroom_14b_ibl.ktx"];
 	mTextures["Skybox"] = GetService(FRKtxManager)[":IBL/lightroom_14b/lightroom_14b_skybox.ktx"];
 }
@@ -99,7 +97,4 @@ FR::FREditorResources::~FREditorResources()
 		FRFilamentHelper::GetEngine()->Destroy(shader->NativePtr());
 	}
 	mShaders.clear();
-
-	FRFilamentHelper::GetEngine()->Destroy(mDefaultMaterial->GetMaterialInstance());
-	FRFilamentHelper::GetEngine()->Destroy(mDefaultMaterial->GetShader()->NativePtr());
 }

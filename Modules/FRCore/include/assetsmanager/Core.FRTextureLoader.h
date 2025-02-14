@@ -10,8 +10,6 @@ namespace FR
 	class FRTextureLoader
 	{
 	public:
-		FRTextureLoader() = default;
-
 		static FRTexture* Create(const std::string& pFilepath,
 			FRTextureSamplerWarp::EMinFilter pFirstFilter, FRTextureSamplerWarp::EMagFilter, bool pGenerateMipmap);
 
@@ -24,11 +22,8 @@ namespace FR
 
 		static bool Destroy(FRTexture*& pTextureInstance);
 
-	public:
-		~FRTextureLoader() = default;
-
 	private:
-		static FRImageParser __STBI;
+		inline static FRImageParser __STBI;
 
 	};
 }

@@ -14,6 +14,7 @@
 #include <Core.FRCompTransform.h>
 #include <Core.FRCompModelRenderer.h>
 #include <Core.FRCompMaterialRenderer.h>
+#include <Core.FRSceneManager.h>
 
 #include <Window.h>
 #include <MessageBox.h>
@@ -51,7 +52,7 @@ void FR::FREditorActions::Playing()
 
 		FRApplication::GuiHelper()->GetPanel<FRInspector>()->Refresh();
 		FRApplication::GuiHelper()->GetPanel<FRGameView>()->Focus();
-		FRApplication::SceneManager()->GetCurrentScene()->Playing();
+		FRSceneManager::Instance()->GetCurrentScene()->Playing();
 		SetCurrentEditorMode(EEditorMode::PLAY);
 	}
 	else
@@ -71,8 +72,8 @@ void FR::FREditorActions::Stop()
 	{
 		//ImGui::GetIO().DisableMouseUpdate = false;
 		//FRApplication::GuiHelper()->GetWindow()->SetCursorMode(ECursorMode::NORMAL);
-		bool loadedFromDisk = FRApplication::SceneManager()->IsCurrentSceneLoadedFromDisk();
-		std::string sceneSourcePath = FRApplication::SceneManager()->GetCurrentSceneSourcePath();
+		bool loadedFromDisk = FRSceneManager::Instance()->IsCurrentSceneLoadedFromDisk();
+		std::string sceneSourcePath = FRSceneManager::Instance()->GetCurrentSceneSourcePath();
 
 		int64_t focusedActorID = -1;
 
@@ -81,19 +82,19 @@ void FR::FREditorActions::Stop()
 			//focusedActorID = targetActor->GetID();
 		}
 
-		//FRApplication::SceneManager()->LoadSceneFromMemory(mSceneBackup);
+		//FRSceneManager::Instance()->LoadSceneFromMemory(mSceneBackup);
 
 		if (loadedFromDisk)
 		{
-			FRApplication::SceneManager()->StoreCurrentSceneSourcePath(sceneSourcePath);
+			FRSceneManager::Instance()->StoreCurrentSceneSourcePath(sceneSourcePath);
 		}
 
 		mSceneBackup.Clear();
 		FRApplication::GuiHelper()->GetPanel<FRSceneView>()->Focus();
 		
-		if (auto actorInstance = FRApplication::SceneManager()->GetCurrentScene()->FindActorByID(focusedActorID))
+		if (auto actor = FRSceneManager::Instance()->GetCurrentScene()->FindActorByID(focusedActorID))
 		{
-			FRApplication::GuiHelper()->GetPanel<FRInspector>()->FocusActor(*actorInstance);
+			FRApplication::GuiHelper()->GetPanel<FRInspector>()->FocusActor(actor);
 		}
 
 		SetCurrentEditorMode(EEditorMode::EDIT);
@@ -120,34 +121,34 @@ glm::vec3 FR::FREditorActions::CalculateActorSpawnPoint(float pDistanceToCamera)
 	return glm::vec3();
 }
 
-FR::FRActor& FR::FREditorActions::CreateEmptyActor(bool pFocusOnCreation, FRActor* pParent, const std::string& pName)
+FR::FRActor* FR::FREditorActions::CreateEmptyActor(bool pFocusOnCreation, FRActor* pParent, const std::string& pName)
 {
-	const auto currentScene = FRApplication::SceneManager()->GetCurrentScene();
-	auto& instance = pName.empty() ? currentScene->CreateActor() : currentScene->CreateActor(pName);
+	const auto currentScene = FRSceneManager::Instance()->GetCurrentScene();
+	auto actor = pName.empty() ? currentScene->CreateActor() : currentScene->CreateActor(pName);
 
 	if (pParent)
 	{
-		instance.SetParent(*pParent);
+		actor->SetParent(pParent);
 	}
 
 	if (mActorSpawnMode == EActorSpawnMode::FRONT)
 	{
-		instance.transform.SetLocalPosition(CalculateActorSpawnPoint(10.0f));
+		actor->transform.SetLocalPosition(CalculateActorSpawnPoint(10.0f));
 	}
 
 	if (pFocusOnCreation)
 	{
-		SelectActor(instance);
+		SelectActor(actor);
 	}
 
-	return instance;
+	return actor;
 }
 
-FR::FRActor& FR::FREditorActions::CreateActorWithModel(const std::string& pPath, bool pFocusOnCreation, FRActor* pParent, const std::string& pName)
+FR::FRActor* FR::FREditorActions::CreateActorWithModel(const std::string& pPath, bool pFocusOnCreation, FRActor* pParent, const std::string& pName)
 {
-	auto& instance = CreateEmptyActor(false, pParent, pName);
+	auto actor = CreateEmptyActor(false, pParent, pName);
 
-	auto& modelRenderer = instance.AddComponent<FRCompModelRenderer>();
+	auto& modelRenderer = actor->AddComponent<FRCompModelRenderer>();
 
 	const auto model = GetService(FRModelManager)[pPath];
 	const auto material = GetService(FRMaterialManager)[":Materials/Default.mat"];
@@ -160,19 +161,19 @@ FR::FRActor& FR::FREditorActions::CreateActorWithModel(const std::string& pPath,
 
 	if (pFocusOnCreation)
 	{
-		SelectActor(instance);
+		SelectActor(actor);
 	}
 
-	return instance;
+	return actor;
 }
 
-bool FR::FREditorActions::DestroyActor(FRActor& pActor)
+bool FR::FREditorActions::DestroyActor(FRActor* pActor)
 {
-	pActor.MarkAsDestroy();
+	pActor->MarkAsDestroy();
 	return true;
 }
 
-void FR::FREditorActions::SelectActor(FRActor& pTarget)
+void FR::FREditorActions::SelectActor(FRActor* pTarget)
 {
 	FRApplication::GuiHelper()->GetPanel<FRInspector>()->FocusActor(pTarget);
 }
@@ -187,12 +188,12 @@ bool FR::FREditorActions::IsAnyActorSelected()
 	return FRApplication::GuiHelper()->GetPanel<FRInspector>()->GetTargetActor();
 }
 
-FR::FRActor& FR::FREditorActions::GetSelectedActor()
+FR::FRActor* FR::FREditorActions::GetSelectedActor()
 {
-	return *FRApplication::GuiHelper()->GetPanel<FRInspector>()->GetTargetActor();
+	return FRApplication::GuiHelper()->GetPanel<FRInspector>()->GetTargetActor();
 }
 
-void FR::FREditorActions::MoveToTarget(FRActor& pTarget)
+void FR::FREditorActions::MoveToTarget(FRActor* pTarget)
 {
 	return FRApplication::GuiHelper()->GetPanel<FRSceneView>()->GetCameraController().MoveToTarget(pTarget);
 }
@@ -225,7 +226,7 @@ void FR::FREditorActions::LoadEmptyScene()
 		Stop();
 	}
 
-	FRApplication::SceneManager()->LoadEmptyLightedScene();
+	FRSceneManager::Instance()->LoadEmptyLightedScene();
 }
 
 void FR::FREditorActions::LoadSceneFromDisk(const std::string& pPath, bool pAbsolute)
@@ -235,7 +236,7 @@ void FR::FREditorActions::LoadSceneFromDisk(const std::string& pPath, bool pAbso
 		Stop();
 	}
 
-	FRApplication::SceneManager()->LoadScene(pPath, pAbsolute);
+	FRSceneManager::Instance()->LoadScene(pPath, pAbsolute);
 	FRApplication::GuiHelper()->GetPanel<FRSceneView>()->Focus();
 }
 

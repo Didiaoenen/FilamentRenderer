@@ -19,7 +19,7 @@ namespace FR
 
 		void HandleInputs();
 
-		void MoveToTarget(FRActor& pTarget);
+		void MoveToTarget(FRActor* pTarget);
 
 		void SetSpeed(float pSpeed);
 
@@ -35,7 +35,7 @@ namespace FR
 
 		bool IsRightMousePressed() const;
 
-		void LockTargetActor(FRActor& pActor);
+		void LockTargetActor(FRActor* pActor);
 
 		void UnlockTargetActor();
 
@@ -45,10 +45,10 @@ namespace FR
 		virtual ~FRCameraController();
 
 	private:
-		std::optional<std::reference_wrapper<FRActor>> GetTargetActor() const;
+		FRActor* GetTargetActor() const;
 		void HandleCameraPanning(const glm::vec2& pMouseOffset, bool pFirstMouse);
 		void HandleCameraFPSMouse(const glm::vec2& pMouseOffset, bool pFirstMouse);
-		void HandleCameraOrbit(FRActor& pTarget, const glm::vec2& pMouseOffset, bool pFirstMouse);
+		void HandleCameraOrbit(FRActor* pTarget, const glm::vec2& pMouseOffset, bool pFirstMouse);
 
 		void HandleCameraZoom();
 		void HandleCameraFPSKeyboard();
@@ -71,7 +71,7 @@ namespace FR
 
 		std::queue<std::tuple<glm::vec3, glm::quat>> mCameraDestinations;
 
-		std::optional<std::reference_wrapper<FRActor>> mLockedActor = std::nullopt;
+		FRActor* mLockedActor{ nullptr };
 
 	};
 }

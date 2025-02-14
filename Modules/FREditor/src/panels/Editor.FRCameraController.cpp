@@ -24,15 +24,15 @@ namespace FR
 
 	const glm::vec3 kDefaultClearColor{ 0.098f, 0.098f, 0.098f };
 
-	float GetActorFocusDist(FRActor& pActor)
+	float GetActorFocusDist(FRActor* pActor)
 	{
 		float distance = 4.0f;
 
-		if (pActor.IsActive())
+		if (pActor->IsActive())
 		{
-			for (auto child : pActor.GetChildren())
+			for (auto child : pActor->GetChildren())
 			{
-				distance = std::max(distance, GetActorFocusDist(*child));
+				distance = std::max(distance, GetActorFocusDist(child));
 			}
 		}
 
@@ -71,13 +71,13 @@ void FR::FRCameraController::HandleInputs()
 
 	if (auto target = GetTargetActor())
 	{
-		auto targetPos = target.value().get().transform.GetWorldPosition();
+		auto targetPos = target->transform.GetWorldPosition();
 
-		float dist = GetActorFocusDist(target.value().get());
+		float dist = GetActorFocusDist(target);
 
 		if (FRInput::GetKeyDown(EKeyCode::F))
 		{
-			MoveToTarget(target.value().get());
+			MoveToTarget(target);
 		}
 
 		auto focusObjectFromAngle = [this, &targetPos, &dist](const glm::vec3& offset)
@@ -155,7 +155,7 @@ void FR::FRCameraController::HandleInputs()
 					{
 						if (auto target = GetTargetActor())
 						{
-							HandleCameraOrbit(target.value().get(), mouseOffset, wasFirstMouse);
+							HandleCameraOrbit(target, mouseOffset, wasFirstMouse);
 						}
 					}
 					else
@@ -172,10 +172,10 @@ void FR::FRCameraController::HandleInputs()
 	}
 }
 
-void FR::FRCameraController::MoveToTarget(FRActor& pTarget)
+void FR::FRCameraController::MoveToTarget(FRActor* pTarget)
 {
 	mCameraDestinations.push({
-		pTarget.transform.GetWorldPosition() - mCamera.GetRotation() * vec3f::forward * GetActorFocusDist(pTarget), mCamera.GetRotation()
+		pTarget->transform.GetWorldPosition() - mCamera.GetRotation() * vec3f::forward * GetActorFocusDist(pTarget), mCamera.GetRotation()
 	});
 }
 
@@ -214,14 +214,14 @@ bool FR::FRCameraController::IsRightMousePressed() const
 	return mRightMousePressed;
 }
 
-void FR::FRCameraController::LockTargetActor(FRActor& pActor)
+void FR::FRCameraController::LockTargetActor(FRActor* pActor)
 {
 	mLockedActor = pActor;
 }
 
 void FR::FRCameraController::UnlockTargetActor()
 {
-	mLockedActor = std::nullopt;
+	mLockedActor = nullptr;
 }
 
 FR::FRCamera* FR::FRCameraController::GetCamera()
@@ -234,13 +234,9 @@ FR::FRCameraController::~FRCameraController()
 
 }
 
-std::optional<std::reference_wrapper<FR::FRActor>> FR::FRCameraController::GetTargetActor() const
+FR::FRActor* FR::FRCameraController::GetTargetActor() const
 {
-	if (mLockedActor.has_value())
-	{
-		return mLockedActor;
-	}
-	return std::nullopt;
+	return mLockedActor;
 }
 
 void FR::FRCameraController::HandleCameraPanning(const glm::vec2& pMouseOffset, bool pFirstMouse)
@@ -250,13 +246,13 @@ void FR::FRCameraController::HandleCameraPanning(const glm::vec2& pMouseOffset, 
 	mCamera.SetPosition(mCamera.GetPosition() - mCamera.transform->GetWorldUp() * mouseOffset.y);
 }
 
-void FR::FRCameraController::HandleCameraOrbit(FRActor& pTarget, const glm::vec2& pMouseOffset, bool pFirstMouse)
+void FR::FRCameraController::HandleCameraOrbit(FRActor* pTarget, const glm::vec2& pMouseOffset, bool pFirstMouse)
 {
 	auto mouseOffset = pMouseOffset * mCameraOrbitSpeed;
 
 	if (pFirstMouse)
 	{
-		mOrbitTarget = &pTarget.transform.GetFRTransform();
+		mOrbitTarget = &pTarget->transform.GetFRTransform();
 		mOrbitStartOffset = -vec3f::forward * glm::distance(mOrbitTarget->GetWorldPosition(), mCamera.GetPosition());
 		
 		mYPR = RemoveRoll(glm::degrees(glm::eulerAngles(mCamera.GetRotation())));
@@ -266,7 +262,7 @@ void FR::FRCameraController::HandleCameraOrbit(FRActor& pTarget, const glm::vec2
 	mYPR.x += -mouseOffset.y;
 	mYPR.x = std::max(std::min(mYPR.x, 90.0f), -90.0f);
 
-	auto& target = pTarget.transform.GetFRTransform();
+	auto& target = pTarget->transform.GetFRTransform();
 	FRTransform pivotTransform(target.GetWorldPosition());
 	FRTransform cameraTransform(mOrbitStartOffset);
 	cameraTransform.SetParent(pivotTransform);

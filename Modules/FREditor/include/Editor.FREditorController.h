@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Core.FRSceneRenderer.h>
 #include "Editor.FREditorActions.h"
 
 namespace FR
@@ -29,6 +30,7 @@ namespace FR
 		uint64_t mElapsedFrames{ 0 };
 		uint64_t mSkippedFrames{ 0 };
 
+		FRSceneRenderer sceneRenderer;
 		FREditorActions editorActions;
 
     };

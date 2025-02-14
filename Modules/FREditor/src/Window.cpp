@@ -6,11 +6,6 @@
 #include <SDL_syswm.h>
 #include <Tools.FRMessage.h>
 
-namespace FR
-{
-	FR::Window* FR::Window::sWindow = nullptr;
-}
-
 FR::Window::Window(const Settings& pSetting)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)

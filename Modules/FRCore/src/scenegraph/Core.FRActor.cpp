@@ -3,21 +3,13 @@
 #include "Core.FRScene.h"
 #include "Core.FRCompTransform.h"
 
-namespace FR
-{
-	FREvent<FRActor&> FRActor::CreatedEvent;
-	FREvent<FRActor&> FRActor::DettachEvent;
-	FREvent<FRActor&> FRActor::DestroyedEvent;
-	FREvent<FRActor&, FRActor&> FRActor::AttachEvent;
-}
-
 FR::FRActor::FRActor(FRScene* pScene, const std::string& pName, const std::string& pTag)
 	: transform(AddComponent<FRCompTransform>())
 	, mScene(pScene)
 	, tag(pTag)
 {
 	name = pName;
-	CreatedEvent.Invoke(*this);
+	CreatedEvent.Invoke(this);
 }
 
 FR::FRScene* FR::FRActor::GetScene() const
@@ -46,21 +38,21 @@ bool FR::FRActor::IsActive() const
 	return mActive && (mParent ? mParent->IsActive() : true);
 }
 
-void FR::FRActor::SetParent(FRActor& pParent)
+void FR::FRActor::SetParent(FRActor* pParent)
 {
 	DetachFromParent();
 
-	mParent = &pParent;
-	transform.SetParent(pParent.transform);
+	mParent = pParent;
+	transform.SetParent(pParent->transform);
 
-	pParent.mChildren.push_back(this);
+	pParent->mChildren.push_back(this);
 
-	AttachEvent.Invoke(*this, pParent);
+	AttachEvent.Invoke(this, pParent);
 }
 
 void FR::FRActor::DetachFromParent()
 {
-	DettachEvent.Invoke(*this);
+	DettachEvent.Invoke(this);
 
 	if (mParent)
 	{
@@ -250,7 +242,7 @@ FR::FRActor::~FRActor()
 	}
 
 	{
-		DestroyedEvent.Invoke(*this);
+		DestroyedEvent.Invoke(this);
 	}
 
 	std::vector<FRActor*> toDetach = mChildren;

@@ -27,7 +27,7 @@ namespace FR::GUI
 		std::string mPanelID;
 
 	private:
-		static uint64_t __PANEL_ID_INCREMENT;
+		inline static uint64_t __PANEL_ID_INCREMENT{ 0 };
 
 	};
 }

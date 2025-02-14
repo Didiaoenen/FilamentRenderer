@@ -40,9 +40,9 @@ namespace FR
 
 		void FixedUpdate();
 
-		FRActor& CreateActor();
+		FRActor* CreateActor();
 
-		FRActor& CreateActor(const std::string& pName, const std::string& pTag = "");
+		FRActor* CreateActor(const std::string& pName, const std::string& pTag = "");
 
 		bool DestroyActor(FRActor& pTarget);
 

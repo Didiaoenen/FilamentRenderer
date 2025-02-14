@@ -14,7 +14,7 @@ namespace FR
 		static std::queue<FRILogHandler::LogData>& GetLogQueue();
 
 	private:
-		static std::queue<FRILogHandler::LogData> LOG_QUEUE;
+		inline static std::queue<FRILogHandler::LogData> LOG_QUEUE;
 
 	};
 }

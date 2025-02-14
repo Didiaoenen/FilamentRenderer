@@ -1,3 +1,5 @@
+#pragma once
+
 #include "FREngineWarp.h"
 #include "FRMaterialWarp.h"
 #include "FRRenderTargetWarp.h"

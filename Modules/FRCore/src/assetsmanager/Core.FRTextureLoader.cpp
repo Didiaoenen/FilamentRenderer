@@ -2,11 +2,6 @@
 
 #include "Core.FRTexture.h"
 
-namespace FR
-{
-    FRImageParser FRTextureLoader::__STBI;
-}
-
 FR::FRTexture* FR::FRTextureLoader::Create(const std::string& pFilepath, FRTextureSamplerWarp::EMinFilter pFirstFilter, FRTextureSamplerWarp::EMagFilter pSecondFilter, bool pGenerateMipmap)
 {
     uint8_t* data;

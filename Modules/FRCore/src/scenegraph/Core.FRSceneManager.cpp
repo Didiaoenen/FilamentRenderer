@@ -48,17 +48,17 @@ FR::FRScene* FR::FRSceneManager::LoadEmptyLightedScene()
 
 	SceneLoadEvent.Invoke();
 
-	auto& light = mCurrentScene->CreateActor("Directional Light");
-	light.AddComponent<FRCompLight>();
-	light.transform.SetLocalPosition({ 0.0f, 10.0f, 0.0f });
+	auto light = mCurrentScene->CreateActor("Directional Light");
+	light->AddComponent<FRCompLight>();
+	light->transform.SetLocalPosition({ 0.0f, 10.0f, 0.0f });
 	auto lightRyp = glm::radians(glm::vec3(0.0f, 0.0f, 0.0f));
-	light.transform.SetLocalRotation(glm::quat(glm::eulerAngleYXZ(lightRyp.y, lightRyp.x, lightRyp.z)));
+	light->transform.SetLocalRotation(glm::quat(glm::eulerAngleYXZ(lightRyp.y, lightRyp.x, lightRyp.z)));
 
-	auto& camera = mCurrentScene->CreateActor("Main Camera");
-	camera.AddComponent<FRCompCamera>();
-	camera.transform.SetLocalPosition({ 0.0f, 3.0f, 8.0f });
+	auto camera = mCurrentScene->CreateActor("Main Camera");
+	camera->AddComponent<FRCompCamera>();
+	camera->transform.SetLocalPosition({ 0.0f, 3.0f, 8.0f });
 	auto cameraRyp = glm::radians(glm::vec3(20.0f, 180.0f, 0.0f));
-	camera.transform.SetLocalRotation(glm::quat(glm::eulerAngleYXZ(cameraRyp.y, cameraRyp.x, cameraRyp.z)));
+	camera->transform.SetLocalRotation(glm::quat(glm::eulerAngleYXZ(cameraRyp.y, cameraRyp.x, cameraRyp.z)));
 
 	return mCurrentScene;
 }
@@ -138,6 +138,15 @@ void FR::FRSceneManager::ForgetCurrentSceneSourcePath()
 	mCurrentSceneSourcePath = "";
 	mCurrentSceneLoadedFromPath = false;
 	CurrentSceneSourcePathChangedEvent.Invoke(mCurrentSceneSourcePath);
+}
+
+FR::FRSceneManager* FR::FRSceneManager::Instance()
+{
+	if (!sInstance)
+	{
+		sInstance = new FRSceneManager();
+	}
+	return sInstance;
 }
 
 FR::FRSceneManager::~FRSceneManager()

@@ -6,7 +6,6 @@ namespace FR
 {
 	class FRView;
 	class FRTexture;
-	class FRViewWarp;
 	class FRRendererWarp;
 	class FRSwapChainWarp;
 
@@ -28,13 +27,11 @@ namespace FR
 		virtual ~FRARenderer();
 
 	protected:
-		bool mIsDrawing;
+		bool mIsDrawing{ false };
 		FRRendererWarp* mRenderer{ nullptr };
 		FRSwapChainWarp* mSwapChain{ nullptr };
 
 		FRFrameDescriptor mFrameDescriptor;
-
-		static FRTexture* mEmptyTexture;
 
 	};
 }

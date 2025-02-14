@@ -10,6 +10,7 @@
 #include <Core.FRScene.h>
 #include <Core.FRCompTransform.h>
 #include <Core.FRCompModelRenderer.h>
+#include <Core.FRSceneManager.h>
 
 #include <MathDefine.h>
 #include <Tools.FRPathUtils.h>
@@ -86,7 +87,7 @@ void FR::FRSceneView::Update()
 
 FR::FRScene* FR::FRSceneView::GetScene()
 {
-	return FRApplication::SceneManager()->GetCurrentScene();
+	return FRSceneManager::Instance()->GetCurrentScene();
 }
 
 void FR::FRSceneView::DrawGizmo()
@@ -157,7 +158,7 @@ void FR::FRSceneView::DrawGizmo()
 
 void FR::FRSceneView::HandleActorPicking()
 {
-	FROptRef<FRActor> selectedActor;
+	FRActor* selectedActor = nullptr;
 
 	if (GetService(FREditorActions).IsAnyActorSelected())
 	{
@@ -181,7 +182,7 @@ void FR::FRSceneView::HandleActorPicking()
 				return;
 			}
 
-			mHighlightedActor = {};
+			mHighlightedActor = nullptr;
 
 			float closestDist = FLT_MAX;
 			Ray ray = GetCamera()->ClickPointToRay(screenPos);
@@ -201,7 +202,7 @@ void FR::FRSceneView::HandleActorPicking()
 						if (distance < closestDist)
 						{
 							closestDist = distance;
-							mHighlightedActor = modelRenderer->owner;
+							mHighlightedActor = &modelRenderer->owner;
 							break;
 						}
 					}
@@ -211,7 +212,7 @@ void FR::FRSceneView::HandleActorPicking()
 
 		if (mHighlightedActor)
 		{
-			GetService(FREditorActions).SelectActor(mHighlightedActor.value());
+			GetService(FREditorActions).SelectActor(mHighlightedActor);
 		}
 		else
 		{

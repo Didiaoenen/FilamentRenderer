@@ -64,22 +64,22 @@ FR::FRInspector::FRInspector(const std::string& pTitle, bool pOpened, const FRPa
 
 	mInspectorHeader->CreateWidget<FRSeparator>();
 
-	mDestroyedListener = FRActor::DestroyedEvent += [this](FRActor& pDestroyed)
+	mDestroyedListener = FRActor::DestroyedEvent += [this](FRActor* pDestroyed)
 		{
-			if (&pDestroyed == mTargetActor)
+			if (pDestroyed == mTargetActor)
 			{
 				UnFocus();
 			}
 		};
 }
 
-void FR::FRInspector::FocusActor(FRActor& pTarget)
+void FR::FRInspector::FocusActor(FRActor* pTarget)
 {
-	if (&pTarget != mTargetActor)
+	if (pTarget != mTargetActor)
 	{
 		UnFocus();
 
-		mTargetActor = &pTarget;
+		mTargetActor = pTarget;
 
 		mComponentAddedListener = mTargetActor->ComponentAddedEvent += [this](auto& useless)
 			{
@@ -99,7 +99,7 @@ void FR::FRInspector::FocusActor(FRActor& pTarget)
 
 		mActorInfo->CreateWidget<FRSeparator>();
 
-		GetService(FREditorActions).ActorSelectedEvent.Invoke(*mTargetActor);
+		GetService(FREditorActions).ActorSelectedEvent.Invoke(mTargetActor);
 	}
 }
 
@@ -118,7 +118,7 @@ void FR::FRInspector::SoftUnFocus()
 {
 	if (mTargetActor)
 	{
-		GetService(FREditorActions).ActorUnselectedEvent.Invoke(*mTargetActor);
+		GetService(FREditorActions).ActorUnselectedEvent.Invoke(mTargetActor);
 		mAddComponentWidget->enabled = false;
 		mInspectorHeader->enabled = false;
 		mTargetActor = nullptr;
@@ -132,11 +132,11 @@ FR::FRActor* FR::FRInspector::GetTargetActor() const
 	return mTargetActor;
 }
 
-void FR::FRInspector::CreateActorInspector(FRActor& pTarget)
+void FR::FRInspector::CreateActorInspector(FRActor* pTarget)
 {
 	std::map<std::string, FRComponent*> components;
 
-	for (auto component : pTarget.GetComponents())
+	for (auto component : pTarget->GetComponents())
 	{
 		if (component->GetType() != FRComponent::EComponentType::TRANSFORM)
 		{
@@ -144,7 +144,7 @@ void FR::FRInspector::CreateActorInspector(FRActor& pTarget)
 		}
 	}
 
-	if (auto transform = pTarget.GetComponent<FRCompTransform>())
+	if (auto transform = pTarget->GetComponent<FRCompTransform>())
 	{
 		DrawComponent(*transform);
 	}
@@ -178,13 +178,11 @@ void FR::FRInspector::Refresh()
 	if (mTargetActor)
 	{
 		mActorInfo->RemoveAllWidgets();
-		CreateActorInspector(*mTargetActor);
+		CreateActorInspector(mTargetActor);
 	}
 }
 
 FR::FRInspector::~FRInspector()
 {
-	UnFocus();
-
 	FRActor::DestroyedEvent -= mDestroyedListener;
 }

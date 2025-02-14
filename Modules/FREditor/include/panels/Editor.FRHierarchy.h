@@ -19,27 +19,27 @@ namespace FR
 
 		void UnselectActorsWidgets();
 
-		void SelectActorByInstance(FRActor& pActor);
+		void SelectActorByInstance(FRActor* pActor);
 
 		void SelectActorByWidget(GUI::FRTreeNode& pWidget);
 
-		void AttachActorToParent(FRActor& pActor);
+		void AttachActorToParent(FRActor* pActor);
 
-		void DetachFromParent(FRActor& pActor);
+		void DetachFromParent(FRActor* pActor);
 
-		void AddActorByInstance(FRActor& pActor);
+		void AddActorByInstance(FRActor* pActor);
 
-		void DeleteActorByInstance(FRActor& pActor);
+		void DeleteActorByInstance(FRActor* pActor);
 
 	private:
 		void SearchBarChangedCallback(const std::string& pContent);
 
 		void RootTargetChangedCallback(ActorNode pElement);
 
-		void ActorTargetChangedCallback(ActorNode pElement, FRActor& pActor);
+		void ActorTargetChangedCallback(ActorNode pElement, FRActor* pActor);
 
 	public:
-		virtual ~FRHierarchy() = default;
+		virtual ~FRHierarchy();
 
 	public:
 		FREvent<FRActor&> ActorSelectedEvent;

@@ -7,7 +7,6 @@
 #include <AnimationManager.h>
 #include <Core.FRKtxManager.h>
 #include <Core.FRModelManager.h>
-#include <Core.FRSceneManager.h>
 #include <Core.FRSceneRenderer.h>
 #include <Core.FRShaderManager.h>
 #include <Core.FRTextureManager.h>
@@ -30,8 +29,6 @@ namespace FR
 		static FRApplication* Instance();
 
 		static std::unique_ptr<FRImGuiHelper>& GuiHelper();
-
-		static std::unique_ptr<FRSceneManager>& SceneManager();
 
 		static std::unique_ptr<FREditorResources>& EditorResources();
 
@@ -68,13 +65,12 @@ namespace FR
 
 		std::unique_ptr<FREditorController> editor;
 
-		inline static FRApplication* sApplication = nullptr;
+		inline static FRApplication* sApplication{ nullptr };
 
-		inline static std::unique_ptr<FRImGuiHelper> guiHelper = nullptr;
-		inline static std::unique_ptr<FRSceneManager> sceneManager = nullptr;
-		inline static std::unique_ptr<FREditorResources> editorResources = nullptr;
+		inline static std::unique_ptr<FRImGuiHelper> guiHelper{ nullptr };
+		inline static std::unique_ptr<FREditorResources> editorResources{ nullptr };
 		
-		inline static std::unique_ptr<FRSceneRenderer> renderer = nullptr;
+		inline static std::unique_ptr<FRSceneRenderer> renderer{ nullptr };
 
 		inline static std::string mBinPath;
 	};

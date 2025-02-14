@@ -24,7 +24,7 @@ void FR::FRGameView::Update()
 
 FR::FRCamera* FR::FRGameView::GetCamera()
 {
-	if (auto scene = FRApplication::SceneManager()->GetCurrentScene())
+	if (auto scene = FRSceneManager::Instance()->GetCurrentScene())
 	{
 		if (auto camera = scene->FindMainCamera())
 		{
@@ -36,5 +36,5 @@ FR::FRCamera* FR::FRGameView::GetCamera()
 
 FR::FRScene* FR::FRGameView::GetScene()
 {
-	return FRApplication::SceneManager()->GetCurrentScene();
+	return FRSceneManager::Instance()->GetCurrentScene();
 }

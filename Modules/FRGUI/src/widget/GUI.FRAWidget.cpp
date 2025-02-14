@@ -1,11 +1,6 @@
 #include "GUI.FRAWidget.h"
 #include "GUI.FRWidgetContainer.h"
 
-namespace FR::GUI
-{
-	uint64_t FRAWidget::__WIDGET_ID_INCREMENT = 0;
-}
-
 FR::GUI::FRAWidget::FRAWidget(const std::string& pName)
 	:name(pName)
 {

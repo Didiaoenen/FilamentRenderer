@@ -50,13 +50,13 @@ namespace FR
 				auto& focusBtn = CreateWidget<FRMenuItem>("Focus");
 				focusBtn.ClickedEvent += [this]
 					{
-						GetService(FREditorActions).MoveToTarget(*mTarget);
+						GetService(FREditorActions).MoveToTarget(mTarget);
 					};
 
 				auto& deleteBtn = CreateWidget<FRMenuItem>("Delete");
 				deleteBtn.ClickedEvent += [this]
 					{
-						GetService(FREditorActions).DestroyActor(std::ref(*mTarget));
+						GetService(FREditorActions).DestroyActor(mTarget);
 					};
 			}
 		}
@@ -109,9 +109,9 @@ void FR::FRHierarchy::UnselectActorsWidgets()
 	}
 }
 
-void FR::FRHierarchy::SelectActorByInstance(FRActor& pActor)
+void FR::FRHierarchy::SelectActorByInstance(FRActor* pActor)
 {
-	if (auto result = mWidgetActorLink.find(&pActor); result != mWidgetActorLink.end())
+	if (auto result = mWidgetActorLink.find(pActor); result != mWidgetActorLink.end())
 	{
 		if (result->second)
 		{
@@ -132,9 +132,9 @@ void FR::FRHierarchy::SelectActorByWidget(FRTreeNode& pWidget)
 	}
 }
 
-void FR::FRHierarchy::AttachActorToParent(FRActor& pActor)
+void FR::FRHierarchy::AttachActorToParent(FRActor* pActor)
 {
-	if (auto actorWidget = mWidgetActorLink.find(&pActor); actorWidget != mWidgetActorLink.end())
+	if (auto actorWidget = mWidgetActorLink.find(pActor); actorWidget != mWidgetActorLink.end())
 	{
 		auto widget = actorWidget->second;
 
@@ -143,22 +143,22 @@ void FR::FRHierarchy::AttachActorToParent(FRActor& pActor)
 			widget->GetParent()->UnconsiderWidget(widget);
 		}
 
-		if (pActor.HasParent())
+		if (pActor->HasParent())
 		{
-			auto parentWidget = mWidgetActorLink[pActor.GetParent()];
+			auto parentWidget = mWidgetActorLink[pActor->GetParent()];
 			parentWidget->ConsiderWidget(widget);
 			parentWidget->leaf = false;
 		}
 	}
 }
 
-void FR::FRHierarchy::DetachFromParent(FRActor& pActor)
+void FR::FRHierarchy::DetachFromParent(FRActor* pActor)
 {
-	if (auto actorWidget = mWidgetActorLink.find(&pActor); actorWidget != mWidgetActorLink.end())
+	if (auto actorWidget = mWidgetActorLink.find(pActor); actorWidget != mWidgetActorLink.end())
 	{
-		if (pActor.HasParent() && pActor.GetParent()->GetChildren().size() == 1)
+		if (pActor->HasParent() && pActor->GetParent()->GetChildren().size() == 1)
 		{
-			if (auto parentWidget = mWidgetActorLink.find(pActor.GetParent()); parentWidget != mWidgetActorLink.end())
+			if (auto parentWidget = mWidgetActorLink.find(pActor->GetParent()); parentWidget != mWidgetActorLink.end())
 			{
 				parentWidget->second->leaf = true;
 			}
@@ -175,18 +175,18 @@ void FR::FRHierarchy::DetachFromParent(FRActor& pActor)
 	}
 }
 
-void FR::FRHierarchy::AddActorByInstance(FRActor& pActor)
+void FR::FRHierarchy::AddActorByInstance(FRActor* pActor)
 {
-	auto& actorSelectable = mRoot->CreateWidget<FRTreeNode>(pActor.name, ICON_MDI_CUBE_OUTLINE, ICON_MDI_CUBE_OUTLINE, true);
+	auto& actorSelectable = mRoot->CreateWidget<FRTreeNode>(pActor->name, ICON_MDI_CUBE_OUTLINE, ICON_MDI_CUBE_OUTLINE, true);
 	{
 		actorSelectable.leaf = true;
-		actorSelectable.AddPlugin<ActorMenu>(&pActor, actorSelectable);
-		actorSelectable.AddPlugin<FRPluginSource<ActorNode>>("Actor", "Attach To...", std::make_pair(&pActor, &actorSelectable));
-		actorSelectable.AddPlugin<FRPluginTarget<ActorNode>>("Actor").DataReceivedEvent += [this, &pActor](ActorNode pElement) { ActorTargetChangedCallback(pElement, pActor); };
-		actorSelectable.ClickedEvent += std::bind(&FREditorActions::SelectActor, &GetService(FREditorActions), std::ref(pActor));
+		actorSelectable.AddPlugin<ActorMenu>(pActor, actorSelectable);
+		actorSelectable.AddPlugin<FRPluginSource<ActorNode>>("Actor", "Attach To...", std::make_pair(pActor, &actorSelectable));
+		actorSelectable.AddPlugin<FRPluginTarget<ActorNode>>("Actor").DataReceivedEvent += [this, pActor](ActorNode pElement) { ActorTargetChangedCallback(pElement, pActor); };
+		actorSelectable.ClickedEvent += std::bind(&FREditorActions::SelectActor, &GetService(FREditorActions), pActor);
 	}
 
-	FRActor* targetPtr = &pActor;
+	FRActor* targetPtr = pActor;
 	auto& dispatcher = actorSelectable.AddPlugin<FRDataDispatcher<std::string>>();
 	{
 		dispatcher.RegisterGatherer([targetPtr] { return targetPtr->name; });
@@ -195,18 +195,18 @@ void FR::FRHierarchy::AddActorByInstance(FRActor& pActor)
 	mWidgetActorLink[targetPtr] = &actorSelectable;
 }
 
-void FR::FRHierarchy::DeleteActorByInstance(FRActor& pActor)
+void FR::FRHierarchy::DeleteActorByInstance(FRActor* pActor)
 {
-	if (auto result = mWidgetActorLink.find(&pActor); result != mWidgetActorLink.end())
+	if (auto result = mWidgetActorLink.find(pActor); result != mWidgetActorLink.end())
 	{
 		if (result->second)
 		{
 			result->second->Destroy();
 		}
 
-		if (pActor.HasParent() && pActor.GetParent()->GetChildren().size() == 1)
+		if (pActor->HasParent() && pActor->GetParent()->GetChildren().size() == 1)
 		{
-			if (auto parentWidget = mWidgetActorLink.find(pActor.GetParent()); parentWidget != mWidgetActorLink.end())
+			if (auto parentWidget = mWidgetActorLink.find(pActor->GetParent()); parentWidget != mWidgetActorLink.end())
 			{
 				parentWidget->second->leaf = true;
 			}
@@ -275,12 +275,17 @@ void FR::FRHierarchy::RootTargetChangedCallback(ActorNode pElement)
 	pElement.first->DetachFromParent();
 }
 
-void FR::FRHierarchy::ActorTargetChangedCallback(ActorNode pElement, FRActor& pActor)
+void FR::FRHierarchy::ActorTargetChangedCallback(ActorNode pElement, FRActor* pActor)
 {
-	if (pActor.IsDescendantOf(pElement.first))
+	if (pActor->IsDescendantOf(pElement.first))
 	{
 		return;
 	}
 
 	pElement.first->SetParent(pActor);
+}
+
+FR::FRHierarchy::~FRHierarchy()
+{
+	mWidgetActorLink.clear();
 }

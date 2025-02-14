@@ -37,6 +37,8 @@ namespace FR
 
 		void ForgetCurrentSceneSourcePath();
 
+		static FRSceneManager* Instance();
+
 	public:
 		~FRSceneManager();
 
@@ -46,6 +48,7 @@ namespace FR
 		FREvent<const std::string&> CurrentSceneSourcePathChangedEvent;
 
 	private:
+		inline static FRSceneManager* sInstance{ nullptr };
 		FRScene* mCurrentScene{ nullptr };
 
 		std::string mSceneRootFolder;

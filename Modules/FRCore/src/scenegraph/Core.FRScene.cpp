@@ -56,28 +56,29 @@ void FR::FRScene::FixedUpdate()
 	std::for_each(mActors.begin(), mActors.end(), std::bind(std::mem_fn(&FRActor::OnFixedUpdate), std::placeholders::_1, FRTimer::GetDeltaTimeSec()));
 }
 
-FR::FRActor& FR::FRScene::CreateActor()
+FR::FRActor* FR::FRScene::CreateActor()
 {
 	return CreateActor("New Actor");
 }
 
-FR::FRActor& FR::FRScene::CreateActor(const std::string& pName, const std::string& pTag)
+FR::FRActor* FR::FRScene::CreateActor(const std::string& pName, const std::string& pTag)
 {
 	mActors.push_back(new FRActor(this, pName, pTag));
-	FRActor& instance = *mActors.back();
-	instance.ComponentAddedEvent += std::bind(&FRScene::OnComponentAdded, this, std::placeholders::_1);
-	instance.ComponentRemovedEvent += std::bind(&FRScene::OnComponentRemoved, this, std::placeholders::_1);
+
+	FRActor* actor = mActors.back();
+	actor->ComponentAddedEvent += std::bind(&FRScene::OnComponentAdded, this, std::placeholders::_1);
+	actor->ComponentRemovedEvent += std::bind(&FRScene::OnComponentRemoved, this, std::placeholders::_1);
 	
 	if (playing)
 	{
-		if (instance.IsActive())
+		if (actor->IsActive())
 		{
-			instance.OnAwake();
-			instance.OnEnable();
-			instance.OnStart();
+			actor->OnAwake();
+			actor->OnEnable();
+			actor->OnStart();
 		}
 	}
-	return instance;
+	return actor;
 }
 
 bool FR::FRScene::DestroyActor(FRActor& pTarget)
@@ -346,7 +347,7 @@ void FR::FRScene::AddLight(FRLight& pLight)
 void FR::FRScene::SetEnvironment(FREnvironment* pEnvironment)
 {
 	mEnvironment = pEnvironment;
-	mScene->SetSkybox(mEnvironment->GetSkybox());
+	//mScene->SetSkybox(mEnvironment->GetSkybox());
 	mScene->SetIndirectLight(mEnvironment->GetIndirectLight());
 }
 

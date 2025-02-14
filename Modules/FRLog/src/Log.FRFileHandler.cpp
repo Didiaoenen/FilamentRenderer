@@ -8,9 +8,6 @@
 namespace FR
 {
 	std::ofstream FRFileHandler::OUTPUT_FILE;
-
-	std::string FRFileHandler::__APP_LAUNCH_DATE = FRTimer::GetDateAsString();
-	std::string FRFileHandler::LOG_FILE_PATH = std::string(getenv("APPDATA")) + "/FREditor/Editor/" + __APP_LAUNCH_DATE + ".log";
 }
 
 void FR::FRFileHandler::Log(const FRILogHandler::LogData& pLogData)

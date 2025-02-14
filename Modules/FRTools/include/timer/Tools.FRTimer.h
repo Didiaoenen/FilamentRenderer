@@ -34,18 +34,18 @@ namespace FR
 		static double mWeightDelta;
 
 		// frame time
-		static double mTimeMs;
-		static double mDeltaTimeMs;
-		static double mDeltaTimeSmoothedMs;
+		inline static double mTimeMs{ 0 };
+		inline static double mDeltaTimeMs{ 0 };
+		inline static double mDeltaTimeSmoothedMs{ 0 };
 
 		// fps
-		static float mFpsMin;
-		static float mFpsMax;
-		static float mFpsLimit;
-		static float mFpsLimitPrevious;
+		inline static float mFpsMin;
+		inline static float mFpsMax;
+		inline static float mFpsLimit = mFpsMin;
+		inline static float mFpsLimitPrevious = mFpsLimit;
 
 		// misc
-		static std::chrono::steady_clock::time_point mLastTickTime;
+		inline static std::chrono::steady_clock::time_point mLastTickTime;
 
 	};
 }

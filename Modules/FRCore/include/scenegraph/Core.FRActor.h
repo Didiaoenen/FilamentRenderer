@@ -8,7 +8,7 @@
 
 #include <Tools.FREvent.h>
 
-#include "Core.FRObject.h"
+#include "Core.FREntity.h"
 #include "Core.FRISerializable.h"
 
 namespace FR
@@ -18,7 +18,7 @@ namespace FR
 	class FRCompTransform;
 
 	class FRActor
-		: public FRObject, public FRISerializable
+		: public FREntity, public FRISerializable
 	{
 	public:
 		FRActor(FRScene* pScene, const std::string& pName, const std::string& pTag);
@@ -31,7 +31,7 @@ namespace FR
 
 		bool IsActive() const;
 
-		void SetParent(FRActor& pParent);
+		void SetParent(FRActor* pParent);
 
 		void DetachFromParent();
 
@@ -63,6 +63,14 @@ namespace FR
 
 		void OnLateUpdate(float pDeltaTime);
 
+		std::vector<std::shared_ptr<FRComponent>>& GetComponents();
+
+		virtual void OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pActorsRoot) override;
+
+		virtual void OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pActorsRoot) override;
+
+		bool RemoveComponent(FRComponent& pComponent);
+
 		template<typename T>
 		T* GetComponent() const;
 
@@ -71,14 +79,6 @@ namespace FR
 
 		template<typename T>
 		bool RemoveComponent();
-
-		bool RemoveComponent(FRComponent& pComponent);
-
-		std::vector<std::shared_ptr<FRComponent>>& GetComponents();
-
-		virtual void OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pActorsRoot) override;
-
-		virtual void OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pActorsRoot) override;
 
 	private:
 		void RecursiveActiveUpdate();
@@ -94,10 +94,10 @@ namespace FR
 		FREvent<FRComponent&> ComponentAddedEvent;
 		FREvent<FRComponent&> ComponentRemovedEvent;
 
-		static FREvent<FRActor&> CreatedEvent;
-		static FREvent<FRActor&> DettachEvent;
-		static FREvent<FRActor&> DestroyedEvent;
-		static FREvent<FRActor&, FRActor&> AttachEvent;
+		inline static FREvent<FRActor*> CreatedEvent;
+		inline static FREvent<FRActor*> DettachEvent;
+		inline static FREvent<FRActor*> DestroyedEvent;
+		inline static FREvent<FRActor*, FRActor*> AttachEvent;
 
 	private:
 		bool mActive = true;

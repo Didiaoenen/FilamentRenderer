@@ -5,11 +5,6 @@
 
 #include <Tools.FRPathUtils.h>
 
-namespace FR
-{
-	FRAssimpParser FRModelLoader::__ASSIMP;
-}
-
 FR::FRModel* FR::FRModelLoader::Create(const std::string& pFilepath)
 {
 	FRModelData dataTree;

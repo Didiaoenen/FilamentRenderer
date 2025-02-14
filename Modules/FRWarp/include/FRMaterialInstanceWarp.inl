@@ -1,3 +1,5 @@
+#pragma once
+
 #include "FRMaterialInstanceWarp.h"
 
 template<typename T>

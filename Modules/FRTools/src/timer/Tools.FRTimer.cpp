@@ -5,17 +5,6 @@
 namespace FR
 {
 	double FRTimer::mWeightDelta = 1.0 / 15;
-
-	double FRTimer::mTimeMs = 0.0;
-	double FRTimer::mDeltaTimeMs = 0.0;
-	double FRTimer::mDeltaTimeSmoothedMs = 0.0;
-
-	float FRTimer::mFpsMin = 30.f;
-	float FRTimer::mFpsMax = 1000.f;
-	float FRTimer::mFpsLimit = FRTimer::mFpsMin;
-	float FRTimer::mFpsLimitPrevious = FRTimer::mFpsLimit;
-
-	std::chrono::steady_clock::time_point FRTimer::mLastTickTime;
 }
 
 FR::FRTimer::FRTimer()

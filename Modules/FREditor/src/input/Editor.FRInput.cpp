@@ -9,10 +9,10 @@ namespace FR
 	KeyCoreStates keyCodeFrameStates;
 	FRMessage::ListenerID tListenerID = 0;
 
-	bool FRInput::mCursorVisible = true;
-	glm::vec2 FRInput::mMouseDelta = glm::vec2{ 0.f };
-	glm::vec2 FRInput::mMousePosition = glm::vec2{ 0.f };
-	glm::vec2 FRInput::mMouseWheelDelta = glm::vec2{ 0.f };
+	// bool FRInput::mCursorVisible = true;
+	// glm::vec2 FRInput::mMouseDelta = glm::vec2{ 0.f };
+	// glm::vec2 FRInput::mMousePosition = glm::vec2{ 0.f };
+	// glm::vec2 FRInput::mMouseWheelDelta = glm::vec2{ 0.f };
 }
 
 FR::FRInput::FRInput()

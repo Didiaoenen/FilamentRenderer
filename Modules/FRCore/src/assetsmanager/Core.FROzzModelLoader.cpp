@@ -9,11 +9,6 @@
 
 #include <ozz/animation/runtime/skeleton.h>
 
-namespace FR
-{
-	FROzzModelParser FROzzModelLoader::__OZZ;
-}
-
 FR::FRModel* FR::FROzzModelLoader::Create(const std::string& pFilepath)
 {
 	FRModelData dataTree;

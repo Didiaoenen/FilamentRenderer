@@ -21,7 +21,7 @@ namespace FR
 	private:
 		ImGuizmo::OPERATION mCurrentOperation{ ImGuizmo::OPERATION::TRANSLATE };
 
-		FROptRef<FRActor> mHighlightedActor;
+		FRActor* mHighlightedActor{ nullptr };
 
 	protected:
 		virtual void DrawGizmo() override;

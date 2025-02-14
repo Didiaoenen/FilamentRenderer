@@ -7,15 +7,6 @@
 
 namespace FR
 {
-	FREvent<const FRILogHandler::LogData&> FRLogger::LogEvent;
-
-	std::map<std::string, FRFileHandler> FRLogger::FILE_HANDLER_MAP;
-	std::map<std::string, FRConsoleHandler> FRLogger::CONSOLE_HANDLER_MAP;
-	std::map<std::string, FRHistoryHandler> FRLogger::HISTORY_HANDLER_MAP;
-
-	FRLogger* FRLogger::mLogger = nullptr;
-	std::shared_ptr<spdlog::logger> FRLogger::mCoreLogger;
-
 	std::vector<spdlog::sink_ptr> sinks;
 }
 

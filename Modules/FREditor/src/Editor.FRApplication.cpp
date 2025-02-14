@@ -14,7 +14,6 @@
 
 void FR::FRApplication::Destroy()
 {
-	sceneManager = nullptr;
 	editorResources = nullptr;
 	guiHelper = nullptr;
 }
@@ -31,11 +30,6 @@ FR::FRApplication* FR::FRApplication::Instance()
 std::unique_ptr<FR::FRImGuiHelper>& FR::FRApplication::GuiHelper()
 {
 	return Instance()->guiHelper;
-}
-
-std::unique_ptr<FR::FRSceneManager>& FR::FRApplication::SceneManager()
-{
-	return Instance()->sceneManager;
 }
 
 std::unique_ptr<FR::FREditorResources>& FR::FRApplication::EditorResources()
@@ -82,13 +76,11 @@ void FR::FRApplication::Initialize(const std::string& pProjectPath, const std::s
 		guiHelper->EnableDocking(true);
 	}
 
-	sceneManager = std::make_unique<FRSceneManager>();
-
 	editorResources = std::make_unique<FREditorResources>();
 
-	renderer = std::make_unique<FRSceneRenderer>();
-
 	editor = std::make_unique<FREditorController>();
+
+	renderer = std::make_unique<FRSceneRenderer>();
 
 	FRGuiDrawer::ProvideEmptyTexture(editorResources->GetTexture("Empty_Texture"));
 

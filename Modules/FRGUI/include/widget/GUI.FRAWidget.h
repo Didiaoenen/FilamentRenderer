@@ -77,7 +77,7 @@ namespace FR::GUI
 
 	private:
 		bool mDestroyed{ false };
-		static uint64_t __WIDGET_ID_INCREMENT;
+		inline static uint64_t __WIDGET_ID_INCREMENT{ 0 };
 
 	};
 }

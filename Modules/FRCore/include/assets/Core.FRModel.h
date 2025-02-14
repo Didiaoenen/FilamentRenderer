@@ -32,7 +32,7 @@ namespace FR
 		friend class FRModelLoader;
 		friend class FROzzModelLoader;
 
-		const static uint8_t kMaterialMaxCount = 0xFF;
+		static constexpr uint8_t kMaterialMaxCount = 0xFF;
 
 	public:
 		FRModel();

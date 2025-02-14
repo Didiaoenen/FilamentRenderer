@@ -4,11 +4,13 @@
 
 namespace FR
 {
+	class FRView;
+
 	class RFIRenderer
 	{
 	public:
 		virtual bool BeginFrame(const FRFrameDescriptor& pFrameDescriptor) = 0;
-		//virtual void DrawFrame() = 0;
+		virtual void DrawFrame(FRView* pView) = 0;
 		virtual void EndFrame() = 0;
 	};
 }

@@ -50,23 +50,23 @@ namespace FR
 #pragma region ACTOR_CREATION_DESTRUCTION
 		glm::vec3 CalculateActorSpawnPoint(float pDistanceToCamera);
 
-		FRActor& CreateEmptyActor(bool pFocusOnCreation = true, FRActor* pParent = nullptr, const std::string& pName = "");
+		FRActor* CreateEmptyActor(bool pFocusOnCreation = true, FRActor* pParent = nullptr, const std::string& pName = "");
 
-		FRActor& CreateActorWithModel(const std::string& pPath, bool pFocusOnCreation = true, FRActor* pParent = nullptr, const std::string& pName = "");
+		FRActor* CreateActorWithModel(const std::string& pPath, bool pFocusOnCreation = true, FRActor* pParent = nullptr, const std::string& pName = "");
 		
-		bool DestroyActor(FRActor& pActor);
+		bool DestroyActor(FRActor* pActor);
 #pragma endregion
 
 #pragma region ACTOR_MANIPULATION
-		void SelectActor(FRActor& pTarget);
+		void SelectActor(FRActor* pTarget);
 
 		void UnselectActor();
 
 		bool IsAnyActorSelected();
 
-		FRActor& GetSelectedActor();
+		FRActor* GetSelectedActor();
 
-		void MoveToTarget(FRActor& pTarget);
+		void MoveToTarget(FRActor* pTarget);
 #pragma endregion
 
 #pragma region RESOURCE_MANAGEMENT
@@ -87,8 +87,8 @@ namespace FR
 
 	public:
 		FREvent<> PlayEvent;
-		FREvent<FRActor&> ActorSelectedEvent;
-		FREvent<FRActor&> ActorUnselectedEvent;
+		FREvent<FRActor*> ActorSelectedEvent;
+		FREvent<FRActor*> ActorUnselectedEvent;
 		FREvent<EEditorMode> EditorModeChangedEvent;
 
 	private:

@@ -10,5 +10,6 @@ namespace FR
 	{
 	public:
 		static void StartProcess(const std::string& pCommandLine);
+		
 	};
 }

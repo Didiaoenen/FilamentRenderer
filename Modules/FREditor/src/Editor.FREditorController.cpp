@@ -39,7 +39,7 @@ FR::FREditorController::FREditorController()
 {
 	SetupUI();
 
-	auto scene = FRApplication::SceneManager()->LoadEmptyLightedScene();
+	auto scene = FRSceneManager::Instance()->LoadEmptyLightedScene();
 
 	auto planeModel = FRApplication::EditorResources()->GetModel("Plane");
 	auto gridShader = FRApplication::EditorResources()->GetShader("Grid");
@@ -117,14 +117,14 @@ void FR::FREditorController::UpdateCurrentEditorMode()
 	}
 
 	{
-		FRApplication::SceneManager()->GetCurrentScene()->CollectGarbages();
-		FRApplication::SceneManager()->Update();
+		FRSceneManager::Instance()->GetCurrentScene()->CollectGarbages();
+		FRSceneManager::Instance()->Update();
 	}
 }
 
 void FR::FREditorController::UpdatePlayMode()
 {
-	auto currentScene = FRApplication::SceneManager()->GetCurrentScene();
+	auto currentScene = FRSceneManager::Instance()->GetCurrentScene();
 
 	{
 		currentScene->Update();
@@ -159,13 +159,11 @@ void FR::FREditorController::UpdateEditorPanels()
 
 void FR::FREditorController::RenderViews()
 {
-	auto& renderer = FRApplication::SceneRenderer();
-
 	//assetView->Update();
 	sceneView->Update();
 	gameView->Update();
 
-	if (renderer->BeginFrame({}))
+	if (sceneRenderer.BeginFrame({}))
 	{
 		//if (assetView.IsOpened())
 		//{
@@ -174,17 +172,17 @@ void FR::FREditorController::RenderViews()
 
 		if (sceneView->IsOpened())
 		{
-			sceneView->DrawFrame(renderer.get());
+			sceneView->DrawFrame(&sceneRenderer);
 		}
 
 		if (gameView->IsOpened())
 		{
-			gameView->DrawFrame(renderer.get());
+			gameView->DrawFrame(&sceneRenderer);
 		}
 
 		FRApplication::GuiHelper()->Render();
 
-		renderer->EndFrame();
+		sceneRenderer.EndFrame();
 
 		{
 			//assetView->ResizeRenderTarget();

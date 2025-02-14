@@ -65,7 +65,7 @@ namespace FR
 		~Window();
 
 	private:
-		static Window* sWindow;
+		inline static Window* sWindow{ nullptr };
 
 		bool mShouldClose{ false };
 		void* mRawWindow{ nullptr };

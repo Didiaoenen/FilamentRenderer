@@ -41,10 +41,10 @@ namespace FR
 		~FRInput();
 
 	private:
-		static bool mCursorVisible;
-		static glm::vec2 mMouseDelta;
-		static glm::vec2 mMousePosition;
-		static glm::vec2 mMouseWheelDelta;
+		inline static bool mCursorVisible{ true };
+		inline static glm::vec2 mMouseDelta{ 0.f };
+		inline static glm::vec2 mMousePosition{ 0.f };
+		inline static glm::vec2 mMouseWheelDelta{ 0.f };
 
 	};
 }

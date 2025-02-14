@@ -54,16 +54,16 @@ namespace FR
 		~FRLogger();
 
 	public:
-		static FREvent<const FRILogHandler::LogData&> LogEvent;
+		inline static FREvent<const FRILogHandler::LogData&> LogEvent;
 
 	private:
-		static FRLogger* mLogger;
+		inline static FRLogger* mLogger{ nullptr };
 
-		static std::shared_ptr<spdlog::logger> mCoreLogger;
+		inline static std::shared_ptr<spdlog::logger> mCoreLogger{ nullptr };
 
-		static std::map<std::string, FRFileHandler> FILE_HANDLER_MAP;
-		static std::map<std::string, FRConsoleHandler> CONSOLE_HANDLER_MAP;
-		static std::map<std::string, FRHistoryHandler> HISTORY_HANDLER_MAP;
+		inline static std::map<std::string, FRFileHandler> FILE_HANDLER_MAP;
+		inline static std::map<std::string, FRConsoleHandler> CONSOLE_HANDLER_MAP;
+		inline static std::map<std::string, FRHistoryHandler> HISTORY_HANDLER_MAP;
 
 	};
 }

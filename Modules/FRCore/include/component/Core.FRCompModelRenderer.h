@@ -11,7 +11,7 @@ namespace FR
 	class FRCompModelRenderer
 		: public FRComponent
 	{
-		const static uint8_t kMaxCount = 0xFF;
+		static constexpr uint8_t kMaxCount = 0xFF;
 
 	public:
 		FRCompModelRenderer(FRActor& pOwner);

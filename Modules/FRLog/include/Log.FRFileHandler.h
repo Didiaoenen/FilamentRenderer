@@ -1,6 +1,9 @@
 #pragma once
 
+#include <Tools.FRTimer.h>
 #include "Log.FRILogHandler.h"
+
+#include <string>
 
 namespace FR
 {
@@ -15,13 +18,11 @@ namespace FR
 		static std::string& GetLogFilePath();
 
 	private:
-		static std::string GetLogHeader(ELogLevel pLogLevel);
-
-		static std::string __APP_LAUNCH_DATE;
-
-		static std::string LOG_FILE_PATH;
-
 		static std::ofstream OUTPUT_FILE;
+
+		inline static std::string __APP_LAUNCH_DATE = FRTimer::GetDateAsString();
+
+		inline static std::string LOG_FILE_PATH = std::string(getenv("APPDATA")) + "/FREditor/Editor/" + __APP_LAUNCH_DATE + ".log";
 
 	};
 }

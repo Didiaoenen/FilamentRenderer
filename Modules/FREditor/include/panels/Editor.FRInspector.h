@@ -14,7 +14,7 @@ namespace FR
 	public:
 		FRInspector(const std::string& pTitle, bool pOpened, const GUI::FRPanelWindowSettings& pSettings);
 
-		void FocusActor(FRActor& pTarget);
+		void FocusActor(FRActor* pTarget);
 
 		void UnFocus();
 
@@ -22,7 +22,7 @@ namespace FR
 
 		FRActor* GetTargetActor() const;
 
-		void CreateActorInspector(FRActor& pTarget);
+		void CreateActorInspector(FRActor* pTarget);
 
 		void DrawComponent(FRComponent& pComponent);
 

@@ -13,39 +13,6 @@ using namespace FR::GUI;
 
 namespace FR
 {
-	std::string UniformFormat(const std::string& p_string)
-	{
-		std::string result;
-		std::string formattedInput = p_string;
-		std::string capsChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-		bool first = true;
-		bool capsNext = false;
-
-		for (char c : formattedInput)
-		{
-			if (first || capsNext)
-			{
-				c = toupper(c);
-				first = false;
-				capsNext = false;
-			}
-
-			if (c == '_')
-			{
-				c = ' ';
-				capsNext = true;
-			}
-
-			if (std::find(capsChars.begin(), capsChars.end(), c) != capsChars.end())
-				result.push_back(' ');
-
-			result.push_back(c);
-		}
-
-		return result;
-	}
-
 	void DrawHybridVec3(FRWidgetContainer& pRoot, const std::string& pName, glm::vec3& pData, float pStep, float pMin, float pMax)
 	{
 		FRGuiDrawer::CreateTitle(pRoot, pName).lineBreak = false;

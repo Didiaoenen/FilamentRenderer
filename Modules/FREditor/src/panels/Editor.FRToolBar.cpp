@@ -90,8 +90,8 @@ void FR::FRMenuBar::_Draw_Impl()
 FR::FRToolBar::FRToolBar()
 {
 	CreateFileMenu();
-	CreateActorsMenu();
-	CreateSettingsMenu();
+	//CreateActorsMenu();
+	//CreateSettingsMenu();
 	CreateLayoutMenu();
 	CreateHelpMenu();
 

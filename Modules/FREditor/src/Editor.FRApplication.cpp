@@ -55,6 +55,7 @@ const std::string FR::FRApplication::GetBinPath()
 
 FR::FRApplication::FRApplication()
 {
+	FRServiceLocator::Provide<FRKtxManager>(ktxManager);
 	FRServiceLocator::Provide<FRModelManager>(modelManager);
 	FRServiceLocator::Provide<FRShaderManager>(shaderManager);
 	FRServiceLocator::Provide<FRTextureManager>(textureManager);

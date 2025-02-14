@@ -2,7 +2,6 @@
 
 #include "FRPtrWarp.h"
 #include <glm/glm.hpp>
-#include <utils/Entity.h>
 #include <filament/Camera.h>
 
 namespace FR

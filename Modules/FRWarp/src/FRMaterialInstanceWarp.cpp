@@ -3,9 +3,9 @@
 #include "FRMaterialWarp.h"
 #include "FRTextureSamplerWarp.h"
 
-FR::FRMaterialInstanceWarp::FRMaterialInstanceWarp(FRMaterialWarp* pMaterial, const char* pName)
+FR::FRMaterialInstanceWarp::FRMaterialInstanceWarp(FRMaterialWarp* pMaterial, const std::string& pName)
 {
-	mValue = FRPtrValue(PtrValue(pMaterial)->createInstance(pName));
+	mValue = FRPtrValue(PtrValue(pMaterial)->createInstance(pName.c_str()));
 }
 
 void FR::FRMaterialInstanceWarp::SetScissor(uint32_t pLeft, uint32_t pBottom, uint32_t pWidth, uint32_t pHeight)
@@ -13,9 +13,9 @@ void FR::FRMaterialInstanceWarp::SetScissor(uint32_t pLeft, uint32_t pBottom, ui
 	PtrValue(this)->setScissor(pLeft, pBottom, pWidth, pHeight);
 }
 
-void FR::FRMaterialInstanceWarp::SetParameter(const char* pName, FRTextureWarp* pTexture, FRTextureSamplerWarp& pSampler)
+void FR::FRMaterialInstanceWarp::SetParameter(const std::string& pName, FRTextureWarp* pTexture, FRTextureSamplerWarp& pSampler)
 {
-	PtrValue(this)->setParameter(pName, PtrValue(pTexture), RefValue(pSampler));
+	PtrValue(this)->setParameter(pName.c_str(), PtrValue(pTexture), RefValue(pSampler));
 }
 
 void FR::FRMaterialInstanceWarp::SetTransparencyMode(ETransparencyMode pMode)

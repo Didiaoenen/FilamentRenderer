@@ -7,8 +7,6 @@
 #include <FRSceneWarp.h>
 #include "Core.FRISerializable.h"
 
-class IBL;
-
 namespace FR
 {
 	class FRActor;
@@ -18,6 +16,7 @@ namespace FR
 	class FRComponent;
 	class FRCompLight;
 	class FRCompCamera;
+	class FREnvironment;
 	class FRCompModelRenderer;
 
 	class FRScene
@@ -75,13 +74,13 @@ namespace FR
 
 		void ParseScene();
 
-		void AddIBL();
-
 		void AddGizmo(FRModel* pGizmo);
 
 		void AddModel(FRModel* pModel);
 
 		void AddLight(FRLight& pLight);
+
+		void SetEnvironment(FREnvironment* pEnvironment);
 
 		void RemoveModel(const FRModel* pModel);
 
@@ -99,13 +98,13 @@ namespace FR
 
 	private:
 		FRSceneWarp* mScene{ nullptr };
-
-		int64_t mAvailableID{ 0 };
-
-		std::unique_ptr<IBL> mIBL;
+		FREnvironment* mEnvironment{ nullptr };
 
 		std::vector<FRActor*> mActors;
 		std::vector<FRModel*> mGizmoModels;
 		FastAccessComponents mFastAccessComponents;
+
+		int64_t mAvailableID{ 0 };
+
 	};
 }

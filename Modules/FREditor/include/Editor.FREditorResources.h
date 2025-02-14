@@ -28,8 +28,11 @@ namespace FR
 
 	private:
 		FRMaterial* mDefaultMaterial{ nullptr };
+
 		std::unordered_map<std::string, FRModel*> mModels;
+
 		std::unordered_map<std::string, FRShader*> mShaders;
+
 		std::unordered_map<std::string, FRTexture*> mTextures;
 
 	};

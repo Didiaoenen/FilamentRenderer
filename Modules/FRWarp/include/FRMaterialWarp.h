@@ -45,6 +45,7 @@ namespace FR
 
 		private:
 			filament::Material::Builder mBuilder;
+
 		};
 
 		struct ParameterInfo
@@ -64,9 +65,9 @@ namespace FR
 
 		FRMaterialWarp(FREngineWarp* pEngine, Builder* pBuilder);
 
-		FRMaterialInstanceWarp* CreateInstance(const char* pName = nullptr);
+		FRMaterialInstanceWarp* CreateInstance(const std::string& pName = "");
 
-		void SetDefaultParameter(const char* pName, FRTextureWarp* pTexture, FRTextureSamplerWarp& pSampler);
+		void SetDefaultParameter(const std::string& pName, FRTextureWarp* pTexture, FRTextureSamplerWarp& pSampler);
 
 		size_t GetParameters(ParameterInfo* pParameters, size_t pCount);
 

@@ -15,7 +15,7 @@ add_library(${TARGET} STATIC ${HDRS} ${SRCS})
 
 target_include_directories(${TARGET} PUBLIC ${HDR_DIR} ${HDR_DIR}/enum ${HDR_DIR}/storage)
 
-target_link_libraries(${TARGET} PRIVATE glm::glm filament dearimgui ozz_base FRTools)
+target_link_libraries(${TARGET} PRIVATE glm::glm filament image ktxreader dearimgui ozz_base FRTools)
 
 set_target_properties(${TARGET} PROPERTIES MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 

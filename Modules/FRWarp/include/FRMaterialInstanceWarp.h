@@ -23,11 +23,11 @@ namespace FR
 	public:
 		FRMaterialInstanceWarp() = default;
 
-		FRMaterialInstanceWarp(FRMaterialWarp* pMaterial, const char* pName);
+		FRMaterialInstanceWarp(FRMaterialWarp* pMaterial, const std::string& pName);
 
 		void SetScissor(uint32_t pLeft, uint32_t pBottom, uint32_t pWidth, uint32_t pHeight);
 
-		void SetParameter(const char* pName, FRTextureWarp* pTexture, FRTextureSamplerWarp& pSampler);
+		void SetParameter(const std::string& pName, FRTextureWarp* pTexture, FRTextureSamplerWarp& pSampler);
 		
 		void SetTransparencyMode(ETransparencyMode pMode);
 
@@ -40,7 +40,7 @@ namespace FR
 		void SetDepthWrite(bool pEnable);
 
 		template<typename T>
-		inline void SetParameter(const std::string& pName, T const& value);
+		void SetParameter(const std::string& pName, T const& value);
 
 	};
 

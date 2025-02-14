@@ -1,6 +1,5 @@
 #include "Core.FRScene.h"
 
-#include "IBL.h"
 #include "Core.FRActor.h"
 #include "Core.FRCompLight.h"
 #include "Core.FRCompCamera.h"
@@ -12,6 +11,7 @@
 #include "Core.FRModel.h"
 #include "Core.FRLight.h"
 #include "Core.FRMaterial.h"
+#include "Core.FREnvironment.h"
 #include "Core.FRDrawable.h"
 
 #include <FRSceneWarp.h>
@@ -30,7 +30,6 @@
 FR::FRScene::FRScene()
 {
 	mScene = FRFilamentHelper::CreateScene();
-	AddIBL();
 }
 
 void FR::FRScene::Playing()
@@ -321,44 +320,6 @@ void FR::FRScene::ParseScene()
 	}
 }
 
-void FR::FRScene::AddIBL()
-{
-	utils::Path iblPath(FRPathUtils::GetRealPath(":IBL\\lightroom_14b"));
-
-	if (!iblPath.exists())
-	{
-		return;
-	}
-
-	auto engine = FRFilamentHelper::GetEngine();
-	mIBL = std::make_unique<IBL>(*PtrValue(engine));
-
-	if (!iblPath.isDirectory())
-	{
-		if (!mIBL->loadFromEquirect(iblPath))
-		{
-			mIBL.reset(nullptr);
-			return;
-		}
-	}
-	else
-	{
-		if (!mIBL->loadFromDirectory(iblPath))
-		{
-			mIBL.reset(nullptr);
-			return;
-		}
-	}
-
-	auto skybox = mIBL->getSkybox();
-	skybox->setLayerMask(0x7, 0x4);
-	//mScene->SetSkybox(skybox);
-
-	auto indirectLight = mIBL->getIndirectLight();
-	indirectLight->setIntensity(3000.f);
-	mScene->SetIndirectLight(indirectLight);
-}
-
 void FR::FRScene::AddGizmo(FRModel* pGizmo)
 {
 	for (const auto mesh : pGizmo->GetMeshes())
@@ -380,6 +341,13 @@ void FR::FRScene::AddModel(FRModel* pModel)
 void FR::FRScene::AddLight(FRLight& pLight)
 {
 	mScene->AddEntity(pLight.GetEntity());
+}
+
+void FR::FRScene::SetEnvironment(FREnvironment* pEnvironment)
+{
+	mEnvironment = pEnvironment;
+	mScene->SetSkybox(mEnvironment->GetSkybox());
+	mScene->SetIndirectLight(mEnvironment->GetIndirectLight());
 }
 
 void FR::FRScene::RemoveModel(const FRModel* pModel)

@@ -90,6 +90,7 @@ FR::FRModel* FR::FRModel::Create()
 {
 	auto model = new FRModel();
 	model->path = path;
+	model->mSkeletonRig = mSkeletonRig;
 
 	for (const auto& mesh : mMeshes)
 	{

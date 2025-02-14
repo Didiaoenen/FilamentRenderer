@@ -6,6 +6,7 @@
 #include <Core.FRShader.h>
 #include <Core.FRMaterial.h>
 
+#include <Core.FRKtxManager.h>
 #include <Core.FRModelLoader.h>
 #include <Core.FRShaderLoader.h>
 #include <Core.FRTextureLoader.h>
@@ -15,6 +16,7 @@
 #include <FRTextureSamplerWarp.h>
 
 #include <Tools.FRPathUtils.h>
+#include <Tools.FRServiceLocator.h>
 
 #include <utils/Path.h>
 
@@ -36,6 +38,9 @@ FR::FREditorResources::FREditorResources()
 	}
 
 	mDefaultMaterial = FRMaterialLoader::Create(utils::Path::concat(editorPath, "Materials/Default.mat"));
+
+	mTextures["IBL"] = GetService(FRKtxManager)[":IBL/lightroom_14b/lightroom_14b_ibl.ktx"];
+	mTextures["Skybox"] = GetService(FRKtxManager)[":IBL/lightroom_14b/lightroom_14b_skybox.ktx"];
 }
 
 FR::FRTexture* FR::FREditorResources::GetTexture(const std::string& pID)

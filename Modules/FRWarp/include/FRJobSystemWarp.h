@@ -15,8 +15,6 @@ namespace FR
 
 		FRJobSystemWarp(FREngineWarp* pEngine);
 
-	private:
-
 	};
 }
 

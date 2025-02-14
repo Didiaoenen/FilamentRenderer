@@ -3,10 +3,10 @@
 #include "FRRenderTargetWarp.h"
 
 template<typename T>
-void FR::FREngineWarp::Destroy(T* pPtr)
+void FR::FREngineWarp::Destroy(T* pWarpValue)
 {
-	if (pPtr)
+	if (pWarpValue)
 	{
-		PtrValue(this)->destroy(PtrValue(pPtr));
+		PtrValue(this)->destroy(PtrValue(pWarpValue));
 	}
 }

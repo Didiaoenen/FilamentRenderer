@@ -9,14 +9,14 @@ FR::FRMaterialWarp::FRMaterialWarp(FREngineWarp* pEngine, Builder* pBuilder)
 	mValue = FRPtrValue(pBuilder->mBuilder.build(*PtrValue(pEngine)));
 }
 
-FR::FRMaterialInstanceWarp* FR::FRMaterialWarp::CreateInstance(const char* pName)
+FR::FRMaterialInstanceWarp* FR::FRMaterialWarp::CreateInstance(const std::string& pName)
 {
 	return new FR::FRMaterialInstanceWarp(this, pName);
 }
 
-void FR::FRMaterialWarp::SetDefaultParameter(const char* pName, FRTextureWarp* pTexture, FRTextureSamplerWarp& pSampler)
+void FR::FRMaterialWarp::SetDefaultParameter(const std::string& pName, FRTextureWarp* pTexture, FRTextureSamplerWarp& pSampler)
 {
-	PtrValue(this)->setDefaultParameter(pName, PtrValue(pTexture), RefValue(pSampler));
+	PtrValue(this)->setDefaultParameter(pName.c_str(), PtrValue(pTexture), RefValue(pSampler));
 }
 
 size_t FR::FRMaterialWarp::GetParameters(ParameterInfo* pParameters, size_t pCount)
@@ -30,9 +30,9 @@ size_t FR::FRMaterialWarp::GetParameters(ParameterInfo* pParameters, size_t pCou
 		parameter.name = parameters[i].name;
 		parameter.isSampler = parameters[i].isSampler;
 		parameter.isSubpass = parameters[i].isSubpass;
-		parameter.uniformType = static_cast<FRMaterialWarp::EUniformType>(parameters[i].type);
-		parameter.samplerType = static_cast<FRMaterialWarp::ESamplerType>(parameters[i].samplerType);
-		parameter.subpassType = static_cast<FRMaterialWarp::ESubpassType>(parameters[i].subpassType);
+		parameter.uniformType = parameters[i].type;
+		parameter.samplerType = parameters[i].samplerType;
+		parameter.subpassType = parameters[i].subpassType;
 	}
 
 	return pCount;

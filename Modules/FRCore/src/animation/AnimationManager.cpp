@@ -8,12 +8,12 @@
 FR::Animation* FR::AnimationManager::CreateResource(const std::string& pPath)
 {
 	std::string realPath = FRPathUtils::GetRealPath(pPath);
-	auto animation = FROzzAnimationLoader::Create(realPath);
-	if (animation)
+	if (auto animation = FROzzAnimationLoader::Create(realPath))
 	{
 		*reinterpret_cast<std::string*>(reinterpret_cast<char*>(animation) + offsetof(Animation, path)) = pPath;
+		return animation;
 	}
-	return animation;
+	return nullptr;
 }
 
 void FR::AnimationManager::DestroyResource(Animation* pResource)

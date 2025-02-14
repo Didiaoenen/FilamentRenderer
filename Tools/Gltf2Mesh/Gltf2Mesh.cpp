@@ -308,7 +308,7 @@ bool BuildMesh(tinygltf::Model& model, ozz::vector<ozz::sample::Mesh>& meshes)
 						output_mesh.triangle_indices[iCount] = data[iCount];
 					}
 				}
-				break;
+					break;
 				case TINYGLTF_COMPONENT_TYPE_UNSIGNED_INT:
 					break;
 				default:
@@ -372,7 +372,7 @@ bool BuildSkin(tinygltf::Model& model, ozz::vector<ozz::sample::Mesh::InversBind
 					inverse_bind_poses[v_pos] = ConvertMatrix(matrix.data());
 				}
 			}
-			break;
+				break;
 			default:
 				break;
 			}

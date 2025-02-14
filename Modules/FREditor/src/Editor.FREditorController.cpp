@@ -19,6 +19,7 @@
 #include <Core.FRModel.h>
 #include <Core.FRShader.h>
 #include <Core.FRMaterial.h>
+#include <Core.FREnvironment.h>
 #include <Core.FRSceneManager.h>
 #include <Core.FRSceneRenderer.h>
 
@@ -42,6 +43,8 @@ FR::FREditorController::FREditorController()
 
 	auto planeModel = FRApplication::EditorResources()->GetModel("Plane");
 	auto gridShader = FRApplication::EditorResources()->GetShader("Grid");
+	auto iblTexture = FRApplication::EditorResources()->GetTexture("IBL");
+	auto skyboxTexture = FRApplication::EditorResources()->GetTexture("Skybox");
 
 	auto t = glm::mat4(1.0f);
 	auto transform = glm::translate(t, glm::vec3(0.0f, -10.0f, 0.0f)) * glm::scale(t, glm::vec3(10000.0f, 1.0f, 10000.0f));
@@ -61,6 +64,10 @@ FR::FREditorController::FREditorController()
 	planeModel->SetMaterialAtIndex(0, material);
 
 	scene->AddGizmo(planeModel);
+
+	auto environment = new FREnvironment(skyboxTexture, iblTexture);
+
+	scene->SetEnvironment(environment);
 }
 
 void FR::FREditorController::SetupUI()

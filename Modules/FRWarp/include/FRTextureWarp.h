@@ -6,6 +6,7 @@
 namespace FR
 {
 	class FREngineWarp;
+	class FRKtx1BundleWarp;
 	class FRPixelBufferDescriptorWarp;
 
 	class FRTextureWarp
@@ -84,9 +85,15 @@ namespace FR
 
 		FRTextureWarp(FREngineWarp* pEngine, Builder* pBuilder);
 
+		FRTextureWarp(FREngineWarp* pEngine, FRKtx1BundleWarp* pKtxBundle, bool pSRGB);
+
 		void SetImage(FREngineWarp* pEngine, size_t pLevel, FRPixelBufferDescriptorWarp&& buffer);
 
 		void GenerateMipmaps(FREngineWarp* pEngine);
+
+		size_t GetWidth();
+
+		size_t GetHeight();
 
 	};
 }

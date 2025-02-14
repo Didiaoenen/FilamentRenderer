@@ -7,6 +7,7 @@ FR::FRCameraWarp::FRCameraWarp(FREngineWarp* pEngine, FREntityWarp* pEntity)
 	: mEntity(pEntity)
 {
 	mValue = FRPtrValue(PtrValue(pEngine)->createCamera(PtrValue(pEntity)));
+	pEngine->RegisterCamera(this);
 }
 
 void FR::FRCameraWarp::LookAt(const glm::vec3& pEye, const glm::vec3& pCenter, const glm::vec3& pUp)

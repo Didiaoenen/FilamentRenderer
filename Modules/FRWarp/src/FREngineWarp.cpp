@@ -107,6 +107,21 @@ FR::FRCameraWarp* FR::FREngineWarp::CreateCamera(FREntityWarp* pEntity)
 	return camera;
 }
 
+void FR::FREngineWarp::RegisterRenderer(FRRendererWarp* pRenderer)
+{
+	mRenderers.emplace_back(pRenderer);
+}
+
+void FR::FREngineWarp::RegisterScene(FRSceneWarp* pScene)
+{
+	mScenes.emplace_back(pScene);
+}
+
+void FR::FREngineWarp::RegisterCamera(FRCameraWarp* pCamera)
+{
+	mCameras.emplace_back(pCamera);
+}
+
 void FR::FREngineWarp::RegisterSkybox(FRSkyboxWarp* pSkybox)
 {
 	mSkyboxes.emplace_back(pSkybox);

@@ -60,6 +60,12 @@ namespace FR
 
 		FRCameraWarp* CreateCamera(FREntityWarp* pEntity);
 
+		void RegisterRenderer(FRRendererWarp* pRenderer);
+
+		void RegisterScene(FRSceneWarp* pScene);
+
+		void RegisterCamera(FRCameraWarp* pCamera);
+
 		void RegisterSkybox(FRSkyboxWarp* pSkybox);
 
 		void RegisterTexture(FRTextureWarp* pTexture);
@@ -87,7 +93,7 @@ namespace FR
 		void Destroy(FREntityWarp* pEntity);
 
 		template<typename T>
-		void Destroy(T* pPtr);
+		void Destroy(T* pWarpValue);
 
 	public:
 		~FREngineWarp();

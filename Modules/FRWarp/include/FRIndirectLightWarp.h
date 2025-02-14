@@ -9,7 +9,7 @@ namespace FR
 	class FREngineWarp;
 
 	class FRIndirectLightWarp
-		: FRPtrWarp<filament::IndirectLight>
+		: public FRPtrWarp<filament::IndirectLight>
 	{
 	public:
 
@@ -46,9 +46,9 @@ namespace FR
 
 		};
 
-		FRIndirectLightWarp(FREngineWarp* pEngine, Builder* pBuilder);
+		FRIndirectLightWarp() = default;
 
-	private:
+		FRIndirectLightWarp(FREngineWarp* pEngine, Builder* pBuilder);
 
 	};
 }

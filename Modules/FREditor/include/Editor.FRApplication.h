@@ -5,6 +5,7 @@
 #include "Editor.FREditorResources.h"
 
 #include <AnimationManager.h>
+#include <Core.FRKtxManager.h>
 #include <Core.FRModelManager.h>
 #include <Core.FRSceneManager.h>
 #include <Core.FRSceneRenderer.h>
@@ -56,6 +57,7 @@ namespace FR
 		FRInput mInput;
 		FRTimer mTimer;
 
+		FRKtxManager ktxManager;
 		FRModelManager modelManager;
 		FRShaderManager shaderManager;
 		FRTextureManager textureManager;

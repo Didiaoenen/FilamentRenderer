@@ -6,6 +6,7 @@
 FR::FRRendererWarp::FRRendererWarp(FREngineWarp* pEngine)
 {
 	mValue = FRPtrValue(PtrValue(pEngine)->createRenderer());
+	pEngine->RegisterRenderer(this);
 }
 
 void FR::FRRendererWarp::SetClearOptions(const FClearOptions& pOptions)

@@ -31,6 +31,13 @@ FR::FRTexture::FRTexture(const uint32_t pWidth, const uint32_t pHeight,
 		.Build(engine);
 }
 
+FR::FRTexture::FRTexture(FRTextureWarp* pTexture)
+{
+	width = pTexture->GetWidth();
+	height = pTexture->GetHeight();
+	mTexture = pTexture;
+}
+
 void FR::FRTexture::SetData(void* pData, uint32_t pSize)
 {
 	auto engine = FRFilamentHelper::GetEngine();

@@ -6,8 +6,9 @@
 namespace FR
 {
 	class FREntityWarp;
-	class FRSkyboxWarp;
 	class FREngineWarp;
+	class FRSkyboxWarp;
+	class FRIndirectLightWarp;
 
 	class FRSceneWarp
 		: public FRPtrWarp<filament::Scene>
@@ -19,9 +20,9 @@ namespace FR
 
 		void AddEntity(FREntityWarp* pEntity);
 
-		void SetSkybox(filament::Skybox* pSkybox);
+		void SetSkybox(FRSkyboxWarp* pSkybox);
 
-		void SetIndirectLight(filament::IndirectLight* ibl);
+		void SetIndirectLight(FRIndirectLightWarp* pIndirectLight);
 
 		void Remove(FREntityWarp* pEntity);
 

@@ -8,11 +8,11 @@
 
 FR::FRActor::FRActor(const std::string& pName, const std::string& pTag)
 	: mScene(FRSceneManager::Instance()->GetCurrentScene())
+	, FREntity()
 {
 	tag = pTag;
 	name = pName;
 	transform = AddComponent<FRCompTransform>();
-	FREntity::FREntity(transform->GetFRTransform());
 
 	auto engine = FRFilamentHelper::GetEngine();
 	auto tcm = engine->GetTransformManager();

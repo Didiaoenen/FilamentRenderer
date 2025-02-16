@@ -72,11 +72,17 @@ namespace FR
 
 		void RegisterIndexBuffer(FRIndexBufferWarp* pIndexBuffer);
 
+		void UnRegisterIndexBuffer(FRIndexBufferWarp* pIndexBuffer);
+
 		void RegisterVertexBuffer(FRVertexBufferWarp* pVertexBuffer);
+
+		void UnRegisterVertexBuffer(FRVertexBufferWarp* pVertexBuffer);
 
 		void RegisterRenderTarget(FRRenderTargetWarp* pRenderTarget);
 
 		void RegisterSknningBuffer(FRSkinningBufferWarp* pSkinningBuffer);
+
+		void UnRegisterSknningBuffer(FRSkinningBufferWarp* pSkinningBuffer);
 
 		void RegisterIndirectLight(FRIndirectLightWarp* pIndirectLight);
 

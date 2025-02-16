@@ -48,6 +48,9 @@ namespace FR
 
 		void MaterialDrawer(GUI::FRWidgetContainer& pRoot, uint32_t pIndex, const std::string& pName, FRMaterial*& pData);
 
+	public:
+		virtual ~FRCompMaterialRenderer();
+
 	private:
 		MaterialList mMaterials;
 		MaterialField mMaterialFields;

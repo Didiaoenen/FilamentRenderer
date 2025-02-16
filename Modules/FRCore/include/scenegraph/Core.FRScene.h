@@ -1,11 +1,11 @@
 #pragma once
 
+#include <FRSceneWarp.h>
+#include "Core.FRISerializable.h"
+
 #include <vector>
 #include <string>
 #include <memory>
-
-#include <FRSceneWarp.h>
-#include "Core.FRISerializable.h"
 
 namespace FR
 {
@@ -44,7 +44,7 @@ namespace FR
 
 		FRActor* CreateActor(const std::string& pName, const std::string& pTag = "");
 
-		bool DestroyActor(FRActor& pTarget);
+		bool DestroyActor(FRActor* pTarget);
 
 		void CollectGarbages();
 
@@ -60,11 +60,11 @@ namespace FR
 
 		FRCompCamera* FindMainCamera() const;
 
-		void OnComponentAdded(FRComponent& pCompononent);
+		void OnComponentAdded(FRComponent* pCompononent);
 
-		void OnComponentRemoved(FRComponent& pCompononent);
+		void OnComponentRemoved(FRComponent* pCompononent);
 
-		std::vector<FRActor*>& GetActors();
+		const std::vector<FRActor*>& GetActors();
 
 		const FastAccessComponents& GetFastAccessComponents() const;
 
@@ -78,7 +78,7 @@ namespace FR
 
 		void AddModel(FRModel* pModel);
 
-		void AddLight(FRLight& pLight);
+		void AddLight(FRLight* pLight);
 
 		void SetEnvironment(FREnvironment* pEnvironment);
 
@@ -86,12 +86,12 @@ namespace FR
 
 		void RemoveLight(const FRLight* pLight);
 
-		const std::vector<FRModel*> GetGizmoModels() const;
+		const std::vector<FRModel*>& GetGizmoModels() const;
 
 		FRSceneWarp* NativePtr();
 
 	public:
-		~FRScene();
+		virtual ~FRScene();
 
 	public:
 		bool playing{ false };

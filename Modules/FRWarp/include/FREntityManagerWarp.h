@@ -26,6 +26,10 @@ namespace FR
 
 		bool IsAlive(FREntityWarp* pEntity);
 
+		bool FindEntity(FREntityWarp* pEntity);
+
+		bool RemoveEntity(FREntityWarp* pEntity);
+
 		size_t GetEntityCount();
 
 		FREntityWarp* Create();

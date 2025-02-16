@@ -133,7 +133,7 @@ FR::FRActor* FR::FREditorActions::CreateEmptyActor(bool pFocusOnCreation, FRActo
 
 	if (mActorSpawnMode == EActorSpawnMode::FRONT)
 	{
-		actor->transform.SetLocalPosition(CalculateActorSpawnPoint(10.0f));
+		actor->transform->SetLocalPosition(CalculateActorSpawnPoint(10.0f));
 	}
 
 	if (pFocusOnCreation)
@@ -148,14 +148,14 @@ FR::FRActor* FR::FREditorActions::CreateActorWithModel(const std::string& pPath,
 {
 	auto actor = CreateEmptyActor(false, pParent, pName);
 
-	auto& modelRenderer = actor->AddComponent<FRCompModelRenderer>();
+	auto modelRenderer = actor->AddComponent<FRCompModelRenderer>();
 
 	const auto model = GetService(FRModelManager)[pPath];
 	const auto material = GetService(FRMaterialManager)[":Materials/Default.mat"];
 	if (model && material)
 	{
 		auto clone = model->Create();
-		modelRenderer.SetModel(clone);
+		modelRenderer->SetModel(clone);
 		clone->FillMaterial(material);
 	}
 

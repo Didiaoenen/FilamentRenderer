@@ -21,10 +21,6 @@
 #include <Tools.FRTimer.h>
 #include <Tools.FRPathUtils.h>
 
-#include <utils/Path.h>
-#include <filament/Skybox.h>
-#include <filament/IndirectLight.h>
-
 #include <algorithm>
 
 FR::FRScene::FRScene()
@@ -37,8 +33,8 @@ void FR::FRScene::Playing()
 	playing = true;
 
 	std::for_each(mActors.begin(), mActors.end(), [](FRActor* pElement) { if (pElement->IsActive()) pElement->OnAwake(); });
-	std::for_each(mActors.begin(), mActors.end(), [](FRActor* pElement) { if (pElement->IsActive()) pElement->OnEnable(); });
 	std::for_each(mActors.begin(), mActors.end(), [](FRActor* pElement) { if (pElement->IsActive()) pElement->OnStart(); });
+	std::for_each(mActors.begin(), mActors.end(), [](FRActor* pElement) { if (pElement->IsActive()) pElement->OnEnable(); });
 }
 
 void FR::FRScene::Update()
@@ -63,7 +59,7 @@ FR::FRActor* FR::FRScene::CreateActor()
 
 FR::FRActor* FR::FRScene::CreateActor(const std::string& pName, const std::string& pTag)
 {
-	mActors.push_back(new FRActor(this, pName, pTag));
+	mActors.push_back(new FRActor(pName, pTag));
 
 	FRActor* actor = mActors.back();
 	actor->ComponentAddedEvent += std::bind(&FRScene::OnComponentAdded, this, std::placeholders::_1);
@@ -74,18 +70,19 @@ FR::FRActor* FR::FRScene::CreateActor(const std::string& pName, const std::strin
 		if (actor->IsActive())
 		{
 			actor->OnAwake();
-			actor->OnEnable();
 			actor->OnStart();
+			actor->OnEnable();
 		}
 	}
+
 	return actor;
 }
 
-bool FR::FRScene::DestroyActor(FRActor& pTarget)
+bool FR::FRScene::DestroyActor(FRActor* pTarget)
 {
-	auto found = std::find_if(mActors.begin(), mActors.end(), [&pTarget](FRActor* element)
+	auto found = std::find_if(mActors.begin(), mActors.end(), [pTarget](FRActor* pElement)
 		{
-			return element == &pTarget;
+			return pElement == pTarget;
 		});
 
 	if (found != mActors.end())
@@ -94,6 +91,7 @@ bool FR::FRScene::DestroyActor(FRActor& pTarget)
 		delete *found;
 		return true;
 	}
+
 	return false;
 }
 
@@ -117,49 +115,53 @@ void FR::FRScene::CollectGarbages()
 				delete pElement;
 				return true;
 			}
+
 			return false;
 		}), mActors.end());
 }
 
 FR::FRActor* FR::FRScene::FindActorByName(const std::string& pName) const
 {
-	auto result = std::find_if(mActors.begin(), mActors.end(), [pName](FRActor* element)
+	auto result = std::find_if(mActors.begin(), mActors.end(), [pName](FRActor* pElement)
 		{
-			return element->name== pName;
+			return pElement->name== pName;
 		});
 
 	if (result != mActors.end())
 	{
 		return *result;
 	}
+
 	return nullptr;
 }
 
 FR::FRActor* FR::FRScene::FindActorByTag(const std::string& pTag) const
 {
-	auto result = std::find_if(mActors.begin(), mActors.end(), [pTag](FRActor* element)
+	auto result = std::find_if(mActors.begin(), mActors.end(), [pTag](FRActor* pElement)
 		{
-			return element->tag == pTag;
+			return pElement->tag == pTag;
 		});
 
 	if (result != mActors.end())
 	{
 		return *result;
 	}
+
 	return nullptr;
 }
 
 FR::FRActor* FR::FRScene::FindActorByID(int64_t pID) const
 {
-	//auto result = std::find_if(mActors.begin(), mActors.end(), [pID](Actor* element)
+	//auto result = std::find_if(mActors.begin(), mActors.end(), [pID](Actor* pElement)
 	//	{
-	//		return element->GetID() == pID;
+	//		return pElement->GetID() == pID;
 	//	});
 
 	//if (result != mActors.end())
 	//{
 	//	return *result;
 	//}
+
 	return nullptr;
 }
 
@@ -174,6 +176,7 @@ std::vector<std::reference_wrapper<FR::FRActor>> FR::FRScene::FindActorsByName(c
 			actors.push_back(std::ref(*actor));
 		}
 	}
+
 	return actors;
 }
 
@@ -188,6 +191,7 @@ std::vector<std::reference_wrapper<FR::FRActor>> FR::FRScene::FindActorsByTag(co
 			actors.push_back(std::ref(*actor));
 		}
 	}
+
 	return actors;
 }
 
@@ -200,54 +204,53 @@ FR::FRCompCamera* FR::FRScene::FindMainCamera() const
 			return camera;
 		}
 	}
+
 	return nullptr;
 }
 
-void FR::FRScene::OnComponentAdded(FRComponent& pCompononent)
+void FR::FRScene::OnComponentAdded(FRComponent* pCompononent)
 {
-	if (auto result = dynamic_cast<FRCompModelRenderer*>(&pCompononent))
+	if (auto result = dynamic_cast<FRCompModelRenderer*>(pCompononent))
 	{
 		mFastAccessComponents.modelRenderers.push_back(result);
 	}
 
-	if (auto result = dynamic_cast<FRCompCamera*>(&pCompononent))
+	if (auto result = dynamic_cast<FRCompCamera*>(pCompononent))
 	{
 		mFastAccessComponents.cameras.push_back(result);
 	}
 
-	if (auto result = dynamic_cast<FRCompLight*>(&pCompononent))
+	if (auto result = dynamic_cast<FRCompLight*>(pCompononent))
 	{
 		mFastAccessComponents.lights.push_back(result);
 	}
 }
 
-void FR::FRScene::OnComponentRemoved(FRComponent& pCompononent)
+void FR::FRScene::OnComponentRemoved(FRComponent* pCompononent)
 {
-	if (auto result = dynamic_cast<FRCompModelRenderer*>(&pCompononent))
+	if (auto result = dynamic_cast<FRCompModelRenderer*>(pCompononent))
 	{
-		mFastAccessComponents.modelRenderers.erase(std::remove(mFastAccessComponents.modelRenderers.begin(), mFastAccessComponents.modelRenderers.end(), result), mFastAccessComponents.modelRenderers.end());
+		mFastAccessComponents.modelRenderers.erase(
+			std::remove(mFastAccessComponents.modelRenderers.begin(), mFastAccessComponents.modelRenderers.end(), result),
+			mFastAccessComponents.modelRenderers.end());
 	}
 
-	if (auto result = dynamic_cast<FRCompCamera*>(&pCompononent))
+	if (auto result = dynamic_cast<FRCompCamera*>(pCompononent))
 	{
-		for (const auto camera : mFastAccessComponents.cameras)
-		{
-			FRFilamentHelper::DestroyEntity(camera->GetCamera().GetEntity());
-		}
-		mFastAccessComponents.cameras.erase(std::remove(mFastAccessComponents.cameras.begin(), mFastAccessComponents.cameras.end(), result), mFastAccessComponents.cameras.end());
+		mFastAccessComponents.cameras.erase(
+			std::remove(mFastAccessComponents.cameras.begin(), mFastAccessComponents.cameras.end(), result),
+			mFastAccessComponents.cameras.end());
 	}
 
-	if (auto result = dynamic_cast<FRCompLight*>(&pCompononent))
+	if (auto result = dynamic_cast<FRCompLight*>(pCompononent))
 	{
-		for (const auto light : mFastAccessComponents.lights)
-		{
-			FRFilamentHelper::DestroyEntity(light->GetLight().GetEntity());
-		}
-		mFastAccessComponents.lights.erase(std::remove(mFastAccessComponents.lights.begin(), mFastAccessComponents.lights.end(), result), mFastAccessComponents.lights.end());
+		mFastAccessComponents.lights.erase(
+			std::remove(mFastAccessComponents.lights.begin(), mFastAccessComponents.lights.end(), result),
+			mFastAccessComponents.lights.end());
 	}
 }
 
-std::vector<FR::FRActor*>& FR::FRScene::GetActors()
+const std::vector<FR::FRActor*>& FR::FRScene::GetActors()
 {
 	return mActors;
 }
@@ -279,7 +282,7 @@ void FR::FRScene::ParseScene()
 		{
 			if (auto model = modelRenderer->GetModel())
 			{
-				auto& transform = owner.transform.GetFRTransform();
+				auto& transform = owner.transform->GetFRTransform();
 
 				auto meshes = model->GetMeshes();
 
@@ -339,9 +342,9 @@ void FR::FRScene::AddModel(FRModel* pModel)
 	}
 }
 
-void FR::FRScene::AddLight(FRLight& pLight)
+void FR::FRScene::AddLight(FRLight* pLight)
 {
-	mScene->AddEntity(pLight.GetEntity());
+	mScene->AddEntity(pLight->GetEntity());
 }
 
 void FR::FRScene::SetEnvironment(FREnvironment* pEnvironment)
@@ -364,7 +367,7 @@ void FR::FRScene::RemoveLight(const FRLight* pLight)
 	mScene->Remove(pLight->GetEntity());
 }
 
-const std::vector<FR::FRModel*> FR::FRScene::GetGizmoModels() const
+const std::vector<FR::FRModel*>& FR::FRScene::GetGizmoModels() const
 {
 	return mGizmoModels;
 }

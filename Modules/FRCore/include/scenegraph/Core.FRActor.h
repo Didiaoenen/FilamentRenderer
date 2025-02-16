@@ -21,9 +21,9 @@ namespace FR
 		: public FREntity, public FRISerializable
 	{
 	public:
-		FRActor(FRScene* pScene, const std::string& pName, const std::string& pTag);
+		FRActor(const std::string& pName, const std::string& pTag);
 
-		FRScene* GetScene() const;
+		bool IsDescendantOf(const FRActor* pActor);
 
 		void SetActive(bool pActive);
 
@@ -31,21 +31,19 @@ namespace FR
 
 		bool IsActive() const;
 
-		void SetParent(FRActor* pParent);
-
-		void DetachFromParent();
-
-		bool IsDescendantOf(const FRActor* pActor) const;
+		bool IsAlive() const;
 
 		bool HasParent() const;
 
 		FRActor* GetParent() const;
 
-		std::vector<FRActor*>& GetChildren();
+		void SetParent(FRActor* pParent);
 
-		void MarkAsDestroy();
+		void DetachFromParent();
 
-		bool IsAlive() const;
+		const std::vector<FRActor*>& GetChildren();
+
+		FRScene* GetScene() const;
 
 		void OnAwake();
 
@@ -63,22 +61,24 @@ namespace FR
 
 		void OnLateUpdate(float pDeltaTime);
 
-		std::vector<std::shared_ptr<FRComponent>>& GetComponents();
+		void MarkAsDestroy();
+
+		const std::vector<FRComponent*>& GetComponents();
 
 		virtual void OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pActorsRoot) override;
 
 		virtual void OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pActorsRoot) override;
 
-		bool RemoveComponent(FRComponent& pComponent);
-
-		template<typename T>
-		T* GetComponent() const;
+		bool RemoveComponent(FRComponent* pComponent);
 
 		template<typename T, typename ... Args>
-		T& AddComponent(Args&&... pArgs);
+		T* AddComponent(Args&&... pArgs);
 
 		template<typename T>
 		bool RemoveComponent();
+
+		template<typename T>
+		T* GetComponent();
 
 	private:
 		void RecursiveActiveUpdate();
@@ -86,13 +86,15 @@ namespace FR
 		void RecursiveWasActiveUpdate();
 
 	public:
-		virtual ~FRActor() override;
+		virtual ~FRActor();
 
 	public:
 		std::string	tag;
 
-		FREvent<FRComponent&> ComponentAddedEvent;
-		FREvent<FRComponent&> ComponentRemovedEvent;
+		FRCompTransform* transform{ nullptr };
+
+		FREvent<FRComponent*> ComponentAddedEvent;
+		FREvent<FRComponent*> ComponentRemovedEvent;
 
 		inline static FREvent<FRActor*> CreatedEvent;
 		inline static FREvent<FRActor*> DettachEvent;
@@ -100,21 +102,17 @@ namespace FR
 		inline static FREvent<FRActor*, FRActor*> AttachEvent;
 
 	private:
-		bool mActive = true;
+		bool mActive{ true };
 
-		bool mAwaked = false;
-		bool mStarted = false;
-		bool mDestroyed = false;
-		bool mWasActive = false;
+		bool mAwaked{ false };
+		bool mStarted{ false };
+		bool mDestroyed{ false };
+		bool mWasActive{ false };
 
 		FRScene* mScene{ nullptr };
 		FRActor* mParent{ nullptr };
 		std::vector<FRActor*> mChildren;
-
-		std::vector<std::shared_ptr<FRComponent>> mComponents;
-
-	public:
-		FRCompTransform& transform;
+		std::vector<FRComponent*> mComponents;
 
 	};
 }

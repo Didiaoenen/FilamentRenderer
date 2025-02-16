@@ -5,5 +5,7 @@ namespace FR
     class FRCompMeshRenderer
     {
     public:
+        FRCompMeshRenderer();
+
     };
 }

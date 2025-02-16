@@ -71,7 +71,7 @@ void FR::FRCameraController::HandleInputs()
 
 	if (auto target = GetTargetActor())
 	{
-		auto targetPos = target->transform.GetWorldPosition();
+		auto targetPos = target->transform->GetWorldPosition();
 
 		float dist = GetActorFocusDist(target);
 
@@ -175,7 +175,7 @@ void FR::FRCameraController::HandleInputs()
 void FR::FRCameraController::MoveToTarget(FRActor* pTarget)
 {
 	mCameraDestinations.push({
-		pTarget->transform.GetWorldPosition() - mCamera.GetRotation() * vec3f::forward * GetActorFocusDist(pTarget), mCamera.GetRotation()
+		pTarget->transform->GetWorldPosition() - mCamera.GetRotation() * vec3f::forward * GetActorFocusDist(pTarget), mCamera.GetRotation()
 	});
 }
 
@@ -252,7 +252,7 @@ void FR::FRCameraController::HandleCameraOrbit(FRActor* pTarget, const glm::vec2
 
 	if (pFirstMouse)
 	{
-		mOrbitTarget = &pTarget->transform.GetFRTransform();
+		mOrbitTarget = &pTarget->transform->GetFRTransform();
 		mOrbitStartOffset = -vec3f::forward * glm::distance(mOrbitTarget->GetWorldPosition(), mCamera.GetPosition());
 		
 		mYPR = RemoveRoll(glm::degrees(glm::eulerAngles(mCamera.GetRotation())));
@@ -262,7 +262,7 @@ void FR::FRCameraController::HandleCameraOrbit(FRActor* pTarget, const glm::vec2
 	mYPR.x += -mouseOffset.y;
 	mYPR.x = std::max(std::min(mYPR.x, 90.0f), -90.0f);
 
-	auto& target = pTarget->transform.GetFRTransform();
+	auto& target = pTarget->transform->GetFRTransform();
 	FRTransform pivotTransform(target.GetWorldPosition());
 	FRTransform cameraTransform(mOrbitStartOffset);
 	cameraTransform.SetParent(pivotTransform);

@@ -80,7 +80,7 @@ void FR::FRFilamentHelper::DestroyEntity(FREntityWarp* pEntity)
 {
 	if (pEntity)
 	{
-		GetEngine()->Destroy(pEntity);
 		GetEntityManager()->Destroy(pEntity);
+		GetEngine()->Destroy(pEntity);
 	}
 }

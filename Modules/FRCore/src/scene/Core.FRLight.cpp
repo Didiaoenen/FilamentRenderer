@@ -46,3 +46,8 @@ void FR::FRLight::UploadData()
 		break;
 	}
 }
+
+FR::FRLight::~FRLight()
+{
+	FRFilamentHelper::DestroyEntity(mEntity);
+}

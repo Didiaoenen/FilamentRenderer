@@ -18,7 +18,7 @@ ThirdParty
 
 3. ozz-animation
 
-4. sdplog
+4. spdlog
 
 5. tinygltf
 

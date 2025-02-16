@@ -13,14 +13,6 @@ FR::FRModel::FRModel()
 void FR::FRModel::Build(FREntityWarp* pEntity)
 {
 	mEntity = pEntity;
-
-	auto engine = FRFilamentHelper::GetEngine();
-	auto tcm = engine->GetTransformManager();
-	tcm->Create(mEntity, {}, glm::mat4(1.0));
-
-	FRRenderableManagerWarp::Builder builder(1);
-	builder.BoundingBox({ { -0.5f, -0.5f , -0.5f }, { 0.5f ,0.5f ,0.5f } });
-	builder.Build(engine, mEntity);
 }
 
 void FR::FRModel::AttachmentMesh(FRMesh* pMesh)
@@ -102,7 +94,7 @@ FR::FRModel* FR::FRModel::Create()
 
 FR::FRModel::~FRModel()
 {
-	for (const auto& mesh : mMeshes)
+	for (const auto mesh : mMeshes)
 	{
 		delete mesh;
 	}

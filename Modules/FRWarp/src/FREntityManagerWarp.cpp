@@ -18,11 +18,33 @@ void FR::FREntityManagerWarp::Destroy(int pCount, std::vector<FREntityWarp*> pEn
 void FR::FREntityManagerWarp::Destroy(FREntityWarp* pEntity)
 {
 	PtrValue(this).destroy(PtrValue(pEntity));
+	RemoveEntity(pEntity);
 }
 
 bool FR::FREntityManagerWarp::IsAlive(FREntityWarp* pEntity)
 {
 	return PtrValue(this).isAlive(PtrValue(pEntity));
+}
+
+bool FR::FREntityManagerWarp::FindEntity(FREntityWarp* pEntity)
+{
+	auto found = std::find_if(mEntities.begin(), mEntities.end(), [pEntity](FREntityWarp* pElement)
+		{
+			return pElement == pEntity;
+		});
+
+	if (found != mEntities.end())
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool FR::FREntityManagerWarp::RemoveEntity(FREntityWarp* pEntity)
+{
+	mEntities.erase(std::remove(mEntities.begin(), mEntities.end(), pEntity), mEntities.end());
+	return true;
 }
 
 size_t FR::FREntityManagerWarp::GetEntityCount()

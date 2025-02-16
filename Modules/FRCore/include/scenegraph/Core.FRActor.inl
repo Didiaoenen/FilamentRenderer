@@ -7,40 +7,28 @@
 namespace FR
 {
 	template<typename T, typename ...Args>
-	inline T& FRActor::AddComponent(Args&& ...pArgs)
+	inline T* FRActor::AddComponent(Args&& ...pArgs)
 	{
 		static_assert(std::is_base_of<FRComponent, T>::value, "T should derive from AComponent");
 
 		if (auto found = GetComponent<T>(); !found)
 		{
-			mComponents.insert(mComponents.begin(), std::make_shared<T>(*this, pArgs...));
-			T* instance = dynamic_cast<T*>(mComponents.front().get());
-			ComponentAddedEvent.Invoke(*instance);
+			mComponents.emplace_back(new T(*this, std::forward<Args>(pArgs)...));
+			T* component = dynamic_cast<T*>(mComponents.back());
+			ComponentAddedEvent.Invoke(component);
 			
-			if (auto compLight = dynamic_cast<FRCompLight*>(instance))
-			{
-				switch (compLight->lightType)
-				{
-				case FRLightManagerWarp::EType::DIRECTIONAL:
-					mScene->AddLight(compLight->GetLight());
-					break;
-				default:
-					break;
-				}
-			}
-
 			if (IsActive())
 			{
-				instance->OnAwake();
-				instance->OnStart();
-				instance->OnEnable();
+				component->OnAwake();
+				component->OnStart();
+				component->OnEnable();
 			}
 
-			return *instance;
+			return component;
 		}
 		else
 		{
-			return *found;
+			return found;
 		}
 	}
 
@@ -49,14 +37,11 @@ namespace FR
 	{
 		static_assert(std::is_base_of<FRComponent, T>::value, "T should derive from AComponent");
 
-		std::shared_ptr<T> result(nullptr);
-
 		for (auto it = mComponents.begin(); it != mComponents.end(); ++it)
 		{
-			result = std::dynamic_pointer_cast<T>(*it);
-			if (result)
+			if (auto result = dynamic_cast<T*>(*it))
 			{
-				ComponentRemovedEvent.Invoke(*result.get());
+				ComponentRemovedEvent.Invoke(result);
 				mComponents.erase(it);
 				return true;
 			}
@@ -66,18 +51,15 @@ namespace FR
 	}
 
 	template<typename T>
-	inline T* FRActor::GetComponent() const
+	inline T* FRActor::GetComponent()
 	{
 		static_assert(std::is_base_of<FRComponent, T>::value, "T should derive from AComponent");
 
-		std::shared_ptr<T> result(nullptr);
-
-		for (auto it = mComponents.begin(); it != mComponents.end(); ++it)
+		for (auto it = mComponents.begin(); it != mComponents.end(); it++)
 		{
-			result = std::dynamic_pointer_cast<T>(*it);
-			if (result)
+			if (auto result = dynamic_cast<T*>(*it))
 			{
-				return result.get();
+				return result;
 			}
 		}
 

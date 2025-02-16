@@ -81,11 +81,11 @@ void FR::FRInspector::FocusActor(FRActor* pTarget)
 
 		mTargetActor = pTarget;
 
-		mComponentAddedListener = mTargetActor->ComponentAddedEvent += [this](auto& useless)
+		mComponentAddedListener = mTargetActor->ComponentAddedEvent += [this](auto useless)
 			{
 				GetService(FREditorActions).DelayAction([this] { Refresh(); });
 			};
-		mComponentRemovedListener = mTargetActor->ComponentRemovedEvent += [this](auto& useless)
+		mComponentRemovedListener = mTargetActor->ComponentRemovedEvent += [this](auto useless)
 			{
 				GetService(FREditorActions).DelayAction([this] { Refresh(); });
 			};
@@ -140,7 +140,7 @@ void FR::FRInspector::CreateActorInspector(FRActor* pTarget)
 	{
 		if (component->GetType() != FRComponent::EComponentType::TRANSFORM)
 		{
-			components[component->GetName()] = component.get();
+			components[component->GetName()] = component;
 		}
 	}
 
@@ -163,7 +163,7 @@ void FR::FRInspector::DrawComponent(FRComponent& pComponent)
 		header.closable = !dynamic_cast<FRCompTransform*>(&pComponent);
 		header.CloseEvent += [this, &header, &pComponent]
 			{
-				if (pComponent.owner.RemoveComponent(pComponent))
+				if (pComponent.owner.RemoveComponent(&pComponent))
 				{
 
 				}

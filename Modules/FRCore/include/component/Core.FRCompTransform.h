@@ -9,8 +9,6 @@ namespace FR
 		: public FRComponent
 	{
 	public:
-		FRCompTransform() = default;
-
 		FRCompTransform(FRActor& pOwner);
 
 		void SetParent(FRCompTransform& pParent);
@@ -74,9 +72,6 @@ namespace FR
 		virtual const std::string GetName() override;
 
 		FRTransform& GetFRTransform();
-
-	public:
-		virtual ~FRCompTransform() = default;
 
 	private:
 		FRTransform mTransform;

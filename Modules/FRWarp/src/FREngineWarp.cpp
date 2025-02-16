@@ -137,9 +137,19 @@ void FR::FREngineWarp::RegisterIndexBuffer(FRIndexBufferWarp* pIndexBuffer)
 	mIndexBuffers.emplace_back(pIndexBuffer);
 }
 
+void FR::FREngineWarp::UnRegisterIndexBuffer(FRIndexBufferWarp* pIndexBuffer)
+{
+	mIndexBuffers.erase(std::remove(mIndexBuffers.begin(), mIndexBuffers.end(), pIndexBuffer), mIndexBuffers.end());
+}
+
 void FR::FREngineWarp::RegisterVertexBuffer(FRVertexBufferWarp* pVertexBuffer)
 {
 	mVertexBuffers.emplace_back(pVertexBuffer);
+}
+
+void FR::FREngineWarp::UnRegisterVertexBuffer(FRVertexBufferWarp* pVertexBuffer)
+{
+	mVertexBuffers.erase(std::remove(mVertexBuffers.begin(), mVertexBuffers.end(), pVertexBuffer), mVertexBuffers.end());
 }
 
 void FR::FREngineWarp::RegisterRenderTarget(FRRenderTargetWarp* pRenderTarget)
@@ -150,6 +160,11 @@ void FR::FREngineWarp::RegisterRenderTarget(FRRenderTargetWarp* pRenderTarget)
 void FR::FREngineWarp::RegisterSknningBuffer(FRSkinningBufferWarp* pSkinningBuffer)
 {
 	mSkinningBuffers.emplace_back(pSkinningBuffer);
+}
+
+void FR::FREngineWarp::UnRegisterSknningBuffer(FRSkinningBufferWarp* pSkinningBuffer)
+{
+	mSkinningBuffers.erase(std::remove(mSkinningBuffers.begin(), mSkinningBuffers.end(), pSkinningBuffer), mSkinningBuffers.end());
 }
 
 void FR::FREngineWarp::RegisterIndirectLight(FRIndirectLightWarp* pIndirectLight)
@@ -179,17 +194,17 @@ void FR::FREngineWarp::FlushAndWait()
 
 void FR::FREngineWarp::Destroy()
 {
-	for (const auto& vertexBuffer : mVertexBuffers)
-	{
-		Destroy(vertexBuffer);
-	}
-	mVertexBuffers.clear();
-
 	for (const auto& indexBuffer : mIndexBuffers)
 	{
 		Destroy(indexBuffer);
 	}
 	mIndexBuffers.clear();
+
+	for (const auto& vertexBuffer : mVertexBuffers)
+	{
+		Destroy(vertexBuffer);
+	}
+	mVertexBuffers.clear();
 
 	for (const auto& renderTarget : mRenderTargets)
 	{

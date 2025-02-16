@@ -48,9 +48,6 @@ namespace FR
 
 		FRCamera& GetCamera();
 
-	public:
-		~FRCompCamera() = default;
-
 	private:
 		void ValueChangeCallback(int, GUI::FRAWidget*, GUI::FRAWidget*, GUI::FRAWidget*, GUI::FRAWidget*);
 

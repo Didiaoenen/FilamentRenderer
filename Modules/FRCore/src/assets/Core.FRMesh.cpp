@@ -237,5 +237,15 @@ void FR::FRMesh::BuildBuffers()
 
 FR::FRMesh::~FRMesh()
 {
+	FRFilamentHelper::GetEngine()->Destroy(mIndexBuffer);
+	FRFilamentHelper::GetEngine()->UnRegisterIndexBuffer(mIndexBuffer);
+	delete mIndexBuffer; mIndexBuffer = nullptr;
 
+	FRFilamentHelper::GetEngine()->Destroy(mVertexBuffer);
+	FRFilamentHelper::GetEngine()->UnRegisterVertexBuffer(mVertexBuffer);
+	delete mVertexBuffer; mVertexBuffer = nullptr;
+
+	FRFilamentHelper::GetEngine()->Destroy(mSkinningBuffer);
+	FRFilamentHelper::GetEngine()->UnRegisterSknningBuffer(mSkinningBuffer);
+	delete mSkinningBuffer; mSkinningBuffer = nullptr;
 }

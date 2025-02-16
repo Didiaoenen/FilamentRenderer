@@ -8,6 +8,7 @@
 #include "Core.FRModelManager.h"
 #include "Core.FRMaterialManager.h"
 #include "Core.FRCompMaterialRenderer.h"
+#include "FREntityManagerWarp.h"
 
 #include <Tools.FRPathUtils.h>
 #include <Tools.FRServiceLocator.h>
@@ -42,18 +43,17 @@ FR::FRComponent::EComponentType FR::FRCompModelRenderer::GetType()
 void FR::FRCompModelRenderer::SetModel(FRModel* pModel)
 {
 	mModel = pModel;
+	
+	mModel->Build(owner.GetEntity());
 
-	mEntities.emplace_back(FRFilamentHelper::CreateEntity());
-
-	mModel->Build(mEntities.back());
+	for (const auto mesh : mModel->GetMeshes())
+	{
+		mEntities.emplace_back(FRFilamentHelper::CreateEntity());
+		mesh->Build(mEntities.back());
+	}
 
 	if (auto scene = owner.GetScene())
 	{
-		for (const auto& mesh : mModel->GetMeshes())
-		{
-			mEntities.emplace_back(FRFilamentHelper::CreateEntity());
-			mesh->Build(mEntities.back());
-		}
 		scene->AddModel(pModel);
 	}
 
@@ -87,7 +87,7 @@ void FR::FRCompModelRenderer::OnInspector(GUI::FRWidgetContainer& pRoot)
 		{
 			if (FRPathUtils::GetFileType(pReceivedData.first) == EFileType::MODEL)
 			{
-				if (auto resource = GetService(FRModelManager).GetResource(pReceivedData.first); resource)
+				if (auto resource = GetService(FRModelManager).GetResource(pReceivedData.first))
 				{
 					//pData = resource;
 
@@ -155,11 +155,11 @@ void FR::FRCompModelRenderer::OnInspector(GUI::FRWidgetContainer& pRoot)
 
 FR::FRCompModelRenderer::~FRCompModelRenderer()
 {
-	for (const auto& entity : mEntities)
+	delete mModel; mModel = nullptr;
+
+	for (const auto entity : mEntities)
 	{
 		FRFilamentHelper::DestroyEntity(entity);
 	}
 	mEntities.clear();
-
-	delete mModel;
 }

@@ -189,3 +189,8 @@ void FR::FRCompMaterialRenderer::MaterialDrawer(GUI::FRWidgetContainer& pRoot, u
 
 	mMaterialFields[pIndex][0] = itemSelect.GetText();
 }
+
+FR::FRCompMaterialRenderer::~FRCompMaterialRenderer()
+{
+
+}

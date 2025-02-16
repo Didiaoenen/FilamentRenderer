@@ -128,5 +128,5 @@ void FR::GUI::FRItemSelect::_Draw_Impl()
 	SetItemLayout();
 
 	ImGui::SetItemAllowOverlap();
-	ImGui::ButtonEx((std::string(ICON_MDI_ADJUST) + mWidgetID).c_str(), MathConvert::ToImVec2(size), ImGuiButtonFlags_None);
+	ImGui::ButtonEx((ICON_MDI_ADJUST "" + mWidgetID).c_str(), MathConvert::ToImVec2(size), ImGuiButtonFlags_None);
 }

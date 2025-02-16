@@ -7,9 +7,6 @@
 
 namespace FR
 {
-	class FREntityWarp;
-	class FREngineWarp;
-
 	class FRLight
 		: public FREntity
 	{
@@ -21,7 +18,7 @@ namespace FR
 		void UploadData();
 
 	public:
-		virtual ~FRLight() = default;
+		virtual ~FRLight();
 
 	public:
 		FRLightManagerWarp::EType type{ FRLightManagerWarp::EType::DIRECTIONAL };

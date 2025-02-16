@@ -66,7 +66,7 @@ namespace FR
 		FRModel* Create();
 
 	public:
-		~FRModel();
+		virtual ~FRModel();
 
 		//void ComputeBoundingSphere();
 

@@ -5,7 +5,7 @@
 
 FR::FRCompCamera::FRCompCamera(FRActor& pOwner)
 	: FRComponent(pOwner)
-	, mCamera(pOwner.transform.GetFRTransform())
+	, mCamera(pOwner.transform->GetFRTransform())
 {
 	mCamera.clearColor = { 0.1921569f, 0.3019608f, 0.4745098f };
 }
@@ -111,8 +111,8 @@ void FR::FRCompCamera::OnInspector(FRWidgetContainer& pRoot)
 	
 	FRGuiDrawer::DrawColor(pRoot, "Clear Color", [this]() { return GetClearColor(); }, [this](Color pColor) { SetClearColor(pColor); });
 
-	FRGuiDrawer::DrawComboBox(pRoot, "Projection Mode", static_cast<int>(mCamera.projectionMode), {"ORTHOGRAPHIC", "PERSPECTIVE"},
-		this, &FRCompCamera::ValueChangeCallback, &fovWidget, &fovWidgetLabel, &sizeWidget, &sizeWidgetLabel);
+	FRGuiDrawer::DrawComboBox(pRoot, "Projection Mode", static_cast<int>(mCamera.projectionMode),
+		{"ORTHOGRAPHIC", "PERSPECTIVE"}, this, &FRCompCamera::ValueChangeCallback, &fovWidget, &fovWidgetLabel, &sizeWidget, &sizeWidgetLabel);
 }
 
 void FR::FRCompCamera::ValueChangeCallback(int pChoice, FRAWidget* pFov, FRAWidget* pFovLabel, FRAWidget* pSize, FRAWidget* pSizeLabel)

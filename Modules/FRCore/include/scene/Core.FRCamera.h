@@ -53,7 +53,7 @@ namespace FR
 		FRCameraWarp* NativePtr();
 
 	public:
-		~FRCamera() = default;
+		virtual ~FRCamera();
 
 	public:
 		float fov{ 60.f };

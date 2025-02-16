@@ -6,10 +6,12 @@
 
 FR::FRCompLight::FRCompLight(FRActor& pOwner)
 	: FRComponent(pOwner)
-	, mLight(pOwner.transform.GetFRTransform())
+	, mLight(pOwner.transform->GetFRTransform())
 {
 	lightType = FRLightManagerWarp::EType::DIRECTIONAL;
 	mLight.CreateLight(lightType);
+
+	owner.GetScene()->AddLight(&mLight);
 }
 
 const FR::Color& FR::FRCompLight::GetColor() const

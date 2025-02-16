@@ -1,20 +1,44 @@
 #include "Core.FRActor.h"
 
 #include "Core.FRScene.h"
+#include "Core.FRSceneManager.h"
 #include "Core.FRCompTransform.h"
+#include "FRTransformManagerWarp.h"
+#include "FRRenderableManagerWarp.h"
 
-FR::FRActor::FRActor(FRScene* pScene, const std::string& pName, const std::string& pTag)
-	: transform(AddComponent<FRCompTransform>())
-	, mScene(pScene)
-	, tag(pTag)
+FR::FRActor::FRActor(const std::string& pName, const std::string& pTag)
+	: mScene(FRSceneManager::Instance()->GetCurrentScene())
 {
+	tag = pTag;
 	name = pName;
+	transform = AddComponent<FRCompTransform>();
+	FREntity::FREntity(transform->GetFRTransform());
+
+	auto engine = FRFilamentHelper::GetEngine();
+	auto tcm = engine->GetTransformManager();
+	tcm->Create(mEntity, {}, glm::mat4(1.0));
+
+	FRRenderableManagerWarp::Builder builder(1);
+	builder.BoundingBox({ { -0.5f, -0.5f , -0.5f }, { 0.5f ,0.5f ,0.5f } });
+	builder.Build(engine, mEntity);
+
 	CreatedEvent.Invoke(this);
 }
 
-FR::FRScene* FR::FRActor::GetScene() const
+bool FR::FRActor::IsDescendantOf(const FRActor* pActor)
 {
-	return mScene;
+	const FRActor* parentActor = mParent;
+
+	while (parentActor)
+	{
+		if (parentActor == pActor)
+		{
+			return true;
+		}
+		parentActor = parentActor->GetParent();
+	}
+
+	return false;
 }
 
 void FR::FRActor::SetActive(bool pActive)
@@ -38,13 +62,27 @@ bool FR::FRActor::IsActive() const
 	return mActive && (mParent ? mParent->IsActive() : true);
 }
 
+bool FR::FRActor::IsAlive() const
+{
+	return !mDestroyed;
+}
+
+bool FR::FRActor::HasParent() const
+{
+	return mParent;
+}
+
+FR::FRActor* FR::FRActor::GetParent() const
+{
+	return mParent;
+}
+
 void FR::FRActor::SetParent(FRActor* pParent)
 {
 	DetachFromParent();
 
 	mParent = pParent;
-	transform.SetParent(pParent->transform);
-
+	transform->SetParent(*pParent->transform);
 	pParent->mChildren.push_back(this);
 
 	AttachEvent.Invoke(this, pParent);
@@ -64,53 +102,17 @@ void FR::FRActor::DetachFromParent()
 
 	mParent = nullptr;
 
-	transform.RemoveParent();
+	transform->RemoveParent();
 }
 
-bool FR::FRActor::IsDescendantOf(const FRActor* pActor) const
-{
-	const FRActor* currentParentActor = mParent;
-
-	while (currentParentActor != nullptr)
-	{
-		if (currentParentActor == pActor)
-		{
-			return true;
-		}
-		currentParentActor = currentParentActor->GetParent();
-	}
-
-	return false;
-}
-
-bool FR::FRActor::HasParent() const
-{
-	return mParent;
-}
-
-FR::FRActor* FR::FRActor::GetParent() const
-{
-	return mParent;
-}
-
-std::vector<FR::FRActor*>& FR::FRActor::GetChildren()
+const std::vector<FR::FRActor*>& FR::FRActor::GetChildren()
 {
 	return mChildren;
 }
 
-void FR::FRActor::MarkAsDestroy()
+FR::FRScene* FR::FRActor::GetScene() const
 {
-	mDestroyed = true;
-
-	for (auto child : mChildren)
-	{
-		child->MarkAsDestroy();
-	}
-}
-
-bool FR::FRActor::IsAlive() const
-{
-	return !mDestroyed;
+	return mScene;
 }
 
 void FR::FRActor::OnAwake()
@@ -164,21 +166,17 @@ void FR::FRActor::OnLateUpdate(float pDeltaTime)
 	}
 }
 
-bool FR::FRActor::RemoveComponent(FRComponent& pComponent)
+void FR::FRActor::MarkAsDestroy()
 {
-	for (auto it = mComponents.begin(); it != mComponents.end(); ++it)
+	mDestroyed = true;
+
+	for (auto child : mChildren)
 	{
-		if (it->get() == &pComponent)
-		{
-			ComponentRemovedEvent.Invoke(pComponent);
-			mComponents.erase(it);
-			return true;
-		}
+		child->MarkAsDestroy();
 	}
-	return false;
 }
 
-std::vector<std::shared_ptr<FR::FRComponent>>& FR::FRActor::GetComponents()
+const std::vector<FR::FRComponent*>& FR::FRActor::GetComponents()
 {
 	return mComponents;
 }
@@ -189,6 +187,21 @@ void FR::FRActor::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pA
 
 void FR::FRActor::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pActorsRoot)
 {
+}
+
+bool FR::FRActor::RemoveComponent(FRComponent* pComponent)
+{
+	for (auto it = mComponents.begin(); it != mComponents.end(); ++it)
+	{
+		if (*it == pComponent)
+		{
+			ComponentRemovedEvent.Invoke(pComponent);
+			mComponents.erase(it);
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void FR::FRActor::RecursiveActiveUpdate()
@@ -256,6 +269,18 @@ FR::FRActor::~FRActor()
 
 	DetachFromParent();
 
-	std::for_each(mComponents.begin(), mComponents.end(), [&](std::shared_ptr<FRComponent> pComponent) { ComponentRemovedEvent.Invoke(*pComponent); });
-	std::for_each(mChildren.begin(), mChildren.end(), [](FRActor* pElement) { delete pElement; });
+	for (const auto component : mComponents)
+	{
+		ComponentRemovedEvent.Invoke(component);
+		delete component;
+	}
+	mComponents.clear();
+
+	for (const auto child : mChildren)
+	{
+		delete child;
+	}
+	mChildren.clear();
+
+	FRFilamentHelper::DestroyEntity(mEntity);
 }

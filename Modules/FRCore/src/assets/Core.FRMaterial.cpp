@@ -77,7 +77,7 @@ void FR::FRMaterial::SetShader(FRShader* pShader, bool pClearProps)
 	}
 }
 
-FR::FRShader*& FR::FRMaterial::GetShader()
+FR::FRShader* FR::FRMaterial::GetShader()
 {
 	return mShader;
 }
@@ -205,6 +205,7 @@ FR::FRPropInfo* FR::FRMaterial::GetPropInfo(const std::string& pName)
 	{
 		return &(*found);
 	}
+
 	return nullptr;
 }
 

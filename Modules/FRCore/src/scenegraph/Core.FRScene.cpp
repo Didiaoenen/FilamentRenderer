@@ -272,36 +272,29 @@ void FR::FRScene::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* 
 
 void FR::FRScene::ParseScene()
 {
-	std::vector<FR::FRDrawable> drawables;
 	auto components = GetFastAccessComponents();
+
 	for (FRCompModelRenderer* modelRenderer : components.modelRenderers)
 	{
 		auto& owner = modelRenderer->owner;
-
 		if (owner.IsActive())
 		{
 			if (auto model = modelRenderer->GetModel())
 			{
 				auto& transform = owner.transform->GetFRTransform();
 
-				auto meshes = model->GetMeshes();
-
-				if (!meshes.empty())
+				const auto& meshes = model->GetMeshes();
+				const auto& materials = model->GetMaterials();
+				for (size_t i = 0; i < meshes.size(); i++)
 				{
-					auto& materials = model->GetMaterials();
-
-					int index = 0;
-					for (const auto& mesh : meshes)
+					if (auto material = materials[i])
 					{
-						if (auto material = materials[index++]; material)
-						{
-							FRDrawable drawable;
-							drawable.mesh = mesh;
-							drawable.material = material;
-							drawable.AddDescriptor<FREngineDrawableDescriptor>({ transform.GetWorldMatrix() });
+						material->UploadData();
+					}
 
-							drawables.emplace_back(drawable);
-						}
+					if (auto mesh = meshes[i])
+					{
+						mesh->SetTransform(transform.GetWorldMatrix());
 					}
 				}
 			}
@@ -310,16 +303,10 @@ void FR::FRScene::ParseScene()
 
 	for (FRCompLight* light : components.lights)
 	{
-		light->GetLight().UploadData();
-	}
-
-	for (const auto& drawable : drawables)
-	{
-		drawable.material.value().UploadData();
-		FROptRef<const FREngineDrawableDescriptor> descriptor;
-		if (drawable.TryGetDescriptor<FREngineDrawableDescriptor>(descriptor))
+		auto& owner = light->owner;
+		if (owner.IsActive())
 		{
-			drawable.mesh.value().SetTransform(descriptor->modelMatrix);
+			light->GetLight().UploadData();
 		}
 	}
 }

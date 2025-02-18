@@ -1,14 +1,14 @@
 #pragma once
 
-#include <any>
-#include <map>
-#include <string>
-#include <vector>
-
 #include "Core.FRObject.h"
 #include "Core.FRShader.h"
 #include "Core.FRISerializable.h"
 #include <FRMaterialInstanceWarp.h>
+
+#include <any>
+#include <map>
+#include <string>
+#include <vector>
 
 namespace FR
 {
@@ -23,7 +23,7 @@ namespace FR
 
 		void SetShader(FRShader* pShader, bool pClearProps = true);
 
-		FRShader*& GetShader();
+		FRShader* GetShader();
 
 		bool HasShader() const;
 

@@ -32,6 +32,10 @@ ThirdParty
 
 10. imguizmo
 
+11. assimp
+
+12. stb
+
 Example
 
 ![avatar](Resources/Picture/2025-02-14%20233539.png)

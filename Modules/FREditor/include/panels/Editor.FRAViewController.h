@@ -24,9 +24,6 @@ namespace FR
 
 		FRCameraController& GetCameraController();
 
-	public:
-		~FRAViewController() = default;
-
 	protected:
 		FRCameraController mCameraController;
 

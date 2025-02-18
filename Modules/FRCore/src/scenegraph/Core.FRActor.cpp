@@ -8,19 +8,15 @@
 
 FR::FRActor::FRActor(const std::string& pName, const std::string& pTag)
 	: mScene(FRSceneManager::Instance()->GetCurrentScene())
-	, FREntity()
+	, transform(AddComponent<FRCompTransform>())
 {
 	tag = pTag;
 	name = pName;
-	transform = AddComponent<FRCompTransform>();
+	mTransform = transform->GetFRTransform();
 
 	auto engine = FRFilamentHelper::GetEngine();
 	auto tcm = engine->GetTransformManager();
 	tcm->Create(mEntity, {}, glm::mat4(1.0));
-
-	FRRenderableManagerWarp::Builder builder(1);
-	builder.BoundingBox({ { -0.5f, -0.5f , -0.5f }, { 0.5f ,0.5f ,0.5f } });
-	builder.Build(engine, mEntity);
 
 	CreatedEvent.Invoke(this);
 }
@@ -237,7 +233,7 @@ void FR::FRActor::RecursiveActiveUpdate()
 void FR::FRActor::RecursiveWasActiveUpdate()
 {
 	mWasActive = IsActive();
-	for (auto child : mChildren)
+	for (const auto child : mChildren)
 	{
 		child->RecursiveWasActiveUpdate();
 	}
@@ -250,13 +246,8 @@ FR::FRActor::~FRActor()
 		OnDisable();
 	}
 
-	{
-		OnDestroy();
-	}
-
-	{
-		DestroyedEvent.Invoke(this);
-	}
+	OnDestroy();
+	DestroyedEvent.Invoke(this);
 
 	std::vector<FRActor*> toDetach = mChildren;
 

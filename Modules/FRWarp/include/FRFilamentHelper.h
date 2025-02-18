@@ -33,7 +33,7 @@ namespace FR
 
 		static FRSceneWarp* CreateScene();
 
-		static FRCameraWarp* CreateCamera();
+		static FRCameraWarp* CreateCamera(FREntityWarp* pEntity);
 
 		static FREntityWarp* CreateEntity();
 

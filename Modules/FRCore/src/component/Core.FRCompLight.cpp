@@ -6,7 +6,7 @@
 
 FR::FRCompLight::FRCompLight(FRActor& pOwner)
 	: FRComponent(pOwner)
-	, mLight(pOwner.transform->GetFRTransform())
+	, mLight(pOwner.GetEntity(), pOwner.GetTransform())
 {
 	lightType = FRLightManagerWarp::EType::DIRECTIONAL;
 	mLight.CreateLight(lightType);

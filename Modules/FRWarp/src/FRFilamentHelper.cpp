@@ -54,9 +54,9 @@ FR::FRSceneWarp* FR::FRFilamentHelper::CreateScene()
 	return GetEngine()->CreateScene();
 }
 
-FR::FRCameraWarp* FR::FRFilamentHelper::CreateCamera()
+FR::FRCameraWarp* FR::FRFilamentHelper::CreateCamera(FREntityWarp* pEntity)
 {
-	return nullptr;
+	return GetEngine()->CreateCamera(pEntity);
 }
 
 FR::FREntityWarp* FR::FRFilamentHelper::CreateEntity()
@@ -80,7 +80,7 @@ void FR::FRFilamentHelper::DestroyEntity(FREntityWarp* pEntity)
 {
 	if (pEntity)
 	{
-		GetEntityManager()->Destroy(pEntity);
 		GetEngine()->Destroy(pEntity);
+		GetEntityManager()->Destroy(pEntity);
 	}
 }

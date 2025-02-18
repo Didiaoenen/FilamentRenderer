@@ -12,7 +12,7 @@ namespace FR
 		: public FRComponent
 	{
 	public:
-		FRCompAnimator(FRActor& pActor);
+		FRCompAnimator(FRActor& pOwner);
 
 		virtual void OnStart() override;
 

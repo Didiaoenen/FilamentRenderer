@@ -11,7 +11,7 @@ namespace FR
 		: public FREntity
 	{
 	public:
-		FRLight(FROptRef<FRTransform> pTransform = std::nullopt);
+		FRLight(FREntityWarp* pEntity, FROptRef<FRTransform> pTransform = std::nullopt);
 
 		void CreateLight(FRLightManagerWarp::EType pType);
 

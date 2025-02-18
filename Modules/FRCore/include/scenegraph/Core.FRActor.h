@@ -91,8 +91,6 @@ namespace FR
 	public:
 		std::string	tag;
 
-		FRCompTransform* transform{ nullptr };
-
 		FREvent<FRComponent*> ComponentAddedEvent;
 		FREvent<FRComponent*> ComponentRemovedEvent;
 
@@ -113,6 +111,9 @@ namespace FR
 		FRActor* mParent{ nullptr };
 		std::vector<FRActor*> mChildren;
 		std::vector<FRComponent*> mComponents;
+
+	public:
+		FRCompTransform* transform{ nullptr };
 
 	};
 }

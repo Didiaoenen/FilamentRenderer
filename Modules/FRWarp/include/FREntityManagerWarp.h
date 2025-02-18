@@ -28,7 +28,7 @@ namespace FR
 
 		bool FindEntity(FREntityWarp* pEntity);
 
-		bool RemoveEntity(FREntityWarp* pEntity);
+		void RemoveEntity(FREntityWarp* pEntity);
 
 		size_t GetEntityCount();
 

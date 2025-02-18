@@ -1,7 +1,6 @@
 #include "Editor.FRAViewController.h"
 #include "Editor.FRApplication.h"
 #include "Editor.FRHierarchy.h"
-#include <Core.FRSceneRenderer.h>
 
 using namespace FR::GUI;
 

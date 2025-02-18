@@ -41,10 +41,9 @@ bool FR::FREntityManagerWarp::FindEntity(FREntityWarp* pEntity)
 	return false;
 }
 
-bool FR::FREntityManagerWarp::RemoveEntity(FREntityWarp* pEntity)
+void FR::FREntityManagerWarp::RemoveEntity(FREntityWarp* pEntity)
 {
 	mEntities.erase(std::remove(mEntities.begin(), mEntities.end(), pEntity), mEntities.end());
-	return true;
 }
 
 size_t FR::FREntityManagerWarp::GetEntityCount()

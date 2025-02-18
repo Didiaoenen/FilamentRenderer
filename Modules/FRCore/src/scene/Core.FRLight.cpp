@@ -4,8 +4,8 @@
 #include <FRFilamentHelper.h>
 #include <FRLightManagerWarp.h>
 
-FR::FRLight::FRLight(FROptRef<FRTransform> pTransform)
-	: FREntity(pTransform)
+FR::FRLight::FRLight(FREntityWarp* pEntity, FROptRef<FRTransform> pTransform)
+	: FREntity(pEntity, pTransform)
 {
 }
 
@@ -22,8 +22,8 @@ void FR::FRLight::UploadData()
 	auto manager = FRFilamentHelper::GetLightManager();
 
 	manager->SetColor(manager->GetInstance(mEntity), color);
-	manager->SetPosition(manager->GetInstance(mEntity), transform->GetWorldPosition());
-	manager->SetDirection(manager->GetInstance(mEntity), -transform->GetWorldForward());
+	manager->SetPosition(manager->GetInstance(mEntity), mTransform->GetWorldPosition());
+	manager->SetDirection(manager->GetInstance(mEntity), -mTransform->GetWorldForward());
 	manager->SetShadowCaster(manager->GetInstance(mEntity), shadowCaster);
 
 	switch (type)

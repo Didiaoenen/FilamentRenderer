@@ -9,16 +9,13 @@
 
 namespace FR
 {
-	namespace GUI
-	{
-		class BaseWidget;
-	}
+	class FREntity;
 
 	class FRCamera
 		: public FREntity
 	{
 	public:
-		FRCamera(FROptRef<FRTransform> pTransform = std::nullopt);
+		FRCamera(FREntityWarp* pEntity, FROptRef<FRTransform> pTransform = std::nullopt);
 
 		void CacheMatrices(uint16_t pWidth, uint16_t pHeight);
 

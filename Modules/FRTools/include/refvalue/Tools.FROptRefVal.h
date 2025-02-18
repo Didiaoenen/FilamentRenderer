@@ -60,7 +60,10 @@ namespace FR
 			{
 				return *pval;
 			}
-			return *std::get<T*>(mData);
+			else
+			{
+				return *std::get<T*>(mData);
+			}
 		}
 
 		void Set(const T& pValue)
@@ -69,7 +72,10 @@ namespace FR
 			{
 				*pval = pValue;
 			}
-			*std::get<T*>(mData) = pValue;
+			else
+			{
+				*std::get<T*>(mData) = pValue;
+			}
 		}
 
 	private:

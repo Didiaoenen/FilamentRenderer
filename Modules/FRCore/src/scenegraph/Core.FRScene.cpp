@@ -379,7 +379,7 @@ FR::FRSceneWarp* FR::FRScene::NativePtr()
 
 FR::FRScene::~FRScene()
 {
-	std::for_each(mActors.begin(), mActors.end(), [this](FRActor* pElement)
+	std::for_each(mActors.begin(), mActors.end(), [](FRActor* pElement)
 		{
 			delete pElement;
 		});

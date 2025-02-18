@@ -13,27 +13,36 @@ namespace FR
         : public FRObject
     {
     public:
-		FREntity(FROptRef<FRTransform> pTransform = std::nullopt)
-			: transform(pTransform)
+		FREntity(FREntityWarp* pEntity, FROptRef<FRTransform> pTransform = std::nullopt)
+            : mEntity(pEntity)
+            , mTransform(pTransform)
         {
-            mEntity = FRFilamentHelper::CreateEntity();
         };
+
+		FREntity()
+		{
+			mEntity = FRFilamentHelper::CreateEntity();
+		};
 
         FREntityWarp* GetEntity() const
         {
             return mEntity;
         }
 
+        FRTransform& GetTransform()
+		{
+			return mTransform;
+		}
+
     public:
         virtual ~FREntity()
         {
+
         }
 
     protected:
         FREntityWarp* mEntity{ nullptr };
-
-    public:
-        FROptRefVal<FRTransform> transform;
+		FROptRefVal<FRTransform> mTransform;
 
     };
 }

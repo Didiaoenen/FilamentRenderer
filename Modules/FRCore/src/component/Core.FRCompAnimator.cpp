@@ -15,8 +15,8 @@
 
 using namespace FR::GUI;
 
-FR::FRCompAnimator::FRCompAnimator(FRActor& pActor)
-	: FRComponent(pActor)
+FR::FRCompAnimator::FRCompAnimator(FRActor& pOwner)
+	: FRComponent(pOwner)
 {
 	mMotions.resize(1);
 }

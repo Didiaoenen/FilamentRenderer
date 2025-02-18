@@ -55,6 +55,10 @@ namespace FR
 		void UpdateMouseState();
 
 	private:
+		FREntityWarp* mEntity{ nullptr };
+
+		FRTransform mTransform;
+
 		FRCamera mCamera;
 
 		glm::vec3 mTargetSpeed{};

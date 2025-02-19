@@ -18,9 +18,6 @@ namespace FR
 		void UploadData();
 
 	public:
-		virtual ~FRLight();
-
-	public:
 		FRLightManagerWarp::EType type{ FRLightManagerWarp::EType::DIRECTIONAL };
 
 		glm::vec3 position{ 0.f };

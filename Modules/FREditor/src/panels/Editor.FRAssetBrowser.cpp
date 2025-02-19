@@ -316,17 +316,20 @@ namespace FR
 
 						if (FRShader* shader = GetService(FRShaderManager)[resourcesPath])
 						{
-							FRMaterial* material = shader->material;
+							auto materials = shader->GetRefMaterials();
 
 							FRShader* reloadShader = GetService(FRShaderManager).CreateResource(resourcesPath);
 							GetService(FRShaderManager).RegisterResource(resourcesPath, reloadShader);
 
-							if (material)
+							if (materials.size() > 0)
 							{
-								material->SetShader(reloadShader, false);
-								for (auto& [_, mesh] : material->GetRefMeshs())
+								for (const auto& material : materials)
 								{
-									mesh->SetMaterial(material);
+									material->SetShader(reloadShader, false);
+									for (auto& [_, mesh] : material->GetRefMeshs())
+									{
+										mesh->SetMaterial(material);
+									}
 								}
 							}
 							

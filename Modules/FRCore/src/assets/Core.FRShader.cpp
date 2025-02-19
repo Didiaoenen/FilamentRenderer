@@ -1,25 +1,17 @@
 #include "Core.FRShader.h"
-#include <MathConvert.h>
+#include <FREngineWarp.h>
 #include <FRMaterialWarp.h>
 #include <FRFilamentHelper.h>
 
-FR::FRPropInfo* FR::FRShader::GetPropInfo(const std::string& pName)
+FR::FRShader::FRShader(std::vector<FR::FRPropInfo> pPropInfo, std::vector<uint8_t> pData)
+	: propInfos(pPropInfo)
+	, data(pData)
 {
-	auto found = std::find_if(propInfos.begin(), propInfos.end(), [&pName](const FRPropInfo& pElement)
-		{
-			return pName == pElement.name;
-		});
-	
-	if (found != propInfos.end())
-	{
-		return &(*found);
-	}
-	return nullptr;
-}
+	auto engine = FRFilamentHelper::GetEngine();
 
-FR::FRMaterialWarp* FR::FRShader::NativePtr()
-{
-	return mMaterial;
+	mMaterial = FRMaterialWarp::Builder()
+		.Package(pData.data(), pData.size())
+		.Build(engine);
 }
 
 FR::FRMaterialInstanceWarp* FR::FRShader::CreateInstance(const std::string& pName)
@@ -27,18 +19,24 @@ FR::FRMaterialInstanceWarp* FR::FRShader::CreateInstance(const std::string& pNam
 	return mMaterial->CreateInstance(pName.c_str());
 }
 
-FR::FRShader::FRShader(std::vector<FR::FRPropInfo> pPropInfo, std::vector<uint8_t> pData)
-	: propInfos(pPropInfo)
-	, data(pData)
+std::vector<FR::FRMaterial*>& FR::FRShader::GetRefMaterials()
 {
-	auto engine = FRFilamentHelper::GetEngine();
-	mMaterial = FRMaterialWarp::Builder()
-		.Package(pData.data(), pData.size())
-		.Build(engine);
+	return mRefMaterials;
+}
 
-	FRMaterialWarp::ParameterInfo parameterInfo[96];
-	auto count = mMaterial->GetParameters(parameterInfo, 999);
-	for (int i = 0; i < count; i++)
-	{
-	}
+void FR::FRShader::SetRefMaterial(FRMaterial* pMaterial)
+{
+	mRefMaterials.emplace_back(pMaterial);
+}
+
+FR::FRMaterialWarp* FR::FRShader::NativePtr()
+{
+	return mMaterial;
+}
+
+FR::FRShader::~FRShader()
+{
+	FRFilamentHelper::GetEngine()->Destroy(mMaterial);
+	FRFilamentHelper::GetEngine()->UnRegisterMaterial(mMaterial);
+	delete mMaterial; mMaterial = nullptr;
 }

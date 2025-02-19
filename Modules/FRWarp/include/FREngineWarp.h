@@ -60,6 +60,10 @@ namespace FR
 
 		FRCameraWarp* CreateCamera(FREntityWarp* pEntity);
 
+		void DestroyCameraComponent(FREntityWarp* pEntity);
+
+		void RemoveCamera(FRCameraWarp* pCamera);
+
 		void RegisterRenderer(FRRendererWarp* pRenderer);
 
 		void RegisterScene(FRSceneWarp* pScene);
@@ -70,6 +74,12 @@ namespace FR
 
 		void RegisterTexture(FRTextureWarp* pTexture);
 
+		void UnRegisterTexture(FRTextureWarp* pTexture);
+
+		void RegisterMaterial(FRMaterialWarp* pMaterial);
+
+		void UnRegisterMaterial(FRMaterialWarp* pMaterial);
+
 		void RegisterIndexBuffer(FRIndexBufferWarp* pIndexBuffer);
 
 		void UnRegisterIndexBuffer(FRIndexBufferWarp* pIndexBuffer);
@@ -79,6 +89,8 @@ namespace FR
 		void UnRegisterVertexBuffer(FRVertexBufferWarp* pVertexBuffer);
 
 		void RegisterRenderTarget(FRRenderTargetWarp* pRenderTarget);
+
+		void UnRegisterRenderTarget(FRRenderTargetWarp* pRenderTarget);
 
 		void RegisterSknningBuffer(FRSkinningBufferWarp* pSkinningBuffer);
 
@@ -130,6 +142,8 @@ namespace FR
 		std::vector<FRSkyboxWarp*> mSkyboxes;
 
 		std::vector<FRTextureWarp*> mTextures;
+
+		std::vector<FRMaterialWarp*> mMaterials;
 
 		std::vector<FRIndexBufferWarp*> mIndexBuffers;
 

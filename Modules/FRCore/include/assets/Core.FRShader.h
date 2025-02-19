@@ -1,11 +1,11 @@
 #pragma once
 
-#include <any>
-#include <vector>
-#include <string>
-
 #include "Core.FRObject.h"
 #include <FRMaterialWarp.h>
+
+#include <any>
+#include <string>
+#include <vector>
 
 namespace FR
 {
@@ -32,22 +32,24 @@ namespace FR
 
 		FRMaterialInstanceWarp* CreateInstance(const std::string& pName = "");
 		
-		FRPropInfo* GetPropInfo(const std::string& pName);
+		std::vector<FRMaterial*>& GetRefMaterials();
+
+		void SetRefMaterial(FRMaterial* pMaterial);
 
 		FRMaterialWarp* NativePtr();
 
 	public:
-		~FRShader() = default;
+		virtual ~FRShader();
 
 	public:
-		const std::string path;
+		std::string path;
 		std::vector<uint8_t> data;
 		std::vector<FRPropInfo> propInfos;
 
-		FRMaterial* material{ nullptr };
-
 	private:
 		FRMaterialWarp* mMaterial{ nullptr };
+		
+		std::vector<FRMaterial*> mRefMaterials{ nullptr };
 
 	};
 }

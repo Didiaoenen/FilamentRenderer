@@ -154,5 +154,5 @@ FR::FRCameraWarp* FR::FRCamera::NativePtr()
 
 FR::FRCamera::~FRCamera()
 {
-	FRFilamentHelper::DestroyEntity(mEntity);
+	delete mCamera; mCamera = nullptr;
 }

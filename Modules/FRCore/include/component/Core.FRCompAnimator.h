@@ -28,11 +28,11 @@ namespace FR
 
 		virtual EComponentType GetType() override;
 
-	public:
-		~FRCompAnimator() = default;
-
 	private:
 		void DataReceivedChangeCallback(std::string& pContext, std::pair<std::string, GUI::FRGroup*> pDataReceived, int pIndex);
+
+	public:
+		virtual ~FRCompAnimator();
 
 	private:
 		Animator mAnimator;

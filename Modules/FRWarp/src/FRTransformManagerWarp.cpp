@@ -18,6 +18,11 @@ void FR::FRTransformManagerWarp::Create(FREntityWarp* pEntity, Instance pParent,
 	PtrValue(this).create(PtrValue(pEntity), pParent.Ins(), MathConvert::ToFMat4(pLocalTransform));
 }
 
+void FR::FRTransformManagerWarp::SetParent(Instance pInstance, Instance pParent)
+{
+	PtrValue(this).setParent(pInstance.Ins(), pParent.Ins());
+}
+
 FR::FRTransformManagerWarp::Instance FR::FRTransformManagerWarp::GetInstance(FREntityWarp* pEntity)
 {
 	return FRTransformManagerWarp::Instance(this, pEntity);

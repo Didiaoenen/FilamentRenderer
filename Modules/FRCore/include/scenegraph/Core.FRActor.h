@@ -1,15 +1,15 @@
 #pragma once
 
+#include "Core.FREntity.h"
+#include "Core.FRISerializable.h"
+
+#include <Tools.FREvent.h>
+
 #include <string>
 #include <vector>
 #include <memory>
 #include <algorithm>
 #include <unordered_map>
-
-#include <Tools.FREvent.h>
-
-#include "Core.FREntity.h"
-#include "Core.FRISerializable.h"
 
 namespace FR
 {

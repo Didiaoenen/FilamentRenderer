@@ -42,6 +42,8 @@ namespace FR
 
 		void Create(FREntityWarp* pEntity, Instance pParent, const glm::mat4& pLocalTransform);
 
+		void SetParent(Instance pInstance, Instance pParent);
+
 		Instance GetInstance(FREntityWarp* pEntity);
 
 		void Destroy(FREntityWarp* pEntity);

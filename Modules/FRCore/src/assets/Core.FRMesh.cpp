@@ -59,14 +59,14 @@ FR::FRMesh::FRMesh()
 
 void FR::FRMesh::Build(FREntityWarp* pEntity)
 {
-	BuildBuffers();
-
 	mEntity = pEntity;
 
 	auto engine = FRFilamentHelper::GetEngine();
+
 	auto tcm = engine->GetTransformManager();
 	tcm->Create(mEntity, model->GetTransInstance(), glm::mat4(1.0f));
 
+	BuildBuffers();
 	FRRenderableManagerWarp::Builder builder(1);
 	builder.BoundingBox({ { -0.5f, -0.5f , -0.5f }, { 0.5f ,0.5f ,0.5f } });
 	builder.Geometry(0, FRRenderableManagerWarp::EPrimitiveType::TRIANGLES, mVertexBuffer, mIndexBuffer, 0, indexCount);
@@ -248,4 +248,6 @@ FR::FRMesh::~FRMesh()
 	FRFilamentHelper::GetEngine()->Destroy(mSkinningBuffer);
 	FRFilamentHelper::GetEngine()->UnRegisterSknningBuffer(mSkinningBuffer);
 	delete mSkinningBuffer; mSkinningBuffer = nullptr;
+
+	FRFilamentHelper::GetRenderableManager()->Destroy(mEntity); mEntity = nullptr;
 }

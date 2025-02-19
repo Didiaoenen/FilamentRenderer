@@ -1,13 +1,19 @@
 #include "Core.FRCompTransform.h"
-
+#include "Core.FRActor.h"
 #include "Core.FRGuiDrawer.h"
 #include "Core.FRSerializer.h"
 
+#include <FREngineWarp.h>
+#include <FRFilamentHelper.h>
+#include <FRTransformManagerWarp.h>
 #include <MathExtension.h>
 
 FR::FRCompTransform::FRCompTransform(FRActor& pOwner)
 	: FRComponent(pOwner)
 {
+	auto engine = FRFilamentHelper::GetEngine();
+	auto tcm = engine->GetTransformManager();
+	tcm->Create(pOwner.GetEntity(), {}, glm::mat4(1.0));
 }
 
 const std::string FR::FRCompTransform::GetName()
@@ -179,4 +185,9 @@ void FR::FRCompTransform::OnInspector(FRWidgetContainer& pRoot)
 FR::FRTransform& FR::FRCompTransform::GetFRTransform()
 {
 	return mTransform;
+}
+
+FR::FRCompTransform::~FRCompTransform()
+{
+	FRFilamentHelper::GetTransformManager()->Destroy(owner.GetEntity());
 }

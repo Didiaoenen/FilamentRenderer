@@ -15,6 +15,9 @@ namespace FR
 
 		FREntityWarp(FREntityManagerWarp* pEntityManager);
 
+	public:
+		virtual ~FREntityWarp();
+
 	};
 }
 

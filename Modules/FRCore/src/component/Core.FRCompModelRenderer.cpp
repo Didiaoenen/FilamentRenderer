@@ -8,7 +8,8 @@
 #include "Core.FRModelManager.h"
 #include "Core.FRMaterialManager.h"
 #include "Core.FRCompMaterialRenderer.h"
-#include "FREntityManagerWarp.h"
+
+#include <FREntityManagerWarp.h>
 
 #include <Tools.FRPathUtils.h>
 #include <Tools.FRServiceLocator.h>
@@ -157,9 +158,9 @@ FR::FRCompModelRenderer::~FRCompModelRenderer()
 {
 	delete mModel; mModel = nullptr;
 
-	for (const auto entity : mEntities)
+	for (auto& entity : mEntities)
 	{
-		FRFilamentHelper::DestroyEntity(entity);
+		delete entity; entity = nullptr;
 	}
 	mEntities.clear();
 }

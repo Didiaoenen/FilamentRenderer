@@ -13,7 +13,6 @@
 namespace FR
 {
 	class FRMesh;
-	class FRTexture;
 
 	class FRMaterial
 		: public FRObject, public FRISerializable
@@ -24,10 +23,6 @@ namespace FR
 		void SetShader(FRShader* pShader, bool pClearProps = true);
 
 		FRShader* GetShader();
-
-		bool HasShader() const;
-
-		bool IsValid() const;
 
 		void SetTransparencyMode(FRMaterialInstanceWarp::ETransparencyMode pModel);
 
@@ -40,15 +35,6 @@ namespace FR
 		void SetColorWrite(bool pWrite);
 
 		void UploadData() const;
-
-		template<typename T>
-		const T& Get(const std::string pKey) const;
-
-		template<typename T>
-		void Set(const std::string pKey, const T& pValue);
-
-		template<typename T>
-		void SetParameter(const std::string& pName, const T& pValue);
 
 		std::vector<FRPropInfo>& GetPropInfos();
 
@@ -64,6 +50,18 @@ namespace FR
 
 		void SetRefMesh(FRMesh* pMesh);
 
+		template<typename T>
+		const T& Get(const std::string pKey) const;
+
+		template<typename T>
+		void Set(const std::string pKey, const T& pValue);
+
+		template<typename T>
+		void SetParameter(const std::string& pName, const T& pValue);
+
+	public:
+		virtual ~FRMaterial();
+
 	public:
 		std::string path;
 
@@ -71,12 +69,12 @@ namespace FR
 		FRShader* mShader{ nullptr };
 		FRMaterialInstanceWarp* mMaterialInstance{ nullptr };
 
-		bool mBlendable = false;
-		bool mDepthTest = true;
-		bool mDepthWriting = true;
-		bool mColorWriting = true;
-		bool mBackfaceCulling = true;
-		bool mFrontfaceCulling = false;
+		bool mBlendable{ false };
+		bool mDepthTest{ true };
+		bool mDepthWriting{ true };
+		bool mColorWriting{ true };
+		bool mBackfaceCulling{ true };
+		bool mFrontfaceCulling{ false };
 
 		std::vector<FRPropInfo> mPropInfos;
 

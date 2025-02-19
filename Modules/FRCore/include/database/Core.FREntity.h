@@ -37,7 +37,7 @@ namespace FR
     public:
         virtual ~FREntity()
         {
-
+            delete mEntity; mEntity = nullptr;
         }
 
     protected:

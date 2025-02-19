@@ -51,6 +51,9 @@ namespace FR
 	private:
 		void ValueChangeCallback(int, GUI::FRAWidget*, GUI::FRAWidget*, GUI::FRAWidget*, GUI::FRAWidget*);
 
+	public:
+		virtual ~FRCompCamera();
+
 	private:
 		FRCamera mCamera;
 

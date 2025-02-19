@@ -27,5 +27,6 @@ FR::FRRenderTargetWarp* FR::FRRenderTarget::NativePtr()
 FR::FRRenderTarget::~FRRenderTarget()
 {
 	FRFilamentHelper::GetEngine()->Destroy(mRenderTarget);
-	mRenderTarget = nullptr;
+	FRFilamentHelper::GetEngine()->UnRegisterRenderTarget(mRenderTarget);
+	delete mRenderTarget; mRenderTarget = nullptr;
 }

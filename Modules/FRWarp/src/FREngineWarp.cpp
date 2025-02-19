@@ -107,6 +107,16 @@ FR::FRCameraWarp* FR::FREngineWarp::CreateCamera(FREntityWarp* pEntity)
 	return camera;
 }
 
+void FR::FREngineWarp::DestroyCameraComponent(FREntityWarp* pEntity)
+{
+	PtrValue(this)->destroyCameraComponent(PtrValue(pEntity));
+}
+
+void FR::FREngineWarp::RemoveCamera(FRCameraWarp* pCamera)
+{
+	mCameras.erase(std::remove(mCameras.begin(), mCameras.end(), pCamera), mCameras.end());
+}
+
 void FR::FREngineWarp::RegisterRenderer(FRRendererWarp* pRenderer)
 {
 	mRenderers.emplace_back(pRenderer);
@@ -132,6 +142,21 @@ void FR::FREngineWarp::RegisterTexture(FRTextureWarp* pTexture)
 	mTextures.emplace_back(pTexture);
 }
 
+void FR::FREngineWarp::UnRegisterTexture(FRTextureWarp* pTexture)
+{
+	mTextures.erase(std::remove(mTextures.begin(), mTextures.end(), pTexture), mTextures.end());
+}
+
+void FR::FREngineWarp::RegisterMaterial(FRMaterialWarp* pMaterial)
+{
+	mMaterials.emplace_back(pMaterial);
+}
+
+void FR::FREngineWarp::UnRegisterMaterial(FRMaterialWarp* pMaterial)
+{
+	mMaterials.erase(std::remove(mMaterials.begin(), mMaterials.end(), pMaterial), mMaterials.end());
+}
+
 void FR::FREngineWarp::RegisterIndexBuffer(FRIndexBufferWarp* pIndexBuffer)
 {
 	mIndexBuffers.emplace_back(pIndexBuffer);
@@ -155,6 +180,11 @@ void FR::FREngineWarp::UnRegisterVertexBuffer(FRVertexBufferWarp* pVertexBuffer)
 void FR::FREngineWarp::RegisterRenderTarget(FRRenderTargetWarp* pRenderTarget)
 {
 	mRenderTargets.emplace_back(pRenderTarget);
+}
+
+void FR::FREngineWarp::UnRegisterRenderTarget(FRRenderTargetWarp* pRenderTarget)
+{
+	mRenderTargets.erase(std::remove(mRenderTargets.begin(), mRenderTargets.end(), pRenderTarget), mRenderTargets.end());
 }
 
 void FR::FREngineWarp::RegisterSknningBuffer(FRSkinningBufferWarp* pSkinningBuffer)
@@ -194,25 +224,25 @@ void FR::FREngineWarp::FlushAndWait()
 
 void FR::FREngineWarp::Destroy()
 {
-	for (const auto& indexBuffer : mIndexBuffers)
+	for (auto& indexBuffer : mIndexBuffers)
 	{
 		Destroy(indexBuffer);
 	}
 	mIndexBuffers.clear();
 
-	for (const auto& vertexBuffer : mVertexBuffers)
+	for (auto& vertexBuffer : mVertexBuffers)
 	{
 		Destroy(vertexBuffer);
 	}
 	mVertexBuffers.clear();
 
-	for (const auto& renderTarget : mRenderTargets)
+	for (auto& renderTarget : mRenderTargets)
 	{
 		Destroy(renderTarget);
 	}
 	mRenderTargets.clear();
 
-	for (const auto& texture : mTextures)
+	for (auto& texture : mTextures)
 	{
 		Destroy(texture);
 	}

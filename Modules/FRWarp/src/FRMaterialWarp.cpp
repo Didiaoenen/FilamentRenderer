@@ -7,6 +7,8 @@
 FR::FRMaterialWarp::FRMaterialWarp(FREngineWarp* pEngine, Builder* pBuilder)
 {
 	mValue = FRPtrValue(pBuilder->mBuilder.build(*PtrValue(pEngine)));
+	pEngine->RegisterMaterial(this);
+
 }
 
 FR::FRMaterialInstanceWarp* FR::FRMaterialWarp::CreateInstance(const std::string& pName)

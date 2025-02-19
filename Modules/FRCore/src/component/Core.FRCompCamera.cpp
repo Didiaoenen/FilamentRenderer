@@ -1,5 +1,4 @@
 #include "Core.FRCompCamera.h"
-
 #include "Core.FRActor.h"
 #include "Core.FRCompTransform.h"
 
@@ -121,4 +120,9 @@ void FR::FRCompCamera::ValueChangeCallback(int pChoice, FRAWidget* pFov, FRAWidg
 	pFov->enabled = pFovLabel->enabled = newProjectionMode == EProjectionMode::PERSPECTIVE;
 	pSize->enabled = pSizeLabel->enabled = newProjectionMode == EProjectionMode::ORTHOGRAPHIC;
 	SetProjectionMode(newProjectionMode);
+}
+
+FR::FRCompCamera::~FRCompCamera()
+{
+	FRFilamentHelper::GetEngine()->DestroyCameraComponent(owner.GetEntity());
 }

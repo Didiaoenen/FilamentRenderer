@@ -1,10 +1,6 @@
 #include "Core.FRActor.h"
-
-#include "Core.FRScene.h"
 #include "Core.FRSceneManager.h"
 #include "Core.FRCompTransform.h"
-#include "FRTransformManagerWarp.h"
-#include "FRRenderableManagerWarp.h"
 
 FR::FRActor::FRActor(const std::string& pName, const std::string& pTag)
 	: mScene(FRSceneManager::Instance()->GetCurrentScene())
@@ -13,10 +9,6 @@ FR::FRActor::FRActor(const std::string& pName, const std::string& pTag)
 	tag = pTag;
 	name = pName;
 	mTransform = transform->GetFRTransform();
-
-	auto engine = FRFilamentHelper::GetEngine();
-	auto tcm = engine->GetTransformManager();
-	tcm->Create(mEntity, {}, glm::mat4(1.0));
 
 	CreatedEvent.Invoke(this);
 }
@@ -166,7 +158,7 @@ void FR::FRActor::MarkAsDestroy()
 {
 	mDestroyed = true;
 
-	for (auto child : mChildren)
+	for (auto& child : mChildren)
 	{
 		child->MarkAsDestroy();
 	}
@@ -224,7 +216,7 @@ void FR::FRActor::RecursiveActiveUpdate()
 		OnDisable();
 	}
 
-	for (auto child : mChildren)
+	for (auto& child : mChildren)
 	{
 		child->RecursiveActiveUpdate();
 	}
@@ -233,7 +225,8 @@ void FR::FRActor::RecursiveActiveUpdate()
 void FR::FRActor::RecursiveWasActiveUpdate()
 {
 	mWasActive = IsActive();
-	for (const auto child : mChildren)
+
+	for (const auto& child : mChildren)
 	{
 		child->RecursiveWasActiveUpdate();
 	}
@@ -247,31 +240,25 @@ FR::FRActor::~FRActor()
 	}
 
 	OnDestroy();
+
 	DestroyedEvent.Invoke(this);
 
-	std::vector<FRActor*> toDetach = mChildren;
-
-	for (auto child : toDetach)
+	for (const auto& child : mChildren)
 	{
 		child->DetachFromParent();
 	}
-
-	toDetach.clear();
-
 	DetachFromParent();
 
-	for (const auto component : mComponents)
+	for (auto& component : mComponents)
 	{
 		ComponentRemovedEvent.Invoke(component);
-		delete component;
+		delete component; component = nullptr;
 	}
 	mComponents.clear();
 
-	for (const auto child : mChildren)
+	for (auto& child : mChildren)
 	{
-		delete child;
+		delete child; child = nullptr;
 	}
 	mChildren.clear();
-
-	FRFilamentHelper::DestroyEntity(mEntity);
 }

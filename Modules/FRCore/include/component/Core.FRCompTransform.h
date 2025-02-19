@@ -73,6 +73,9 @@ namespace FR
 
 		FRTransform& GetFRTransform();
 
+	public:
+		virtual ~FRCompTransform();
+
 	private:
 		FRTransform mTransform;
 

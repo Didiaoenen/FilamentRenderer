@@ -14,8 +14,9 @@
 #include <FRVertexBufferWarp.h>
 #include <FRMaterialInstanceWarp.h>
 #include <FRBufferDescriptorWarp.h>
-#include <FRRenderableManagerWarp.h>
 #include <FRPixelBufferDescriptorWarp.h>
+#include <FRRenderableManagerWarp.h>
+#include <FREntityManagerWarp.h>
 #include <FRFilamentHelper.h>
 
 #include <MathConvert.h>
@@ -53,12 +54,10 @@ FR::FRImGuiHelper::~FRImGuiHelper()
 
 	mPanels.clear();
 
-	//auto cameraEntity = mUICamera->GetEntity();
-
 	mEngine->Destroy(mUIView);
 	mEngine->Destroy(mUIScene);
-	//mEngine->Destroy(mRenderable);
-	//mEngine->Destroy(mCameraEntity);
+	mEngine->Destroy(mRenderable);
+	mEngine->Destroy(mCameraEntity);
 
 	for (auto& mi : mMaterial2dInstances)
 	{
@@ -76,12 +75,8 @@ FR::FRImGuiHelper::~FRImGuiHelper()
 		//mEngine->Destroy(ib);
 	}
 
-	//utils::EntityManager& em = utils::EntityManager::get();
-	//em.destroy(mRenderable->Value());
-	//em.destroy(cameraEntity->Value());
-
-	FRFilamentHelper::DestroyEntity(mRenderable);
-	FRFilamentHelper::DestroyEntity(mCameraEntity);
+	FRFilamentHelper::GetEntityManager()->Destroy(mRenderable);
+	FRFilamentHelper::GetEntityManager()->Destroy(mCameraEntity);
 
 	FRFilamentHelper::DestroyEngine();
 
@@ -391,6 +386,7 @@ void FR::FRImGuiHelper::CreateIndexBuffer(size_t pBufferIndex, size_t pCapacity)
 {
 	SyncThreads();
 	mEngine->Destroy(mIndexBuffers[pBufferIndex]);
+	mEngine->UnRegisterIndexBuffer(mIndexBuffers[pBufferIndex]);
 	mIndexBuffers[pBufferIndex] = FRIndexBufferWarp::Builder()
 		.IndexCount(pCapacity)
 		.BufferType(FRIndexBufferWarp::EIndexType::USHORT)
@@ -401,6 +397,7 @@ void FR::FRImGuiHelper::CreateVertexBuffer(size_t pBufferIndex, size_t pCapacity
 {
 	SyncThreads();
 	mEngine->Destroy(mVertexBuffers[pBufferIndex]);
+	mEngine->UnRegisterVertexBuffer(mVertexBuffers[pBufferIndex]);
 	mVertexBuffers[pBufferIndex] = FRVertexBufferWarp::Builder()
 		.BufferCount(1)
 		.VertexCount(pCapacity)

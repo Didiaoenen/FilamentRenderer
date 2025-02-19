@@ -1,6 +1,7 @@
 #include "FRCameraWarp.h"
 #include "FREntityWarp.h"
 #include "FREngineWarp.h"
+#include "FRFilamentHelper.h"
 #include <MathConvert.h>
 
 FR::FRCameraWarp::FRCameraWarp(FREngineWarp* pEngine, FREntityWarp* pEntity)
@@ -52,5 +53,5 @@ FR::FREntityWarp* FR::FRCameraWarp::GetEntity()
 
 FR::FRCameraWarp::~FRCameraWarp()
 {
-	mEntity = nullptr;
+	FRFilamentHelper::GetEngine()->RemoveCamera(this);
 }

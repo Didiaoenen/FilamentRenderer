@@ -9,6 +9,7 @@
 #include <MathConvert.h>
 #include <FRMaterialWarp.h>
 #include <FRMaterialInstanceWarp.h>
+#include <FRFilamentHelper.h>
 
 FR::FRMaterial::FRMaterial(FRShader* pShader)
 {
@@ -21,7 +22,7 @@ void FR::FRMaterial::SetShader(FRShader* pShader, bool pClearProps)
 
 	if (mShader)
 	{
-		mShader->material = this;
+		mShader->SetRefMaterial(this);
 		mMaterialInstance = mShader->CreateInstance();
 
 		if (pClearProps)
@@ -80,16 +81,6 @@ void FR::FRMaterial::SetShader(FRShader* pShader, bool pClearProps)
 FR::FRShader* FR::FRMaterial::GetShader()
 {
 	return mShader;
-}
-
-bool FR::FRMaterial::HasShader() const
-{
-	return mShader;
-}
-
-bool FR::FRMaterial::IsValid() const
-{
-	return HasShader();
 }
 
 void FR::FRMaterial::SetTransparencyMode(FRMaterialInstanceWarp::ETransparencyMode pModel)
@@ -196,7 +187,7 @@ std::vector<FR::FRPropInfo>& FR::FRMaterial::GetPropInfos()
 
 FR::FRPropInfo* FR::FRMaterial::GetPropInfo(const std::string& pName)
 {
-	auto found = std::find_if(mPropInfos.begin(), mPropInfos.end(), [&pName](const FRPropInfo& pElement)
+	auto found = std::find_if(mPropInfos.begin(), mPropInfos.end(), [pName](const FRPropInfo& pElement)
 		{
 			return pName == pElement.name;
 		});
@@ -299,21 +290,22 @@ void FR::FRMaterial::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNod
 
 	}
 
-	FRShader* deserializedShader = FRSerializer::DeserializeShader(pDoc, pNode, "shader");
+	FRShader* shader = FRSerializer::DeserializeShader(pDoc, pNode, "shader");
 
-	if (deserializedShader)
+	if (shader)
 	{
-		SetShader(deserializedShader);
+		SetShader(shader);
 
-		tinyxml2::XMLNode* uniformsNode = pNode->FirstChildElement("properties");
+		tinyxml2::XMLNode* propertiesNode = pNode->FirstChildElement("properties");
 
-		if (uniformsNode)
+		if (propertiesNode)
 		{
-			for (auto property = uniformsNode->FirstChildElement("property"); property; property = property->NextSiblingElement("property"))
+			tinyxml2::XMLNode* property = propertiesNode->FirstChildElement("property");
+			for (; property; property = property->NextSiblingElement("property"))
 			{
-				if (auto uniformNameElement = property->FirstChildElement("name"))
+				if (auto nameElement = property->FirstChildElement("name"))
 				{
-					auto propInfo = GetPropInfo(uniformNameElement->GetText());
+					auto propInfo = GetPropInfo(nameElement->GetText());
 
 					if (propInfo)
 					{
@@ -376,4 +368,10 @@ std::map<uint64_t, FR::FRMesh*> FR::FRMaterial::GetRefMeshs()
 void FR::FRMaterial::SetRefMesh(FRMesh* pMesh)
 {
 	mRefMeshs.emplace(pMesh->mUUID, pMesh);
+}
+
+FR::FRMaterial::~FRMaterial()
+{
+	FRFilamentHelper::GetEngine()->Destroy(mMaterialInstance);
+	delete mMaterialInstance; mMaterialInstance = nullptr;
 }

@@ -18,7 +18,7 @@ void FR::FRModel::Build(FREntityWarp* pEntity)
 void FR::FRModel::AttachmentMesh(FRMesh* pMesh)
 {
 	pMesh->model = this;
-	mMeshes.push_back(pMesh);
+	mMeshes.emplace_back(pMesh);
 }
 
 FR::SkeletonRig* FR::FRModel::GetSkeletonRig() const
@@ -81,6 +81,7 @@ FR::FREntityWarp* FR::FRModel::GetEntity()
 FR::FRModel* FR::FRModel::Create()
 {
 	auto model = new FRModel();
+
 	model->path = path;
 	model->mSkeletonRig = mSkeletonRig;
 
@@ -94,9 +95,9 @@ FR::FRModel* FR::FRModel::Create()
 
 FR::FRModel::~FRModel()
 {
-	for (const auto mesh : mMeshes)
+	for (auto& mesh : mMeshes)
 	{
-		delete mesh;
+		delete mesh; mesh = nullptr;
 	}
 	mMeshes.clear();
 }

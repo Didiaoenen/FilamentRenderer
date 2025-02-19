@@ -68,5 +68,6 @@ FR::FRTextureWarp* FR::FRTexture::NativePtr()
 FR::FRTexture::~FRTexture()
 {
 	FRFilamentHelper::GetEngine()->Destroy(mTexture);
-	mTexture = nullptr;
+	FRFilamentHelper::GetEngine()->UnRegisterTexture(mTexture);
+	delete mTexture; mTexture = nullptr;
 }

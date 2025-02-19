@@ -99,7 +99,7 @@ void FR::FRCompAnimator::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XM
 
 void FR::FRCompAnimator::OnInspector(FRWidgetContainer& pRoot)
 {
-	FRGuiDrawer::CreateTitle(pRoot, "Animation").lineBreak = false;
+	FRGuiDrawer::CreateTitle(pRoot, "Animation");
 
 	for (int i = 0; i < mMotions.size(); i++)
 	{
@@ -117,4 +117,8 @@ void FR::FRCompAnimator::DataReceivedChangeCallback(std::string& pContext, std::
 			pContext = pDataReceived.first;
 		}
 	}
+}
+
+FR::FRCompAnimator::~FRCompAnimator()
+{
 }

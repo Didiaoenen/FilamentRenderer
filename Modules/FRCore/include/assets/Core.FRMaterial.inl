@@ -21,7 +21,7 @@ namespace FR
 	template<typename T>
 	inline void FRMaterial::Set(const std::string pKey, const T& pValue)
 	{
-		if (HasShader())
+		if (mShader)
 		{
 			for (auto& prop : mPropInfos)
 			{

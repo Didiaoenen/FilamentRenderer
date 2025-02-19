@@ -1,5 +1,4 @@
 #include "Core.FRCompLight.h"
-
 #include "Core.FRActor.h"
 #include "Core.FRSerializer.h"
 #include "Core.FRCompTransform.h"
@@ -95,4 +94,9 @@ void FR::FRCompLight::ValueChangeCallback(int pChoice, FRAWidget* pInner, FRAWid
 		pOuter->enabled = pOuterLabel->enabled = lightType == FRLightManagerWarp::EType::SPOT || lightType == FRLightManagerWarp::EType::FOCUSED_SPOT;
 		pFalloff->enabled = pFalloffLabel->enabled = lightType == FRLightManagerWarp::EType::SPOT || lightType == FRLightManagerWarp::EType::FOCUSED_SPOT || lightType == FRLightManagerWarp::EType::POINT;
 	}
+}
+
+FR::FRCompLight::~FRCompLight()
+{
+	FRFilamentHelper::GetLightManager()->Destroy(owner.GetEntity());
 }

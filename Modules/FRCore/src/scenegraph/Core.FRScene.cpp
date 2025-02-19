@@ -113,6 +113,7 @@ void FR::FRScene::CollectGarbages()
 				}
 
 				delete pElement;
+
 				return true;
 			}
 
@@ -366,11 +367,10 @@ FR::FRSceneWarp* FR::FRScene::NativePtr()
 
 FR::FRScene::~FRScene()
 {
-	std::for_each(mActors.begin(), mActors.end(), [](FRActor* pElement)
-		{
-			delete pElement;
-		});
-
+	for (auto& actor : mActors)
+	{
+		delete actor; actor = nullptr;
+	}
 	mActors.clear();
 
 	FRFilamentHelper::GetEngine()->Destroy(mScene);

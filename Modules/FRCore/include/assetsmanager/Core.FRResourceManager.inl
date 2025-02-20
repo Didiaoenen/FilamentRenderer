@@ -116,9 +116,10 @@ namespace FR
 
 		mResources.clear();
 	}
+
 	template<typename T>
 	inline FRResourceManager<T>::~FRResourceManager()
 	{
-		/*UnloadResources();*/
+		UnloadResources();
 	}
 }

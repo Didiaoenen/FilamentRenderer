@@ -16,11 +16,6 @@ namespace FR
 
 		virtual void DestroyResource(FRMaterial* pResource) override;
 
-		virtual ~FRMaterialManager()
-		{
-			UnloadResources();
-		}
-
 	};
 }
 

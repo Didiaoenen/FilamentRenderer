@@ -22,11 +22,6 @@ namespace FR
 			return *std::any_cast<T*>(__SERVICES[typeid(T).hash_code()]);
 		}
 
-		static void Clear()
-		{
-			__SERVICES.clear();
-		}
-
 	private:
 		inline static std::unordered_map<size_t, std::any> __SERVICES;
 

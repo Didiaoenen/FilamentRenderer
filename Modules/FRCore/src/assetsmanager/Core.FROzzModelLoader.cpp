@@ -2,29 +2,31 @@
 
 #include "Core.FRMesh.h"
 #include "Core.FRModel.h"
-
 #include "SkeletonRig.h"
+
 #include <StringExtension.h>
 #include <Tools.FRPathUtils.h>
 
 #include <ozz/animation/runtime/skeleton.h>
 
-FR::FRModel* FR::FROzzModelLoader::Create(const std::string& pFilepath)
+FR::FRModel* FR::FROzzModelLoader::Create(const std::string& pFilePath)
 {
 	FRModelData dataTree;
 	std::vector<std::string> materialNames;
 
-	if (__OZZ.LoadMesh(pFilepath, dataTree, materialNames))
+	if (__OZZ.LoadMesh(pFilePath, dataTree, materialNames))
 	{
 		FRModel* result = new FRModel();
 		result->mMaterialNames = materialNames;
 
-		std::string skelPath = pFilepath;
+		std::string skelPath = pFilePath;
 		StringExtension::Replace(skelPath, "ozz", "skel");
-		auto skeleton = new ozz::animation::Skeleton();
+		ozz::animation::Skeleton skeleton;
 		if (__OZZ.LoadSkeleton(skelPath, skeleton))
 		{
 			result->mSkeletonRig = new SkeletonRig(skeleton);
+			delete result->mSkeletonRig;
+			result->mSkeletonRig = nullptr;
 		}
 
 		for (auto mesh : dataTree.meshs)
@@ -42,7 +44,7 @@ void FR::FROzzModelLoader::Reload(FRModel& pModel, const std::string& pFilePath)
 {
 }
 
-bool FR::FROzzModelLoader::Destroy(FRModel*& pModelInstance)
+void FR::FROzzModelLoader::Destroy(FRModel*& pModel)
 {
-	return false;
+	delete pModel; pModel = nullptr;
 }

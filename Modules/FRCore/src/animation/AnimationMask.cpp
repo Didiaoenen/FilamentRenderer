@@ -25,7 +25,7 @@ void FR::AnimationMask::SetAllChildrenOf(int32_t pJointIndex, float pValue)
 			weight = ozz::math::SetI(weight, ozz::math::simd_float4::Load1(pValue), joint % 4);
 		};
 
-	ozz::animation::IterateJointsDF(*mSkeletonRig->GetSkeleton(), functor, pJointIndex);
+	ozz::animation::IterateJointsDF(mSkeletonRig->GetSkeleton(), functor, pJointIndex);
 }
 
 ozz::vector<ozz::math::SimdFloat4>& FR::AnimationMask::GetJointWeights()

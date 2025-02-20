@@ -114,7 +114,7 @@ namespace FR
 		void Destroy(T* pWarpValue);
 
 	public:
-		~FREngineWarp();
+		virtual ~FREngineWarp();
 
 	private:
 		FREntityManagerWarp* mEntityManager{ nullptr };

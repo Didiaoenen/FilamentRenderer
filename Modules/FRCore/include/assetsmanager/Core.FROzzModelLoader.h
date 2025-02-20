@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include "Core.FROzzModelParser.h"
 
 namespace FR
@@ -11,11 +10,11 @@ namespace FR
 	class FROzzModelLoader
 	{
 	public:
-		static FRModel* Create(const std::string& pFilepath);
+		static FRModel* Create(const std::string& pFilePath);
 
 		static void Reload(FRModel& pModel, const std::string& pFilePath);
 
-		static bool Destroy(FRModel*& pModelInstance);
+		static void Destroy(FRModel*& pModel);
 
 	private:
 		inline static FROzzModelParser __OZZ;

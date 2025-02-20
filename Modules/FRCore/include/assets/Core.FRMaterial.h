@@ -22,8 +22,6 @@ namespace FR
 
 		void SetShader(FRShader* pShader, bool pClearProps = true);
 
-		FRShader* GetShader();
-
 		void SetTransparencyMode(FRMaterialInstanceWarp::ETransparencyMode pModel);
 
 		void SetCullingMode(FRMaterialInstanceWarp::ECullingMode pModel);
@@ -35,6 +33,8 @@ namespace FR
 		void SetColorWrite(bool pWrite);
 
 		void UploadData() const;
+
+		FRShader* GetShader();
 
 		std::vector<FRPropInfo>& GetPropInfos();
 

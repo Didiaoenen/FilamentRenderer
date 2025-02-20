@@ -13,7 +13,7 @@ namespace FR
 		: public FRObject
 	{
 	public:
-		SkeletonRig(ozz::animation::Skeleton* pSkeleton);
+		SkeletonRig(ozz::animation::Skeleton& pSkeleton);
 
 		uint32_t GetNumJoints();
 
@@ -25,17 +25,17 @@ namespace FR
 
 		int32_t FindJoint(const std::string& pJointName);
 
-		ozz::animation::Skeleton* GetSkeleton();
+		ozz::animation::Skeleton& GetSkeleton();
 
 	public:
-		~SkeletonRig();
+		virtual ~SkeletonRig();
 
 	public:
 		std::string path;
 		uint32_t rootIndex{ 0 };
 
 	private:
-		ozz::animation::Skeleton* mSkeleton{ nullptr };
+		ozz::animation::Skeleton mSkeleton;
 
 		uint32_t mNumSoaJoints{ 0 };
 

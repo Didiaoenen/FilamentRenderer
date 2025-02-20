@@ -16,10 +16,10 @@ FR::Animation* FR::AnimationManager::CreateResource(const std::string& pPath)
 	return nullptr;
 }
 
-void FR::AnimationManager::DestroyResource(Animation* pResource)
+void FR::AnimationManager::ReloadResource(Animation* pResource, const std::string& pPath)
 {
 }
 
-void FR::AnimationManager::ReloadResource(Animation* pResource, const std::string& pPath)
+void FR::AnimationManager::DestroyResource(Animation* pResource)
 {
 }

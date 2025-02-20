@@ -12,9 +12,9 @@
 #include <ozz/base/io/archive.h>
 #include <ozz/animation/runtime/skeleton.h>
 
-bool FR::FROzzModelParser::LoadMesh(const std::string& pFileName, FRModelData& pOutData, std::vector<std::string>& pMaterials)
+bool FR::FROzzModelParser::LoadMesh(const std::string& pFilePath, FRModelData& pOutData, std::vector<std::string>& pMaterials)
 {
-	ozz::io::File file(pFileName.c_str(), "rb");
+	ozz::io::File file(pFilePath.c_str(), "rb");
 	if (!file.opened())
 	{
 		return false;
@@ -157,9 +157,9 @@ bool FR::FROzzModelParser::LoadMesh(const std::string& pFileName, FRModelData& p
 	return true;
 }
 
-bool FR::FROzzModelParser::LoadSkeleton(const std::string& pFileName, ozz::animation::Skeleton* pSkeleton)
+bool FR::FROzzModelParser::LoadSkeleton(const std::string& pFilePath, ozz::animation::Skeleton& pSkeleton)
 {
-	ozz::io::File file(pFileName.c_str(), "rb");
+	ozz::io::File file(pFilePath.c_str(), "rb");
 	if (!file.opened())
 	{
 		return false;
@@ -172,7 +172,7 @@ bool FR::FROzzModelParser::LoadSkeleton(const std::string& pFileName, ozz::anima
 	}
 
 	{
-		archive >> *pSkeleton;
+		archive >> pSkeleton;
 	}
 
 	return true;

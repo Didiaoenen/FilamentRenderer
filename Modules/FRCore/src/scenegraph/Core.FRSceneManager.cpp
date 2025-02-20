@@ -151,5 +151,4 @@ FR::FRSceneManager* FR::FRSceneManager::Instance()
 
 FR::FRSceneManager::~FRSceneManager()
 {
-	UnloadCurrentScene();
 }

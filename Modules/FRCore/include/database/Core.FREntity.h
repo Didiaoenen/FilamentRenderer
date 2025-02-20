@@ -24,7 +24,7 @@ namespace FR
 			mEntity = FRFilamentHelper::CreateEntity();
 		};
 
-        FREntityWarp* GetEntity() const
+        FREntityWarp* GetEntity()
         {
             return mEntity;
         }

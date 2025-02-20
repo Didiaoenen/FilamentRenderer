@@ -4,18 +4,19 @@
 #include <Color.h>
 #include <glm/glm.hpp>
 
-#include "Core.FREntity.h"
+#include "Core.FRObject.h"
 #include "EProjectionMode.h"
 
 namespace FR
 {
 	class FREntity;
+	class FRCameraWarp;
 
 	class FRCamera
-		: public FREntity
+		: public FRObject
 	{
 	public:
-		FRCamera(FREntityWarp* pEntity, FROptRef<FRTransform> pTransform = std::nullopt);
+		FRCamera(FREntity* pEntity);
 
 		void CacheMatrices(uint16_t pWidth, uint16_t pHeight);
 
@@ -49,6 +50,8 @@ namespace FR
 
 		FRCameraWarp* NativePtr();
 
+		FREntity* GetEntity();
+
 	public:
 		virtual ~FRCamera();
 
@@ -67,6 +70,7 @@ namespace FR
 		bool clearStencilBuffer{ true };
 
 	private:
+		FREntity* mEntity{ nullptr };
 		FRCameraWarp* mCamera{ nullptr };
 
 		glm::vec4 mViewport{ 0.f };

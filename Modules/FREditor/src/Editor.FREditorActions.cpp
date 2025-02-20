@@ -115,7 +115,7 @@ glm::vec3 FR::FREditorActions::CalculateActorSpawnPoint(float pDistanceToCamera)
 
 	if (auto camera = sceneView->GetCamera())
 	{
-		return camera->GetPosition() + camera->GetTransform().GetWorldForward() * pDistanceToCamera;
+		return camera->GetPosition() + camera->GetEntity()->GetTransform().GetWorldForward() * pDistanceToCamera;
 	}
 
 	return glm::vec3();

@@ -32,12 +32,12 @@ namespace FR
 	}
 
 	template<typename T>
-	inline bool FRResourceManager<T>::MoveResource(const std::string& pPreviousPath, const std::string& pNewPath)
+	inline bool FRResourceManager<T>::MoveResource(const std::string& pPath, const std::string& pNewPath)
 	{
-		if (IsResourceRegistered(pPreviousPath) && !IsResourceRegistered(pNewPath))
+		if (IsResourceRegistered(pPath) && !IsResourceRegistered(pNewPath))
 		{
-			T* toMove = mResources.at(pPreviousPath);
-			UnregisterResource(pPreviousPath);
+			T* toMove = mResources.at(pPath);
+			UnregisterResource(pPath);
 			RegisterResource(pNewPath, toMove);
 			return true;
 		}
@@ -58,17 +58,6 @@ namespace FR
 	inline bool FRResourceManager<T>::IsResourceRegistered(const std::string& pPath)
 	{
 		return mResources.find(pPath) != mResources.end();
-	}
-
-	template<typename T>
-	inline void FRResourceManager<T>::UnloadResources()
-	{
-		for (auto& [key, value] : mResources)
-		{
-			DestroyResource(value);
-		}
-
-		mResources.clear();
 	}
 
 	template<typename T>
@@ -106,14 +95,30 @@ namespace FR
 	}
 
 	template<typename T>
+	inline std::unordered_map<std::string, T*>& FRResourceManager<T>::GetResources()
+	{
+		return mResources;
+	}
+
+	template<typename T>
 	inline T* FRResourceManager<T>::operator[](const std::string& pPath)
 	{
 		return GetResource(pPath);
 	}
 
 	template<typename T>
-	inline std::unordered_map<std::string, T*>& FRResourceManager<T>::GetResources()
+	inline void FRResourceManager<T>::UnloadResources()
 	{
-		return mResources;
+		for (auto& [key, value] : mResources)
+		{
+			DestroyResource(value);
+		}
+
+		mResources.clear();
+	}
+	template<typename T>
+	inline FRResourceManager<T>::~FRResourceManager()
+	{
+		/*UnloadResources();*/
 	}
 }

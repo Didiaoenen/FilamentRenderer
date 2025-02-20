@@ -7,12 +7,12 @@
 
 FR::Animation* FR::FROzzAnimationLoader::Create(const std::string& pFilePath)
 {
-	auto animation = new ozz::animation::Animation();
+	ozz::animation::Animation animation;
 	LoadAnimation(pFilePath, animation);
 	return new Animation(animation);
 }
 
-bool FR::FROzzAnimationLoader::LoadAnimation(const std::string& pFileName, ozz::animation::Animation* pAnimation)
+bool FR::FROzzAnimationLoader::LoadAnimation(const std::string& pFileName, ozz::animation::Animation& pAnimation)
 {
 	ozz::io::File file(pFileName.c_str(), "rb");
 	if (!file.opened())
@@ -27,7 +27,7 @@ bool FR::FROzzAnimationLoader::LoadAnimation(const std::string& pFileName, ozz::
 	}
 
 	{
-		archive >> *pAnimation;
+		archive >> pAnimation;
 	}
 
     return true;

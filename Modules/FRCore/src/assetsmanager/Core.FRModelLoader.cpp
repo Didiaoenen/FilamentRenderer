@@ -29,7 +29,6 @@ void FR::FRModelLoader::Reload(FRModel& pModel, const std::string& pFilePath)
 {
 }
 
-bool FR::FRModelLoader::Destroy(FRModel*& pModelInstance)
+void FR::FRModelLoader::Destroy(FRModel*& pModel)
 {
-    return false;
 }

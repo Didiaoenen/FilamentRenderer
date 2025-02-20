@@ -13,7 +13,7 @@ namespace FR
 
 		static void Reload(FRModel& pModel, const std::string& pFilePath);
 
-		static bool Destroy(FRModel*& pModelInstance);
+		static void Destroy(FRModel*& pModel);
 
 	private:
 		inline static FRAssimpParser __ASSIMP;

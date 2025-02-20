@@ -1,21 +1,32 @@
 #pragma once
 
-#include "Core.FREntity.h"
+#include "Core.FRObject.h"
 
 #include <Color.h>
 #include <FRLightManagerWarp.h>
 
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
+
 namespace FR
 {
+	class FREntity;
+	class FREntityWarp;
+
 	class FRLight
-		: public FREntity
+		: public FRObject
 	{
 	public:
-		FRLight(FREntityWarp* pEntity, FROptRef<FRTransform> pTransform = std::nullopt);
+		FRLight(FREntity* pEntity);
 
 		void CreateLight(FRLightManagerWarp::EType pType);
 
 		void UploadData();
+
+		FREntityWarp* GetEntity() const;
+
+	public:
+		virtual ~FRLight();
 
 	public:
 		FRLightManagerWarp::EType type{ FRLightManagerWarp::EType::DIRECTIONAL };
@@ -37,6 +48,9 @@ namespace FR
 		float linear{ 0.f };
 
 		Color color{ 255 / 255.f, 244 / 255.f, 214 / 255.f };
+
+	private:
+		FREntity* mEntity{ nullptr };
 
 	};
 }

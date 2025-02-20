@@ -41,7 +41,7 @@ namespace FR
 		void TryRun();
 
 	public:
-		~FRApplication();
+		virtual ~FRApplication();
 
 	public:
 		std::string projectPath;

@@ -2,11 +2,11 @@
 
 #include "Core.FRTexture.h"
 
-FR::FRTexture* FR::FRTextureLoader::Create(const std::string& pFilepath, FRTextureSamplerWarp::EMinFilter pFirstFilter, FRTextureSamplerWarp::EMagFilter pSecondFilter, bool pGenerateMipmap)
+FR::FRTexture* FR::FRTextureLoader::Create(const std::string& pFilePath, FRTextureSamplerWarp::EMinFilter pFirstFilter, FRTextureSamplerWarp::EMagFilter pSecondFilter, bool pGenerateMipmap)
 {
     uint8_t* data;
     uint32_t size, width, height;
-    if (__STBI.LoadImage(pFilepath, &data, &size, &width, &height))
+    if (__STBI.LoadImage(pFilePath, &data, &size, &width, &height))
     {
         FRTexture* result = new FRTexture(width, height);
         result->SetData(data, size);
@@ -31,11 +31,11 @@ FR::FRTexture* FR::FRTextureLoader::CreateFromMemory(uint8_t* pData, uint32_t pW
     return result;
 }
 
-//void FR::TextureLoader::Reload(Texture& pTexture, const std::string& pFilePath, ETextureFilteringMode pFirstFilter, ETextureFilteringMode pSecondFilter, bool pGenerateMipmap)
-//{
-//}
-
-bool FR::FRTextureLoader::Destroy(FRTexture*& pTextureInstance)
+void FR::FRTextureLoader::Reload(FRTexture* pTexture, const std::string& pFilePath, FRTextureSamplerWarp::EMinFilter pFirstFilter, FRTextureSamplerWarp::EMagFilter pSecondFilter, bool pGenerateMipmap)
 {
-    return false;
+}
+
+void FR::FRTextureLoader::Destroy(FRTexture*& pTexture)
+{
+    delete pTexture; pTexture = nullptr;
 }

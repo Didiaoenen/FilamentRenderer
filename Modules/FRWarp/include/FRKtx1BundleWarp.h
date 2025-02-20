@@ -16,7 +16,7 @@ namespace FR
         FRKtx1BundleWarp(uint8_t const* pData, uint32_t pCount);
 
     public:
-        virtual ~FRKtx1BundleWarp() = default;
+        virtual ~FRKtx1BundleWarp();
 
     };
 }

@@ -3,6 +3,7 @@
 #include <queue>
 #include <optional>
 #include <Core.FRCamera.h>
+#include <Core.FREntity.h>
 
 namespace FR
 {
@@ -55,9 +56,7 @@ namespace FR
 		void UpdateMouseState();
 
 	private:
-		FREntityWarp* mEntity{ nullptr };
-
-		FRTransform mTransform;
+		FREntity mEntity;
 
 		FRCamera mCamera;
 

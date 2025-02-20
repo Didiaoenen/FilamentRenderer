@@ -12,9 +12,14 @@ namespace FR
 	public:
 		virtual FRMaterial* CreateResource(const std::string& pPath) override;
 
+		virtual void ReloadResource(FRMaterial* pResource, const std::string& pPath) override;
+
 		virtual void DestroyResource(FRMaterial* pResource) override;
 
-		virtual void ReloadResource(FRMaterial* pResource, const std::string& pPath) override;
+		virtual ~FRMaterialManager()
+		{
+			UnloadResources();
+		}
 
 	};
 }

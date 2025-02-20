@@ -170,7 +170,7 @@ std::vector<std::reference_wrapper<FR::FRActor>> FR::FRScene::FindActorsByName(c
 {
 	std::vector<std::reference_wrapper<FRActor>> actors;
 
-	for (auto actor : mActors)
+	for (auto& actor : mActors)
 	{
 		if (actor->name == pName)
 		{
@@ -185,7 +185,7 @@ std::vector<std::reference_wrapper<FR::FRActor>> FR::FRScene::FindActorsByTag(co
 {
 	std::vector<std::reference_wrapper<FRActor>> actors;
 
-	for (auto actor : mActors)
+	for (auto& actor : mActors)
 	{
 		if (actor->tag == pTag)
 		{
@@ -198,7 +198,7 @@ std::vector<std::reference_wrapper<FR::FRActor>> FR::FRScene::FindActorsByTag(co
 
 FR::FRCompCamera* FR::FRScene::FindMainCamera() const
 {
-	for (FRCompCamera* camera : mFastAccessComponents.cameras)
+	for (const auto& camera : mFastAccessComponents.cameras)
 	{
 		if (camera->owner.IsActive())
 		{
@@ -314,7 +314,7 @@ void FR::FRScene::ParseScene()
 
 void FR::FRScene::AddGizmo(FRModel* pGizmo)
 {
-	for (const auto mesh : pGizmo->GetMeshes())
+	for (const auto& mesh : pGizmo->GetMeshes())
 	{
 		mScene->AddEntity(mesh->GetEntity());
 	}
@@ -324,7 +324,7 @@ void FR::FRScene::AddGizmo(FRModel* pGizmo)
 
 void FR::FRScene::AddModel(FRModel* pModel)
 {
-	for (const auto mesh : pModel->GetMeshes())
+	for (const auto& mesh : pModel->GetMeshes())
 	{
 		mScene->AddEntity(mesh->GetEntity());
 	}
@@ -344,7 +344,7 @@ void FR::FRScene::SetEnvironment(FREnvironment* pEnvironment)
 
 void FR::FRScene::RemoveModel(const FRModel* pModel)
 {
-	for (const auto mesh : pModel->GetMeshes())
+	for (const auto& mesh : pModel->GetMeshes())
 	{
 		mScene->Remove(mesh->GetEntity());
 	}

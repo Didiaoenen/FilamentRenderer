@@ -50,6 +50,8 @@ namespace FR
 
 		};
 
+		FRIndexBufferWarp() = default;
+
 		FRIndexBufferWarp(FREngineWarp* pEngine, Builder* pBuilder);
 
 		void SetBuffer(FREngineWarp* pEngine, FRBufferDescriptorWarp&& pBuffer, uint32_t pByteOffset = 0);

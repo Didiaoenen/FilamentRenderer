@@ -14,7 +14,7 @@ namespace FR
 		: public AMotion
 	{
 	public:
-		Animation(ozz::animation::Animation* pAnimation);
+		Animation(ozz::animation::Animation& pAnimation);
 
 		virtual bool InitData(SkeletonRig* pSkeletonRig) override;
 
@@ -33,10 +33,10 @@ namespace FR
 		void Reset();
 
 	public:
-		~Animation();
+		virtual ~Animation();
 
 	private:
-		ozz::animation::Animation* mAnimation{ nullptr };
+		ozz::animation::Animation mAnimation;
 
 	public:
 		bool play{ true };

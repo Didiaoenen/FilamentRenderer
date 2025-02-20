@@ -16,10 +16,12 @@ FR::FRMaterial* FR::FRMaterialManager::CreateResource(const std::string& pPath)
 	return nullptr;
 }
 
-void FR::FRMaterialManager::DestroyResource(FRMaterial* pResource)
-{
-}
-
 void FR::FRMaterialManager::ReloadResource(FRMaterial* pResource, const std::string& pPath)
 {
+
+}
+
+void FR::FRMaterialManager::DestroyResource(FRMaterial* pResource)
+{
+	FRMaterialLoader::Destroy(pResource);
 }

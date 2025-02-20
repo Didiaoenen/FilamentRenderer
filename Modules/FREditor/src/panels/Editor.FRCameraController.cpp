@@ -62,7 +62,7 @@ namespace FR
 
 FR::FRCameraController::FRCameraController()
 	: mEntity(FRFilamentHelper::CreateEntity())
-	, mCamera(mEntity, mTransform)
+	, mCamera(&mEntity)
 {
 	mCamera.clearColor = kDefaultClearColor;
 }
@@ -244,8 +244,8 @@ FR::FRActor* FR::FRCameraController::GetTargetActor() const
 void FR::FRCameraController::HandleCameraPanning(const glm::vec2& pMouseOffset, bool pFirstMouse)
 {
 	auto mouseOffset = pMouseOffset * mCameraDragSpeed;
-	mCamera.SetPosition(mCamera.GetPosition() + mCamera.GetTransform().GetWorldRight() * mouseOffset.x);
-	mCamera.SetPosition(mCamera.GetPosition() - mCamera.GetTransform().GetWorldUp() * mouseOffset.y);
+	mCamera.SetPosition(mCamera.GetPosition() + mCamera.GetEntity()->GetTransform().GetWorldRight() * mouseOffset.x);
+	mCamera.SetPosition(mCamera.GetPosition() - mCamera.GetEntity()->GetTransform().GetWorldUp() * mouseOffset.y);
 }
 
 void FR::FRCameraController::HandleCameraOrbit(FRActor* pTarget, const glm::vec2& pMouseOffset, bool pFirstMouse)
@@ -295,7 +295,7 @@ void FR::FRCameraController::HandleCameraFPSMouse(const glm::vec2& pMouseOffset,
 void FR::FRCameraController::HandleCameraZoom()
 {
 	auto delta = FRInput::GetMouseWheelDelta();
-	mCamera.SetPosition(mCamera.GetPosition() + mCamera.GetTransform().GetWorldForward() * delta.y);
+	mCamera.SetPosition(mCamera.GetPosition() + mCamera.GetEntity()->GetTransform().GetWorldForward() * delta.y);
 }
 
 void FR::FRCameraController::HandleCameraFPSKeyboard()
@@ -309,19 +309,19 @@ void FR::FRCameraController::HandleCameraFPSKeyboard()
 
 		if (FRInput::GetKey(EKeyCode::W))
 		{
-			mTargetSpeed += mCamera.GetTransform().GetWorldForward() * velocity;
+			mTargetSpeed += mCamera.GetEntity()->GetTransform().GetWorldForward() * velocity;
 		}
 		if (FRInput::GetKey(EKeyCode::S))
 		{
-			mTargetSpeed += mCamera.GetTransform().GetWorldForward() * -velocity;
+			mTargetSpeed += mCamera.GetEntity()->GetTransform().GetWorldForward() * -velocity;
 		}
 		if (FRInput::GetKey(EKeyCode::A))
 		{
-			mTargetSpeed += mCamera.GetTransform().GetWorldRight() * velocity;
+			mTargetSpeed += mCamera.GetEntity()->GetTransform().GetWorldRight() * velocity;
 		}
 		if (FRInput::GetKey(EKeyCode::D))
 		{
-			mTargetSpeed += mCamera.GetTransform().GetWorldRight() * -velocity;
+			mTargetSpeed += mCamera.GetEntity()->GetTransform().GetWorldRight() * -velocity;
 		}
 		if (FRInput::GetKey(EKeyCode::E))
 		{

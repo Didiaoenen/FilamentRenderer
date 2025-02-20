@@ -31,10 +31,10 @@ FR::FRModel* FR::FRModelManager::CreateResource(const std::string& pPath)
 	return model;
 }
 
-void FR::FRModelManager::DestroyResource(FRModel* pResource)
+void FR::FRModelManager::ReloadResource(FRModel* pResource, const std::string& pPath)
 {
 }
 
-void FR::FRModelManager::ReloadResource(FRModel* pResource, const std::string& pPath)
+void FR::FRModelManager::DestroyResource(FRModel* pResource)
 {
 }

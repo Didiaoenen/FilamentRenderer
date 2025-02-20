@@ -78,11 +78,6 @@ void FR::FRMaterial::SetShader(FRShader* pShader, bool pClearProps)
 	}
 }
 
-FR::FRShader* FR::FRMaterial::GetShader()
-{
-	return mShader;
-}
-
 void FR::FRMaterial::SetTransparencyMode(FRMaterialInstanceWarp::ETransparencyMode pModel)
 {
 	mMaterialInstance->SetTransparencyMode(pModel);
@@ -178,6 +173,11 @@ void FR::FRMaterial::UploadData() const
 			}
 		}
 	}
+}
+
+FR::FRShader* FR::FRMaterial::GetShader()
+{
+	return mShader;
 }
 
 std::vector<FR::FRPropInfo>& FR::FRMaterial::GetPropInfos()

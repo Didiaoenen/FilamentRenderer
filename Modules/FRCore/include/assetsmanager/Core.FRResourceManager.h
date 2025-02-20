@@ -14,13 +14,11 @@ namespace FR
 
 		void UnloadResource(const std::string& pPath);
 
-		bool MoveResource(const std::string& pPreviousPath, const std::string& pNewPath);
+		bool MoveResource(const std::string& pPath, const std::string& pNewPath);
 
 		void ReloadResource(const std::string& pPath);
 
 		bool IsResourceRegistered(const std::string& pPath);
-
-		void UnloadResources();
 
 		T* RegisterResource(const std::string& pPath, T* pInstance);
 
@@ -28,14 +26,19 @@ namespace FR
 
 		T* GetResource(const std::string& pPath, bool pTryToLoadIfNotFound = true);
 
+		std::unordered_map<std::string, T*>& GetResources();
+
 		T* operator[](const std::string& pPath);
 
-		std::unordered_map<std::string, T*>& GetResources();
+		void UnloadResources();
+
+	public:
+		virtual ~FRResourceManager();
 
 	protected:
 		virtual T* CreateResource(const std::string& pPath) = 0;
-		virtual void DestroyResource(T* pResource) = 0;
 		virtual void ReloadResource(T* pResource, const std::string& pPath) = 0;
+		virtual void DestroyResource(T* pResource) = 0;
 
 	private:
 		inline static std::string __PROJECT_ASSETS_PATH = "";

@@ -16,11 +16,11 @@ FR::FRShader* FR::FRShaderManager::CreateResource(const std::string& pPath)
 	return nullptr;
 }
 
+void FR::FRShaderManager::ReloadResource(FRShader* pResource, const std::string& pPath)
+{
+}
+
 void FR::FRShaderManager::DestroyResource(FRShader* pResource)
 {
 	FRShaderLoader::Destroy(pResource);
-}
-
-void FR::FRShaderManager::ReloadResource(FRShader* pResource, const std::string& pPath)
-{
 }

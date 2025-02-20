@@ -21,7 +21,7 @@ bool FR::Animator::Update(float pDeltaTime)
 
 		auto localTrans = mMotion->GetLocalTrans();
 		ozz::animation::LocalToModelJob ltmJob;
-		ltmJob.skeleton = mSkeletonRig->GetSkeleton();
+		ltmJob.skeleton = &mSkeletonRig->GetSkeleton();
 		ltmJob.input = make_span(localTrans);
 		ltmJob.output = make_span(mJointModelMats);
 
@@ -69,7 +69,7 @@ void FR::Animator::ComputePose(const ozz::math::Float4x4& pRootTrans)
 void FR::Animator::ComputeBindPose(const ozz::math::Float4x4& pRootTrans)
 {
 	ozz::animation::LocalToModelJob ltmJob;
-	ltmJob.skeleton = mSkeletonRig->GetSkeleton();
+	ltmJob.skeleton = &mSkeletonRig->GetSkeleton();
 	ltmJob.input = mSkeletonRig->GetJointsRestPoses();
 	ltmJob.output = make_span(mJointModelMats);
 
@@ -95,5 +95,4 @@ bool FR::Animator::AnimationIK()
 
 FR::Animator::~Animator()
 {
-
 }

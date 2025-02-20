@@ -15,7 +15,7 @@ namespace FR
 
 		static void Save(FRMaterial& pMaterial, const std::string& pPath);
 
-		static bool Destroy(FRMaterial*& pMaterial);
+		static void Destroy(FRMaterial*& pMaterial);
 
 	};
 }

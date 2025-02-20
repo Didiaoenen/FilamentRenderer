@@ -20,7 +20,7 @@ namespace FR
 		static Animation* Create(const std::string& pFilePath);
 
 	private:
-		static bool LoadAnimation(const std::string& pFileName, ozz::animation::Animation* pAnimation);
+		static bool LoadAnimation(const std::string& pFileName, ozz::animation::Animation& pAnimation);
 
 	};
 }

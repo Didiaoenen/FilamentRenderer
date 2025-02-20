@@ -2,6 +2,7 @@
 #include "Editor.FREditorController.h"
 
 #include <Core.FRGuiDrawer.h>
+#include <Core.FRSceneManager.h>
 
 #include <SystemExec.h>
 #include <Tools.FRPathUtils.h>
@@ -14,6 +15,8 @@
 
 void FR::FRApplication::Destroy()
 {
+	FRSceneManager::Instance()->UnloadCurrentScene();
+	FRServiceLocator::Clear();
 	editorResources = nullptr;
 	guiHelper = nullptr;
 }

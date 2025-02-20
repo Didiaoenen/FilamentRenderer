@@ -61,11 +61,6 @@ void FR::FRCompModelRenderer::SetModel(FRModel* pModel)
 	mModelChangedEvent.Invoke();
 }
 
-FR::FRModel* FR::FRCompModelRenderer::GetModel() const
-{
-	return mModel;
-}
-
 void FR::FRCompModelRenderer::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
 {
 }
@@ -152,6 +147,11 @@ void FR::FRCompModelRenderer::OnInspector(GUI::FRWidgetContainer& pRoot)
 			}
 		}
 	}
+}
+
+FR::FRModel* FR::FRCompModelRenderer::GetModel() const
+{
+	return mModel;
 }
 
 FR::FRCompModelRenderer::~FRCompModelRenderer()

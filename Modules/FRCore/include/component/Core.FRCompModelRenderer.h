@@ -16,8 +16,6 @@ namespace FR
 	public:
 		FRCompModelRenderer(FRActor& pOwner);
 
-		FRModel* GetModel() const;
-
 		void SetModel(FRModel* pModel);
 
 		//const BoundingSphere& GetCustomBoundingSphere() const;
@@ -33,6 +31,8 @@ namespace FR
 		virtual const std::string GetName() override;
 
 		virtual EComponentType GetType() override;
+
+		FRModel* GetModel() const;
 
 	public:
 		virtual ~FRCompModelRenderer();

@@ -4,20 +4,18 @@
 #include "Core.FRTexture.h"
 
 #include <EnumOpt.h>
+#include <FileConfig.h>
+#include <StringExtension.h>
+#include <MaterialCompiler.h>
 #include <Tools.FRFile.h>
-
-#include <sstream>
-#include <fstream>
 
 #include <glm/glm.hpp>
 
-#include <StringExtension.h>
-
-#include <FileConfig.h>
-#include <MaterialCompiler.h>
-
 #include <utils/Path.h>
 #include <filamat/MaterialBuilder.h>
+
+#include <sstream>
+#include <fstream>
 
 FR::FRShader* FR::FRShaderLoader::Create(const std::string& pFilePath)
 {
@@ -31,17 +29,9 @@ void FR::FRShaderLoader::Recompile(FRShader& pShader, const std::string& pFilePa
 {
 }
 
-bool FR::FRShaderLoader::Destroy(FRShader*& pShader)
+void FR::FRShaderLoader::Destroy(FRShader*& pShader)
 {
-	if (pShader)
-	{
-		delete pShader;
-		pShader = nullptr;
-
-		return true;
-	}
-
-    return false;
+	delete pShader; pShader = nullptr;
 }
 
 std::vector<FR::FRPropInfo> FR::FRShaderLoader::ParseProperty(const std::string& pFilePath)

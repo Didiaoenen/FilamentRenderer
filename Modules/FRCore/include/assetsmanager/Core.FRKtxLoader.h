@@ -11,7 +11,7 @@ namespace FR
     public:
         static FRKtx1BundleWarp* Create(const std::string& pFilePath);
 
-        static bool Destroy(FRKtx1BundleWarp*& pKtxBundle);
+        static void Destroy(FRKtx1BundleWarp*& pKtxBundle);
         
     };
 }

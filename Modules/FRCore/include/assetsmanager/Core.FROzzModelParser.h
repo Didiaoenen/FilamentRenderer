@@ -18,14 +18,9 @@ namespace FR
 	class FROzzModelParser
 	{
 	public:
-		FROzzModelParser() = default;
+		bool LoadMesh(const std::string& pFilePath, FRModelData& pOutData, std::vector<std::string>& pMaterials);
 
-		bool LoadMesh(const std::string& pFileName, FRModelData& pOutData, std::vector<std::string>& pMaterials);
-
-		bool LoadSkeleton(const std::string& pFileName, ozz::animation::Skeleton* pSkeleton);
-
-	public:
-		~FROzzModelParser() = default;
+		bool LoadSkeleton(const std::string& pFilePath, ozz::animation::Skeleton& pSkeleton);
 
 	};
 }

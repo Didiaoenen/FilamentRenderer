@@ -1,6 +1,7 @@
 #include "Core.FRKtxManager.h"
 #include "Core.FRKtxLoader.h"
 #include "Core.FRTexture.h"
+
 #include <FRFilamentHelper.h>
 #include <FRKtx1BundleWarp.h>
 #include <Tools.FRPathUtils.h>

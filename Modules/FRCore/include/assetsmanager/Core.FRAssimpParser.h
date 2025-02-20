@@ -1,9 +1,10 @@
 #pragma once
 
-#include <string>
-#include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
+
+#include <string>
+#include <vector>
 
 struct aiNode;
 struct aiMesh;
@@ -18,12 +19,7 @@ namespace FR
 	class FRAssimpParser
 	{
 	public:
-		FRAssimpParser() = default;
-
 		bool LoadModel(const std::string& pFileName, FRModelData& pOutData, std::vector<std::string>& pMaterials);
-
-	public:
-		~FRAssimpParser() = default;
 
 	private:
 		void ProcessMesh(const aiScene* pScene, aiMesh* pMesh, FRMesh& pOutMesh);

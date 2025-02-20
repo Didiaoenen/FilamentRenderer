@@ -15,7 +15,7 @@ namespace FR
 
 		static void	Recompile(FRShader& pShader, const std::string& pFilePath);
 
-		static bool Destroy(FRShader*& pShader);
+		static void Destroy(FRShader*& pShader);
 
 	private:
 		static std::vector<FRPropInfo> ParseProperty(const std::string& pFilePath);

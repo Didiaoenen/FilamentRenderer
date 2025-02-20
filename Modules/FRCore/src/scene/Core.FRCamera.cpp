@@ -1,14 +1,15 @@
 #include "Core.FRCamera.h"
+#include "Core.FREntity.h"
 
 #include <MathDefine.h>
 #include <FRCameraWarp.h>
 #include <FREngineWarp.h>
 #include <FRFilamentHelper.h>
 
-FR::FRCamera::FRCamera(FREntityWarp* pEntity, FROptRef<FRTransform> pTransform)
-	: FREntity(pEntity, pTransform)
+FR::FRCamera::FRCamera(FREntity* pEntity)
+	: mEntity(pEntity)
 {
-	mCamera = FRFilamentHelper::CreateCamera(mEntity);
+	mCamera = FRFilamentHelper::CreateCamera(mEntity->GetEntity());
 	mCamera->SetExposure(16.0f, 1 / 125.0f, 100.0f);
 	mCamera->SetScaling({ 1.0, 1.0 });
 }
@@ -31,12 +32,12 @@ void FR::FRCamera::CacheViewMatrix()
 
 const glm::vec3& FR::FRCamera::GetPosition() const
 {
-	return mTransform->GetWorldPosition();
+	return mEntity->GetTransform().GetWorldPosition();
 }
 
 const glm::quat& FR::FRCamera::GetRotation() const
 {
-	return mTransform->GetWorldRotation();
+	return mEntity->GetTransform().GetWorldRotation();
 }
 
 const glm::mat4& FR::FRCamera::GetProjectionMatrix() const
@@ -51,12 +52,12 @@ const glm::mat4& FR::FRCamera::GetViewMatrix() const
 
 void FR::FRCamera::SetPosition(const glm::vec3& pPosition)
 {
-	mTransform->SetWorldPosition(pPosition);
+	mEntity->GetTransform().SetWorldPosition(pPosition);
 }
 
 void FR::FRCamera::SetRotation(const glm::quat& pRotation)
 {
-	mTransform->SetWorldRotation(pRotation);
+	mEntity->GetTransform().SetWorldRotation(pRotation);
 }
 
 void FR::FRCamera::SetViewport(const glm::vec4& pViewport)
@@ -94,24 +95,24 @@ glm::mat4 FR::FRCamera::CalculateProjectionMatrix(uint16_t pWidth, uint16_t pHei
 
 glm::mat4 FR::FRCamera::CalculateViewMatrix() const
 {
-	const auto& position = mTransform->GetWorldPosition();
-	const auto& forward = mTransform->GetWorldForward();
-	const auto& up = mTransform->GetWorldUp();
+	const auto& position = mEntity->GetTransform().GetWorldPosition();
+	const auto& forward = mEntity->GetTransform().GetWorldForward();
+	const auto& up = mEntity->GetTransform().GetWorldUp();
 	mCamera->LookAt(position, position + forward, up);
 	return mCamera->GetViewMatrix();
 }
 
 const FR::Ray FR::FRCamera::ClickPointToRay(glm::vec2 pPosition)
 {
-	glm::vec3 start = mTransform->GetWorldPosition();
+	glm::vec3 start = mEntity->GetTransform().GetWorldPosition();
 	glm::vec3 direction = GetRayDirection(pPosition, 1.0f);
 	return Ray(start, direction);
 }
 
 glm::vec3 FR::FRCamera::GetRayDirection(const glm::vec2& pScreenPos, const float z) const
 {
-	const glm::vec3 gaze = glm::normalize(mTransform->GetWorldForward());
-	const glm::vec3 right = glm::normalize(glm::cross(gaze, mTransform->GetWorldUp()));
+	const glm::vec3 gaze = glm::normalize(mEntity->GetTransform().GetWorldForward());
+	const glm::vec3 right = glm::normalize(glm::cross(gaze, mEntity->GetTransform().GetWorldUp()));
 	const glm::vec3 upward = glm::cross(right, gaze);
 	const float width = mViewport.z;
 	const float height = mViewport.w;
@@ -143,13 +144,18 @@ glm::vec3 FR::FRCamera::GetRayDirection(const glm::vec2& pScreenPos, const float
 
 glm::mat4 FR::FRCamera::GetOriginMatrix()
 {
-	const auto& position = mTransform->GetWorldPosition();
+	const auto& position = mEntity->GetTransform().GetWorldPosition();
 	return glm::lookAt(position, position + vec3f::forward, vec3f::up);
 }
 
 FR::FRCameraWarp* FR::FRCamera::NativePtr()
 {
 	return mCamera;
+}
+
+FR::FREntity* FR::FRCamera::GetEntity()
+{
+	return mEntity;
 }
 
 FR::FRCamera::~FRCamera()

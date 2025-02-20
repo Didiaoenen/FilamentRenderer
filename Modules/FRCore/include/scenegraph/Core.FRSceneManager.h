@@ -40,7 +40,7 @@ namespace FR
 		static FRSceneManager* Instance();
 
 	public:
-		~FRSceneManager();
+		virtual ~FRSceneManager();
 
 	public:
 		FREvent<> SceneLoadEvent;

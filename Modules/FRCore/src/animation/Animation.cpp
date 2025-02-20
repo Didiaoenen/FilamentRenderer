@@ -3,10 +3,10 @@
 
 #include <Log.FRLogger.h>
 
-FR::Animation::Animation(ozz::animation::Animation* pAnimation)
-	: mAnimation(pAnimation)
+FR::Animation::Animation(ozz::animation::Animation& pAnimation)
+	: mAnimation(std::move(pAnimation))
 {
-	name = mAnimation->name();
+	name = mAnimation.name();
 }
 
 bool FR::Animation::InitData(SkeletonRig* pSeketonRig)
@@ -24,7 +24,7 @@ bool FR::Animation::Update(float pDeltaTime)
 
 	if (play)
 	{
-		newTime = mTimeRatio + pDeltaTime * (playbackSpeed / mAnimation->duration());
+		newTime = mTimeRatio + pDeltaTime * (playbackSpeed / mAnimation.duration());
 	}
 
 	SetTimeRatio(newTime);
@@ -37,7 +37,7 @@ bool FR::Animation::Sample(float pDeltaTime)
 	mContext.Resize(mSkeletonRig->GetNumJoints());
 
 	ozz::animation::SamplingJob samplingJob;
-	samplingJob.animation = mAnimation;
+	samplingJob.animation = &mAnimation;
 	samplingJob.context = &mContext;
 	samplingJob.ratio = mTimeRatio;
 	samplingJob.output = make_span(mLocalTrans);
@@ -53,7 +53,7 @@ bool FR::Animation::Sample(float pDeltaTime)
 
 float FR::Animation::GetDurtion()
 {
-	return mAnimation->duration();
+	return mAnimation.duration();
 }
 
 void FR::Animation::SetTimeRatio(float pTime)
@@ -94,5 +94,4 @@ void FR::Animation::Reset()
 
 FR::Animation::~Animation()
 {
-	ozz::Delete(mAnimation);
 }

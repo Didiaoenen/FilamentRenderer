@@ -1,5 +1,7 @@
 #include "Core.FRKtxLoader.h"
+
 #include <FRKtx1BundleWarp.h>
+
 #include <Tools.FRFile.h>
 
 FR::FRKtx1BundleWarp* FR::FRKtxLoader::Create(const std::string& pFilePath)
@@ -12,7 +14,6 @@ FR::FRKtx1BundleWarp* FR::FRKtxLoader::Create(const std::string& pFilePath)
     return nullptr;
 }
 
-bool FR::FRKtxLoader::Destroy(FRKtx1BundleWarp*& pKtxBundle)
+void FR::FRKtxLoader::Destroy(FRKtx1BundleWarp*& pKtxBundle)
 {
-    return false;
 }

@@ -147,14 +147,14 @@ void FR::FREngineWarp::UnRegisterTexture(FRTextureWarp* pTexture)
 	mTextures.erase(std::remove(mTextures.begin(), mTextures.end(), pTexture), mTextures.end());
 }
 
-void FR::FREngineWarp::RegisterMaterial(FRMaterialWarp* pMaterial)
+void FR::FREngineWarp::RegisterShader(FRMaterialWarp* pShader)
 {
-	mMaterials.emplace_back(pMaterial);
+	mShaders.emplace_back(pShader);
 }
 
-void FR::FREngineWarp::UnRegisterMaterial(FRMaterialWarp* pMaterial)
+void FR::FREngineWarp::UnRegisterShader(FRMaterialWarp* pShader)
 {
-	mMaterials.erase(std::remove(mMaterials.begin(), mMaterials.end(), pMaterial), mMaterials.end());
+	mShaders.erase(std::remove(mShaders.begin(), mShaders.end(), pShader), mShaders.end());
 }
 
 void FR::FREngineWarp::RegisterIndexBuffer(FRIndexBufferWarp* pIndexBuffer)

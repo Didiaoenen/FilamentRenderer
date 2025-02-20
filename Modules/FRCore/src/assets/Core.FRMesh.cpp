@@ -102,7 +102,7 @@ uint32_t FR::FRMesh::GetMaterialIndex() const
 
 void FR::FRMesh::SetMaterial(FRMaterial* pMaterial)
 {
-	if (auto materialInstance = pMaterial->GetMaterialInstance())
+	if (auto material = pMaterial->NativePtr())
 	{
 		pMaterial->SetRefMesh(this);
 		auto instance = GetRenderInstance();
@@ -110,7 +110,7 @@ void FR::FRMesh::SetMaterial(FRMaterial* pMaterial)
 		auto rcm = engine->GetRenderableManager();
 		for (size_t i = 0; i < rcm->GetPrimitiveCount(instance); i++)
 		{
-			rcm->SetMaterialInstanceAt(instance, i, materialInstance);
+			rcm->SetMaterialInstanceAt(instance, i, material);
 		}
 	}
 }

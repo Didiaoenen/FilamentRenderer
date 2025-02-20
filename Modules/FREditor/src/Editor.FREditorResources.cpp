@@ -75,26 +75,4 @@ FR::FRMaterial* FR::FREditorResources::GetDefaultMaterial()
 
 FR::FREditorResources::~FREditorResources()
 {
-	for (const auto& [_, model] : mModels)
-	{
-		for (const auto& mesh : model->GetMeshes())
-		{
-			FRFilamentHelper::DestroyEntity(mesh->GetEntity());
-		}
-		for (const auto& material : model->GetMaterials())
-		{
-			if (material)
-			{
-				FRFilamentHelper::GetEngine()->Destroy(material->GetMaterialInstance());
-			}
-		}
-		FRFilamentHelper::DestroyEntity(model->GetEntity());
-	}
-	mModels.clear();
-
-	for (const auto& [_, shader] : mShaders)
-	{
-		FRFilamentHelper::GetEngine()->Destroy(shader->NativePtr());
-	}
-	mShaders.clear();
 }

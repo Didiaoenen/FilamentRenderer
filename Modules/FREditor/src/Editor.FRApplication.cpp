@@ -16,7 +16,14 @@
 void FR::FRApplication::Destroy()
 {
 	FRSceneManager::Instance()->UnloadCurrentScene();
-	FRServiceLocator::Clear();
+
+	FRApplication::Instance()->ktxManager.UnloadResources();
+	FRApplication::Instance()->modelManager.UnloadResources();
+	FRApplication::Instance()->textureManager.UnloadResources();
+	FRApplication::Instance()->animationManager.UnloadResources();
+	FRApplication::Instance()->materialManager.UnloadResources();
+	FRApplication::Instance()->shaderManager.UnloadResources();
+
 	editorResources = nullptr;
 	guiHelper = nullptr;
 }
@@ -54,10 +61,10 @@ FR::FRApplication::FRApplication()
 {
 	FRServiceLocator::Provide<FRKtxManager>(ktxManager);
 	FRServiceLocator::Provide<FRModelManager>(modelManager);
-	FRServiceLocator::Provide<FRShaderManager>(shaderManager);
 	FRServiceLocator::Provide<FRTextureManager>(textureManager);
-	FRServiceLocator::Provide<FRMaterialManager>(materialManager);
 	FRServiceLocator::Provide<AnimationManager>(animationManager);
+	FRServiceLocator::Provide<FRMaterialManager>(materialManager);
+	FRServiceLocator::Provide<FRShaderManager>(shaderManager);
 }
 
 void FR::FRApplication::Initialize(const std::string& pProjectPath, const std::string& pProjectName)

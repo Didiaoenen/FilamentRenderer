@@ -23,7 +23,7 @@ void FR::FRMaterial::SetShader(FRShader* pShader, bool pClearProps)
 	if (mShader)
 	{
 		mShader->SetRefMaterial(this);
-		mMaterialInstance = mShader->CreateInstance();
+		mMaterial = mShader->NativePtr()->CreateInstance();
 
 		if (pClearProps)
 		{
@@ -80,27 +80,27 @@ void FR::FRMaterial::SetShader(FRShader* pShader, bool pClearProps)
 
 void FR::FRMaterial::SetTransparencyMode(FRMaterialInstanceWarp::ETransparencyMode pModel)
 {
-	mMaterialInstance->SetTransparencyMode(pModel);
+	mMaterial->SetTransparencyMode(pModel);
 }
 
 void FR::FRMaterial::SetCullingMode(FRMaterialInstanceWarp::ECullingMode pModel)
 {
-	mMaterialInstance->SetCullingMode(pModel);
+	mMaterial->SetCullingMode(pModel);
 }
 
 void FR::FRMaterial::SetDepthCulling(bool pCulling)
 {
-	mMaterialInstance->SetDepthCulling(pCulling);
+	mMaterial->SetDepthCulling(pCulling);
 }
 
 void FR::FRMaterial::SetDepthWrite(bool pWrite)
 {
-	mMaterialInstance->SetDepthWrite(pWrite);
+	mMaterial->SetDepthWrite(pWrite);
 }
 
 void FR::FRMaterial::SetColorWrite(bool pWrite)
 {
-	mMaterialInstance->SetColorWrite(pWrite);
+	mMaterial->SetColorWrite(pWrite);
 }
 
 void FR::FRMaterial::UploadData() const
@@ -114,37 +114,37 @@ void FR::FRMaterial::UploadData() const
 			case FRMaterialWarp::EUniformType::BOOL:
 				if (prop.data.type() == typeid(bool))
 				{
-					mMaterialInstance->SetParameter(prop.name.c_str(), std::any_cast<bool>(prop.data));
+					mMaterial->SetParameter(prop.name.c_str(), std::any_cast<bool>(prop.data));
 				}
 				break;
 			case FRMaterialWarp::EUniformType::INT:
 				if (prop.data.type() == typeid(int))
 				{
-					mMaterialInstance->SetParameter(prop.name.c_str(), std::any_cast<int>(prop.data));
+					mMaterial->SetParameter(prop.name.c_str(), std::any_cast<int>(prop.data));
 				}
 				break;
 			case FRMaterialWarp::EUniformType::FLOAT:
 				if (prop.data.type() == typeid(float))
 				{
-					mMaterialInstance->SetParameter(prop.name.c_str(), std::any_cast<float>(prop.data));
+					mMaterial->SetParameter(prop.name.c_str(), std::any_cast<float>(prop.data));
 				}
 			break;
 			case FRMaterialWarp::EUniformType::FLOAT2:
 				if (prop.data.type() == typeid(glm::vec2))
 				{
-					mMaterialInstance->SetParameter(prop.name.c_str(), MathConvert::ToFVec2(std::any_cast<glm::vec2>(prop.data)));
+					mMaterial->SetParameter(prop.name.c_str(), MathConvert::ToFVec2(std::any_cast<glm::vec2>(prop.data)));
 				}
 				break;
 			case FRMaterialWarp::EUniformType::FLOAT3:
 				if (prop.data.type() == typeid(glm::vec3))
 				{
-					mMaterialInstance->SetParameter(prop.name.c_str(), MathConvert::ToFVec3(std::any_cast<glm::vec3>(prop.data)));
+					mMaterial->SetParameter(prop.name.c_str(), MathConvert::ToFVec3(std::any_cast<glm::vec3>(prop.data)));
 				}
 				break;
 			case FRMaterialWarp::EUniformType::FLOAT4:
 				if (prop.data.type() == typeid(glm::vec4))
 				{
-					mMaterialInstance->SetParameter(prop.name.c_str(), MathConvert::ToFVec4(std::any_cast<glm::vec4>(prop.data)));
+					mMaterial->SetParameter(prop.name.c_str(), MathConvert::ToFVec4(std::any_cast<glm::vec4>(prop.data)));
 				}
 				break;
 			default:
@@ -160,11 +160,11 @@ void FR::FRMaterial::UploadData() const
 				{
 					if (auto tex = std::any_cast<FRTexture*>(prop.data))
 					{
-						mMaterialInstance->SetParameter(prop.name.c_str(), tex->NativePtr(), tex->GetSampler());
+						mMaterial->SetParameter(prop.name.c_str(), tex->NativePtr(), tex->GetSampler());
 					}
 					else if (auto emptyTex = FRGuiDrawer::GetEmptyTexture())
 					{
-						mMaterialInstance->SetParameter(prop.name.c_str(), emptyTex->NativePtr(), emptyTex->GetSampler());
+						mMaterial->SetParameter(prop.name.c_str(), emptyTex->NativePtr(), emptyTex->GetSampler());
 					}
 				}
 				break;
@@ -355,9 +355,9 @@ void FR::FRMaterial::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNod
 	}
 }
 
-FR::FRMaterialInstanceWarp* FR::FRMaterial::GetMaterialInstance()
+FR::FRMaterialInstanceWarp* FR::FRMaterial::NativePtr()
 {
-	return mMaterialInstance;
+	return mMaterial;
 }
 
 std::map<uint64_t, FR::FRMesh*> FR::FRMaterial::GetRefMeshs()
@@ -372,6 +372,6 @@ void FR::FRMaterial::SetRefMesh(FRMesh* pMesh)
 
 FR::FRMaterial::~FRMaterial()
 {
-	FRFilamentHelper::GetEngine()->Destroy(mMaterialInstance);
-	delete mMaterialInstance; mMaterialInstance = nullptr;
+	FRFilamentHelper::GetEngine()->Destroy(mMaterial);
+	delete mMaterial; mMaterial = nullptr;
 }

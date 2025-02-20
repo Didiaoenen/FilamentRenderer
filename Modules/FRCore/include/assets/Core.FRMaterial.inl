@@ -37,6 +37,6 @@ namespace FR
 	template<typename T>
 	void FRMaterial::SetParameter(const std::string& pName, const T& pValue)
 	{
-		mMaterialInstance->SetParameter<T>(pName, pValue);
+		mMaterial->SetParameter<T>(pName, pValue);
 	}
 }

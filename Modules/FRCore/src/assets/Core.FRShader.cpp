@@ -9,14 +9,9 @@ FR::FRShader::FRShader(std::vector<FR::FRPropInfo> pPropInfo, std::vector<uint8_
 {
 	auto engine = FRFilamentHelper::GetEngine();
 
-	mMaterial = FRMaterialWarp::Builder()
+	mShader = FRMaterialWarp::Builder()
 		.Package(pData.data(), pData.size())
 		.Build(engine);
-}
-
-FR::FRMaterialInstanceWarp* FR::FRShader::CreateInstance(const std::string& pName)
-{
-	return mMaterial->CreateInstance(pName.c_str());
 }
 
 std::vector<FR::FRMaterial*>& FR::FRShader::GetRefMaterials()
@@ -31,12 +26,12 @@ void FR::FRShader::SetRefMaterial(FRMaterial* pMaterial)
 
 FR::FRMaterialWarp* FR::FRShader::NativePtr()
 {
-	return mMaterial;
+	return mShader;
 }
 
 FR::FRShader::~FRShader()
 {
-	FRFilamentHelper::GetEngine()->Destroy(mMaterial);
-	FRFilamentHelper::GetEngine()->UnRegisterMaterial(mMaterial);
-	delete mMaterial; mMaterial = nullptr;
+	FRFilamentHelper::GetEngine()->Destroy(mShader);
+	FRFilamentHelper::GetEngine()->UnRegisterShader(mShader);
+	delete mShader; mShader = nullptr;
 }

@@ -44,7 +44,7 @@ namespace FR
 
 		virtual void OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode) override;
 
-		FRMaterialInstanceWarp* GetMaterialInstance();
+		FRMaterialInstanceWarp* NativePtr();
 
 		std::map<uint64_t, FRMesh*> GetRefMeshs();
 
@@ -67,7 +67,7 @@ namespace FR
 
 	private:
 		FRShader* mShader{ nullptr };
-		FRMaterialInstanceWarp* mMaterialInstance{ nullptr };
+		FRMaterialInstanceWarp* mMaterial{ nullptr };
 
 		bool mBlendable{ false };
 		bool mDepthTest{ true };

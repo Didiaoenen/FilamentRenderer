@@ -30,8 +30,6 @@ namespace FR
 	public:
 		FRShader(std::vector<FRPropInfo> pPropInfo, std::vector<uint8_t> pData);
 
-		FRMaterialInstanceWarp* CreateInstance(const std::string& pName = "");
-		
 		std::vector<FRMaterial*>& GetRefMaterials();
 
 		void SetRefMaterial(FRMaterial* pMaterial);
@@ -47,7 +45,7 @@ namespace FR
 		std::vector<FRPropInfo> propInfos;
 
 	private:
-		FRMaterialWarp* mMaterial{ nullptr };
+		FRMaterialWarp* mShader{ nullptr };
 		
 		std::vector<FRMaterial*> mRefMaterials{ nullptr };
 

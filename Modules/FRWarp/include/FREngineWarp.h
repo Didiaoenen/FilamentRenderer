@@ -76,9 +76,9 @@ namespace FR
 
 		void UnRegisterTexture(FRTextureWarp* pTexture);
 
-		void RegisterMaterial(FRMaterialWarp* pMaterial);
+		void RegisterShader(FRMaterialWarp* pShader);
 
-		void UnRegisterMaterial(FRMaterialWarp* pMaterial);
+		void UnRegisterShader(FRMaterialWarp* pShader);
 
 		void RegisterIndexBuffer(FRIndexBufferWarp* pIndexBuffer);
 
@@ -143,7 +143,7 @@ namespace FR
 
 		std::vector<FRTextureWarp*> mTextures;
 
-		std::vector<FRMaterialWarp*> mMaterials;
+		std::vector<FRMaterialWarp*> mShaders;
 
 		std::vector<FRIndexBufferWarp*> mIndexBuffers;
 

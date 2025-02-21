@@ -249,6 +249,9 @@ FR::FRMesh::~FRMesh()
 	FRFilamentHelper::GetEngine()->UnRegisterSknningBuffer(mSkinningBuffer);
 	delete mSkinningBuffer; mSkinningBuffer = nullptr;
 
-	FRFilamentHelper::GetRenderableManager()->Destroy(mEntity);
-	mEntity = nullptr;
+	if (mEntity)
+	{
+		FRFilamentHelper::GetRenderableManager()->Destroy(mEntity);
+		mEntity = nullptr;
+	}
 }

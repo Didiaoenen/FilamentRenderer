@@ -31,4 +31,5 @@ void FR::FRModelLoader::Reload(FRModel& pModel, const std::string& pFilePath)
 
 void FR::FRModelLoader::Destroy(FRModel*& pModel)
 {
+	delete pModel; pModel = nullptr;
 }

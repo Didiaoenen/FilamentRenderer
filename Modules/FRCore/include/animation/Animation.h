@@ -56,7 +56,7 @@ namespace FR
 
 		float mPreviousTimeRatio{ 1.0f };
 
-		ozz::animation::SamplingJob::Context mContext{};
+		ozz::animation::SamplingJob::Context mContext;
 
 	};
 }

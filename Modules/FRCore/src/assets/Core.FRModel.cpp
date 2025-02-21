@@ -95,8 +95,6 @@ FR::FRModel* FR::FRModel::Create()
 
 FR::FRModel::~FRModel()
 {
-	delete mSkeletonRig; mSkeletonRig = nullptr;
-
 	for (auto& mesh : mMeshes)
 	{
 		delete mesh; mesh = nullptr;

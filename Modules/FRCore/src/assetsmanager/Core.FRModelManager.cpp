@@ -37,4 +37,5 @@ void FR::FRModelManager::ReloadResource(FRModel* pResource, const std::string& p
 
 void FR::FRModelManager::DestroyResource(FRModel* pResource)
 {
+	FRModelLoader::Destroy(pResource);
 }

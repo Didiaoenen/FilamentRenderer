@@ -48,3 +48,5 @@ size_t FR::FRMaterialWarp::GetParameterCount()
 {
 	return PtrValue(this)->getParameterCount();
 }
+
+FR::FRMaterialWarp::~FRMaterialWarp() = default;

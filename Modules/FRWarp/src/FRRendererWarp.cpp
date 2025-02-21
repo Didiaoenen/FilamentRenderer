@@ -1,12 +1,11 @@
 #include "FRRendererWarp.h"
-#include "FRViewWarp.h"
-#include "FREngineWarp.h"
 #include "FRSwapChainWarp.h"
+#include "FREngineWarp.h"
+#include "FRViewWarp.h"
 
 FR::FRRendererWarp::FRRendererWarp(FREngineWarp* pEngine)
 {
 	mValue = FRPtrValue(PtrValue(pEngine)->createRenderer());
-	pEngine->RegisterRenderer(this);
 }
 
 void FR::FRRendererWarp::SetClearOptions(const FClearOptions& pOptions)

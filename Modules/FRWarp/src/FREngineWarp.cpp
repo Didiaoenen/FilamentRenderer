@@ -100,6 +100,16 @@ FR::FRFenceWarp* FR::FREngineWarp::CreateFence()
 	return fence;
 }
 
+void FR::FREngineWarp::UnRegisterView(FRViewWarp* pView)
+{
+	mViews.erase(std::remove(mViews.begin(), mViews.end(), pView), mViews.end());
+}
+
+void FR::FREngineWarp::UnRegisterScene(FRSceneWarp* pScene)
+{
+	mScenes.erase(std::remove(mScenes.begin(), mScenes.end(), pScene), mScenes.end());
+}
+
 FR::FRCameraWarp* FR::FREngineWarp::CreateCamera(FREntityWarp* pEntity)
 {
 	auto camera = new FRCameraWarp(this, pEntity);
@@ -107,29 +117,14 @@ FR::FRCameraWarp* FR::FREngineWarp::CreateCamera(FREntityWarp* pEntity)
 	return camera;
 }
 
-void FR::FREngineWarp::DestroyCameraComponent(FREntityWarp* pEntity)
+void FR::FREngineWarp::DestroyCamera(FREntityWarp* pEntity)
 {
 	PtrValue(this)->destroyCameraComponent(PtrValue(pEntity));
 }
 
-void FR::FREngineWarp::RemoveCamera(FRCameraWarp* pCamera)
+void FR::FREngineWarp::UnRegisterCamera(FRCameraWarp* pCamera)
 {
 	mCameras.erase(std::remove(mCameras.begin(), mCameras.end(), pCamera), mCameras.end());
-}
-
-void FR::FREngineWarp::RegisterRenderer(FRRendererWarp* pRenderer)
-{
-	mRenderers.emplace_back(pRenderer);
-}
-
-void FR::FREngineWarp::RegisterScene(FRSceneWarp* pScene)
-{
-	mScenes.emplace_back(pScene);
-}
-
-void FR::FREngineWarp::RegisterCamera(FRCameraWarp* pCamera)
-{
-	mCameras.emplace_back(pCamera);
 }
 
 void FR::FREngineWarp::RegisterSkybox(FRSkyboxWarp* pSkybox)
@@ -258,5 +253,4 @@ void FR::FREngineWarp::Destroy(FREntityWarp* pEntity)
 
 FR::FREngineWarp::~FREngineWarp()
 {
-
 }

@@ -58,17 +58,15 @@ namespace FR
 
 		FRFenceWarp* CreateFence();
 
+		void UnRegisterView(FRViewWarp* pView);
+
+		void UnRegisterScene(FRSceneWarp* pScene);
+
 		FRCameraWarp* CreateCamera(FREntityWarp* pEntity);
 
-		void DestroyCameraComponent(FREntityWarp* pEntity);
+		void DestroyCamera(FREntityWarp* pEntity);
 
-		void RemoveCamera(FRCameraWarp* pCamera);
-
-		void RegisterRenderer(FRRendererWarp* pRenderer);
-
-		void RegisterScene(FRSceneWarp* pScene);
-
-		void RegisterCamera(FRCameraWarp* pCamera);
+		void UnRegisterCamera(FRCameraWarp* pCamera);
 
 		void RegisterSkybox(FRSkyboxWarp* pSkybox);
 
@@ -112,6 +110,8 @@ namespace FR
 
 		template<typename T>
 		void Destroy(T* pWarpValue);
+
+	private:
 
 	public:
 		virtual ~FREngineWarp();

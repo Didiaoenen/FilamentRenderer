@@ -1,6 +1,6 @@
 #include "FRIndexBufferWarp.h"
-#include "FREngineWarp.h"
 #include "FRBufferDescriptorWarp.h"
+#include "FREngineWarp.h"
 
 FR::FRIndexBufferWarp::FRIndexBufferWarp(FREngineWarp* pEngine, Builder* pBuilder)
 {
@@ -17,3 +17,5 @@ size_t FR::FRIndexBufferWarp::GetIndexCount()
 {
 	return mValue->getIndexCount();
 }
+
+FR::FRIndexBufferWarp::~FRIndexBufferWarp() = default;

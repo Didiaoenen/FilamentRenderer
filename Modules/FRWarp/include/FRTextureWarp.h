@@ -95,6 +95,9 @@ namespace FR
 
 		size_t GetHeight();
 
+	public:
+		virtual ~FRTextureWarp();
+
 	};
 }
 

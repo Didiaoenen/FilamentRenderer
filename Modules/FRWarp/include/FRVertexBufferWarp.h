@@ -72,6 +72,9 @@ namespace FR
 
 		size_t GetVertexCount();
 
+	public:
+		virtual ~FRVertexBufferWarp();
+
 	};
 }
 

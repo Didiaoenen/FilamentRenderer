@@ -53,6 +53,4 @@ FR::FREntityWarp* FR::FRLight::GetEntity() const
 	return mEntity->GetEntity();
 }
 
-FR::FRLight::~FRLight()
-{
-}
+FR::FRLight::~FRLight() = default;

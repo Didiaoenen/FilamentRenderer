@@ -58,6 +58,9 @@ namespace FR
 		
 		size_t GetIndexCount();
 
+	public:
+		virtual ~FRIndexBufferWarp();
+
 	};
 }
 

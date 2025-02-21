@@ -7,7 +7,6 @@
 FR::FRSceneWarp::FRSceneWarp(FREngineWarp* pEngine)
 {
 	mValue = FRPtrValue(PtrValue(pEngine)->createScene());
-	pEngine->RegisterScene(this);
 }
 
 void FR::FRSceneWarp::AddEntity(FREntityWarp* pEntity)
@@ -29,3 +28,5 @@ void FR::FRSceneWarp::Remove(FREntityWarp* pEntity)
 {
 	PtrValue(this)->remove(PtrValue(pEntity));
 }
+
+FR::FRSceneWarp::~FRSceneWarp() = default;

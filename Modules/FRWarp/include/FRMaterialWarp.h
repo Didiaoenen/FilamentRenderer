@@ -75,6 +75,9 @@ namespace FR
 
 		size_t GetParameterCount();
 
+	public:
+		virtual ~FRMaterialWarp();
+
 	};
 }
 

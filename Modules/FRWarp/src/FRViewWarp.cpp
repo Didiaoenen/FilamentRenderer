@@ -64,3 +64,5 @@ void FR::FRViewWarp::SetPostProcessingEnabled(bool pEnabled)
 {
 	PtrValue(this)->setPostProcessingEnabled(pEnabled);
 }
+
+FR::FRViewWarp::~FRViewWarp() = default;

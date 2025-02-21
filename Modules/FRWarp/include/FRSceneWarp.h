@@ -26,6 +26,9 @@ namespace FR
 
 		void Remove(FREntityWarp* pEntity);
 
+	public:
+		virtual ~FRSceneWarp();
+
 	};
 }
 

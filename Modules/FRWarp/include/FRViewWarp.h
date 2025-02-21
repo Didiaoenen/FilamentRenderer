@@ -44,6 +44,9 @@ namespace FR
 
 		void SetPostProcessingEnabled(bool pEnabled);
 
+	public:
+		virtual ~FRViewWarp();
+
 	};
 }
 

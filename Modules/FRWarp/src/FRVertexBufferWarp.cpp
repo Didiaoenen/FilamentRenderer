@@ -1,7 +1,6 @@
 #include "FRVertexBufferWarp.h"
-
-#include "FREngineWarp.h"
 #include "FRBufferDescriptorWarp.h"
+#include "FREngineWarp.h"
 
 FR::FRVertexBufferWarp::FRVertexBufferWarp(FREngineWarp* pEngine, Builder* pBuilder)
 {
@@ -18,3 +17,5 @@ size_t FR::FRVertexBufferWarp::GetVertexCount()
 {
 	return PtrValue(this)->getVertexCount();
 }
+
+FR::FRVertexBufferWarp::~FRVertexBufferWarp() = default;

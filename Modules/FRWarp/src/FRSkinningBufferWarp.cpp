@@ -1,6 +1,6 @@
 #include "FRSkinningBufferWarp.h"
 #include "FREngineWarp.h"
-#include "MathConvert.h"
+#include <MathConvert.h>
 #include <math/mat4.h>
 #include <vector>
 
@@ -18,3 +18,5 @@ void FR::FRSkinningBufferWarp::SetBones(FREngineWarp* pEngine, glm::mat4* pTrans
 	}
 	PtrValue(this)->setBones(*PtrValue(pEngine), temp.data(), temp.size(), pOffset);
 }
+
+FR::FRSkinningBufferWarp::~FRSkinningBufferWarp() = default;

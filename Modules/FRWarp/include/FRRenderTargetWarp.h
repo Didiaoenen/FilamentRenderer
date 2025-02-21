@@ -46,6 +46,9 @@ namespace FR
 
 		FRRenderTargetWarp(FREngineWarp* pEngine, Builder* mBuilder);
 
+	public:
+		virtual ~FRRenderTargetWarp();
+
 	};
 }
 

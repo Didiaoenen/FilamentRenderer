@@ -124,5 +124,6 @@ void FR::FRCompCamera::ValueChangeCallback(int pChoice, FRAWidget* pFov, FRAWidg
 
 FR::FRCompCamera::~FRCompCamera()
 {
-	FRFilamentHelper::GetEngine()->DestroyCameraComponent(owner.GetEntity());
+	FRFilamentHelper::GetEngine()->DestroyCamera(owner.GetEntity());
+	FRFilamentHelper::GetEngine()->UnRegisterCamera(mCamera.NativePtr());
 }

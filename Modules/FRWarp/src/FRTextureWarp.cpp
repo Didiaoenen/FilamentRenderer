@@ -36,3 +36,5 @@ size_t FR::FRTextureWarp::GetHeight()
 {
 	return PtrValue(this)->getHeight();
 }
+
+FR::FRTextureWarp::~FRTextureWarp() = default;

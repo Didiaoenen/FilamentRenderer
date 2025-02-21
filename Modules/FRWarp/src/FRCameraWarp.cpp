@@ -1,14 +1,12 @@
 #include "FRCameraWarp.h"
 #include "FREntityWarp.h"
 #include "FREngineWarp.h"
-#include "FRFilamentHelper.h"
 #include <MathConvert.h>
 
 FR::FRCameraWarp::FRCameraWarp(FREngineWarp* pEngine, FREntityWarp* pEntity)
 	: mEntity(pEntity)
 {
 	mValue = FRPtrValue(PtrValue(pEngine)->createCamera(PtrValue(pEntity)));
-	pEngine->RegisterCamera(this);
 }
 
 void FR::FRCameraWarp::LookAt(const glm::vec3& pEye, const glm::vec3& pCenter, const glm::vec3& pUp)
@@ -51,7 +49,4 @@ FR::FREntityWarp* FR::FRCameraWarp::GetEntity()
 	return mEntity;
 }
 
-FR::FRCameraWarp::~FRCameraWarp()
-{
-	FRFilamentHelper::GetEngine()->RemoveCamera(this);
-}
+FR::FRCameraWarp::~FRCameraWarp() = default;

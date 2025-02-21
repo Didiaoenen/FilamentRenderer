@@ -15,6 +15,9 @@ namespace FR
 
 		FRSwapChainWarp(FREngineWarp* pEngine, void* pWindow);
 
+	public:
+		virtual ~FRSwapChainWarp();
+
 	};
 }
 

@@ -51,6 +51,9 @@ namespace FR
 
 		void SetBones(FREngineWarp* pEngine, glm::mat4* pTransforms, size_t pCount, size_t pOffset = 0);
 
+	public:
+		virtual ~FRSkinningBufferWarp();
+
 	};
 }
 

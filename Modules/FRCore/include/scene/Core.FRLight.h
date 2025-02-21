@@ -39,7 +39,7 @@ namespace FR
 		float inner{ glm::pi<float>() / 8 };
 		float outer{ (glm::pi<float>() / 8) * 1.1 };
 		float falloff{ 10.f };
-		float intensity{ 32000.f };
+		float intensity{ 110000.f };
 		float sunAngular{ 1.9f };
 		float outerCutoff{ 15.f };
 		float quadratic{ 1.f };

@@ -24,9 +24,9 @@ namespace FR
 			}
 		}
 
-		FROptRefVal<T>& operator=(const T& pValue)
+		FROptRefVal<T>& operator=(T& pValue)
 		{
-			Set(pValue);
+			mData = &pValue;
 			return *this;
 		}
 
@@ -51,7 +51,10 @@ namespace FR
 			{
 				return *pval;
 			}
-			return *std::get<T*>(mData);
+			else
+			{
+				return *std::get<T*>(mData);
+			}
 		}
 
 		const T& Get() const

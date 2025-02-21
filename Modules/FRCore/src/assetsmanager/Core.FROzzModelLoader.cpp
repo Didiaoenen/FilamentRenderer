@@ -25,8 +25,6 @@ FR::FRModel* FR::FROzzModelLoader::Create(const std::string& pFilePath)
 		if (__OZZ.LoadSkeleton(skelPath, skeleton))
 		{
 			result->mSkeletonRig = new SkeletonRig(skeleton);
-			delete result->mSkeletonRig;
-			result->mSkeletonRig = nullptr;
 		}
 
 		for (auto mesh : dataTree.meshs)

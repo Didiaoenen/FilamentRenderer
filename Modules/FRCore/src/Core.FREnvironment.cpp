@@ -16,7 +16,7 @@ FR::FREnvironment::FREnvironment(FRTexture* pSkybox, FRTexture* pIBL)
 
 	mIndirectLight = FRIndirectLightWarp::Builder()
 		.Reflections(pIBL->NativePtr())
-		.Intensity(3000.f)
+		.Intensity(30000.f)
 		.Build(engine);
 }
 

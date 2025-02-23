@@ -9,7 +9,7 @@
 FR::FRCamera::FRCamera(FREntity* pEntity)
 	: mEntity(pEntity)
 {
-	mCamera = FRFilamentHelper::CreateCamera(mEntity->GetEntity());
+	mCamera = FRFilamentHelper::CreateCamera(mEntity->NatrivePtr());
 	mCamera->SetExposure(16.0f, 1 / 125.0f, 100.0f);
 	mCamera->SetScaling({ 1.0, 1.0 });
 }

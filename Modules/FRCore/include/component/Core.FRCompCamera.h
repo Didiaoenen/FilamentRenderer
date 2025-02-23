@@ -1,8 +1,9 @@
 #pragma once
 
-#include <Color.h>
 #include "Core.FRCamera.h"
 #include "Core.FRComponent.h"
+
+#include <Color.h>
 
 namespace FR
 {
@@ -32,9 +33,9 @@ namespace FR
 
 		void SetClearColor(const Color& pClearColor);
 
-		void SetProjectionMode(EProjectionMode pProjectionMode);
+		void SetProjectionMode(FRCamera::EProjectionMode pProjectionMode);
 
-		EProjectionMode GetProjectionMode() const;
+		FRCamera::EProjectionMode GetProjectionMode() const;
 
 		virtual void OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode) override;
 

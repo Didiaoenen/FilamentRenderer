@@ -27,9 +27,9 @@ namespace FR
 
 		virtual void OnInspector(GUI::FRWidgetContainer& pRoot) override;
 
-		virtual const std::string GetName();
+		virtual const std::string GetName() override;
 
-		virtual EComponentType GetType();
+		virtual EComponentType GetType() override;
 
 		FRLight& GetLight();
 

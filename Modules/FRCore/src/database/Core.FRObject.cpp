@@ -6,7 +6,7 @@
 
 FR::FRObject::FRObject()
 {
-    mUUID = GenUUID();
+    uUID = GenUUID();
 }
 
 uint64_t FR::FRObject::GenUUID()

@@ -13,7 +13,7 @@ FR::FRCompTransform::FRCompTransform(FRActor& pOwner)
 {
 	auto engine = FRFilamentHelper::GetEngine();
 	auto tcm = engine->GetTransformManager();
-	tcm->Create(pOwner.GetEntity(), {}, glm::mat4(1.0));
+	tcm->Create(pOwner.NatrivePtr(), {}, glm::mat4(1.0));
 }
 
 const std::string FR::FRCompTransform::GetName()
@@ -189,5 +189,5 @@ FR::FRTransform& FR::FRCompTransform::GetFRTransform()
 
 FR::FRCompTransform::~FRCompTransform()
 {
-	FRFilamentHelper::GetTransformManager()->Destroy(owner.GetEntity());
+	FRFilamentHelper::GetTransformManager()->Destroy(owner.NatrivePtr());
 }

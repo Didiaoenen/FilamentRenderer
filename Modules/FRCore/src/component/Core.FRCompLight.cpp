@@ -98,5 +98,5 @@ void FR::FRCompLight::ValueChangeCallback(int pChoice, FRAWidget* pInner, FRAWid
 
 FR::FRCompLight::~FRCompLight()
 {
-	FRFilamentHelper::GetLightManager()->Destroy(owner.GetEntity());
+	FRFilamentHelper::GetLightManager()->Destroy(owner.NatrivePtr());
 }

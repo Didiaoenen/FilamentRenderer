@@ -45,7 +45,7 @@ void FR::FRCompModelRenderer::SetModel(FRModel* pModel)
 {
 	mModel = pModel;
 	
-	mModel->Build(owner.GetEntity());
+	mModel->Build(owner.NatrivePtr());
 
 	for (const auto mesh : mModel->GetMeshes())
 	{

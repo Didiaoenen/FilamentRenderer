@@ -367,7 +367,7 @@ std::map<uint64_t, FR::FRMesh*> FR::FRMaterial::GetRefMeshs()
 
 void FR::FRMaterial::SetRefMesh(FRMesh* pMesh)
 {
-	mRefMeshs.emplace(pMesh->mUUID, pMesh);
+	mRefMeshs.emplace(pMesh->uUID, pMesh);
 }
 
 FR::FRMaterial::~FRMaterial()

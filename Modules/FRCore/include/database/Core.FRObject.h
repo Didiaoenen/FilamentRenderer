@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <cstdint>
 
 namespace FR
 {
@@ -16,7 +17,8 @@ namespace FR
         uint64_t GenUUID();
 
     public:
-        uint64_t mUUID;
+		uint64_t uUID;
+
         std::string name;
 
     };

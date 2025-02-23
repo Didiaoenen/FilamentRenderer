@@ -24,7 +24,7 @@ namespace FR
 			mEntity = FRFilamentHelper::CreateEntity();
 		};
 
-        FREntityWarp* GetEntity()
+        FREntityWarp* NatrivePtr()
         {
             return mEntity;
         }
@@ -42,6 +42,7 @@ namespace FR
 
     protected:
         FREntityWarp* mEntity{ nullptr };
+
 		FROptRefVal<FRTransform> mTransform;
 
     };

@@ -1,14 +1,11 @@
 #pragma once
 
-#include <string>
-#include <glm/glm.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <glm/gtx/euler_angles.hpp>
+#include "Core.FRObject.h"
+#include "Core.FRIInspectorItem.h"
 
 #include <Tools.FREvent.h>
 
-#include "Core.FRObject.h"
-#include "Core.FRIInspectorItem.h"
+#include <glm/ext.hpp>
 
 namespace FR
 {

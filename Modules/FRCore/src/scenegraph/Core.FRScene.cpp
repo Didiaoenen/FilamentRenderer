@@ -332,7 +332,7 @@ void FR::FRScene::AddModel(FRModel* pModel)
 
 void FR::FRScene::AddLight(FRLight* pLight)
 {
-	mScene->AddEntity(pLight->GetEntity());
+	mScene->AddEntity(pLight->GetEntity()->NatrivePtr());
 }
 
 void FR::FRScene::SetEnvironment(FREnvironment* pEnvironment)
@@ -342,7 +342,7 @@ void FR::FRScene::SetEnvironment(FREnvironment* pEnvironment)
 	mScene->SetIndirectLight(mEnvironment->GetIndirectLight());
 }
 
-void FR::FRScene::RemoveModel(const FRModel* pModel)
+void FR::FRScene::RemoveModel(FRModel* pModel)
 {
 	for (const auto& mesh : pModel->GetMeshes())
 	{
@@ -350,12 +350,12 @@ void FR::FRScene::RemoveModel(const FRModel* pModel)
 	}
 }
 
-void FR::FRScene::RemoveLight(const FRLight* pLight)
+void FR::FRScene::RemoveLight(FRLight* pLight)
 {
-	mScene->Remove(pLight->GetEntity());
+	mScene->Remove(pLight->GetEntity()->NatrivePtr());
 }
 
-const std::vector<FR::FRModel*>& FR::FRScene::GetGizmoModels() const
+const std::vector<FR::FRModel*>& FR::FRScene::GetGizmoModels()
 {
 	return mGizmoModels;
 }

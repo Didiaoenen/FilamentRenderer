@@ -14,43 +14,43 @@ void FR::FRLight::CreateLight(FRLightManagerWarp::EType pType)
 {
 	type = pType;
 	auto engine = FRFilamentHelper::GetEngine();
-	FRFilamentHelper::GetLightManager()->Destroy(mEntity->GetEntity());
-	FRLightManagerWarp::Builder(pType).Build(engine, mEntity->GetEntity());
+	FRFilamentHelper::GetLightManager()->Destroy(mEntity->NatrivePtr());
+	FRLightManagerWarp::Builder(pType).Build(engine, mEntity->NatrivePtr());
 }
 
 void FR::FRLight::UploadData()
 {
 	auto manager = FRFilamentHelper::GetLightManager();
 
-	manager->SetColor(manager->GetInstance(mEntity->GetEntity()), color);
-	manager->SetPosition(manager->GetInstance(mEntity->GetEntity()), mEntity->GetTransform().GetWorldPosition());
-	manager->SetDirection(manager->GetInstance(mEntity->GetEntity()), -mEntity->GetTransform().GetWorldForward());
-	manager->SetShadowCaster(manager->GetInstance(mEntity->GetEntity()), shadowCaster);
+	manager->SetColor(manager->GetInstance(mEntity->NatrivePtr()), color);
+	manager->SetPosition(manager->GetInstance(mEntity->NatrivePtr()), mEntity->GetTransform().GetWorldPosition());
+	manager->SetDirection(manager->GetInstance(mEntity->NatrivePtr()), -mEntity->GetTransform().GetWorldForward());
+	manager->SetShadowCaster(manager->GetInstance(mEntity->NatrivePtr()), shadowCaster);
 
 	switch (type)
 	{
 	case FRLightManagerWarp::EType::SUN:
 	case FRLightManagerWarp::EType::DIRECTIONAL:
-		manager->SetIntensity(manager->GetInstance(mEntity->GetEntity()), intensity);
+		manager->SetIntensity(manager->GetInstance(mEntity->NatrivePtr()), intensity);
 		break;
 	case FRLightManagerWarp::EType::POINT:
-		manager->SetFalloff(manager->GetInstance(mEntity->GetEntity()), falloff);
-		manager->SetIntensity(manager->GetInstance(mEntity->GetEntity()), intensity, FRLightManagerWarp::C_EFFICIENCY_LED);
+		manager->SetFalloff(manager->GetInstance(mEntity->NatrivePtr()), falloff);
+		manager->SetIntensity(manager->GetInstance(mEntity->NatrivePtr()), intensity, FRLightManagerWarp::C_EFFICIENCY_LED);
 		break;
 	case FRLightManagerWarp::EType::FOCUSED_SPOT:
 	case FRLightManagerWarp::EType::SPOT:
-		manager->SetFalloff(manager->GetInstance(mEntity->GetEntity()), falloff);
-		manager->SetIntensity(manager->GetInstance(mEntity->GetEntity()), intensity, FRLightManagerWarp::C_EFFICIENCY_LED);
-		manager->SetSpotLightCone(manager->GetInstance(mEntity->GetEntity()), inner, outer);
+		manager->SetFalloff(manager->GetInstance(mEntity->NatrivePtr()), falloff);
+		manager->SetIntensity(manager->GetInstance(mEntity->NatrivePtr()), intensity, FRLightManagerWarp::C_EFFICIENCY_LED);
+		manager->SetSpotLightCone(manager->GetInstance(mEntity->NatrivePtr()), inner, outer);
 		break;
 	default:
 		break;
 	}
 }
 
-FR::FREntityWarp* FR::FRLight::GetEntity() const
+FR::FREntity* FR::FRLight::GetEntity()
 {
-	return mEntity->GetEntity();
+	return mEntity;
 }
 
 FR::FRLight::~FRLight() = default;

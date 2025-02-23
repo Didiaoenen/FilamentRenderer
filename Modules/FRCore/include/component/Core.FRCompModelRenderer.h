@@ -1,7 +1,8 @@
 #pragma once
 
-#include <array>
 #include "Core.FRComponent.h"
+
+#include <array>
 
 namespace FR
 {

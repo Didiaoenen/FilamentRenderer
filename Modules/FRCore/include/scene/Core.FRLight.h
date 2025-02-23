@@ -5,7 +5,6 @@
 #include <Color.h>
 #include <FRLightManagerWarp.h>
 
-#include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
 namespace FR
@@ -23,7 +22,7 @@ namespace FR
 
 		void UploadData();
 
-		FREntityWarp* GetEntity() const;
+		FREntity* GetEntity();
 
 	public:
 		virtual ~FRLight();

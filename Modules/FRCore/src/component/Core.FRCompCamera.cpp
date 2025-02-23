@@ -44,7 +44,7 @@ void FR::FRCompCamera::SetClearColor(const Color& pClearColor)
 	mCamera.clearColor = pClearColor;
 }
 
-void FR::FRCompCamera::SetProjectionMode(EProjectionMode pProjectionMode)
+void FR::FRCompCamera::SetProjectionMode(FRCamera::EProjectionMode pProjectionMode)
 {
 	mCamera.projectionMode = pProjectionMode;
 }
@@ -74,7 +74,7 @@ const FR::Color& FR::FRCompCamera::GetClearColor() const
 	return mCamera.clearColor;
 }
 
-FR::EProjectionMode FR::FRCompCamera::GetProjectionMode() const
+FR::FRCamera::EProjectionMode FR::FRCompCamera::GetProjectionMode() const
 {
 	return mCamera.projectionMode;
 }
@@ -97,12 +97,12 @@ void FR::FRCompCamera::OnInspector(FRWidgetContainer& pRoot)
 	auto& widgetFov = FRGuiDrawer::DrawScalar<float>(pRoot, "Field Of View", std::bind(&FRCompCamera::GetFov, this), std::bind(&FRCompCamera::SetFov, this, std::placeholders::_1));
 	auto& fovWidget = *pRoot.GetWidgets()[pRoot.GetWidgets().size() - 1].first;
 	auto& fovWidgetLabel = *pRoot.GetWidgets()[pRoot.GetWidgets().size() - 2].first;
-	fovWidget.enabled = fovWidgetLabel.enabled = mCamera.projectionMode == EProjectionMode::PERSPECTIVE;
+	fovWidget.enabled = fovWidgetLabel.enabled = mCamera.projectionMode == FRCamera::EProjectionMode::PERSPECTIVE;
 
 	auto& widgetSize = FRGuiDrawer::DrawScalar<float>(pRoot, "Size", std::bind(&FRCompCamera::GetSize, this), std::bind(&FRCompCamera::SetSize, this, std::placeholders::_1));
 	auto& sizeWidget = *pRoot.GetWidgets()[pRoot.GetWidgets().size() - 1].first;
 	auto& sizeWidgetLabel = *pRoot.GetWidgets()[pRoot.GetWidgets().size() - 2].first;
-	sizeWidget.enabled = sizeWidgetLabel.enabled = mCamera.projectionMode == EProjectionMode::ORTHOGRAPHIC;
+	sizeWidget.enabled = sizeWidgetLabel.enabled = mCamera.projectionMode == FRCamera::EProjectionMode::ORTHOGRAPHIC;
 
 	FRGuiDrawer::DrawScalar<float>(pRoot, "Near", std::bind(&FRCompCamera::GetNear, this), std::bind(&FRCompCamera::SetNear, this, std::placeholders::_1));
 	
@@ -116,14 +116,14 @@ void FR::FRCompCamera::OnInspector(FRWidgetContainer& pRoot)
 
 void FR::FRCompCamera::ValueChangeCallback(int pChoice, FRAWidget* pFov, FRAWidget* pFovLabel, FRAWidget* pSize, FRAWidget* pSizeLabel)
 {
-	auto newProjectionMode = static_cast<EProjectionMode>(pChoice);
-	pFov->enabled = pFovLabel->enabled = newProjectionMode == EProjectionMode::PERSPECTIVE;
-	pSize->enabled = pSizeLabel->enabled = newProjectionMode == EProjectionMode::ORTHOGRAPHIC;
+	auto newProjectionMode = static_cast<FRCamera::EProjectionMode>(pChoice);
+	pFov->enabled = pFovLabel->enabled = newProjectionMode == FRCamera::EProjectionMode::PERSPECTIVE;
+	pSize->enabled = pSizeLabel->enabled = newProjectionMode == FRCamera::EProjectionMode::ORTHOGRAPHIC;
 	SetProjectionMode(newProjectionMode);
 }
 
 FR::FRCompCamera::~FRCompCamera()
 {
-	FRFilamentHelper::GetEngine()->DestroyCamera(owner.GetEntity());
+	FRFilamentHelper::GetEngine()->DestroyCamera(owner.NatrivePtr());
 	FRFilamentHelper::GetEngine()->UnRegisterCamera(mCamera.NativePtr());
 }

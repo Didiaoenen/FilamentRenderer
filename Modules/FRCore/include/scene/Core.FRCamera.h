@@ -1,11 +1,11 @@
 #pragma once
 
+#include "Core.FRObject.h"
+
 #include <Ray.h>
 #include <Color.h>
-#include <glm/glm.hpp>
 
-#include "Core.FRObject.h"
-#include "EProjectionMode.h"
+#include <glm/ext.hpp>
 
 namespace FR
 {
@@ -16,6 +16,13 @@ namespace FR
 		: public FRObject
 	{
 	public:
+
+		enum class EProjectionMode : uint8_t
+		{
+			ORTHOGRAPHIC,
+			PERSPECTIVE,
+		};
+
 		FRCamera(FREntity* pEntity);
 
 		void CacheMatrices(uint16_t pWidth, uint16_t pHeight);
@@ -56,14 +63,13 @@ namespace FR
 		virtual ~FRCamera();
 
 	public:
+		EProjectionMode projectionMode{ EProjectionMode::PERSPECTIVE };
+
 		float fov{ 60.f };
 		float size{ 5.f };
 		float near{ 0.01f };
 		float far{ 1000.f };
-
 		Color clearColor{ 0.f };
-
-		EProjectionMode projectionMode{ EProjectionMode::PERSPECTIVE };
 
 		bool clearColorBuffer{ true };
 		bool clearDepthBuffer{ true };

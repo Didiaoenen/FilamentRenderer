@@ -82,11 +82,11 @@ namespace FR
 
 		void SetEnvironment(FREnvironment* pEnvironment);
 
-		void RemoveModel(const FRModel* pModel);
+		void RemoveModel(FRModel* pModel);
 
-		void RemoveLight(const FRLight* pLight);
+		void RemoveLight(FRLight* pLight);
 
-		const std::vector<FRModel*>& GetGizmoModels() const;
+		const std::vector<FRModel*>& GetGizmoModels();
 
 		FRSceneWarp* NativePtr();
 

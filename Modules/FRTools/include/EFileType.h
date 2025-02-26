@@ -12,8 +12,9 @@ namespace FR
         SHADER,
         TEXTURE,
         MATERIAL,
+		OZZMODEL,
+		OZZSKELETON,
         ANIMATION,
-        OZZMODEL,
         FONT,
     };
 }

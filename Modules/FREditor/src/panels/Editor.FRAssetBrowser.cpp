@@ -325,11 +325,11 @@ namespace FR
 							{
 								for (const auto& material : materials)
 								{
-									material->SetShader(reloadShader, false);
-									for (auto& [_, mesh] : material->GetRefMeshs())
-									{
-										mesh->SetMaterial(material);
-									}
+									//material->SetShader(reloadShader, false);
+									//for (auto& [_, mesh] : material->GetRefMeshs())
+									//{
+									//	mesh->SetMaterial(material);
+									//}
 								}
 							}
 							

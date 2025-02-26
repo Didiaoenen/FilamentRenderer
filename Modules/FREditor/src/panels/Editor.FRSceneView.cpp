@@ -188,23 +188,21 @@ void FR::FRSceneView::HandleActorPicking()
 			Ray ray = GetCamera()->ClickPointToRay(screenPos);
 			for (const auto& modelRenderer : GetScene()->GetFastAccessComponents().modelRenderers)
 			{
-				if (const auto model = modelRenderer->GetModel())
+				auto& renderable = modelRenderer->GetRenderable();
+				for (const auto& mesh : renderable.GetMeshes())
 				{
-					for (const auto& mesh : model->GetMeshes())
+					auto transform = modelRenderer->owner.GetComponent<FRCompTransform>();
+
+					auto worldMatrix = transform->GetWorldMatrix();
+					auto bbx = mesh->boundingBox.Transformed(worldMatrix);
+
+					float distance = FLT_MAX;
+					ray.Intersects(bbx, distance);
+					if (distance < closestDist)
 					{
-						auto transform = modelRenderer->owner.GetComponent<FRCompTransform>();
-
-						auto worldMatrix = transform->GetWorldMatrix();
-						auto bbx = mesh->boundingBox.Transformed(worldMatrix);
-
-						float distance = FLT_MAX;
-						ray.Intersects(bbx, distance);
-						if (distance < closestDist)
-						{
-							closestDist = distance;
-							mHighlightedActor = &modelRenderer->owner;
-							break;
-						}
+						closestDist = distance;
+						mHighlightedActor = &modelRenderer->owner;
+						break;
 					}
 				}
 			}

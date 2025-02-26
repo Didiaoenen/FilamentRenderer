@@ -23,7 +23,9 @@ namespace FR
 
 	private:
 		void ProcessMesh(const aiScene* pScene, aiMesh* pMesh, FRMesh& pOutMesh);
+
 		void ProcessNode(const aiScene* pScene, aiNode* pNode, FRModelData& pOutData);
+
 		void ProcessMaterials(const aiScene* pScene, std::vector<std::string>& pMaterials);
 
 	};

@@ -4,13 +4,14 @@
 #include "Editor.FRImGuiHelper.h"
 #include "Editor.FREditorResources.h"
 
-#include <AnimationManager.h>
 #include <Core.FRKtxManager.h>
 #include <Core.FRModelManager.h>
 #include <Core.FRSceneRenderer.h>
 #include <Core.FRShaderManager.h>
 #include <Core.FRTextureManager.h>
 #include <Core.FRMaterialManager.h>
+#include <Core.FROzzSkeletonManager.h>
+#include <Core.FROzzAnimationManager.h>
 
 #include <Tools.FRTimer.h>
 
@@ -59,7 +60,8 @@ namespace FR
 		FRShaderManager shaderManager;
 		FRTextureManager textureManager;
 		FRMaterialManager materialManager;
-		AnimationManager animationManager;
+		FROzzSkeletonManager skeletonManager;
+		FROzzAnimationManager animationManager;
 
 		std::unique_ptr<FRLogger> logger;
 

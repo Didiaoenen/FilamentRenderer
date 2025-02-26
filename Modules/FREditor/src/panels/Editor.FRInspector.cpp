@@ -9,7 +9,6 @@
 #include <Core.FRCompTransform.h>
 #include <Core.FRIInspectorItem.h>
 #include <Core.FRCompModelRenderer.h>
-#include <Core.FRCompMaterialRenderer.h>
 
 #include <Tools.FRServiceLocator.h>
 

@@ -12,6 +12,15 @@ FR::Animation* FR::FROzzAnimationLoader::Create(const std::string& pFilePath)
 	return new Animation(animation);
 }
 
+void FR::FROzzAnimationLoader::Reload(Animation& pAniamtin, const std::string& pFilePath)
+{
+}
+
+void FR::FROzzAnimationLoader::Destroy(Animation*& pAniamtin)
+{
+	delete pAniamtin; pAniamtin = nullptr;
+}
+
 bool FR::FROzzAnimationLoader::LoadAnimation(const std::string& pFileName, ozz::animation::Animation& pAnimation)
 {
 	ozz::io::File file(pFileName.c_str(), "rb");

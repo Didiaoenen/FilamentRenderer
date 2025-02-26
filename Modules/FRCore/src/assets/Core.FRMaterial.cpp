@@ -7,6 +7,7 @@
 #include "Core.FRSerializer.h"
 
 #include <MathConvert.h>
+#include <FREngineWarp.h>
 #include <FRMaterialWarp.h>
 #include <FRMaterialInstanceWarp.h>
 #include <FRFilamentHelper.h>

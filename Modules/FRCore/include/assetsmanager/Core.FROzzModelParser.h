@@ -1,15 +1,7 @@
 #pragma once
 
-#include <vector>
 #include <string>
-
-namespace ozz
-{
-	namespace animation
-	{
-		class Skeleton;
-	}
-}
+#include <vector>
 
 namespace FR
 {
@@ -20,8 +12,5 @@ namespace FR
 	public:
 		bool LoadMesh(const std::string& pFilePath, FRModelData& pOutData, std::vector<std::string>& pMaterials);
 
-		bool LoadSkeleton(const std::string& pFilePath, ozz::animation::Skeleton& pSkeleton);
-
 	};
 }
-

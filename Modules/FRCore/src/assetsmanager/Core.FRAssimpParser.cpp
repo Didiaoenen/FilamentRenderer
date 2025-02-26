@@ -102,7 +102,6 @@ void FR::FRAssimpParser::ProcessMesh(const aiScene* pScene, aiMesh* pMesh, FRMes
 	glm::vec3 const* texCoords0 = reinterpret_cast<glm::vec3 const*>(pMesh->mTextureCoords[0]);
 	glm::vec3 const* texCoords1 = reinterpret_cast<glm::vec3 const*>(pMesh->mTextureCoords[1]);
 
-	FRMeshData meshData;
 	for (size_t j = 0; j < pMesh->mNumVertices; j++)
 	{
 		glm::vec4 position = { positions[j], 1.f };
@@ -114,10 +113,10 @@ void FR::FRAssimpParser::ProcessMesh(const aiScene* pScene, aiMesh* pMesh, FRMes
 		glm::quat quatBTN = glm::normalize(glm::quat(glm::mat3{ tangent, glm::cross(normal, tangent), normal }));
 		glm::vec4 tangents = glm::vec4{ quatBTN.x, quatBTN.y, quatBTN.z, quatBTN.w };
 
-		meshData.positions.push_back(position);
-		meshData.tangents.push_back(tangents);
-		meshData.texCoords0.push_back(texCoord0);
-		meshData.texCoords1.push_back(texCoord1);
+		pOutMesh.positions.push_back(position);
+		pOutMesh.tangents.push_back(tangents);
+		pOutMesh.texCoords0.push_back(texCoord0);
+		pOutMesh.texCoords1.push_back(texCoord1);
 
 		pOutMesh.boundingBox.Merge(position);
 
@@ -126,20 +125,15 @@ void FR::FRAssimpParser::ProcessMesh(const aiScene* pScene, aiMesh* pMesh, FRMes
 
 	pOutMesh.indexOffset = pOutMesh.indices.size();
 
-	//
-	for (size_t j = 0; j < pMesh->mNumFaces; ++j)
+	for (size_t j = 0; j < pMesh->mNumFaces; j++)
 	{
 		const aiFace& face = pMesh->mFaces[j];
-		for (size_t k = 0; k < face.mNumIndices; ++k)
+		for (size_t k = 0; k < face.mNumIndices; k++)
 		{
-			meshData.indices.push_back(face.mIndices[k] + 0);
 			pOutMesh.indices.push_back(face.mIndices[k] + 0);
 		}
 	}
 
 	pOutMesh.indexCount = pMesh->mNumFaces * 3;
 	pOutMesh.materialIndex = pMesh->mMaterialIndex;
-
-	//
-	pOutMesh.meshData = meshData;
 }

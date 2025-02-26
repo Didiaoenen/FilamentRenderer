@@ -19,6 +19,7 @@
 #include <Core.FRModel.h>
 #include <Core.FRShader.h>
 #include <Core.FRMaterial.h>
+#include <Core.FRRenderable.h>
 #include <Core.FREnvironment.h>
 #include <Core.FRSceneManager.h>
 #include <Core.FRSceneRenderer.h>
@@ -33,6 +34,8 @@ namespace
 	FR::FRGameView* gameView = nullptr;
 	FR::FRSceneView* sceneView = nullptr;
 	FR::FRAssetView* assetView = nullptr;
+
+	FR::FRRenderable* planeRenderable = nullptr;
 }
 
 FR::FREditorController::FREditorController()
@@ -46,24 +49,25 @@ FR::FREditorController::FREditorController()
 	auto iblTexture = FRApplication::EditorResources()->GetTexture("IBL");
 	auto skyboxTexture = FRApplication::EditorResources()->GetTexture("Skybox");
 
+	planeRenderable = new FRRenderable(new FREntity(FRFilamentHelper::CreateEntity()));
+
+	for (auto& mesh : planeModel->GetMeshes())
+	{
+		planeRenderable->BuildMesh(mesh);
+	}
+
 	auto t = glm::mat4(1.0f);
 	auto transform = glm::translate(t, glm::vec3(0.0f, -10.0f, 0.0f)) * glm::scale(t, glm::vec3(10000.0f, 1.0f, 10000.0f));
-	planeModel->Build(FRFilamentHelper::CreateEntity());
-	for (const auto mesh : planeModel->GetMeshes())
-	{
-		mesh->Build(FRFilamentHelper::CreateEntity());
-		mesh->SetTransform(transform);
-		mesh->SetAxisAlignedBoundingBox();
-	}
+	planeRenderable->SetTransform(0, transform);
 
 	auto material = new FRMaterial(gridShader);
 	material->SetParameter("baseColor", MathConvert::ToFVec3({ 0.176f, 0.176f, 0.176f }));
 	material->SetTransparencyMode(FRMaterialInstanceWarp::ETransparencyMode::DEFAULT);
 	material->SetCullingMode(FRMaterialInstanceWarp::ECullingMode::NONE);
 
-	planeModel->SetMaterialAtIndex(0, material);
+	planeRenderable->SetMaterialAtIndex(0, material);
 
-	scene->AddGizmo(planeModel);
+	scene->AddGizmo(planeRenderable);
 
 	auto environment = new FREnvironment(skyboxTexture, iblTexture);
 

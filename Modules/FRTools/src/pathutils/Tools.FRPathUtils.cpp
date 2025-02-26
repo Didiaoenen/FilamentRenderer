@@ -133,10 +133,12 @@ FR::EFileType FR::FRPathUtils::GetFileType(const std::string& pPath)
 		return EFileType::TEXTURE;
 	else if (ext == "mat")
 		return EFileType::MATERIAL;
-	else if (ext == "anim")
-		return EFileType::ANIMATION;
 	else if (ext == "ozz")
 		return EFileType::OZZMODEL;
+	else if (ext == "skel")
+		return EFileType::OZZSKELETON;
+	else if (ext == "anim")
+		return EFileType::ANIMATION;
 	else if (ext == "ttf")
 		return EFileType::FONT;
 

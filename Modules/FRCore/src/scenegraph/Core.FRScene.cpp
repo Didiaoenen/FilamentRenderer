@@ -101,10 +101,9 @@ void FR::FRScene::CollectGarbages()
 		{
 			if (bool isGarbage = !pElement->IsAlive())
 			{
-				auto modelRenderer = pElement->GetComponent<FRCompModelRenderer>();
-				if (modelRenderer && modelRenderer->GetModel())
+				if (auto modelRenderer = pElement->GetComponent<FRCompModelRenderer>())
 				{
-					RemoveModel(modelRenderer->GetModel());
+					RemoveRenderable(&modelRenderer->GetRenderable());
 				}
 
 				if (auto light = pElement->GetComponent<FRCompLight>())
@@ -209,6 +208,13 @@ FR::FRCompCamera* FR::FRScene::FindMainCamera() const
 	return nullptr;
 }
 
+void FR::FRScene::SetEnvironment(FREnvironment* pEnvironment)
+{
+	mEnvironment = pEnvironment;
+	//mScene->SetSkybox(mEnvironment->GetSkybox());
+	mScene->SetIndirectLight(mEnvironment->GetIndirectLight());
+}
+
 void FR::FRScene::OnComponentAdded(FRComponent* pCompononent)
 {
 	if (auto result = dynamic_cast<FRCompModelRenderer*>(pCompononent))
@@ -275,27 +281,23 @@ void FR::FRScene::ParseScene()
 {
 	auto components = GetFastAccessComponents();
 
-	for (FRCompModelRenderer* modelRenderer : components.modelRenderers)
+	for (auto& modelRenderer : components.modelRenderers)
 	{
-		auto& owner = modelRenderer->owner;
-		if (owner.IsActive())
+		if (auto& owner = modelRenderer->owner; owner.IsActive())
 		{
-			if (auto model = modelRenderer->GetModel())
+			auto& renderable = modelRenderer->GetRenderable();
+			if (renderable.GetMeshes().size() > 0)
 			{
 				auto& transform = owner.transform->GetFRTransform();
+				renderable.SetTransform(transform.GetWorldMatrix());
 
-				const auto& meshes = model->GetMeshes();
-				const auto& materials = model->GetMaterials();
+				const auto& meshes = renderable.GetMeshes();
+				const auto& materials = renderable.GetMaterials();
 				for (size_t i = 0; i < meshes.size(); i++)
 				{
 					if (auto material = materials[i])
 					{
 						material->UploadData();
-					}
-
-					if (auto mesh = meshes[i])
-					{
-						mesh->SetTransform(transform.GetWorldMatrix());
 					}
 				}
 			}
@@ -304,29 +306,10 @@ void FR::FRScene::ParseScene()
 
 	for (FRCompLight* light : components.lights)
 	{
-		auto& owner = light->owner;
-		if (owner.IsActive())
+		if (auto& owner = light->owner; owner.IsActive())
 		{
 			light->GetLight().UploadData();
 		}
-	}
-}
-
-void FR::FRScene::AddGizmo(FRModel* pGizmo)
-{
-	for (const auto& mesh : pGizmo->GetMeshes())
-	{
-		mScene->AddEntity(mesh->GetEntity());
-	}
-
-	mGizmoModels.push_back(pGizmo);
-}
-
-void FR::FRScene::AddModel(FRModel* pModel)
-{
-	for (const auto& mesh : pModel->GetMeshes())
-	{
-		mScene->AddEntity(mesh->GetEntity());
 	}
 }
 
@@ -335,29 +318,33 @@ void FR::FRScene::AddLight(FRLight* pLight)
 	mScene->AddEntity(pLight->GetEntity()->NatrivePtr());
 }
 
-void FR::FRScene::SetEnvironment(FREnvironment* pEnvironment)
+void FR::FRScene::AddGizmo(FRRenderable* pRenderable)
 {
-	mEnvironment = pEnvironment;
-	//mScene->SetSkybox(mEnvironment->GetSkybox());
-	mScene->SetIndirectLight(mEnvironment->GetIndirectLight());
+	for (const auto& entity : pRenderable->GetNativePtrs())
+	{
+		mScene->AddEntity(entity);
+	}
 }
 
-void FR::FRScene::RemoveModel(FRModel* pModel)
+void FR::FRScene::AddRenderable(FRRenderable* pRenderable)
 {
-	for (const auto& mesh : pModel->GetMeshes())
+	for (const auto& entity : pRenderable->GetNativePtrs())
 	{
-		mScene->Remove(mesh->GetEntity());
+		mScene->AddEntity(entity);
+	}
+}
+
+void FR::FRScene::RemoveRenderable(FRRenderable* pRenderable)
+{
+	for (const auto& entity : pRenderable->GetNativePtrs())
+	{
+		mScene->Remove(entity);
 	}
 }
 
 void FR::FRScene::RemoveLight(FRLight* pLight)
 {
 	mScene->Remove(pLight->GetEntity()->NatrivePtr());
-}
-
-const std::vector<FR::FRModel*>& FR::FRScene::GetGizmoModels()
-{
-	return mGizmoModels;
 }
 
 FR::FRSceneWarp* FR::FRScene::NativePtr()

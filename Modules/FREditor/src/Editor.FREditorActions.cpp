@@ -11,10 +11,9 @@
 #include <Core.FRActor.h>
 #include <Core.FRModel.h>
 #include <Core.FRScene.h>
+#include <Core.FRSceneManager.h>
 #include <Core.FRCompTransform.h>
 #include <Core.FRCompModelRenderer.h>
-#include <Core.FRCompMaterialRenderer.h>
-#include <Core.FRSceneManager.h>
 
 #include <Window.h>
 #include <MessageBox.h>
@@ -154,9 +153,8 @@ FR::FRActor* FR::FREditorActions::CreateActorWithModel(const std::string& pPath,
 	const auto material = GetService(FRMaterialManager)[":Materials/Default.mat"];
 	if (model && material)
 	{
-		auto clone = model->Create();
-		modelRenderer->SetModel(clone);
-		clone->FillMaterial(material);
+		modelRenderer->SetRenderable(model);
+		modelRenderer->FillMaterials(material);
 	}
 
 	if (pFocusOnCreation)

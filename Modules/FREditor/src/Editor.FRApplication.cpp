@@ -20,6 +20,7 @@ void FR::FRApplication::Destroy()
 	FRApplication::Instance()->ktxManager.UnloadResources();
 	FRApplication::Instance()->modelManager.UnloadResources();
 	FRApplication::Instance()->textureManager.UnloadResources();
+	FRApplication::Instance()->skeletonManager.UnloadResources();
 	FRApplication::Instance()->animationManager.UnloadResources();
 	FRApplication::Instance()->materialManager.UnloadResources();
 	FRApplication::Instance()->shaderManager.UnloadResources();
@@ -62,7 +63,8 @@ FR::FRApplication::FRApplication()
 	FRServiceLocator::Provide<FRKtxManager>(ktxManager);
 	FRServiceLocator::Provide<FRModelManager>(modelManager);
 	FRServiceLocator::Provide<FRTextureManager>(textureManager);
-	FRServiceLocator::Provide<AnimationManager>(animationManager);
+	FRServiceLocator::Provide<FROzzSkeletonManager>(skeletonManager);
+	FRServiceLocator::Provide<FROzzAnimationManager>(animationManager);
 	FRServiceLocator::Provide<FRMaterialManager>(materialManager);
 	FRServiceLocator::Provide<FRShaderManager>(shaderManager);
 }

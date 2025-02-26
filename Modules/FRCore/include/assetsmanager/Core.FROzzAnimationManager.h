@@ -6,7 +6,7 @@ namespace FR
 {
 	class Animation;
 
-	class AnimationManager
+	class FROzzAnimationManager
 		: public FRResourceManager<Animation>
 	{
 	public:

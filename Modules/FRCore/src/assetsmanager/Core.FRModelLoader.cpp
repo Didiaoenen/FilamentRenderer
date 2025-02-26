@@ -16,7 +16,7 @@ FR::FRModel* FR::FRModelLoader::Create(const std::string& pFilepath)
 
 		for (auto mesh : dataTree.meshs)
 		{
-			result->AttachmentMesh(mesh);
+			result->SetMesh(mesh);
 		}
 
 		return result;

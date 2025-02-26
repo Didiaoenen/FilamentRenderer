@@ -19,17 +19,9 @@ FR::FRModel* FR::FROzzModelLoader::Create(const std::string& pFilePath)
 		FRModel* result = new FRModel();
 		result->mMaterialNames = materialNames;
 
-		std::string skelPath = pFilePath;
-		StringExtension::Replace(skelPath, "ozz", "skel");
-		ozz::animation::Skeleton skeleton;
-		if (__OZZ.LoadSkeleton(skelPath, skeleton))
-		{
-			result->mSkeletonRig = new SkeletonRig(skeleton);
-		}
-
 		for (auto mesh : dataTree.meshs)
 		{
-			result->AttachmentMesh(mesh);
+			result->SetMesh(mesh);
 		}
 
 		return result;

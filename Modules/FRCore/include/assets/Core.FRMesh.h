@@ -1,21 +1,13 @@
 #pragma once
 
-#include "Core.FRObject.h"
+#include "Core.FRAsset.h"
 
 #include <BoundingBox.h>
-#include <FRTransformManagerWarp.h>
-#include <FRRenderableManagerWarp.h>
 
 #include <vector>
 
 namespace FR
 {
-	class FRModel;
-	class FRMaterial;
-
-	class FRIndexBufferWarp;
-	class FRVertexBufferWarp;
-
 	struct FRVertex
 	{
 		glm::vec4 Position;
@@ -25,11 +17,19 @@ namespace FR
 		glm::vec4 Colors;
 	};
 
-	struct FRMeshData
+	class FRMesh
+		: public FRAsset
 	{
+	public:
+		FRMesh() = default;
+
+	public:
+		virtual ~FRMesh() = default;
+
+	public:
 		std::vector<FRVertex> vertexs;
 		std::vector<uint32_t> indices;
-
+		
 		std::vector<glm::vec4> positions;
 		std::vector<glm::vec4> tangents;
 		std::vector<glm::vec4> normals;
@@ -39,80 +39,21 @@ namespace FR
 
 		std::vector<glm::u16vec4> jointIndexs;
 		std::vector<glm::vec4> jointWeights;
-	};
 
-	class FRMesh
-		: public FRObject
-	{
-	public:
-		FRMesh();
-
-		void Build(FREntityWarp* pEntity);
-
-		uint32_t GetIndexCount() const;
-
-		uint32_t GetVertexCount() const;
-
-		uint32_t GetMaterialIndex() const;
-
-		void SetMaterial(FRMaterial* pMaterial);
-
-		void SetTransform(glm::mat4 pMatrix);
-
-		void SetAxisAlignedBoundingBox();
-
-		FRTransformManagerWarp::Instance GetTransInstance();
-
-		FRRenderableManagerWarp::Instance GetRenderInstance();
-
-		void UpdateSkinning(std::vector<glm::mat4> pTrans);
-
-		void UpdateAttachment(glm::mat4 pTrans);
-
-		FREntityWarp* GetEntity();
-
-		FRMesh* Create();
-
-	private:
-		void BuildBuffers();
-
-	public:
-		virtual ~FRMesh();
-
-	public:
-		std::string name;
-
-		uint32_t indexCount{ 0 };
-		uint32_t indexOffset{ 0 };
-		std::vector<FRVertex> vertexs;
-		std::vector<uint32_t> indices;
-		
 		std::vector<uint16_t> jointRemaps;
 		std::vector<glm::mat4> inverseBindPoses;
-
-		uint32_t materialIndex{ 0 };
-
-		BoundingBox boundingBox;
 
 		std::string attachmentName;
 
 		int32_t attachmentJoint{ -1 };
 
-		glm::mat4 transform{ 1.0f };
+		uint32_t materialIndex{ 0 };
 
-		glm::mat4 inverseTrans{ 1.0f };
+		uint32_t indexCount{ 0 };
 
-		FRModel* model{ nullptr };
+		uint32_t indexOffset{ 0 };
 
-		FRMeshData meshData;
-
-	private:
-		FRMaterial* mMaterial{ nullptr };
-
-		FREntityWarp* mEntity{ nullptr };
-		FRIndexBufferWarp* mIndexBuffer{ nullptr };
-		FRVertexBufferWarp* mVertexBuffer{ nullptr };
-		FRSkinningBufferWarp* mSkinningBuffer{ nullptr };
+		BoundingBox boundingBox;
 
 	};
 }

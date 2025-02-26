@@ -1,14 +1,12 @@
 #pragma once
 
 #include "Core.FRComponent.h"
+#include "Core.FRRenderable.h"
 
 #include <array>
 
 namespace FR
 {
-	class FRModel;
-	class FREntityWarp;
-
 	class FRCompModelRenderer
 		: public FRComponent
 	{
@@ -17,7 +15,9 @@ namespace FR
 	public:
 		FRCompModelRenderer(FRActor& pOwner);
 
-		void SetModel(FRModel* pModel);
+		void SetRenderable(FRModel* pModel);
+
+		void FillMaterials(FRMaterial* pMaterial);
 
 		//const BoundingSphere& GetCustomBoundingSphere() const;
 
@@ -33,19 +33,20 @@ namespace FR
 
 		virtual EComponentType GetType() override;
 
-		FRModel* GetModel() const;
+		FRRenderable& GetRenderable();
 
 	public:
 		virtual ~FRCompModelRenderer();
 
 	private:
-		FRModel* mModel{ nullptr };
-		std::vector<FREntityWarp*> mEntities;
+		FRRenderable mRenderable;
 
-		//BoundingSphere m_customBoundingSphere{ {}, 1.0f };
+		//BoundingSphere mBoundingSphere{ {}, 1.0f };
 
 		std::array<GUI::FRAWidget*, kMaxCount> mMeshFields;
 		std::array<GUI::FRAWidget*, kMaxCount> mMaterialFields;
+
+		std::string mModelPath;
 
 		FREvent<> mModelChangedEvent;
 

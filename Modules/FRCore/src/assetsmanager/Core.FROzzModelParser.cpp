@@ -5,12 +5,10 @@
 
 #include <MathConvert.h>
 
-#include <glm/gtc/quaternion.hpp>
-#include <glm/gtx/euler_angles.hpp>
+#include <glm/ext.hpp>
 
 #include <ozzmesh.h>
 #include <ozz/base/io/archive.h>
-#include <ozz/animation/runtime/skeleton.h>
 
 bool FR::FROzzModelParser::LoadMesh(const std::string& pFilePath, FRModelData& pOutData, std::vector<std::string>& pMaterials)
 {
@@ -38,11 +36,10 @@ bool FR::FROzzModelParser::LoadMesh(const std::string& pFilePath, FRModelData& p
 
 		const auto part = mesh.parts[0];
 		
-		FRMeshData meshData;
 		for (uint32_t i = 0; i < part.positions.size(); i += 3)
 		{
-			meshData.positions.push_back(glm::vec4(part.positions[i], part.positions[i + 1], part.positions[i + 2], 1.0f));
-			meshPtr->vertexs.push_back({ meshData.positions.back() });
+			meshPtr->positions.push_back(glm::vec4(part.positions[i], part.positions[i + 1], part.positions[i + 2], 1.0f));
+			meshPtr->vertexs.push_back({ meshPtr->positions.back() });
 		}
 
 		std::vector<glm::vec3> normals;
@@ -62,26 +59,26 @@ bool FR::FROzzModelParser::LoadMesh(const std::string& pFilePath, FRModelData& p
 			for (uint32_t i = 0; i < normals.size(); i++)
 			{
 				glm::quat quatBTN = glm::normalize(glm::quat(glm::mat3{ tangents[i], glm::cross(normals[i], tangents[i]), normals[i] }));
-				meshData.tangents.push_back(glm::vec4{ quatBTN.x, quatBTN.y, quatBTN.z, quatBTN.w });
-				meshPtr->vertexs[i].Tangent = meshData.tangents.back();
+				meshPtr->tangents.push_back(glm::vec4{ quatBTN.x, quatBTN.y, quatBTN.z, quatBTN.w });
+				meshPtr->vertexs[i].Tangent = meshPtr->tangents.back();
 			}
 		}
 
 		for (uint32_t i = 0; i < part.uvs.size(); i += 2)
 		{
-			meshData.texCoords0.push_back(glm::vec2(part.uvs[i], part.uvs[i + 1]));
+			meshPtr->texCoords0.push_back(glm::vec2(part.uvs[i], part.uvs[i + 1]));
 			if (i % 2 == 0)
 			{
-				meshPtr->vertexs[i / 2].TexCoord0 = meshData.texCoords0.back();
+				meshPtr->vertexs[i / 2].TexCoord0 = meshPtr->texCoords0.back();
 			}
 		}
 
 		for (uint32_t i = 0; i < part.colors.size(); i += 4)
 		{
-			meshData.colors.push_back(glm::vec4(part.colors[i], part.colors[i + 1], part.colors[i + 2], part.colors[i + 3]));
+			meshPtr->colors.push_back(glm::vec4(part.colors[i], part.colors[i + 1], part.colors[i + 2], part.colors[i + 3]));
 			if (i % 4 == 0)
 			{
-				meshPtr->vertexs[i / 4].Colors = meshData.colors.back();
+				meshPtr->vertexs[i / 4].Colors = meshPtr->colors.back();
 			}
 		}
 
@@ -91,7 +88,7 @@ bool FR::FROzzModelParser::LoadMesh(const std::string& pFilePath, FRModelData& p
 		{
 			if (count >= 4)
 			{
-				meshData.jointIndexs.push_back(glm::u16vec4(part.joint_indices[i], part.joint_indices[i + 1], part.joint_indices[i + 2], part.joint_indices[i + 3]));
+				meshPtr->jointIndexs.push_back(glm::u16vec4(part.joint_indices[i], part.joint_indices[i + 1], part.joint_indices[i + 2], part.joint_indices[i + 3]));
 			}
 			else
 			{
@@ -100,7 +97,7 @@ bool FR::FROzzModelParser::LoadMesh(const std::string& pFilePath, FRModelData& p
 				{
 					temp.push_back(j < count ? part.joint_indices[i + j] : 0);
 				}
-				meshData.jointIndexs.push_back(glm::u16vec4(temp[0], temp[1], temp[2], temp[3]));
+				meshPtr->jointIndexs.push_back(glm::u16vec4(temp[0], temp[1], temp[2], temp[3]));
 			}
 		}
 
@@ -109,7 +106,7 @@ bool FR::FROzzModelParser::LoadMesh(const std::string& pFilePath, FRModelData& p
 		{
 			if (count >= 4)
 			{
-				meshData.jointWeights.push_back(glm::vec4(part.joint_weights[i], part.joint_weights[i + 1], part.joint_weights[i + 2], part.joint_weights[i + 3]));
+				meshPtr->jointWeights.push_back(glm::vec4(part.joint_weights[i], part.joint_weights[i + 1], part.joint_weights[i + 2], part.joint_weights[i + 3]));
 			}
 			else
 			{
@@ -118,61 +115,29 @@ bool FR::FROzzModelParser::LoadMesh(const std::string& pFilePath, FRModelData& p
 				{
 					temp.push_back(j < count ? part.joint_weights[i + j] : 0.0f);
 				}
-				meshData.jointWeights.push_back(glm::vec4(temp[0], temp[1], temp[2], temp[3]));
+				meshPtr->jointWeights.push_back(glm::vec4(temp[0], temp[1], temp[2], temp[3]));
 			}
 		}
 
 		for (uint32_t i = 0; i < mesh.triangle_indices.size(); i++)
 		{
-			meshData.indices.push_back(mesh.triangle_indices[i]);
 			meshPtr->indices.push_back(mesh.triangle_indices[i]);
 		}
 
-		//
 		for (size_t i = 0; i < mesh.joint_remaps.size(); i++)
 		{
 			meshPtr->jointRemaps.push_back(mesh.joint_remaps[i]);
 		}
 
-		//
 		for (size_t i = 0; i < mesh.inverse_bind_poses.size(); i++)
 		{
 			meshPtr->inverseBindPoses.push_back(MathConvert::ToGlmMat4(mesh.inverse_bind_poses[i]));
 		}
 
-		//
-		//glm::mat4 translation = glm::translate(glm::mat4(1.0f), glm::vec3(mesh.translation[0], mesh.translation[1], mesh.translation[2]));
-		//glm::mat4 rotation = glm::eulerAngleYXZ(glm::radians(mesh.rotation[1]), glm::radians(mesh.rotation[0]), glm::radians(mesh.rotation[2]));
-		//glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(mesh.scaling[0], mesh.scaling[1], mesh.scaling[2]));
-		//meshPtr->transform = translation * rotation * scale;
-
-		//
 		meshPtr->name = std::string(reinterpret_cast<const char*>(part.names.data()), part.names.size());
 		meshPtr->attachmentName = std::string(reinterpret_cast<const char*>(mesh.attachment_names.data()), mesh.attachment_names.size());
-		meshPtr->boundingBox.Merge(meshData.positions.back());
+		meshPtr->boundingBox.Merge(meshPtr->positions.back());
 		meshPtr->indexCount = meshPtr->indices.size();
-		meshPtr->meshData = meshData;
-	}
-
-	return true;
-}
-
-bool FR::FROzzModelParser::LoadSkeleton(const std::string& pFilePath, ozz::animation::Skeleton& pSkeleton)
-{
-	ozz::io::File file(pFilePath.c_str(), "rb");
-	if (!file.opened())
-	{
-		return false;
-	}
-
-	ozz::io::IArchive archive(&file);
-	if (!archive.TestTag<ozz::animation::Skeleton>())
-	{
-		return false;
-	}
-
-	{
-		archive >> pSkeleton;
 	}
 
 	return true;

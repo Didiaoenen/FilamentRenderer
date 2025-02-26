@@ -10,8 +10,8 @@
 namespace FR
 {
 	class FRActor;
-	class FRModel;
 	class FRLight;
+	class FRRenderable;
 
 	class FRComponent;
 	class FRCompLight;
@@ -60,6 +60,8 @@ namespace FR
 
 		FRCompCamera* FindMainCamera() const;
 
+		void SetEnvironment(FREnvironment* pEnvironment);
+
 		void OnComponentAdded(FRComponent* pCompononent);
 
 		void OnComponentRemoved(FRComponent* pCompononent);
@@ -74,19 +76,15 @@ namespace FR
 
 		void ParseScene();
 
-		void AddGizmo(FRModel* pGizmo);
-
-		void AddModel(FRModel* pModel);
-
 		void AddLight(FRLight* pLight);
 
-		void SetEnvironment(FREnvironment* pEnvironment);
+		void AddGizmo(FRRenderable* pRenderable);
 
-		void RemoveModel(FRModel* pModel);
+		void AddRenderable(FRRenderable* pRenderable);
+
+		void RemoveRenderable(FRRenderable* pRenderable);
 
 		void RemoveLight(FRLight* pLight);
-
-		const std::vector<FRModel*>& GetGizmoModels();
 
 		FRSceneWarp* NativePtr();
 
@@ -101,7 +99,6 @@ namespace FR
 		FREnvironment* mEnvironment{ nullptr };
 
 		std::vector<FRActor*> mActors;
-		std::vector<FRModel*> mGizmoModels;
 		FastAccessComponents mFastAccessComponents;
 
 		int64_t mAvailableID{ 0 };

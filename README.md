@@ -6,7 +6,7 @@ Build Request
 
 1. install vcpkg
 
-2. imgui-docking (Extern/DearImgui)
+2. imgui-docking (Extern/DearImgui)[change imguiconfig.h enable #define IMGUI_USE_WCHAR32 and add #define ImTextureID void*]
 
 3. fbxsdk (Tools/Dependencies)
 

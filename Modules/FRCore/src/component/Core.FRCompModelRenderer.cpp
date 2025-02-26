@@ -7,7 +7,6 @@
 #include "Core.FRGuiDrawer.h"
 #include "Core.FRModelManager.h"
 #include "Core.FRMaterialManager.h"
-#include "Core.FRCompMaterialRenderer.h"
 
 #include <FREntityManagerWarp.h>
 
@@ -18,6 +17,7 @@ using namespace FR::GUI;
 
 FR::FRCompModelRenderer::FRCompModelRenderer(FRActor& pOwner)
 	: FRComponent(pOwner)
+	, mRenderable(&pOwner)
 {
 	mMeshFields.fill(nullptr);
 	mMaterialFields.fill(nullptr);
@@ -31,34 +31,26 @@ FR::FRCompModelRenderer::FRCompModelRenderer(FRActor& pOwner)
 		};
 }
 
-const std::string FR::FRCompModelRenderer::GetName()
+void FR::FRCompModelRenderer::SetRenderable(FRModel* pModel)
 {
-	return ICON_MDI_GRID " Model Renderer";
-}
+	mModelPath = pModel->path;
 
-FR::FRComponent::EComponentType FR::FRCompModelRenderer::GetType()
-{
-	return FRComponent::EComponentType::MODEL_RENDERER;
-}
-
-void FR::FRCompModelRenderer::SetModel(FRModel* pModel)
-{
-	mModel = pModel;
-	
-	mModel->Build(owner.NatrivePtr());
-
-	for (const auto mesh : mModel->GetMeshes())
+	for (auto& mesh : pModel->GetMeshes())
 	{
-		mEntities.emplace_back(FRFilamentHelper::CreateEntity());
-		mesh->Build(mEntities.back());
+		mRenderable.BuildMesh(mesh);
 	}
 
 	if (auto scene = owner.GetScene())
 	{
-		scene->AddModel(pModel);
+		scene->AddRenderable(&mRenderable);
 	}
 
 	mModelChangedEvent.Invoke();
+}
+
+void FR::FRCompModelRenderer::FillMaterials(FRMaterial* pMaterial)
+{
+	mRenderable.FillMaterials(pMaterial);
 }
 
 void FR::FRCompModelRenderer::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
@@ -73,23 +65,17 @@ void FR::FRCompModelRenderer::OnInspector(GUI::FRWidgetContainer& pRoot)
 {
 	FRGuiDrawer::CreateTitle(pRoot, "Model").lineBreak = false;
 
-	auto& pData = mModel;
 	auto* pUpdateNotifier = &mModelChangedEvent;
 
-	std::string displayedText = (pData ? pData->path : std::string("Empty"));
+	std::string displayedText = (!mModelPath.empty() ? mModelPath : std::string("Empty"));
 
 	auto& itemSelect = pRoot.CreateWidget<FRItemSelect>(FRItemSelect::EItemType::MODEL, displayedText);
-	itemSelect.SetTextReceivedEvent([&pData, pUpdateNotifier, this](std::string& pContext, auto pReceivedData)
+	itemSelect.SetTextReceivedEvent([pUpdateNotifier, this](std::string& pContext, auto pReceivedData)
 		{
 			if (FRPathUtils::GetFileType(pReceivedData.first) == EFileType::MODEL)
 			{
 				if (auto resource = GetService(FRModelManager).GetResource(pReceivedData.first))
 				{
-					//pData = resource;
-
-					//owner.GetScene()->RemoveModel(pData);
-					//owner.GetScene()->AddModel(resource);
-
 					pContext = pReceivedData.first;
 					if (pUpdateNotifier)
 					{
@@ -100,9 +86,9 @@ void FR::FRCompModelRenderer::OnInspector(GUI::FRWidgetContainer& pRoot)
 		});
 
 	auto& widgetMeshes = pRoot.CreateWidget<FRTreeNode>("Meshes", "", "", true);
-	for (uint8_t i = 0; i < pData->GetMeshes().size(); i++)
+	for (uint8_t i = 0; i < mRenderable.GetMeshes().size(); i++)
 	{
-		auto mesh = pData->GetMeshes()[i];
+		auto mesh = mRenderable.GetMeshes()[i];
 		auto& widgetMesh = widgetMeshes.CreateWidget<FRTextColored>(mesh->name);
 		widgetMesh.position = { 60.0f, 0.0f };
 		mMeshFields[i] = &widgetMesh;
@@ -111,17 +97,17 @@ void FR::FRCompModelRenderer::OnInspector(GUI::FRWidgetContainer& pRoot)
 	widgetMeshes.position = { 30.0f, 0.0f };
 
 	auto& widgetMaterials = pRoot.CreateWidget<FRTreeNode>("Materials", "", "", true);
-	for (uint8_t i = 0; i < pData->GetMeshes().size(); i++)
+	for (uint8_t i = 0; i < mRenderable.GetMeshes().size(); i++)
 	{
-		auto material = pData->GetMaterials()[i];
+		auto material = mRenderable.GetMaterials()[i];
 		auto& widgetMaterial = widgetMaterials.CreateWidget<FRItemSelect>(FRItemSelect::EItemType::MATERIAL, material->path);
-		widgetMaterial.SetTextReceivedEvent([&pData, i, this](std::string& pContext, auto pReceivedData)
+		widgetMaterial.SetTextReceivedEvent([i, this](std::string& pContext, auto pReceivedData)
 			{
 				if (FRPathUtils::GetFileType(pReceivedData.first) == EFileType::MATERIAL)
 				{
 					if (auto resource = GetService(FRMaterialManager).GetResource(pReceivedData.first))
 					{
-						pData->SetMaterialAtIndex(i, resource);
+						mRenderable.SetMaterialAtIndex(i, resource);
 						pContext = pReceivedData.first;
 					}
 				}
@@ -134,7 +120,7 @@ void FR::FRCompModelRenderer::OnInspector(GUI::FRWidgetContainer& pRoot)
 
 	for (uint8_t i = 0; i < kMaxCount; ++i)
 	{
-		if (i >= pData->GetMeshes().size())
+		if (i >= mRenderable.GetMeshes().size())
 		{
 			if (mMeshFields[i])
 			{
@@ -149,18 +135,19 @@ void FR::FRCompModelRenderer::OnInspector(GUI::FRWidgetContainer& pRoot)
 	}
 }
 
-FR::FRModel* FR::FRCompModelRenderer::GetModel() const
+const std::string FR::FRCompModelRenderer::GetName()
 {
-	return mModel;
+	return ICON_MDI_GRID " Model Renderer";
 }
 
-FR::FRCompModelRenderer::~FRCompModelRenderer()
+FR::FRComponent::EComponentType FR::FRCompModelRenderer::GetType()
 {
-	delete mModel; mModel = nullptr;
-
-	for (auto& entity : mEntities)
-	{
-		delete entity; entity = nullptr;
-	}
-	mEntities.clear();
+	return FRComponent::EComponentType::MODEL_RENDERER;
 }
+
+FR::FRRenderable& FR::FRCompModelRenderer::GetRenderable()
+{
+	return mRenderable;
+}
+
+FR::FRCompModelRenderer::~FRCompModelRenderer() = default;

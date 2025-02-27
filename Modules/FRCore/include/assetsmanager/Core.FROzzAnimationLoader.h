@@ -12,21 +12,19 @@ namespace ozz
 
 namespace FR
 {
-	class Animation;
+	class AnimationClip;
 
 	class FROzzAnimationLoader
 	{
 	public:
-		static Animation* Create(const std::string& pFilePath);
+		static AnimationClip* Create(const std::string& pFilePath);
 
-		static void Reload(Animation& pAniamtin, const std::string& pFilePath);
+		static void Reload(AnimationClip& pAniamtin, const std::string& pFilePath);
 
-		static void Destroy(Animation*& pAniamtin);
+		static void Destroy(AnimationClip*& pAniamtin);
 
 	private:
 		static bool LoadAnimation(const std::string& pFileName, ozz::animation::Animation& pAnimation);
-
-
 
 	};
 }

@@ -1,7 +1,7 @@
 #include "Core.FRShaderLoader.h"
 
 #include "Core.FRShader.h"
-#include "Core.FRTexture.h"
+#include "Core.FRTexture2D.h"
 
 #include <EnumOpt.h>
 #include <FileConfig.h>
@@ -91,7 +91,7 @@ std::vector<FR::FRPropInfo> FR::FRShaderLoader::ParseProperty(const std::string&
 				switch (info.samplerType)
 				{
 				case FRMaterialWarp::ESamplerType::SAMPLER_2D:
-					info.data = std::make_any<FRTexture*>(nullptr);
+					info.data = std::make_any<FRTexture2D*>(nullptr);
 					break;
 				default:
 					break;

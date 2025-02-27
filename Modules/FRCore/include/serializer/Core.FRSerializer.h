@@ -11,7 +11,7 @@ namespace FR
 {
 	class FRModel;
 	class FRShader;
-	class FRTexture;
+	class FRTexture2D;
 	class FRMaterial;
 
 	class FRSerializer
@@ -31,7 +31,7 @@ namespace FR
 		static void SerializeQuat(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName, const glm::quat& pValue);
 		static void SerializeColor(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName, const Color& pValue);
 		static void SerializeModel(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName, FRModel* pValue);
-		static void SerializeTexture(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName, FRTexture* pValue);
+		static void SerializeTexture(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName, FRTexture2D* pValue);
 		static void SerializeShader(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName, FRShader* pValue);
 		static void SerializeMaterial(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName, FRMaterial* pValue);
 #pragma endregion
@@ -82,8 +82,8 @@ namespace FR
 		static void DeserializeMaterial(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName, FRMaterial*& pOut);
 		static FRMaterial* DeserializeMaterial(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName);
 
-		static void DeserializeTexture(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName, FRTexture*& pOut);
-		static FRTexture* DeserializeTexture(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName);
+		static void DeserializeTexture(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName, FRTexture2D*& pOut);
+		static FRTexture2D* DeserializeTexture(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName);
 #pragma endregion
 	};
 }

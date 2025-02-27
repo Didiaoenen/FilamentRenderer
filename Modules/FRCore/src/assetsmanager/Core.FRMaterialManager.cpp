@@ -10,7 +10,7 @@ FR::FRMaterial* FR::FRMaterialManager::CreateResource(const std::string& pPath)
 	std::string realPath = FRPathUtils::GetRealPath(pPath);
 	if (FRMaterial* material = FRMaterialLoader::Create(realPath))
 	{
-		*reinterpret_cast<std::string*>(reinterpret_cast<char*>(material) + offsetof(FRMaterial, path)) = pPath;
+		material->path = pPath;
 		return material;
 	}
 	return nullptr;

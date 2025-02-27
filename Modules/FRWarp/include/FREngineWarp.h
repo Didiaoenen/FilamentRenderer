@@ -27,6 +27,7 @@ namespace FR
 	class FRRenderTargetWarp;
 	class FRSkinningBufferWarp;
 	class FRIndirectLightWarp;
+	class FRMaterialInstanceWarp;
 
 	class FRLightManagerWarp;
 	class FRTransformManagerWarp;
@@ -96,6 +97,10 @@ namespace FR
 
 		void RegisterIndirectLight(FRIndirectLightWarp* pIndirectLight);
 
+		void RegisterMaterial(FRMaterialInstanceWarp* pMaterial);
+
+		void UnRegisterMaterial(FRMaterialInstanceWarp* pMaterial);
+
 		void SetPaused(bool pPaused);
 
 		bool IsPaused();
@@ -154,6 +159,8 @@ namespace FR
 		std::vector<FRSkinningBufferWarp*> mSkinningBuffers;
 
 		std::vector<FRIndirectLightWarp*> mIndirectLights;
+
+		std::vector<FRMaterialInstanceWarp*> mMaterials;
 
 	};
 }

@@ -8,8 +8,9 @@
 #include <Core.FRMesh.h>
 #include <Core.FRModel.h>
 #include <Core.FRShader.h>
-#include <Core.FRTexture.h>
 #include <Core.FRMaterial.h>
+#include <Core.FRTexture2D.h>
+#include <Core.FRRenderable.h>
 #include <Core.FRModelManager.h>
 #include <Core.FRShaderManager.h>
 #include <Core.FRTextureManager.h>
@@ -92,8 +93,8 @@ namespace FR
 		}
 
 	public:
-		FRImage image;
-		FRTexture* texture{ nullptr };
+		GUI::FRImage image;
+		FRTexture2D* texture{ nullptr };
 
 	};
 
@@ -226,10 +227,10 @@ namespace FR
 							ItemAddedEvent.Invoke(finalPath);
 
 							auto resourcesPath = GetService(FREditorActions).GetResourcePath(finalPath, protect);
-							if (FRMaterial* material = GetService(FRMaterialManager)[resourcesPath])
+							if (auto material = GetService(FRMaterialManager)[resourcesPath])
 							{
 								auto materialEditor = FRApplication::GuiHelper()->GetPanel<FRMaterialEditor>();
-								materialEditor->SetTarget(*material);
+								materialEditor->SetTarget(material);
 								materialEditor->Open();
 								materialEditor->Focus();
 							}
@@ -314,26 +315,26 @@ namespace FR
 						auto command = std::format("matc -E -p desktop -a opengl -o {0} {1}", splits[0] + ".filamat", filePath);
 						SystemExec::Exec(utils::Path(FRApplication::GetBinPath()) + command);
 
-						if (FRShader* shader = GetService(FRShaderManager)[resourcesPath])
+						if (auto shader = GetService(FRShaderManager)[resourcesPath])
 						{
-							auto materials = shader->GetRefMaterials();
+							auto reloadShader = GetService(FRShaderManager).CreateResource(resourcesPath);
 
-							FRShader* reloadShader = GetService(FRShaderManager).CreateResource(resourcesPath);
-							GetService(FRShaderManager).RegisterResource(resourcesPath, reloadShader);
-
-							if (materials.size() > 0)
+							if (auto materials = shader->GetRefMaterials(); materials.size() > 0)
 							{
 								for (const auto& material : materials)
 								{
-									//material->SetShader(reloadShader, false);
-									//for (auto& [_, mesh] : material->GetRefMeshs())
-									//{
-									//	mesh->SetMaterial(material);
-									//}
+									material->SetShader(reloadShader, false);
+									for (auto& [renderable, mesh] : material->GetRefMeshs())
+									{
+										renderable->SetMaterial(mesh, material);
+									}
 								}
 							}
 							
-							if (auto materialEditor = FRApplication::GuiHelper()->GetPanel<FRMaterialEditor>())
+							GetService(FRShaderManager).RegisterResource(resourcesPath, reloadShader);
+
+							auto& guiHelper = FRApplication::GuiHelper();
+							if (auto materialEditor = guiHelper->GetPanel<FRMaterialEditor>())
 							{
 								if (materialEditor->IsOpened())
 								{
@@ -378,7 +379,7 @@ namespace FR
 	};
 
 	class TextureMenu
-		: public PreviewableMenu<FRTexture, FRTextureManager>
+		: public PreviewableMenu<FRTexture2D, FRTextureManager>
 	{
 	public:
 		TextureMenu(const std::string& pFilePath, bool pProtect = false)
@@ -423,10 +424,10 @@ namespace FR
 			editAction.ClickedEvent += [this]
 				{
 					auto resourcesPath = GetService(FREditorActions).GetResourcePath(filePath, protect);
-					if (FRMaterial* material = GetService(FRMaterialManager)[resourcesPath])
+					if (auto material = GetService(FRMaterialManager)[resourcesPath])
 					{
 						auto materialEditor = FRApplication::GuiHelper()->GetPanel<FRMaterialEditor>();
-						materialEditor->SetTarget(*material);
+						materialEditor->SetTarget(material);
 						materialEditor->Open();
 						materialEditor->Focus();
 					}

@@ -17,7 +17,7 @@ namespace FR
 		: public FRAViewController
 	{
 	public:
-		using ViewableResource = std::variant<FRModel*, FRTexture*, FRMaterial*>;
+		using ViewableResource = std::variant<FRModel*, FRTexture2D*, FRMaterial*>;
 
 		FRAssetView(const std::string& pTitle, bool pOpened, const GUI::FRPanelWindowSettings& pSettings);
 
@@ -27,7 +27,7 @@ namespace FR
 
 		void ClearResource();
 
-		void SetTexture(FRTexture& pTexture);
+		void SetTexture(FRTexture2D& pTexture);
 
 		void SetModel(FRModel& pModel);
 

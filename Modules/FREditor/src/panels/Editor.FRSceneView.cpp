@@ -9,7 +9,7 @@
 #include <Core.FRActor.h>
 #include <Core.FRScene.h>
 #include <Core.FRCompTransform.h>
-#include <Core.FRCompModelRenderer.h>
+#include <Core.FRCompRendererable.h>
 #include <Core.FRSceneManager.h>
 
 #include <MathDefine.h>

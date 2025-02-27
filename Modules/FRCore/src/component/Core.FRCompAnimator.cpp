@@ -5,9 +5,10 @@
 #include "Core.FRMesh.h"
 #include "Core.FRActor.h"
 #include "Core.FRGuiDrawer.h"
-#include "Core.FRCompModelRenderer.h"
+#include "Core.FRCompRendererable.h"
 
 #include "Animation.h"
+#include "AnimationClip.h"
 #include "SkeletonRig.h"
 
 #include <Tools.FRPathUtils.h>
@@ -33,7 +34,7 @@ FR::FRComponent::EComponentType FR::FRCompAnimator::GetType()
 
 void FR::FRCompAnimator::OnStart()
 {
-	if (auto modelRenderer = owner.GetComponent<FRCompModelRenderer>())
+	if (auto modelRenderer = owner.GetComponent<FRCompRendererable>())
 	{
 		auto& renderable = modelRenderer->GetRenderable();
 		if (mSkeletonRig && mMotions[0])
@@ -50,7 +51,7 @@ void FR::FRCompAnimator::OnUpdate(float pDeltaTime)
 	{
 		mAnimator.Update(pDeltaTime);
 
-		if (auto modelRenderer = owner.GetComponent<FRCompModelRenderer>())
+		if (auto modelRenderer = owner.GetComponent<FRCompRendererable>())
 		{
 			auto& renderable = modelRenderer->GetRenderable();
 			ozz::vector<ozz::math::Float4x4> skinningMat;
@@ -105,7 +106,18 @@ void FR::FRCompAnimator::DataReceivedChangeCallback(std::string& pContext, std::
 	{
 		if (auto resource = GetService(FROzzAnimationManager).GetResource(pDataReceived.first))
 		{
-			mMotions[pIndex] = resource;
+			if (!mMotions[pIndex])
+			{
+				mMotions[pIndex] = new Animation(resource);
+			}
+			else
+			{
+				if (auto animtion = dynamic_cast<Animation*>(mMotions[pIndex]))
+				{
+					animtion->clip = resource;
+				}
+			}
+
 			pContext = pDataReceived.first;
 		}
 	}
@@ -121,4 +133,11 @@ void FR::FRCompAnimator::DataReceivedChangeCallback(std::string& pContext, std::
 
 FR::FRCompAnimator::~FRCompAnimator()
 {
+	for (auto& motion : mMotions)
+	{
+		if (motion)
+		{
+			delete motion; motion = nullptr;
+		}
+	}
 }

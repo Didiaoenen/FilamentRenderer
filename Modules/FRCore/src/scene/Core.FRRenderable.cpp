@@ -103,7 +103,7 @@ void FR::FRRenderable::SetMaterial(FRMesh* pMesh, FRMaterial* pMaterial)
 {
 	if (auto index = VectorIndexOf(mMeshes, pMesh); index != -1)
 	{
-		pMaterial->SetRefMesh(pMesh);
+		pMaterial->SetRefMesh(this, pMesh);
 		auto engine = FRFilamentHelper::GetEngine();
 		auto renderableManager = engine->GetRenderableManager();
 		auto renderIns = FRFilamentHelper::GetRenderableManager()->GetInstance(mEntities[index]);

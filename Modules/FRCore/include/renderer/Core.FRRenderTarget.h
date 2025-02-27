@@ -4,7 +4,7 @@
 
 namespace FR
 {
-	class FRTexture;
+	class FRTexture2D;
 	class FREngineWarp;
 
 	class FRRenderTarget
@@ -12,7 +12,7 @@ namespace FR
 	public:
 		FRRenderTarget();
 
-		FRRenderTarget(FRTexture* mColorTexture, FRTexture* mDepthTexture);
+		FRRenderTarget(FRTexture2D* mColorTexture, FRTexture2D* mDepthTexture);
 
 		FRRenderTargetWarp* NativePtr();
 

@@ -8,9 +8,9 @@
 FR::FRShader* FR::FRShaderManager::CreateResource(const std::string& pPath)
 {
 	std::string realPath = FRPathUtils::GetRealPath(pPath);
-	if (FRShader* shader = FRShaderLoader::Create(realPath))
+	if (auto shader = FRShaderLoader::Create(realPath))
 	{
-		*reinterpret_cast<std::string*>(reinterpret_cast<char*>(shader) + offsetof(FRShader, path)) = pPath;
+		shader->path = pPath;
 		return shader;
 	}
 	return nullptr;

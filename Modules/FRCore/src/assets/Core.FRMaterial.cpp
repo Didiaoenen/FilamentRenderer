@@ -2,7 +2,7 @@
 
 #include "Core.FRMesh.h"
 #include "Core.FRShader.h"
-#include "Core.FRTexture.h"
+#include "Core.FRTexture2D.h"
 #include "Core.FRGuiDrawer.h"
 #include "Core.FRSerializer.h"
 
@@ -23,8 +23,10 @@ void FR::FRMaterial::SetShader(FRShader* pShader, bool pClearProps)
 
 	if (mShader)
 	{
+		DestroyNativePtr();
+
 		mShader->SetRefMaterial(this);
-		mMaterial = mShader->NativePtr()->CreateInstance();
+		mMaterial = mShader->NativePtr()->CreateInstance(name);
 
 		if (pClearProps)
 		{
@@ -157,9 +159,9 @@ void FR::FRMaterial::UploadData() const
 			switch (prop.samplerType)
 			{
 			case FRMaterialWarp::ESamplerType::SAMPLER_2D:
-				if (prop.data.type() == typeid(FRTexture*))
+				if (prop.data.type() == typeid(FRTexture2D*))
 				{
-					if (auto tex = std::any_cast<FRTexture*>(prop.data))
+					if (auto tex = std::any_cast<FRTexture2D*>(prop.data))
 					{
 						mMaterial->SetParameter(prop.name.c_str(), tex->NativePtr(), tex->GetSampler());
 					}
@@ -269,9 +271,9 @@ void FR::FRMaterial::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode*
 				switch (prop.samplerType)
 				{
 				case FRMaterialWarp::ESamplerType::SAMPLER_2D:
-					if (prop.data.type() == typeid(FRTexture*))
+					if (prop.data.type() == typeid(FRTexture2D*))
 					{
-						FRSerializer::SerializeTexture(pDoc, property, "value", std::any_cast<FRTexture*>(prop.data));
+						FRSerializer::SerializeTexture(pDoc, property, "value", std::any_cast<FRTexture2D*>(prop.data));
 					}
 					break;
 				default:
@@ -306,9 +308,7 @@ void FR::FRMaterial::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNod
 			{
 				if (auto nameElement = property->FirstChildElement("name"))
 				{
-					auto propInfo = GetPropInfo(nameElement->GetText());
-
-					if (propInfo)
+					if (auto propInfo = GetPropInfo(nameElement->GetText()))
 					{
 						FRPropInfo& prop = *propInfo;
 
@@ -343,7 +343,7 @@ void FR::FRMaterial::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNod
 							switch (prop.samplerType)
 							{
 							case FRMaterialWarp::ESamplerType::SAMPLER_2D:
-								prop.data = std::any_cast<FRTexture*>(FRSerializer::DeserializeTexture(pDoc, property, "value"));
+								prop.data = std::any_cast<FRTexture2D*>(FRSerializer::DeserializeTexture(pDoc, property, "value"));
 								break;
 							default:
 								break;
@@ -361,18 +361,24 @@ FR::FRMaterialInstanceWarp* FR::FRMaterial::NativePtr()
 	return mMaterial;
 }
 
-std::map<uint64_t, FR::FRMesh*> FR::FRMaterial::GetRefMeshs()
+std::map<FR::FRRenderable*, FR::FRMesh*> FR::FRMaterial::GetRefMeshs()
 {
 	return mRefMeshs;
 }
 
-void FR::FRMaterial::SetRefMesh(FRMesh* pMesh)
+void FR::FRMaterial::SetRefMesh(FRRenderable* pRenderable, FRMesh* pMesh)
 {
-	mRefMeshs.emplace(pMesh->uUID, pMesh);
+	mRefMeshs.emplace(pRenderable, pMesh);
+}
+
+void FR::FRMaterial::DestroyNativePtr()
+{
+	FRFilamentHelper::GetEngine()->Destroy(mMaterial);
+	FRFilamentHelper::GetEngine()->UnRegisterMaterial(mMaterial);
+	delete mMaterial; mMaterial = nullptr;
 }
 
 FR::FRMaterial::~FRMaterial()
 {
-	FRFilamentHelper::GetEngine()->Destroy(mMaterial);
-	delete mMaterial; mMaterial = nullptr;
+	DestroyNativePtr();
 }

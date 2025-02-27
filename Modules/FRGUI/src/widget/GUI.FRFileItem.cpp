@@ -1,12 +1,11 @@
 #include "GUI.FRFileItem.h"
 #include "GUI.FRImage.h"
 #include "GUI.FRButton.h"
+#include <Core.FRTexture2D.h>
 #include <ImguiTextClipped.h>
 
-#include <Core.FRTexture.h>
-
 FR::GUI::FRFileItem::FRFileItem(const std::string& pName, glm::vec2 pSize,
-	bool pDirectory, int pScalePercent, FRTexture* pBackgroud, FRTexture* pThumbnail, FRTexture* pColorFrame)
+	bool pDirectory, int pScalePercent, FRTexture2D* pBackgroud, FRTexture2D* pThumbnail, FRTexture2D* pColorFrame)
 	: name(pName)
 	, directory(pDirectory)
 	, scalePercent(pScalePercent)

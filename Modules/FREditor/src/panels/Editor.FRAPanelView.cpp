@@ -5,7 +5,7 @@
 #include <Core.FRView.h>
 #include <Core.FRScene.h>
 #include <Core.FRCamera.h>
-#include <Core.FRTexture.h>
+#include <Core.FRTexture2D.h>
 #include <Core.FRRenderTarget.h>
 #include <Core.FRSceneRenderer.h>
 
@@ -31,7 +31,7 @@ FR::FRAPanelView::FRAPanelView(const std::string& pTitle, bool pOpened, const FR
 	{
 		InitRenderTarget(kViewSize);
 
-		mImage = &CreateWidget<FRImage>(mColorTexture, kViewSize);
+		mImage = &CreateWidget<GUI::FRImage>(mColorTexture, kViewSize);
 	}
 }
 
@@ -91,10 +91,10 @@ void FR::FRAPanelView::ResizeRenderTarget()
 
 void FR::FRAPanelView::InitRenderTarget(const glm::vec2& pSize)
 {
-	mColorTexture = mColorTextures[mRenderFrames % 2] = new FRTexture(
+	mColorTexture = mColorTextures[mRenderFrames % 2] = new FRTexture2D(
 		pSize.x, pSize.y, FRTextureWarp::EInternalFormat::RGBA8, FRTextureWarp::ESampler::SAMPLER_2D, { FRTextureWarp::EUsage::COLOR_ATTACHMENT, FRTextureWarp::EUsage::SAMPLEABLE });
 
-	mDepthTexture = mDepthTextures[mRenderFrames % 2] = new FRTexture(
+	mDepthTexture = mDepthTextures[mRenderFrames % 2] = new FRTexture2D(
 		pSize.x, pSize.y, FRTextureWarp::EInternalFormat::DEPTH24, FRTextureWarp::ESampler::SAMPLER_2D, { FRTextureWarp::EUsage::DEPTH_ATTACHMENT });
 
 	mRenderTarget = mRenderTargets[mRenderFrames % 2] = new FRRenderTarget(mColorTexture, mDepthTexture);

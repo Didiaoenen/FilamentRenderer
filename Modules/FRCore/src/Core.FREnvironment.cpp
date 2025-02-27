@@ -1,11 +1,11 @@
 #include "Core.FREnvironment.h"
-#include "Core.FRTexture.h"
+#include "Core.FRTexture2D.h"
 
 #include <FRSkyboxWarp.h>
 #include <FRIndirectLightWarp.h>
 #include <FRFilamentHelper.h>
 
-FR::FREnvironment::FREnvironment(FRTexture* pSkybox, FRTexture* pIBL)
+FR::FREnvironment::FREnvironment(FRTexture2D* pSkybox, FRTexture2D* pIBL)
 {
 	auto engine = FRFilamentHelper::GetEngine();
 

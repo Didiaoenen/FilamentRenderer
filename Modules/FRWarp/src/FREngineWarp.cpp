@@ -197,6 +197,16 @@ void FR::FREngineWarp::RegisterIndirectLight(FRIndirectLightWarp* pIndirectLight
 	mIndirectLights.emplace_back(pIndirectLight);
 }
 
+void FR::FREngineWarp::RegisterMaterial(FRMaterialInstanceWarp* pMaterial)
+{
+	mMaterials.emplace_back(pMaterial);
+}
+
+void FR::FREngineWarp::UnRegisterMaterial(FRMaterialInstanceWarp* pMaterial)
+{
+	mMaterials.erase(std::remove(mMaterials.begin(), mMaterials.end(), pMaterial), mMaterials.end());
+}
+
 void FR::FREngineWarp::SetPaused(bool pPaused)
 {
 	PtrValue(this)->setPaused(pPaused);

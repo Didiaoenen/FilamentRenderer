@@ -20,7 +20,7 @@ namespace FR
 
 		FRMaterial* GetTarget() const;
 		
-		void SetTarget(FRMaterial& pNewTarget);
+		void SetTarget(FRMaterial* pNewTarget);
 
 	private:
 		void OnShaderDropped();

@@ -1,4 +1,4 @@
-#include "Core.FRCompModelRenderer.h"
+#include "Core.FRCompRendererable.h"
 
 #include "Core.FRMesh.h"
 #include "Core.FRModel.h"
@@ -15,7 +15,7 @@
 
 using namespace FR::GUI;
 
-FR::FRCompModelRenderer::FRCompModelRenderer(FRActor& pOwner)
+FR::FRCompRendererable::FRCompRendererable(FRActor& pOwner)
 	: FRComponent(pOwner)
 	, mRenderable(&pOwner)
 {
@@ -31,7 +31,7 @@ FR::FRCompModelRenderer::FRCompModelRenderer(FRActor& pOwner)
 		};
 }
 
-void FR::FRCompModelRenderer::SetRenderable(FRModel* pModel)
+void FR::FRCompRendererable::SetRenderable(FRModel* pModel)
 {
 	mModelPath = pModel->path;
 
@@ -48,20 +48,20 @@ void FR::FRCompModelRenderer::SetRenderable(FRModel* pModel)
 	mModelChangedEvent.Invoke();
 }
 
-void FR::FRCompModelRenderer::FillMaterials(FRMaterial* pMaterial)
+void FR::FRCompRendererable::FillMaterials(FRMaterial* pMaterial)
 {
 	mRenderable.FillMaterials(pMaterial);
 }
 
-void FR::FRCompModelRenderer::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
+void FR::FRCompRendererable::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
 {
 }
 
-void FR::FRCompModelRenderer::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
+void FR::FRCompRendererable::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
 {
 }
 
-void FR::FRCompModelRenderer::OnInspector(GUI::FRWidgetContainer& pRoot)
+void FR::FRCompRendererable::OnInspector(GUI::FRWidgetContainer& pRoot)
 {
 	FRGuiDrawer::CreateTitle(pRoot, "Model").lineBreak = false;
 
@@ -135,19 +135,19 @@ void FR::FRCompModelRenderer::OnInspector(GUI::FRWidgetContainer& pRoot)
 	}
 }
 
-const std::string FR::FRCompModelRenderer::GetName()
+const std::string FR::FRCompRendererable::GetName()
 {
 	return ICON_MDI_GRID " Model Renderer";
 }
 
-FR::FRComponent::EComponentType FR::FRCompModelRenderer::GetType()
+FR::FRComponent::EComponentType FR::FRCompRendererable::GetType()
 {
 	return FRComponent::EComponentType::MODEL_RENDERER;
 }
 
-FR::FRRenderable& FR::FRCompModelRenderer::GetRenderable()
+FR::FRRenderable& FR::FRCompRendererable::GetRenderable()
 {
 	return mRenderable;
 }
 
-FR::FRCompModelRenderer::~FRCompModelRenderer() = default;
+FR::FRCompRendererable::~FRCompRendererable() = default;

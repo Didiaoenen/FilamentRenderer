@@ -1,11 +1,14 @@
 #include "FRMaterialInstanceWarp.h"
+#include "FREngineWarp.h"
 #include "FRTextureWarp.h"
 #include "FRMaterialWarp.h"
 #include "FRTextureSamplerWarp.h"
+#include "FRFilamentHelper.h"
 
 FR::FRMaterialInstanceWarp::FRMaterialInstanceWarp(FRMaterialWarp* pMaterial, const std::string& pName)
 {
 	mValue = FRPtrValue(PtrValue(pMaterial)->createInstance(pName.c_str()));
+	FRFilamentHelper::GetEngine()->RegisterMaterial(this);
 }
 
 void FR::FRMaterialInstanceWarp::SetScissor(uint32_t pLeft, uint32_t pBottom, uint32_t pWidth, uint32_t pHeight)

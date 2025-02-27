@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core.FRObject.h"
+#include "Core.FRAsset.h"
 #include "Core.FRShader.h"
 #include "Core.FRISerializable.h"
 #include <FRMaterialInstanceWarp.h>
@@ -13,9 +13,10 @@
 namespace FR
 {
 	class FRMesh;
+	class FRRenderable;
 
 	class FRMaterial
-		: public FRObject, public FRISerializable
+		: public FRAsset, public FRISerializable
 	{
 	public:
 		FRMaterial(FRShader* pShader = nullptr);
@@ -46,9 +47,9 @@ namespace FR
 
 		FRMaterialInstanceWarp* NativePtr();
 
-		std::map<uint64_t, FRMesh*> GetRefMeshs();
+		std::map<FRRenderable*, FRMesh*> GetRefMeshs();
 
-		void SetRefMesh(FRMesh* pMesh);
+		void SetRefMesh(FRRenderable* pRenderable, FRMesh* pMesh);
 
 		template<typename T>
 		const T& Get(const std::string pKey) const;
@@ -59,15 +60,16 @@ namespace FR
 		template<typename T>
 		void SetParameter(const std::string& pName, const T& pValue);
 
+	private:
+		void DestroyNativePtr();
+
 	public:
 		virtual ~FRMaterial();
 
-	public:
-		std::string path;
-
 	private:
-		FRShader* mShader{ nullptr };
 		FRMaterialInstanceWarp* mMaterial{ nullptr };
+
+		FRShader* mShader{ nullptr };
 
 		bool mBlendable{ false };
 		bool mDepthTest{ true };
@@ -78,7 +80,7 @@ namespace FR
 
 		std::vector<FRPropInfo> mPropInfos;
 
-		std::map<uint64_t, FRMesh*> mRefMeshs;
+		std::map<FRRenderable*, FRMesh*> mRefMeshs;
 
 	};
 }

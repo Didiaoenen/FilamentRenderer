@@ -4,7 +4,7 @@
 #include "Core.FRCompLight.h"
 #include "Core.FRCompCamera.h"
 #include "Core.FRCompTransform.h"
-#include "Core.FRCompModelRenderer.h"
+#include "Core.FRCompRendererable.h"
 #include "Core.FREngineDrawableDescriptor.h"
 
 #include "Core.FRMesh.h"
@@ -101,7 +101,7 @@ void FR::FRScene::CollectGarbages()
 		{
 			if (bool isGarbage = !pElement->IsAlive())
 			{
-				if (auto modelRenderer = pElement->GetComponent<FRCompModelRenderer>())
+				if (auto modelRenderer = pElement->GetComponent<FRCompRendererable>())
 				{
 					RemoveRenderable(&modelRenderer->GetRenderable());
 				}
@@ -217,7 +217,7 @@ void FR::FRScene::SetEnvironment(FREnvironment* pEnvironment)
 
 void FR::FRScene::OnComponentAdded(FRComponent* pCompononent)
 {
-	if (auto result = dynamic_cast<FRCompModelRenderer*>(pCompononent))
+	if (auto result = dynamic_cast<FRCompRendererable*>(pCompononent))
 	{
 		mFastAccessComponents.modelRenderers.push_back(result);
 	}
@@ -235,7 +235,7 @@ void FR::FRScene::OnComponentAdded(FRComponent* pCompononent)
 
 void FR::FRScene::OnComponentRemoved(FRComponent* pCompononent)
 {
-	if (auto result = dynamic_cast<FRCompModelRenderer*>(pCompononent))
+	if (auto result = dynamic_cast<FRCompRendererable*>(pCompononent))
 	{
 		mFastAccessComponents.modelRenderers.erase(
 			std::remove(mFastAccessComponents.modelRenderers.begin(), mFastAccessComponents.modelRenderers.end(), result),

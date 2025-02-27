@@ -5,7 +5,7 @@
 namespace FR
 {
 	class FRView;
-	class FRTexture;
+	class FRTexture2D;
 	class FRRendererWarp;
 	class FRSwapChainWarp;
 

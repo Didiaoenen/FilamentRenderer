@@ -7,11 +7,6 @@ void FR::FRModel::SetMesh(FRMesh* pMesh)
 	mMeshes.emplace_back(pMesh);
 }
 
-FR::SkeletonRig* FR::FRModel::GetSkeletonRig() const
-{
-	return mSkeletonRig;
-}
-
 const std::vector<FR::FRMesh*>& FR::FRModel::GetMeshes() const
 {
     return mMeshes;

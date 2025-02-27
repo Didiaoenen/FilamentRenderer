@@ -8,7 +8,7 @@
 #include <Core.FRCompAnimator.h>
 #include <Core.FRCompTransform.h>
 #include <Core.FRIInspectorItem.h>
-#include <Core.FRCompModelRenderer.h>
+#include <Core.FRCompRendererable.h>
 
 #include <Tools.FRServiceLocator.h>
 

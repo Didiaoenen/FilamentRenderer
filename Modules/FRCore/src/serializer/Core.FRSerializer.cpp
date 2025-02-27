@@ -2,8 +2,8 @@
 
 #include "Core.FRModel.h"
 #include "Core.FRShader.h"
-#include "Core.FRTexture.h"
 #include "Core.FRMaterial.h"
+#include "Core.FRTexture2D.h"
 #include "Core.FRModelManager.h"
 #include "Core.FRShaderManager.h"
 #include "Core.FRTextureManager.h"
@@ -163,7 +163,7 @@ void FR::FRSerializer::SerializeModel(tinyxml2::XMLDocument& pDoc, tinyxml2::XML
 	SerializeString(pDoc, pNode, pName.c_str(), pValue ? pValue->path : "?");
 }
 
-void FR::FRSerializer::SerializeTexture(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName, FRTexture* pValue)
+void FR::FRSerializer::SerializeTexture(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName, FRTexture2D* pValue)
 {
 	SerializeString(pDoc, pNode, pName.c_str(), pValue ? pValue->path : "?");
 }
@@ -491,7 +491,7 @@ FR::FRMaterial* FR::FRSerializer::DeserializeMaterial(tinyxml2::XMLDocument& pDo
 	return result;
 }
 
-void FR::FRSerializer::DeserializeTexture(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName, FRTexture*& pOut)
+void FR::FRSerializer::DeserializeTexture(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName, FRTexture2D*& pOut)
 {
 	if (std::string path = DeserializeString(pDoc, pNode, pName.c_str()); path != "?" && path != "")
 	{
@@ -503,9 +503,9 @@ void FR::FRSerializer::DeserializeTexture(tinyxml2::XMLDocument& pDoc, tinyxml2:
 	}
 }
 
-FR::FRTexture* FR::FRSerializer::DeserializeTexture(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName)
+FR::FRTexture2D* FR::FRSerializer::DeserializeTexture(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode, const std::string& pName)
 {
-	FRTexture* result;
+	FRTexture2D* result;
 	DeserializeTexture(pDoc, pNode, pName, result);
 	return result;
 }

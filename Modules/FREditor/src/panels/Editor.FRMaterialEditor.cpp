@@ -97,7 +97,7 @@ void FR::FRMaterialEditor::Refresh()
 {
 	if (mTarget)
 	{
-		SetTarget(*mTarget);
+		SetTarget(mTarget);
 	}
 }
 
@@ -106,9 +106,9 @@ FR::FRMaterial* FR::FRMaterialEditor::GetTarget() const
 	return mTarget;
 }
 
-void FR::FRMaterialEditor::SetTarget(FRMaterial& pNewTarget)
+void FR::FRMaterialEditor::SetTarget(FRMaterial* pNewTarget)
 {
-	mTarget = &pNewTarget;
+	mTarget = pNewTarget;
 	mMaterialText->SetText(mTarget->path);
 	OnMaterialDropped();
 }
@@ -234,7 +234,7 @@ void FR::FRMaterialEditor::GenerateShaderSettingsContent()
 			switch (prop.samplerType)
 			{
 			case FRMaterialWarp::ESamplerType::SAMPLER_2D:
-				FRGuiDrawer::DrawTexture(*mShaderSettingsColumns, prop.name, reinterpret_cast<FRTexture*&>(prop.data));
+				FRGuiDrawer::DrawTexture(*mShaderSettingsColumns, prop.name, reinterpret_cast<FRTexture2D*&>(prop.data));
 				break;
 			default:
 				break;

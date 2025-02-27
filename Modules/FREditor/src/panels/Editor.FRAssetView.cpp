@@ -25,7 +25,7 @@ void FR::FRAssetView::ClearResource()
 
 }
 
-void FR::FRAssetView::SetTexture(FRTexture& pTexture)
+void FR::FRAssetView::SetTexture(FRTexture2D& pTexture)
 {
 
 }

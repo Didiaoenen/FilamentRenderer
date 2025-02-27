@@ -7,7 +7,7 @@ namespace FR
 {
 	class FRModel;
 	class FRShader;
-	class FRTexture;
+	class FRTexture2D;
 	class FRMaterial;
 
 	class FREditorResources
@@ -15,7 +15,7 @@ namespace FR
 	public:
 		FREditorResources();
 
-		FRTexture* GetTexture(const std::string& pID);
+		FRTexture2D* GetTexture(const std::string& pID);
 
 		FRShader* GetShader(const std::string& pID);
 
@@ -33,7 +33,7 @@ namespace FR
 
 		std::unordered_map<std::string, FRShader*> mShaders;
 
-		std::unordered_map<std::string, FRTexture*> mTextures;
+		std::unordered_map<std::string, FRTexture2D*> mTextures;
 
 	};
 }

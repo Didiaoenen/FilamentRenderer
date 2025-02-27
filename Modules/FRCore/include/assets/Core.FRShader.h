@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core.FRObject.h"
+#include "Core.FRAsset.h"
 #include <FRMaterialWarp.h>
 
 #include <any>
@@ -10,7 +10,6 @@
 namespace FR
 {
 	class FRMaterial;
-	class FRMaterialInstanceWarp;
 
 	struct FRPropInfo
 	{
@@ -23,7 +22,7 @@ namespace FR
 	};
 
 	class FRShader
-		: public FRObject
+		: public FRAsset
 	{
 		friend class FRShaderLoader;
 
@@ -40,14 +39,14 @@ namespace FR
 		virtual ~FRShader();
 
 	public:
-		std::string path;
 		std::vector<uint8_t> data;
+
 		std::vector<FRPropInfo> propInfos;
 
 	private:
 		FRMaterialWarp* mShader{ nullptr };
 		
-		std::vector<FRMaterial*> mRefMaterials{ nullptr };
+		std::vector<FRMaterial*> mRefMaterials;
 
 	};
 }

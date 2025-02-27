@@ -41,7 +41,7 @@ FR::FREditorResources::FREditorResources()
 	mTextures["Skybox"] = GetService(FRKtxManager)[":IBL/lightroom_14b/lightroom_14b_skybox.ktx"];
 }
 
-FR::FRTexture* FR::FREditorResources::GetTexture(const std::string& pID)
+FR::FRTexture2D* FR::FREditorResources::GetTexture(const std::string& pID)
 {
 	if (mTextures.find(pID) != mTextures.end())
 	{

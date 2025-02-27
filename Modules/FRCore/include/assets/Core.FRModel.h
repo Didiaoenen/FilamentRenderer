@@ -29,8 +29,6 @@ namespace FR
 
 		void SetMesh(FRMesh* pMesh);
 
-		SkeletonRig* GetSkeletonRig() const;
-
 		const std::vector<FRMesh*>& GetMeshes() const;
 
 		const std::vector<std::string>& GetMaterialNames() const;
@@ -40,11 +38,11 @@ namespace FR
 
 	private:
 		std::vector<FRMesh*> mMeshes;
+
 		std::vector<std::string> mMaterialNames;
 
-		SkeletonRig* mSkeletonRig{ nullptr };
-
 		glm::mat4 mTransformData = glm::mat4(1.0f);
+
 		glm::mat4 mAccTransformData = glm::mat4(1.0f);
 
 	};

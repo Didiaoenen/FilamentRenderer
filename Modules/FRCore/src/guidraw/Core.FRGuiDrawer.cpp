@@ -2,8 +2,8 @@
 
 #include "Core.FRModel.h"
 #include "Core.FRShader.h"
-#include "Core.FRTexture.h"
 #include "Core.FRMaterial.h"
+#include "Core.FRTexture2D.h"
 #include "Core.FRModelManager.h"
 #include "Core.FRShaderManager.h"
 #include "Core.FRTextureManager.h"
@@ -20,7 +20,7 @@ namespace
 
 namespace FR
 {
-	FRTexture* FRGuiDrawer::__EMPTY_TEXTURE = nullptr;
+	FRTexture2D* FRGuiDrawer::__EMPTY_TEXTURE = nullptr;
 	const float FRGuiDrawer::_MIN_FLOAT = -999999999.f;
 	const float FRGuiDrawer::_MAX_FLOAT = +999999999.f;
 	const Color FRGuiDrawer::TitleColor = { 0.85f, 0.65f, 0.0f };
@@ -309,7 +309,7 @@ FR::GUI::FRItemSelect& FR::FRGuiDrawer::DrawMaterial(FRWidgetContainer& pRoot, c
 	return widget;
 }
 
-FR::GUI::FRTextureView& FR::FRGuiDrawer::DrawTexture(FRWidgetContainer& pRoot, const std::string& pName, FRTexture*& pData, FREvent<>* pUpdateNotifier)
+FR::GUI::FRTextureView& FR::FRGuiDrawer::DrawTexture(FRWidgetContainer& pRoot, const std::string& pName, FRTexture2D*& pData, FREvent<>* pUpdateNotifier)
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRTextureView>(glm::vec2{ 75, 75 }, pData ? pData : __EMPTY_TEXTURE);
@@ -420,12 +420,12 @@ void FR::FRGuiDrawer::DrawSpace(GUI::FRWidgetContainer& pRoot, int pSpace)
 	}
 }
 
-void FR::FRGuiDrawer::ProvideEmptyTexture(FRTexture* pEmptyTexture)
+void FR::FRGuiDrawer::ProvideEmptyTexture(FRTexture2D* pEmptyTexture)
 {
 	__EMPTY_TEXTURE = pEmptyTexture;
 }
 
-FR::FRTexture* FR::FRGuiDrawer::GetEmptyTexture()
+FR::FRTexture2D* FR::FRGuiDrawer::GetEmptyTexture()
 {
 	return __EMPTY_TEXTURE;
 }

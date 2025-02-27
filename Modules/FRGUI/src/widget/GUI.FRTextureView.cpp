@@ -1,8 +1,8 @@
 #include "GUI.FRTextureView.h"
 
-#include <Core.FRTexture.h>
+#include <Core.FRTexture2D.h>
 
-FR::GUI::FRTextureView::FRTextureView(const glm::vec2& pSize, FRTexture* pBackgroud)
+FR::GUI::FRTextureView::FRTextureView(const glm::vec2& pSize, FRTexture2D* pBackgroud)
 	: backgroud(pBackgroud)
 {
 	size = pSize;
@@ -13,7 +13,7 @@ void FR::GUI::FRTextureView::SetClickedEvent(std::function<void()> pEvent)
 	mClickedEvent += [pEvent] { pEvent(); };
 }
 
-void FR::GUI::FRTextureView::SetTexture(FRTexture* pBackgroud)
+void FR::GUI::FRTextureView::SetTexture(FRTexture2D* pBackgroud)
 {
 	backgroud = pBackgroud;
 }

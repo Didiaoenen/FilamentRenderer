@@ -4,7 +4,7 @@
 
 namespace FR
 {
-	class FRTexture;
+	class FRTexture2D;
 }
 
 namespace FR::GUI
@@ -13,16 +13,16 @@ namespace FR::GUI
         : public FRAWidget
     {
     public:
-        FRTextureView(const glm::vec2& pSize, FRTexture* pBackgroud);
+        FRTextureView(const glm::vec2& pSize, FRTexture2D* pBackgroud);
 
         void SetClickedEvent(std::function<void()> pEvent);
 
-        void SetTexture(FRTexture* pBackgroud);
+        void SetTexture(FRTexture2D* pBackgroud);
 
         void _Draw_Impl() override;
 
     private:
-		FRTexture* backgroud{ nullptr };
+		FRTexture2D* backgroud{ nullptr };
 
         FREvent<> mClickedEvent;
     };

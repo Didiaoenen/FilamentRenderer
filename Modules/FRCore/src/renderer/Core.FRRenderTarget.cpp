@@ -1,6 +1,6 @@
 #include "Core.FRRenderTarget.h"
 
-#include "Core.FRTexture.h"
+#include "Core.FRTexture2D.h"
 
 #include <FREngineWarp.h>
 #include <FRFilamentHelper.h>
@@ -10,7 +10,7 @@ FR::FRRenderTarget::FRRenderTarget()
 {
 }
 
-FR::FRRenderTarget::FRRenderTarget(FRTexture* mColorTexture, FRTexture* mDepthTexture)
+FR::FRRenderTarget::FRRenderTarget(FRTexture2D* mColorTexture, FRTexture2D* mDepthTexture)
 {
 	auto engine = FRFilamentHelper::GetEngine();
 	mRenderTarget = FRRenderTargetWarp::Builder()

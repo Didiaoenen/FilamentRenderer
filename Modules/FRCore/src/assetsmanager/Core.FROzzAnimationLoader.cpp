@@ -1,24 +1,24 @@
 #include "Core.FROzzAnimationLoader.h"
 
-#include "Animation.h"
+#include "AnimationClip.h"
 
 #include <ozz/base/io/archive.h>
 #include <ozz/animation/runtime/animation.h>
 
-FR::Animation* FR::FROzzAnimationLoader::Create(const std::string& pFilePath)
+FR::AnimationClip* FR::FROzzAnimationLoader::Create(const std::string& pFilePath)
 {
 	ozz::animation::Animation animation;
 	LoadAnimation(pFilePath, animation);
-	return new Animation(animation);
+	return new AnimationClip(std::move(animation));
 }
 
-void FR::FROzzAnimationLoader::Reload(Animation& pAniamtin, const std::string& pFilePath)
+void FR::FROzzAnimationLoader::Reload(AnimationClip& pAniamtin, const std::string& pFilePath)
 {
 }
 
-void FR::FROzzAnimationLoader::Destroy(Animation*& pAniamtin)
+void FR::FROzzAnimationLoader::Destroy(AnimationClip*& pAniamtinClip)
 {
-	delete pAniamtin; pAniamtin = nullptr;
+	delete pAniamtinClip; pAniamtinClip = nullptr;
 }
 
 bool FR::FROzzAnimationLoader::LoadAnimation(const std::string& pFileName, ozz::animation::Animation& pAnimation)

@@ -2,14 +2,14 @@
 
 namespace FR
 {
-    class FRTexture;
+    class FRTexture2D;
     class FRSkyboxWarp;
     class FRIndirectLightWarp;
 
     class FREnvironment
     {
     public:
-        FREnvironment(FRTexture* pSkybox, FRTexture* pIBL);
+        FREnvironment(FRTexture2D* pSkybox, FRTexture2D* pIBL);
 
         FRSkyboxWarp* GetSkybox();
 

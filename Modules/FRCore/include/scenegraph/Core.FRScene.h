@@ -17,7 +17,7 @@ namespace FR
 	class FRCompLight;
 	class FRCompCamera;
 	class FREnvironment;
-	class FRCompModelRenderer;
+	class FRCompRendererable;
 
 	class FRScene
 		: public FRISerializable
@@ -27,7 +27,7 @@ namespace FR
 		{
 			std::vector<FRCompLight*> lights;
 			std::vector<FRCompCamera*> cameras;
-			std::vector<FRCompModelRenderer*> modelRenderers;
+			std::vector<FRCompRendererable*> modelRenderers;
 		};
 
 		FRScene();

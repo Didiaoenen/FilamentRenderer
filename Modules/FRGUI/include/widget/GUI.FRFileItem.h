@@ -4,7 +4,7 @@
 
 namespace FR
 {
-	class FRTexture;
+	class FRTexture2D;
 }
 
 namespace FR::GUI
@@ -14,7 +14,7 @@ namespace FR::GUI
 	{
 	public:
 		FRFileItem(const std::string& pName, glm::vec2 pSize, bool pDirectory,
-			int pScalePercent, FRTexture* pBackgroud, FRTexture* pThumbnail, FRTexture* pColorFrame);
+			int pScalePercent, FRTexture2D* pBackgroud, FRTexture2D* pThumbnail, FRTexture2D* pColorFrame);
 
 		void _Draw_Impl() override;
 
@@ -22,9 +22,9 @@ namespace FR::GUI
 		std::string name;
 		int scalePercent{ 50 };
 		bool directory{ false };
-		FRTexture* backgroud{ nullptr };
-		FRTexture* thumbnail{ nullptr };
-		FRTexture* colorFrame{ nullptr };
+		FRTexture2D* backgroud{ nullptr };
+		FRTexture2D* thumbnail{ nullptr };
+		FRTexture2D* colorFrame{ nullptr };
 
 		FREvent<> ClickedEvent;
 		FREvent<> DoubleClickedEvent;

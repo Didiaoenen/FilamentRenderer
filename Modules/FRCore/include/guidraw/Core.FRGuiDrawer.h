@@ -35,7 +35,7 @@ namespace FR
 {
 	class FRModel;
 	class FRShader;
-	class FRTexture;
+	class FRTexture2D;
 	class FRMaterial;
 	class Animation;
 
@@ -92,7 +92,7 @@ namespace FR
 		static GUI::FRItemSelect& DrawMesh(GUI::FRWidgetContainer& pRoot, const std::string& pName, FRModel*& pData, FREvent<>* pUpdateNotifier = nullptr);
 		static GUI::FRItemSelect& DrawShader(GUI::FRWidgetContainer& pRoot, const std::string& pName, FRShader*& pData, FREvent<>* pUpdateNotifier = nullptr);
 		static GUI::FRItemSelect& DrawMaterial(GUI::FRWidgetContainer& pRoot, const std::string& pName, FRMaterial*& pData, FREvent<>* pUpdateNotifier = nullptr);
-		static GUI::FRTextureView& DrawTexture(GUI::FRWidgetContainer& pRoot, const std::string& pName, FRTexture*& pData, FREvent<>* pUpdateNotifier = nullptr);
+		static GUI::FRTextureView& DrawTexture(GUI::FRWidgetContainer& pRoot, const std::string& pName, FRTexture2D*& pData, FREvent<>* pUpdateNotifier = nullptr);
 		
 		static GUI::FRText& DrawAsset(GUI::FRWidgetContainer& pRoot, const std::string& pName, std::string& pData, FREvent<>* pUpdateNotifier = nullptr);
 		
@@ -100,9 +100,9 @@ namespace FR
 		
 		static void DrawSpace(GUI::FRWidgetContainer& pRoot, int pSpace);
 
-		static void ProvideEmptyTexture(FRTexture* pEmptyTexture);
+		static void ProvideEmptyTexture(FRTexture2D* pEmptyTexture);
 
-		static FRTexture* GetEmptyTexture();
+		static FRTexture2D* GetEmptyTexture();
 
 	public:
 		static const Color TitleColor;
@@ -112,7 +112,7 @@ namespace FR
 		static const float _MAX_FLOAT;
 
 	private:
-		static FRTexture* __EMPTY_TEXTURE;
+		static FRTexture2D* __EMPTY_TEXTURE;
 
 	};
 }

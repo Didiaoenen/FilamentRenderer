@@ -13,7 +13,7 @@
 #include <Core.FRScene.h>
 #include <Core.FRSceneManager.h>
 #include <Core.FRCompTransform.h>
-#include <Core.FRCompModelRenderer.h>
+#include <Core.FRCompRendererable.h>
 
 #include <Window.h>
 #include <MessageBox.h>
@@ -147,7 +147,7 @@ FR::FRActor* FR::FREditorActions::CreateActorWithModel(const std::string& pPath,
 {
 	auto actor = CreateEmptyActor(false, pParent, pName);
 
-	auto modelRenderer = actor->AddComponent<FRCompModelRenderer>();
+	auto modelRenderer = actor->AddComponent<FRCompRendererable>();
 
 	const auto model = GetService(FRModelManager)[pPath];
 	const auto material = GetService(FRMaterialManager)[":Materials/Default.mat"];

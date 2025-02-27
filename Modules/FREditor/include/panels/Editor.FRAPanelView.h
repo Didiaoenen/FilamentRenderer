@@ -14,7 +14,7 @@ namespace FR
 	class FRActor;
 	class FRScene;
 	class FRCamera;
-	class FRTexture;
+	class FRTexture2D;
 	class FRARenderer;
 	class FRRenderTarget;
 
@@ -54,11 +54,11 @@ namespace FR
 
 		FRActor* mSelectActor{ nullptr };
 
-		FRTexture* mColorTexture{ nullptr };
-		FRTexture* mDepthTexture{ nullptr };
+		FRTexture2D* mColorTexture{ nullptr };
+		FRTexture2D* mDepthTexture{ nullptr };
 		FRRenderTarget* mRenderTarget{ nullptr };
-		std::array<FRTexture*, 2> mColorTextures{ nullptr };
-		std::array<FRTexture*, 2> mDepthTextures{ nullptr };
+		std::array<FRTexture2D*, 2> mColorTextures{ nullptr };
+		std::array<FRTexture2D*, 2> mDepthTextures{ nullptr };
 		std::array<FRRenderTarget*, 2> mRenderTargets{ nullptr };
 
 	};

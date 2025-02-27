@@ -8,13 +8,14 @@
 
 namespace FR
 {
+	class AnimationClip;
 	class AnimationMask;
 
 	class Animation
 		: public AMotion
 	{
 	public:
-		Animation(ozz::animation::Animation& pAnimation);
+		Animation(AnimationClip* pClip);
 
 		virtual bool InitData(SkeletonRig* pSkeletonRig) override;
 
@@ -22,9 +23,9 @@ namespace FR
 
 		virtual bool Sample(float pDeltaTime) override;
 	
-		float GetDurtion();
-
 		void SetTimeRatio(float pTime);
+	
+		float GetDurtion();
 
 		float GetTimeRatio();
 
@@ -34,9 +35,6 @@ namespace FR
 
 	public:
 		virtual ~Animation();
-
-	private:
-		ozz::animation::Animation mAnimation;
 
 	public:
 		bool play{ true };
@@ -48,6 +46,8 @@ namespace FR
 		float weight{ 1.0f };
 
 		float playbackSpeed{ 1.0f };
+
+		AnimationClip* clip{ nullptr };
 
 		AnimationMask* mask{ nullptr };
 

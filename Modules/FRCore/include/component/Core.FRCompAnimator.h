@@ -7,6 +7,7 @@
 namespace FR
 {
 	class SkeletonRig;
+	class FRAnimationClip;
 
 	class FRCompAnimator
 		: public FRComponent

@@ -137,7 +137,7 @@ void FR::FRCompRendererable::OnInspector(GUI::FRWidgetContainer& pRoot)
 
 const std::string FR::FRCompRendererable::GetName()
 {
-	return ICON_MDI_GRID " Model Renderer";
+	return ICON_MDI_GRID " Rendererable";
 }
 
 FR::FRComponent::EComponentType FR::FRCompRendererable::GetType()

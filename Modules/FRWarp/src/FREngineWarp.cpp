@@ -207,6 +207,11 @@ void FR::FREngineWarp::UnRegisterMaterial(FRMaterialInstanceWarp* pMaterial)
 	mMaterials.erase(std::remove(mMaterials.begin(), mMaterials.end(), pMaterial), mMaterials.end());
 }
 
+void FR::FREngineWarp::RegisterFRKtx1Bundle(FRKtx1BundleWarp* pKtx1Bundle)
+{
+	mKtx1Bundle.emplace_back(pKtx1Bundle);
+}
+
 void FR::FREngineWarp::SetPaused(bool pPaused)
 {
 	PtrValue(this)->setPaused(pPaused);

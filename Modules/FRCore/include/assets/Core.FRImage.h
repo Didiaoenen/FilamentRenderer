@@ -10,8 +10,10 @@ namespace FR
     public:
         FRImage() = default;
 
+        FRImage(uint8_t* pData, uint32_t pSize, uint32_t pWidth, uint32_t pHeight);
+
     public:
-        virtual ~FRImage() = default;
+        virtual ~FRImage();
 
     public:
         uint8_t* data{ nullptr };

@@ -15,7 +15,7 @@ namespace FR
 
 		static FRTexture2D* CreatePixel(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
-		static FRTexture2D* CreateFromMemory(uint8_t* pData, uint32_t pWidth, uint32_t pHeight,
+		static FRTexture2D* CreateFromMemory(uint8_t* pData, uint32_t pSize, uint32_t pWidth, uint32_t pHeight,
 			FRTextureSamplerWarp::EMinFilter pFirstFilter, FRTextureSamplerWarp::EMagFilter pSecondFilter, bool pGenerateMipmap);
 
 		static void Reload(FRTexture2D* pTexture, const std::string& pFilePath,

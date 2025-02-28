@@ -28,6 +28,7 @@ namespace FR
 	class FRSkinningBufferWarp;
 	class FRIndirectLightWarp;
 	class FRMaterialInstanceWarp;
+	class FRKtx1BundleWarp;
 
 	class FRLightManagerWarp;
 	class FRTransformManagerWarp;
@@ -101,6 +102,8 @@ namespace FR
 
 		void UnRegisterMaterial(FRMaterialInstanceWarp* pMaterial);
 
+		void RegisterFRKtx1Bundle(FRKtx1BundleWarp* pKtx1Bundle);
+
 		void SetPaused(bool pPaused);
 
 		bool IsPaused();
@@ -161,6 +164,8 @@ namespace FR
 		std::vector<FRIndirectLightWarp*> mIndirectLights;
 
 		std::vector<FRMaterialInstanceWarp*> mMaterials;
+
+		std::vector<FRKtx1BundleWarp*> mKtx1Bundle;
 
 	};
 }

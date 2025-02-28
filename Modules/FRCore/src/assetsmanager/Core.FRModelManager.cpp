@@ -26,7 +26,7 @@ FR::FRModel* FR::FRModelManager::CreateResource(const std::string& pPath)
 
 	if (model)
 	{
-		*reinterpret_cast<std::string*>(reinterpret_cast<char*>(model) + offsetof(FRModel, path)) = pPath;
+		model->path = pPath;
 	}
 	return model;
 }

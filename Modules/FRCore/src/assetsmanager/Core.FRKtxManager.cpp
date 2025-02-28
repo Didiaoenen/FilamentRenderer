@@ -11,17 +11,18 @@ FR::FRTexture2D* FR::FRKtxManager::CreateResource(const std::string& pPath)
 	std::string realPath = FRPathUtils::GetRealPath(pPath);
 	if (FRKtx1BundleWarp* ktxBundle = FRKtxLoader::Create(realPath))
 	{
-		FRTexture2D* texture = new FRTexture2D(new FRTextureWarp(FRFilamentHelper::GetEngine(), ktxBundle, false));
-		*reinterpret_cast<std::string*>(reinterpret_cast<char*>(texture) + offsetof(FRTexture2D, path)) = pPath;
+		auto engine = FRFilamentHelper::GetEngine();
+		FRTexture2D* texture = new FRTexture2D(new FRTextureWarp(engine, ktxBundle, false));
+		texture->path = pPath;
 		return texture;
 	}
     return nullptr;
 }
 
-void FR::FRKtxManager::DestroyResource(FRTexture2D* pResource)
+void FR::FRKtxManager::ReloadResource(FRTexture2D* pResource, const std::string& pPath)
 {
 }
 
-void FR::FRKtxManager::ReloadResource(FRTexture2D* pResource, const std::string& pPath)
+void FR::FRKtxManager::DestroyResource(FRTexture2D* pResource)
 {
 }

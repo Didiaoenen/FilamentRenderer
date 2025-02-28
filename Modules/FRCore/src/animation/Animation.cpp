@@ -67,7 +67,7 @@ void FR::Animation::SetTimeRatio(float pTime)
 	}
 	else
 	{
-		mTimeRatio = ozz::math::Clamp(pTime, 0.0f, 1.0f);
+		mTimeRatio = ozz::math::Clamp(0.0f, pTime, 1.0f);
 	}
 }
 

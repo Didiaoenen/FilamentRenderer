@@ -12,9 +12,9 @@ namespace FR
 	public:
 		virtual FRTexture2D* CreateResource(const std::string& pPath) override;
 
-		virtual void DestroyResource(FRTexture2D* pResource) override;
-
 		virtual void ReloadResource(FRTexture2D* pResource, const std::string& pPath) override;
+
+		virtual void DestroyResource(FRTexture2D* pResource) override;
 
 	};
 }

@@ -8,10 +8,10 @@
 FR::FRTexture2D* FR::FRTextureManager::CreateResource(const std::string& pPath)
 {
     std::string realPath = FRPathUtils::GetRealPath(pPath);
-	if (FRTexture2D* texture = FRTextureLoader::Create(realPath,
+	if (auto texture = FRTextureLoader::Create(realPath,
 		FRTextureSamplerWarp::EMinFilter::LINEAR_MIPMAP_LINEAR, FRTextureSamplerWarp::EMagFilter::LINEAR, false))
 	{
-		*reinterpret_cast<std::string*>(reinterpret_cast<char*>(texture) + offsetof(FRTexture2D, path)) = pPath;
+		texture->path = pPath;
 		return texture;
 	}
 	return nullptr;

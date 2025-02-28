@@ -24,7 +24,7 @@ namespace FR
 		FRMesh() = default;
 
 	public:
-		virtual ~FRMesh() = default;
+		virtual ~FRMesh();
 
 	public:
 		std::vector<FRVertex> vertexs;

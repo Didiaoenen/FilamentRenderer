@@ -32,6 +32,8 @@ namespace FR
 
 		void InitSampler();
 
+		void SetImage(FRImage* pImage);
+
 		void SetData(uint8_t* pData, uint32_t pSize);
 
 		FRTextureSamplerWarp& GetSampler();

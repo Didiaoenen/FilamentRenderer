@@ -91,12 +91,17 @@ namespace FR
 
 		void GenerateMipmaps(FREngineWarp* pEngine);
 
+		FRKtx1BundleWarp* GetKtxBundle();
+
 		size_t GetWidth();
 
 		size_t GetHeight();
 
 	public:
 		virtual ~FRTextureWarp();
+
+	private:
+		FRKtx1BundleWarp* mKtx1Bundle{ nullptr };
 
 	};
 }

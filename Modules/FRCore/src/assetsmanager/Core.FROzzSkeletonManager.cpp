@@ -7,9 +7,9 @@
 FR::SkeletonRig* FR::FROzzSkeletonManager::CreateResource(const std::string& pPath)
 {
 	std::string realPath = FRPathUtils::GetRealPath(pPath);
-	if (SkeletonRig* skeleton = FROzzSkeletonLoader::Create(realPath))
+	if (auto skeleton = FROzzSkeletonLoader::Create(realPath))
 	{
-		*reinterpret_cast<std::string*>(reinterpret_cast<char*>(skeleton) + offsetof(SkeletonRig, path)) = pPath;
+		skeleton->path = pPath;
 		return skeleton;
 	}
 	return nullptr;

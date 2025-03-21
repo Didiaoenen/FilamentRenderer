@@ -4,7 +4,7 @@ a learning project
 
 Build Request
 
-1. install vcpkg
+1. install vcpkg (vcpkg install glm tracy)
 
 2. imgui-docking (Extern/DearImgui)[change imguiconfig.h enable #define IMGUI_USE_WCHAR32 and add #define ImTextureID void*]
 

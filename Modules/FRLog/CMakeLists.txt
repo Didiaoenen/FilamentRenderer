@@ -8,8 +8,7 @@ set(HDR_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 file(GLOB_RECURSE HDRS ${HDR_DIR}/*.h ${HDR_DIR}/*.inl)
-
-file(GLOB SRCS ${SRC_DIR}/*.cpp)
+file(GLOB_RECURSE SRCS ${SRC_DIR}/*.cpp)
 
 add_library(${TARGET} STATIC ${HDRS} ${SRCS})
 

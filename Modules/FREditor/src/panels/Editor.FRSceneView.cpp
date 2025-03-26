@@ -1,10 +1,10 @@
 #include "Editor.FRSceneView.h"
 
-#include "Editor.FRInput.h"
 #include "Editor.FRApplication.h"
 #include "Editor.FREditorActions.h"
 
 #include <Core.FRMesh.h>
+#include <Core.FRInput.h>
 #include <Core.FRModel.h>
 #include <Core.FRActor.h>
 #include <Core.FRScene.h>

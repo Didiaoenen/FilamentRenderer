@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Editor.FRInput.h"
 #include "Editor.FRImGuiHelper.h"
 #include "Editor.FREditorResources.h"
 
+#include <Core.FRInput.h>
 #include <Core.FRKtxManager.h>
 #include <Core.FRModelManager.h>
 #include <Core.FRSceneRenderer.h>

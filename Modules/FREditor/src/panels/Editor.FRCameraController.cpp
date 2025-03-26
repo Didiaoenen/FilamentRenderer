@@ -1,7 +1,6 @@
 #include "Editor.FRCameraController.h"
 
-#include "Editor.FRInput.h"
-
+#include <Core.FRInput.h>
 #include <Core.FRActor.h>
 #include <Core.FRCompTransform.h>
 

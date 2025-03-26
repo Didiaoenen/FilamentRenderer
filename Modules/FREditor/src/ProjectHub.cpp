@@ -5,7 +5,6 @@
 #include "OpenFileDialog.h"
 #include "SaveFileDialog.h"
 
-#include "Editor.FRInput.h"
 #include "Editor.FRImGuiHelper.h"
 
 #include <GUI.FRText.h>
@@ -15,6 +14,7 @@
 #include <GUI.FRInputText.h>
 #include <GUI.FRPanelWindow.h>
 
+#include <Core.FRInput.h>
 #include <Core.FRGuiDrawer.h>
 
 #include <Color.h>

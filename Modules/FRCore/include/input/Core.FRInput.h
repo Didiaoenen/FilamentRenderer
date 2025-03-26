@@ -1,11 +1,12 @@
 #pragma once
 
-#include <array>
-#include <glm/glm.hpp>
+
+#include "EKeyCode.h"
 #include <SDL_events.h>
 #include <Tools.FRMessage.h>
 
-#include "EKeyCode.h"
+#include <array>
+#include <glm/glm.hpp>
 
 namespace FR
 {

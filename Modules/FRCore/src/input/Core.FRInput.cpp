@@ -1,5 +1,4 @@
-#include "Editor.FRInput.h"
-#include "Window.h"
+#include "Core.FRInput.h"
 
 namespace FR
 {

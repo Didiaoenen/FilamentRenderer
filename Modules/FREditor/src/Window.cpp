@@ -1,6 +1,6 @@
 #include "Window.h"
 
-#include "Editor.FRInput.h"
+#include <Core.FRInput.h>
 
 #include <SDL.h>
 #include <SDL_syswm.h>

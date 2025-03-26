@@ -1,8 +1,8 @@
 #include "Editor.FRAPanelView.h"
 
-#include "Editor.FRInput.h"
 
 #include <Core.FRView.h>
+#include <Core.FRInput.h>
 #include <Core.FRScene.h>
 #include <Core.FRCamera.h>
 #include <Core.FRTexture2D.h>

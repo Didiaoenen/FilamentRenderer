@@ -16,9 +16,9 @@ namespace FR
     public:
         AnimationClip(ozz::animation::Animation&& pAnimation);
 
-        float GetDurtion();
+        float GetDuration();
 
-        const std::string& GetName();
+        const std::string GetName();
 
         ozz::animation::Animation& NativePtr();
 

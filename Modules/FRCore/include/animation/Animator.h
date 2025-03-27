@@ -19,6 +19,8 @@ namespace FR
 
 		bool Update(float pDeltaTime);
 
+		SkeletonRig* GetSkeletonRig() const;
+
 		void SetSkeletonRig(SkeletonRig* pSkeletonRig);
 
 		void Play(AMotion* pMotion, float pTime = 0.0f);
@@ -31,15 +33,15 @@ namespace FR
 
 		ozz::math::Float4x4 GetJointWorldMatNoScale(uint32_t index) const;
 
+		bool Sample(const ozz::vector<ozz::math::SoaTransform>& pInputTrans);
+
 		bool AnimationIK();
 
 	public:
 		virtual ~Animator();
 
 	private:
-		AMotion* mMotion{ nullptr };
-
-		SkeletonRig* mSkeletonRig{ nullptr };
+		SkeletonRig* mSkeleton{ nullptr };
 
 		ozz::math::Float4x4 mRootTrans{ ozz::math::Float4x4::identity() };
 
@@ -47,11 +49,11 @@ namespace FR
 
 		ozz::vector<ozz::math::Float4x4> mJointWorldMats;
 
+		ozz::span<ozz::math::Float3> mJointScales{};
+		
 		ozz::math::Float4 mJointColor{};
 
 		ozz::math::Float4 mBoneColor{};
-
-		ozz::span<ozz::math::Float3> mJointScales{};
 
 	};
 }

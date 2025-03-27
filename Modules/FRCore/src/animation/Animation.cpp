@@ -15,6 +15,8 @@ bool FR::Animation::InitData(SkeletonRig* pSeketonRig)
 {
 	mSkeletonRig = pSeketonRig;
 
+	mContext.Resize(mSkeletonRig->GetNumJoints());
+
 	mLocalTrans.resize(mSkeletonRig->GetNumSoaJoints());
 
 	return true;
@@ -26,7 +28,7 @@ bool FR::Animation::Update(float pDeltaTime)
 
 	if (play)
 	{
-		newTime = mTimeRatio + pDeltaTime * (playbackSpeed / GetDurtion());
+		newTime = mTimeRatio + pDeltaTime * (playbackSpeed / GetDuration());
 	}
 
 	SetTimeRatio(newTime);
@@ -36,8 +38,6 @@ bool FR::Animation::Update(float pDeltaTime)
 
 bool FR::Animation::Sample(float pDeltaTime)
 {
-	mContext.Resize(mSkeletonRig->GetNumJoints());
-
 	ozz::animation::SamplingJob samplingJob;
 	samplingJob.animation = &clip->NativePtr();
 	samplingJob.context = &mContext;
@@ -53,11 +53,6 @@ bool FR::Animation::Sample(float pDeltaTime)
 	return true;
 }
 
-float FR::Animation::GetDurtion()
-{
-	return clip->GetDurtion();
-}
-
 void FR::Animation::SetTimeRatio(float pTime)
 {
 	mPreviousTimeRatio = mTimeRatio;
@@ -68,12 +63,21 @@ void FR::Animation::SetTimeRatio(float pTime)
 	else
 	{
 		mTimeRatio = ozz::math::Clamp(0.0f, pTime, 1.0f);
+		if (mTimeRatio >= 1.0f)
+		{
+			weight = 0.0f;
+		}
 	}
 }
 
 float FR::Animation::GetTimeRatio()
 {
 	return mTimeRatio;
+}
+
+float FR::Animation::GetDuration()
+{
+	return clip->GetDuration();
 }
 
 float FR::Animation::GetPreviousTimeRatio()

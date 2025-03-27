@@ -24,7 +24,7 @@ namespace FR
 		static void Destroy(AnimationClip*& pAniamtin);
 
 	private:
-		static bool LoadAnimation(const std::string& pFileName, ozz::animation::Animation& pAnimation);
+		static bool LoadAnimation(const std::string& pFilePath, ozz::animation::Animation& pAnimation);
 
 	};
 }

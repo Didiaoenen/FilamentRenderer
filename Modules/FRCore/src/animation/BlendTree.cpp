@@ -5,25 +5,31 @@
 
 #include <Log.FRLogger.h>
 
-FR::BlendTree::BlendTree(ozz::vector<Animation*> pClips)
+FR::BlendTree::BlendTree()
 {
-	mClips = std::move(pClips);
 
-	for (uint32_t i = 0; i < mClips.size(); i++)
+}
+
+void FR::BlendTree::AddMotion(AMotion* pMotion)
+{
+	if (mMotions.size() > 1)
 	{
-		if (mClips[i]->additive)
-		{
-			mNumAdditiveClips++;
-		}
+		mMotions.pop_back();
+	}
+	mMotions.emplace_back(pMotion);
 
-		if (mClips[i]->GetDurtion() > mDuration)
-		{
-			mLongestClipIndex = i;
-			mDuration = mClips[i]->GetDurtion();
-		}
+	if (pMotion->additive)
+	{
+		mNumAdditiveClips++;
 	}
 
-	mLayers.resize(mClips.size() - mNumAdditiveClips);
+	if (pMotion->GetDuration() > mDuration)
+	{
+		mLongestClipIndex = mMotions.size() - 1;
+		mDuration = pMotion->GetDuration();
+	}
+
+	mLayers.resize(mMotions.size() - mNumAdditiveClips);
 	mAdditiveLayers.resize(mNumAdditiveClips);
 }
 
@@ -31,9 +37,9 @@ bool FR::BlendTree::InitData(SkeletonRig* pSkeletonRig)
 {
 	mSkeletonRig = pSkeletonRig;
 
-	for (const auto& clip : mClips)
+	for (const auto& motion : mMotions)
 	{
-		clip->InitData(pSkeletonRig);
+		motion->InitData(pSkeletonRig);
 	}
 
 	mLocalTrans.resize(mSkeletonRig->GetNumSoaJoints());
@@ -43,10 +49,28 @@ bool FR::BlendTree::InitData(SkeletonRig* pSkeletonRig)
 
 bool FR::BlendTree::Update(float pDeltaTime)
 {
-	for (const auto& clip : mClips)
+	auto step = 1 / (5 / pDeltaTime);
+
+	for (const auto& motion : mMotions)
 	{
-		clip->Update(pDeltaTime);
+		motion->Update(pDeltaTime);
+
+		if (mMotions.size() > 1)
+		{
+			if (motion == mMotions[0])
+			{
+				mMotions[0]->weight = ozz::math::Clamp(0.0f, mMotions[0]->weight -= step, 1.0f);
+			}
+			else
+			{
+				mMotions[1]->weight = ozz::math::Clamp(0.0f, mMotions[1]->weight += step, 1.0f);
+			}
+		}
 	}
+
+	//auto step = 1 / (0.1 / (1 / pDeltaTime));
+	//mMotions[0]->weight = ozz::math::Clamp(0.0f, mMotions[0]->weight -= step, 1.0f);
+	//mMotions[1]->weight = ozz::math::Clamp(0.0f, mMotions[1]->weight += step, 1.0f);
 
 	return true;
 }
@@ -58,18 +82,21 @@ bool FR::BlendTree::Sample(float pDeltaTime)
 		UpdateBlendParameters();
 	}
 
-	for (const auto& clip : mClips)
+	for (const auto& motion : mMotions)
 	{
-		if (clip->weight > 0.0f)
+		if (motion->weight > 0.0f)
 		{
-			if (!clip->Sample(pDeltaTime))
+			if (!motion->Sample(pDeltaTime))
 			{
 				return false;
 			}
 		}
 	}
 
-	mTimeRatio = mClips[mLongestClipIndex]->GetTimeRatio();
+	if (mMotions.size() > 0 && mMotions[mLongestClipIndex])
+	{
+		mTimeRatio = mMotions[mLongestClipIndex]->GetTimeRatio();
+	}
 
 	return Blend();
 }
@@ -78,10 +105,15 @@ void FR::BlendTree::SetTimeRatio(float pTimeRatio)
 {
 	mTimeRatio = pTimeRatio;
 
-	for (const auto& clip : mClips)
+	for (const auto& motion : mMotions)
 	{
-		clip->SetTimeRatio(pTimeRatio * mDuration);
+		motion->SetTimeRatio(pTimeRatio * mDuration);
 	}
+}
+
+float FR::BlendTree::GetTimeRatio()
+{
+	return mTimeRatio;
 }
 
 float FR::BlendTree::GetDuration()
@@ -95,44 +127,44 @@ void FR::BlendTree::UpdateBlendParameters()
 
 	if (blendType == EBlendType::EQUAL)
 	{
-		for (uint32_t i = 0; i < mClips.size(); i++)
+		for (uint32_t i = 0; i < mMotions.size(); i++)
 		{
-			mClips[i]->weight = 1.f / mClips.size();
+			mMotions[i]->weight = 1.f / mMotions.size();
 		}
 	}
 	else if (blendType == EBlendType::CROSS_DISSOLVE)
 	{
-		const float numIntervals = (float)mClips.size() - 1;
+		const float numIntervals = (float)mMotions.size() - 1;
 		const float interval = 1.f / numIntervals;
-		for (uint32_t i = 0; i < mClips.size(); i++)
+		for (uint32_t i = 0; i < mMotions.size(); i++)
 		{
 			const float med = i * interval;
 			const float x = blendRatio - med;
 			const float y = ((x < 0.f ? x : -x) + interval) * numIntervals;
 
-			mClips[i]->weight = std::max(0.f, y);
+			mMotions[i]->weight = std::max(0.f, y);
 		}
 	}
 	else if (blendType == EBlendType::CROSS_DISSOLVE_SYNC)
 	{
-		const float numIntervals = (float)mClips.size() - 1;
+		const float numIntervals = (float)mMotions.size() - 1;
 		const float interval = 1.f / numIntervals;
-		for (uint32_t i = 0; i < mClips.size(); i++)
+		for (uint32_t i = 0; i < mMotions.size(); i++)
 		{
 			const float med = i * interval;
 			const float x = blendRatio - med;
 			const float y = ((x < 0.f ? x : -x) + interval) * numIntervals;
 
-			mClips[i]->weight = std::max(0.f, y);
+			mMotions[i]->weight = std::max(0.f, y);
 		}
 
-		const uint32_t relevantClip = static_cast<uint32_t>((blendRatio - 1e-3f) * (mClips.size() - 1));
-		const float loopDuration = mClips[relevantClip]->GetDurtion() * mClips[relevantClip]->weight + mClips[relevantClip + 1]->GetDurtion() * mClips[relevantClip + 1]->weight;
+		const uint32_t relevantClip = static_cast<uint32_t>((blendRatio - 1e-3f) * (mMotions.size() - 1));
+		const float loopDuration = mMotions[relevantClip]->GetDuration() * mMotions[relevantClip]->weight + mMotions[relevantClip + 1]->GetDuration() * mMotions[relevantClip + 1]->weight;
 
 		const float invLoopDuration = 1.f / loopDuration;
-		for (uint32_t i = 0; i < mClips.size(); i++)
+		for (uint32_t i = 0; i < mMotions.size(); i++)
 		{
-			mClips[i]->playbackSpeed = mClips[i]->GetDurtion() * invLoopDuration;
+			mMotions[i]->playbackSpeed = mMotions[i]->GetDuration() * invLoopDuration;
 		}
 	}
 }
@@ -140,16 +172,16 @@ void FR::BlendTree::UpdateBlendParameters()
 bool FR::BlendTree::Blend()
 {
 	uint32_t additiveIndex = 0;
-	for (uint32_t i = 0; i < mClips.size(); i++)
+	for (uint32_t i = 0; i < mMotions.size(); i++)
 	{
-		if (mClips[i]->additive)
+		if (mMotions[i]->additive)
 		{
-			mAdditiveLayers[additiveIndex].transform = make_span(mClips[i]->GetLocalTrans());
-			mAdditiveLayers[additiveIndex].weight = mClips[i]->weight;
+			mAdditiveLayers[additiveIndex].transform = make_span(mMotions[i]->GetLocalTrans());
+			mAdditiveLayers[additiveIndex].weight = mMotions[i]->weight;
 
-			if (mClips[i]->mask)
+			if (mMotions[i]->mask)
 			{
-				mAdditiveLayers[additiveIndex].joint_weights = make_span(mClips[i]->mask->GetJointWeights());
+				mAdditiveLayers[additiveIndex].joint_weights = make_span(mMotions[i]->mask->GetJointWeights());
 			}
 			else
 			{
@@ -160,12 +192,12 @@ bool FR::BlendTree::Blend()
 		}
 		else
 		{
-			mLayers[i].transform = make_span(mClips[i]->GetLocalTrans());
-			mLayers[i].weight = mClips[i]->weight;
+			mLayers[i].transform = make_span(mMotions[i]->GetLocalTrans());
+			mLayers[i].weight = mMotions[i]->weight;
 
-			if (mClips[i]->mask)
+			if (mMotions[i]->mask)
 			{
-				mLayers[i].joint_weights = make_span(mClips[i]->mask->GetJointWeights());
+				mLayers[i].joint_weights = make_span(mMotions[i]->mask->GetJointWeights());
 			}
 			else
 			{

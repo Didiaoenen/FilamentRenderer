@@ -5,7 +5,9 @@
 #include <Core.FRActor.h>
 #include <Core.FRGuiDrawer.h>
 #include <Core.FRCompCamera.h>
+#include <Core.FRCompAniTest.h>
 #include <Core.FRCompAnimator.h>
+#include <Core.FRCompAnimancer.h>
 #include <Core.FRCompTransform.h>
 #include <Core.FRIInspectorItem.h>
 #include <Core.FRCompRendererable.h>
@@ -55,8 +57,14 @@ FR::FRInspector::FRInspector(const std::string& pTitle, bool pOpened, const FRPa
 
 		addComponentPopup->CreateWidget<FRSeparator>();
 
+		auto aniTest = &addComponentPopup->CreateWidget<FRMenuItem>("AniTest");
+		aniTest->ClickedEvent += [this] { GetTargetActor()->AddComponent<FRCompAniTest>(); };
+
 		auto animator = &addComponentPopup->CreateWidget<FRMenuItem>("Animator");
 		animator->ClickedEvent += [this] { GetTargetActor()->AddComponent<FRCompAnimator>(); };
+
+		auto animancer = &addComponentPopup->CreateWidget<FRMenuItem>("Animancer");
+		animancer->ClickedEvent += [this] { GetTargetActor()->AddComponent<FRCompAnimancer>(); };
 	}
 
 	mAddComponentWidget->ClickedEvent += [addComponentPopup] { addComponentPopup->OpenPopup(); };

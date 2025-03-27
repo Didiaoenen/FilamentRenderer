@@ -6,6 +6,10 @@
 #include "Core.FRCompCamera.h"
 #include "Core.FRCompTransform.h"
 
+#include "Tools.FRTimer.h"
+
+#include "PlayableGraphManager.h"
+
 FR::FRSceneManager::FRSceneManager()
 {
 	//LoadEmptyScene();
@@ -18,6 +22,8 @@ void FR::FRSceneManager::Update()
 		mDelayedLoadCall();
 		mDelayedLoadCall = 0;
 	}
+
+	PlayableGraphManager::Instance()->Update(FRTimer::GetDeltaTimeSec());
 }
 
 void FR::FRSceneManager::LoadAndPlayDelayed(const std::string& pPath, bool pAbsolute)

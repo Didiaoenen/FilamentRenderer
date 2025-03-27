@@ -20,8 +20,8 @@ namespace FR
 			if (IsActive())
 			{
 				component->OnAwake();
-				component->OnStart();
-				component->OnEnable();
+				//component->OnStart();
+				//component->OnEnable();
 			}
 
 			return component;

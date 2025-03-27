@@ -2,6 +2,9 @@
 #include "BlendTree.h"
 #include "SkeletonRig.h"
 
+#include "Animation.h"
+#include "AnimancerPlayable.h"
+
 #include <ozz/animation/runtime/local_to_model_job.h>
 
 FR::Animator::Animator()
@@ -10,40 +13,22 @@ FR::Animator::Animator()
 
 bool FR::Animator::Update(float pDeltaTime)
 {
-	if (mMotion)
-	{
-		mMotion->Update(pDeltaTime);
-
-		if (!mMotion->Sample(pDeltaTime))
-		{
-			return false;
-		}
-
-		auto localTrans = mMotion->GetLocalTrans();
-		ozz::animation::LocalToModelJob ltmJob;
-		ltmJob.skeleton = &mSkeletonRig->GetSkeleton();
-		ltmJob.input = make_span(localTrans);
-		ltmJob.output = make_span(mJointModelMats);
-
-		if (!ltmJob.Run())
-		{
-			return false;
-		}
-
-		ComputePose(mRootTrans);
-	}
-
 	return true;
+}
+
+FR::SkeletonRig* FR::Animator::GetSkeletonRig() const
+{
+	return mSkeleton;
 }
 
 void FR::Animator::SetSkeletonRig(SkeletonRig* pSkeletonRig)
 {
-	mSkeletonRig = pSkeletonRig;
+	mSkeleton = pSkeletonRig;
 
 	mJointModelMats.resize(pSkeletonRig->GetNumJoints());
 	mJointWorldMats.resize(pSkeletonRig->GetNumJoints());
 
-	for (uint32_t i = 0; i < mSkeletonRig->GetNumJoints(); i++)
+	for (uint32_t i = 0; i < mSkeleton->GetNumJoints(); i++)
 	{
 		mJointModelMats[i] = ozz::math::Float4x4::identity();
 		mJointWorldMats[i] = ozz::math::Float4x4::identity();
@@ -52,15 +37,11 @@ void FR::Animator::SetSkeletonRig(SkeletonRig* pSkeletonRig)
 
 void FR::Animator::Play(AMotion* pMotion, float pTime)
 {
-	mMotion = pMotion;
-	mMotion->InitData(mSkeletonRig);
-
-	ComputeBindPose(mRootTrans);
 }
 
 void FR::Animator::ComputePose(const ozz::math::Float4x4& pRootTrans)
 {
-	for (uint32_t i = 0; i < mSkeletonRig->GetNumJoints(); i++)
+	for (uint32_t i = 0; i < mSkeleton->GetNumJoints(); i++)
 	{
 		mJointWorldMats[i] = pRootTrans * mJointModelMats[i];
 	}
@@ -69,8 +50,8 @@ void FR::Animator::ComputePose(const ozz::math::Float4x4& pRootTrans)
 void FR::Animator::ComputeBindPose(const ozz::math::Float4x4& pRootTrans)
 {
 	ozz::animation::LocalToModelJob ltmJob;
-	ltmJob.skeleton = &mSkeletonRig->GetSkeleton();
-	ltmJob.input = mSkeletonRig->GetJointsRestPoses();
+	ltmJob.skeleton = &mSkeleton->GetSkeleton();
+	ltmJob.input = mSkeleton->GetJointsRestPoses();
 	ltmJob.output = make_span(mJointModelMats);
 
 	if (ltmJob.Run())
@@ -85,7 +66,27 @@ void FR::Animator::ComputeJointScales(const ozz::math::Float4x4& pRootTrans)
 
 ozz::math::Float4x4 FR::Animator::GetJointWorldMatNoScale(uint32_t index) const
 {
-	return mJointWorldMats[index + mSkeletonRig->rootIndex];
+	return mJointWorldMats[index + mSkeleton->rootIndex];
+}
+
+bool FR::Animator::Sample(const ozz::vector<ozz::math::SoaTransform>& pInputTrans)
+{
+	if (mSkeleton)
+	{
+		ozz::animation::LocalToModelJob ltmJob;
+		ltmJob.input = make_span(pInputTrans);
+		ltmJob.output = make_span(mJointModelMats);
+		ltmJob.skeleton = &mSkeleton->GetSkeleton();
+
+		if (!ltmJob.Run())
+		{
+			return false;
+		}
+
+		ComputePose(mRootTrans);
+	}
+
+	return true;
 }
 
 bool FR::Animator::AnimationIK()

@@ -8,6 +8,7 @@
 namespace FR
 {
 	class SkeletonRig;
+	class AnimationMask;
 
 	class AMotion
 		: public FRObject
@@ -21,7 +22,16 @@ namespace FR
 
 		virtual bool Sample(float pDeltaTime) = 0;
 
-		ozz::vector<ozz::math::SoaTransform> GetLocalTrans() { return mLocalTrans; }
+		virtual void SetTimeRatio(float pTime) = 0;
+
+		virtual float GetTimeRatio() = 0;
+
+		virtual float GetDuration() = 0;
+
+		ozz::vector<ozz::math::SoaTransform>& GetLocalTrans()
+		{
+			return mLocalTrans;
+		}
 
 	public:
 		virtual ~AMotion() {}
@@ -29,10 +39,20 @@ namespace FR
 	public:
 		std::string path;
 
+		float weight{ 1.f };
+
+		bool additive{ false };
+
+		float playbackSpeed{ 1.f };
+
+		AnimationMask* mask{ nullptr };
+
 	protected:
 		SkeletonRig* mSkeletonRig{ nullptr };
 
 		ozz::vector<ozz::math::SoaTransform> mLocalTrans;
+
+		float mTimeRatio{ 0.f };
 
 	};
 }

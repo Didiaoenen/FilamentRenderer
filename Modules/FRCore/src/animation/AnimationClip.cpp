@@ -5,14 +5,14 @@ FR::AnimationClip::AnimationClip(ozz::animation::Animation&& pAnimation)
 {
 }
 
-float FR::AnimationClip::GetDurtion()
+float FR::AnimationClip::GetDuration()
 {
 	return mAnimation.duration();
 }
 
-const std::string& FR::AnimationClip::GetName()
+const std::string FR::AnimationClip::GetName()
 {
-	return mAnimation.name();
+	return std::string(mAnimation.name());
 }
 
 ozz::animation::Animation& FR::AnimationClip::NativePtr()

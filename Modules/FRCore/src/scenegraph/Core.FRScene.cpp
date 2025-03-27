@@ -32,7 +32,7 @@ void FR::FRScene::Playing()
 {
 	playing = true;
 
-	std::for_each(mActors.begin(), mActors.end(), [](FRActor* pElement) { if (pElement->IsActive()) pElement->OnAwake(); });
+	//std::for_each(mActors.begin(), mActors.end(), [](FRActor* pElement) { if (pElement->IsActive()) pElement->OnAwake(); });
 	std::for_each(mActors.begin(), mActors.end(), [](FRActor* pElement) { if (pElement->IsActive()) pElement->OnStart(); });
 	std::for_each(mActors.begin(), mActors.end(), [](FRActor* pElement) { if (pElement->IsActive()) pElement->OnEnable(); });
 }
@@ -70,8 +70,8 @@ FR::FRActor* FR::FRScene::CreateActor(const std::string& pName, const std::strin
 		if (actor->IsActive())
 		{
 			actor->OnAwake();
-			actor->OnStart();
-			actor->OnEnable();
+			//actor->OnStart();
+			//actor->OnEnable();
 		}
 	}
 

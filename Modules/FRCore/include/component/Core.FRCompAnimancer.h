@@ -1,19 +1,19 @@
 #pragma once
 
-#include "AMotion.h"
-#include "Animator.h"
 #include "Core.FRComponent.h"
+
+#include "AnimancerPlayable.h"
 
 namespace FR
 {
-	class SkeletonRig;
-	class FRAnimationClip;
+	class AnimationClip;
+	class AnimancerState;
 
-	class FRCompAnimator
-		: public FRComponent
-	{
-	public:
-		FRCompAnimator(FRActor& pOwner);
+    class FRCompAnimancer
+        : public FRComponent
+    {
+    public:
+        FRCompAnimancer(FRActor& pOwner);
 
 		virtual void OnStart() override;
 
@@ -29,21 +29,15 @@ namespace FR
 
 		virtual EComponentType GetType() override;
 
-		Animator& GetAnimator();
+		AnimancerState* Play(AnimationClip* pClip);
 
-	private:
-		void DataReceivedChangeCallback(std::string& pContext, std::pair<std::string, GUI::FRGroup*> pDataReceived, int pIndex);
+		AnimancerState* Play(AnimationClip* pClip, float pFadeDuration);
 
 	public:
-		virtual ~FRCompAnimator();
+		virtual ~FRCompAnimancer();
 
 	private:
-		Animator mAnimator;
+		AnimancerPlayable mPlayable;
 
-		std::vector<AMotion*> mMotions;
-
-		SkeletonRig* mSkeletonRig{ nullptr };
-
-	};
+    };
 }
-

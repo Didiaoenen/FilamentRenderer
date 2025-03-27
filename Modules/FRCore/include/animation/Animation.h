@@ -23,11 +23,11 @@ namespace FR
 
 		virtual bool Sample(float pDeltaTime) override;
 	
-		void SetTimeRatio(float pTime);
-	
-		float GetDurtion();
+		virtual void SetTimeRatio(float pTime) override;
 
-		float GetTimeRatio();
+		virtual float GetTimeRatio() override;
+
+		virtual float GetDuration() override;
 
 		float GetPreviousTimeRatio();
 
@@ -41,19 +41,11 @@ namespace FR
 
 		bool loop{ true };
 
-		bool additive{ false };
-
 		float weight{ 1.0f };
-
-		float playbackSpeed{ 1.0f };
 
 		AnimationClip* clip{ nullptr };
 
-		AnimationMask* mask{ nullptr };
-
 	private:
-		float mTimeRatio{ 0.0f };
-
 		float mPreviousTimeRatio{ 1.0f };
 
 		ozz::animation::SamplingJob::Context mContext;

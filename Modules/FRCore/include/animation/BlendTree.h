@@ -14,8 +14,6 @@ namespace FR
 	class BlendTree
 		: public AMotion
 	{
-		const uint32_t MAX_NUM_CLIPS = 0xF;
-
 	public:
 
 		enum class EBlendType
@@ -26,7 +24,9 @@ namespace FR
 			MANUAL
 		};
 
-		BlendTree(ozz::vector<Animation*> pClips);
+		BlendTree();
+
+		void AddMotion(AMotion* pMotion);
 
 		virtual bool InitData(SkeletonRig* pSkeletonRig) override;
 
@@ -34,9 +34,11 @@ namespace FR
 
 		virtual bool Sample(float pDeltaTime) override;
 
-		void SetTimeRatio(float pTimeRatio);
+		virtual void SetTimeRatio(float pTimeRatio);
 
-		float GetDuration();
+		virtual float GetTimeRatio() override;
+
+		virtual float GetDuration() override;
 
 	private:
 		void UpdateBlendParameters();
@@ -51,14 +53,12 @@ namespace FR
 
 		float blendRatio{ 0.5f };
 		
-		float playbackSpeed{ 1.0f };
-
 		bool autoSetBlendParams{ true };
 
-		EBlendType blendType{ EBlendType::EQUAL };
+		EBlendType blendType{ EBlendType::MANUAL };
 
 	private:
-		ozz::vector<Animation*> mClips;
+		ozz::vector<AMotion*> mMotions;
 
 		ozz::vector<ozz::animation::BlendingJob::Layer> mLayers;
 
@@ -67,8 +67,6 @@ namespace FR
 		uint32_t mNumAdditiveClips{ 0 };
 
 		uint32_t mLongestClipIndex{ 0 };
-
-		float mTimeRatio{ 0.0f };
 
 		float mDuration{ 0.0f };
 

@@ -16,10 +16,12 @@
 
 using namespace FR::GUI;
 
+int i = 0;
+
 FR::FRCompAnimator::FRCompAnimator(FRActor& pOwner)
 	: FRComponent(pOwner)
 {
-	mMotions.resize(1);
+	//mMotions.resize(1);
 }
 
 const std::string FR::FRCompAnimator::GetName()
@@ -32,14 +34,19 @@ FR::FRComponent::EComponentType FR::FRCompAnimator::GetType()
 	return FRComponent::EComponentType::ANIMATOR;
 }
 
+FR::Animator& FR::FRCompAnimator::GetAnimator()
+{
+	return mAnimator;
+}
+
 void FR::FRCompAnimator::OnStart()
 {
 	if (auto modelRenderer = owner.GetComponent<FRCompRendererable>())
 	{
-		auto& renderable = modelRenderer->GetRenderable();
-		if (mSkeletonRig && mMotions[0])
+		mAnimator.SetSkeletonRig(mSkeletonRig);
+
+		if (mMotions.size() > 0 && mMotions[0])
 		{
-			mAnimator.SetSkeletonRig(mSkeletonRig);
 			mAnimator.Play(mMotions[0]);
 		}
 	}
@@ -92,11 +99,14 @@ void FR::FRCompAnimator::OnInspector(FRWidgetContainer& pRoot)
 
 	FRGuiDrawer::DrawItemSelect(pRoot, mSkeletonRig ? mSkeletonRig->path : "", FRItemSelect::EItemType::SKELETON, this, &FRCompAnimator::DataReceivedChangeCallback, 0);
 
-	FRGuiDrawer::CreateTitle(pRoot, "Animation");
-
-	for (int i = 0; i < mMotions.size(); i++)
+	if (mMotions.size() > 0)
 	{
-		FRGuiDrawer::DrawItemSelect(pRoot, mMotions[i] ? mMotions[i]->path : "", FRItemSelect::EItemType::ANIMATION, this, &FRCompAnimator::DataReceivedChangeCallback, i);
+		FRGuiDrawer::CreateTitle(pRoot, "Animation");
+
+		for (int i = 0; i < mMotions.size(); i++)
+		{
+			FRGuiDrawer::DrawItemSelect(pRoot, mMotions[i] ? mMotions[i]->path : "", FRItemSelect::EItemType::ANIMATION, this, &FRCompAnimator::DataReceivedChangeCallback, i);
+		}
 	}
 }
 

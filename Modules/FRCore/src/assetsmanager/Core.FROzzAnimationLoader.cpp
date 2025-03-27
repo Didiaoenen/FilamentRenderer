@@ -21,9 +21,9 @@ void FR::FROzzAnimationLoader::Destroy(AnimationClip*& pAniamtinClip)
 	delete pAniamtinClip; pAniamtinClip = nullptr;
 }
 
-bool FR::FROzzAnimationLoader::LoadAnimation(const std::string& pFileName, ozz::animation::Animation& pAnimation)
+bool FR::FROzzAnimationLoader::LoadAnimation(const std::string& pFilePath, ozz::animation::Animation& pAnimation)
 {
-	ozz::io::File file(pFileName.c_str(), "rb");
+	ozz::io::File file(pFilePath.c_str(), "rb");
 	if (!file.opened())
 	{
 		return false;

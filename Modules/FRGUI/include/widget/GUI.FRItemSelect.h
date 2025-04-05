@@ -32,9 +32,9 @@ namespace FR::GUI
 		void SetDataReceivedChanged(T* tObject, void(T::* tCallback)(TArgs...), auto... tArgs)
 		{
 			auto argsTuple = std::make_tuple(tArgs...);
-			mDataReceivedEvent += [this, tObject, tCallback, argsTuple = std::move(argsTuple)](std::pair<std::string, FRGroup*> p) mutable
+			mDataReceivedEvent += [this, tObject, tCallback, argsTuple = std::move(argsTuple)](std::pair<std::string, FRGroup*> p)
 				{
-					std::apply([this, tObject, tCallback, p](auto&&... args) mutable
+					std::apply([this, tObject, tCallback, p](auto&&... args)
 						{
 							(tObject->*tCallback)(mContext, p, std::forward<decltype(args)>(args)...);
 						}, argsTuple);
@@ -55,9 +55,11 @@ namespace FR::GUI
 		virtual void _Draw_Impl() override;
 
 	private:
-		glm::vec2 mPosition;
-		std::string mContext;
 		EItemType mItemType;
+
+		glm::vec2 mPosition;
+
+		std::string mContext;
 
 		FRText* mIcon{ nullptr };
 		FRText* mText{ nullptr };

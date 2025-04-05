@@ -1,8 +1,9 @@
 #pragma once
 
+#include "EMemoryMode.h"
+
 #include <vector>
 #include <algorithm>
-#include "EMemoryMode.h"
 
 namespace FR::GUI
 {
@@ -36,7 +37,7 @@ namespace FR::GUI
 		{
 			mWidgets.emplace_back(new T(pArgs...), EMemoryMode::INTERNAL_MANAGMENT);
 			T& instance = *reinterpret_cast<T*>(mWidgets.back().first);
-			instance.SetParent(this);
+			instance.parent = this;
 			return instance;
 		}
 
@@ -45,6 +46,7 @@ namespace FR::GUI
 
 	protected:
 		bool mReversedDrawOrder{ false };
+
 		std::vector<WidgetPair> mWidgets;
 
 	};

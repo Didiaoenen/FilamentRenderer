@@ -9,15 +9,15 @@
 FR::GUI::FRPanelWindow::FRPanelWindow(const std::string& pName, bool pOpened, const FRPanelWindowSettings& pSetting)
 	: name(pName)
 	, mOpened(pOpened)
-	, resizable(pSetting.resizable)
-	, closable(pSetting.closable)
 	, movable(pSetting.movable)
-	, scrollable(pSetting.scrollable)
+	, closable(pSetting.closable)
 	, dockable(pSetting.dockable)
+	, resizable(pSetting.resizable)
+	, scrollable(pSetting.scrollable)
 	, hideBackground(pSetting.hideBackground)
+	, allowHorizontalScrollbar(pSetting.allowHorizontalScrollbar)
 	, forceHorizontalScrollbar(pSetting.forceHorizontalScrollbar)
 	, forceVerticalScrollbar(pSetting.forceVerticalScrollbar)
-	, allowHorizontalScrollbar(pSetting.allowHorizontalScrollbar)
 	, bringToFrontOnFocus(pSetting.bringToFrontOnFocus)
 	, collapsable(pSetting.collapsable)
 	, allowInputs(pSetting.allowInputs)
@@ -65,7 +65,7 @@ bool FR::GUI::FRPanelWindow::IsFocused()
 
 bool FR::GUI::FRPanelWindow::IsAppearing()
 {
-	if (auto window = ImGui::FindWindowByName((name + GetPanelID()).c_str()); window)
+	if (auto window = ImGui::FindWindowByName((name + GetPanelID()).c_str()))
 	{
 		return window->Appearing;
 	}
@@ -115,13 +115,13 @@ void FR::GUI::FRPanelWindow::_Draw_Impl()
 	{
 		int windowFlags = ImGuiWindowFlags_None;
 
-		if (!resizable)					windowFlags |= ImGuiWindowFlags_NoResize;
 		if (!movable)					windowFlags |= ImGuiWindowFlags_NoMove;
 		if (!dockable)					windowFlags |= ImGuiWindowFlags_NoDocking;
+		if (!resizable)					windowFlags |= ImGuiWindowFlags_NoResize;
 		if (hideBackground)				windowFlags |= ImGuiWindowFlags_NoBackground;
+		if (allowHorizontalScrollbar)	windowFlags |= ImGuiWindowFlags_HorizontalScrollbar;
 		if (forceHorizontalScrollbar)	windowFlags |= ImGuiWindowFlags_AlwaysHorizontalScrollbar;
 		if (forceVerticalScrollbar)		windowFlags |= ImGuiWindowFlags_AlwaysVerticalScrollbar;
-		if (allowHorizontalScrollbar)	windowFlags |= ImGuiWindowFlags_HorizontalScrollbar;
 		if (!bringToFrontOnFocus)		windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
 		if (!collapsable)				windowFlags |= ImGuiWindowFlags_NoCollapse;
 		if (!allowInputs)				windowFlags |= ImGuiWindowFlags_NoInputs;

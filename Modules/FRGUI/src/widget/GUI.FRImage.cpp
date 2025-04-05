@@ -1,7 +1,7 @@
 #include "GUI.FRImage.h"
 #include <Core.FRTexture2D.h>
 
-FR::GUI::FRImage::FRImage(void* pTextureID, const glm::vec2& pSize, glm::vec2 pUV0, glm::vec2 pUV1)
+FR::GUI::FRImage::FRImage(void* pTextureID, const glm::vec2& pSize, const glm::vec2& pUV0, const glm::vec2& pUV1)
 	: textureID(pTextureID)
 	, uv0(pUV0)
 	, uv1(pUV1)

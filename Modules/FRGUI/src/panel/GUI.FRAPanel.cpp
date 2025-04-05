@@ -13,7 +13,7 @@ void FR::GUI::FRAPanel::Draw()
 	}
 }
 
-const std::string& FR::GUI::FRAPanel::GetPanelID() const
+const std::string& FR::GUI::FRAPanel::GetPanelID()
 {
 	return mPanelID;
 }

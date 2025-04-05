@@ -18,13 +18,17 @@ namespace FR::GUI
 		virtual void _Draw_Impl() override = 0;
 
 	public:
+		glm::vec2 size;
+
 		std::string label;
+
 		std::string overlay;
 
 		int forceHover{ 0 };
+
 		float minScale{ false };
+
 		float maxScale{ false };
-		glm::vec2 size{};
 		
 		std::vector<float> data;
 

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include <Color.h>
 #include <MathConvert.h>
 #include <Tools.FREvent.h>
@@ -16,6 +14,8 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include <string>
 
 namespace FR::GUI
 {
@@ -33,11 +33,7 @@ namespace FR::GUI
 
 		bool IsDestroyed();
 
-		FRWidgetContainer* GetParent();
-		
 		void LinkTo(const FRAWidget* pWidget);
-
-		void SetParent(FRWidgetContainer* pParent);
 
 		std::string GetWidgetID();
 
@@ -52,32 +48,43 @@ namespace FR::GUI
 
 		virtual void SetItemLayout();
 
-		virtual void DrawItemActivityOutline(glm::vec2 pMin, glm::vec2 pMax, bool pInactive = false, Color pColorActive = { 80.0f, 80.0f, 80.0f });
+		virtual void DrawItemActivityOutline(
+			const glm::vec2& pMin, const glm::vec2& pMax,
+			bool pInActive = false, const Color& pActiveColor = { 80.0f, 80.0f, 80.0f });
 
 		glm::vec2 CaculateSize();
 
 	public:
-		~FRAWidget() = default;
+		virtual ~FRAWidget() = default;
 
 	public:
 		std::string name;
-		bool enabled{ true };
-		bool lineBreak{ true };
-		FRWidgetContainer* parent{ nullptr };
 
+		bool enabled{ true };
+		
+		bool lineBreak{ true };
+		
 		glm::vec2 size{ 0.f };
+		
 		glm::vec2 position{ 0.f };
-		EWidgetSizeType sizeType{ EWidgetSizeType::ABSOLUTE };
+		
+		EWidgetSize sizeType{ EWidgetSize::ABSOLUTE };
+		
 		EWidgetAlignment alignment{ EWidgetAlignment::LEFT };
+
+		FRWidgetContainer* parent{ nullptr };
 
 	protected:
 		std::string mWidgetID;
+		
 		glm::vec2 mCaculeteSize{ 0.f };
+		
 		bool mAutoExecutePlugins{ true };
 
 	private:
 		bool mDestroyed{ false };
-		inline static uint64_t __WIDGET_ID_INCREMENT{ 0 };
+		
+		inline static size_t __WIDGET_ID_INCREMENT{ 0 };
 
 	};
 }

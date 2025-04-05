@@ -15,7 +15,9 @@ namespace FR::GUI
 
 	public:
 		std::string label;
+
 		std::string content;
+
 		bool defaultLable{ true };
 		bool showDefaultLable{ true };
 		bool selectAllOnClick{ false };

@@ -11,16 +11,16 @@ namespace FR::GUI
 		static_assert(std::is_scalar<T>::value, "Invalid InputSingleScalar T (Scalar expected)");
 
 	public:
-		FRInputSingleScalar(ImGuiDataType pDataType, T pDefaultValue, T pStep,
+		FRInputSingleScalar(ImGuiDataType pDataType, T pValue, T pStep,
 			T pFastStep, const std::string& pLabel, const std::string& pFormat, bool pSelectAllOnClick)
 			: FRDataWidget<T>(value)
-			, mDataType(pDataType)
-			, value(pDefaultValue)
 			, step(pStep)
+			, value(pValue)
 			, fastStep(pFastStep)
 			, label(pLabel)
 			, format(pFormat)
 			, selectAllOnClick(pSelectAllOnClick)
+			, mDataType(pDataType)
 		{
 		}
 
@@ -54,16 +54,18 @@ namespace FR::GUI
 		T step;
 		T value;
 		T fastStep;
+
 		std::string label;
 		std::string format;
 		
 		bool selectAllOnClick{ false };
 		
-		FREvent<T> ContentChangedEvent;
 		FREvent<T> EnterPressedEvent;
+		FREvent<T> ContentChangedEvent;
 
 	private:
 		ImGuiDataType mDataType;
+
 	};
 
 	class InputInt

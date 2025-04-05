@@ -1,8 +1,9 @@
 #pragma once
 
-#include <imgui.h>
 #include "GUI.FRIPlugin.h"
 #include "GUI.FRWidgetContainer.h"
+
+#include <imgui.h>
 
 namespace FR::GUI
 {

@@ -1,8 +1,10 @@
 #pragma once
 
-#include <string>
-#include <imgui.h>
 #include "GUI.FRIPlugin.h"
+
+#include <imgui.h>
+
+#include <string>
 
 namespace FR::GUI
 {
@@ -42,7 +44,9 @@ namespace FR::GUI
 				{
 					ImGui::Text(tooltip.c_str());
 				}
+
 				ImGui::SetDragDropPayload(identifier.c_str(), &data, sizeof(data));
+				
 				ImGui::EndDragDropSource();
 			}
 			else
@@ -63,11 +67,15 @@ namespace FR::GUI
 
 	public:
 		T data;
+
 		std::string tooltip;
+		
 		std::string identifier;
+		
 		bool hasTooltip{ true };
 		
 		FREvent<> DragStartEvent;
+		
 		FREvent<> DragStopEvent;
 
 	private:

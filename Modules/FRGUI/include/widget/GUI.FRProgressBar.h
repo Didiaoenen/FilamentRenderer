@@ -15,6 +15,7 @@ namespace FR::GUI
 
 	public:
 		std::string overlay;
+
 		float fraction{ false };
 
 	};

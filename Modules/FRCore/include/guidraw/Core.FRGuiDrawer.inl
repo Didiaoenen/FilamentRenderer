@@ -47,7 +47,7 @@ inline FRAWidget& FR::FRGuiDrawer::DrawSlider(FRWidgetContainer& pRoot, const st
 	
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRSliderSingleScalar<T>>(GetDataType<T>(), pMin, pMax, pData, ESliderOrientation::HORIZONTAL, "", GetFormat<T>());
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<T>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<T>>();
 	dispatcher.RegisterReference(pData);
 	return widget;
 }
@@ -59,7 +59,7 @@ inline FRAWidget& FR::FRGuiDrawer::DrawSlider(GUI::FRWidgetContainer& pRoot, con
 
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRSliderSingleScalar<T>>(GetDataType<T>(), pMin, pMax, static_cast<T>(0), ESliderOrientation::HORIZONTAL, "", GetFormat<T>());
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<T>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<T>>();
 	dispatcher.RegisterGatherer(pGatherer);
 	dispatcher.RegisterProvider(pProvider);
 	return widget;
@@ -72,9 +72,9 @@ inline FRAWidget& FR::FRGuiDrawer::DrawScalar(GUI::FRWidgetContainer& pRoot, con
 
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRDragSingleScalar<T>>(GetDataType<T>(), pMin, pMax, pData, pStep, "", GetFormat<T>());
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<T>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<T>>();
 	dispatcher.RegisterReference(pData);
-	widget.sizeType = EWidgetSizeType::RELATIVE;
+	widget.sizeType = EWidgetSize::RELATIVE;
 	widget.position = { 120.f, 0.f };
 	return widget;
 }
@@ -86,10 +86,10 @@ inline FRAWidget& FR::FRGuiDrawer::DrawScalar(GUI::FRWidgetContainer& pRoot, con
 	
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRDragSingleScalar<T>>(GetDataType<T>(), pMin, pMax, static_cast<T>(0), pStep, "", GetFormat<T>());
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<T>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<T>>();
 	dispatcher.RegisterGatherer(pGatherer);
 	dispatcher.RegisterProvider(pProvider);
-	widget.sizeType = EWidgetSizeType::RELATIVE;
+	widget.sizeType = EWidgetSize::RELATIVE;
 	widget.position = { 120.f, 0.f };
 	return widget;
 }
@@ -102,7 +102,7 @@ inline FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawComboBox(GUI::FRWidgetContainer&
 	FRGuiDrawer::CreateTitle(group, pName).lineBreak = false;
 	auto& widget = group.CreateWidget<FRComboBox>(pIndex);
 	widget.SetValueChanged(pObject, pCallback, pArgs...);
-	widget.sizeType = EWidgetSizeType::RELATIVE;
+	widget.sizeType = EWidgetSize::RELATIVE;
 	widget.position = { 120.f, 0.f };
 
 	for (int i = 0; i < pChoices.size(); i++)

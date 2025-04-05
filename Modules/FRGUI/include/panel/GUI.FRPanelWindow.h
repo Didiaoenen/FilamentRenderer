@@ -48,18 +48,28 @@ namespace FR::GUI
 		glm::vec2 minSize{ 0.f };
 		glm::vec2 maxSize{ 0.f };
 
-		bool resizable{ true };
-		bool closable{ false };
 		bool movable{ true };
-		bool scrollable{ true };
+
+		bool closable{ false };
+
 		bool dockable{ false };
+
+		bool resizable{ true };
+
+		bool scrollable{ true };
+
 		bool hideBackground{ false };
+
+		bool allowHorizontalScrollbar{ false };
 		bool forceHorizontalScrollbar{ false };
 		bool forceVerticalScrollbar{ false };
-		bool allowHorizontalScrollbar{ false };
+
 		bool bringToFrontOnFocus{ true };
+
 		bool collapsable{ false };
+
 		bool allowInputs{ true };
+
 		bool titleBar{ true };
 
 		FREvent<> OpenEvent;
@@ -67,12 +77,17 @@ namespace FR::GUI
 
 	protected:
 		bool mOpened{ false };
+		
 		bool mHovered{ false };
+		
 		bool mFocused{ false };
+		
 		bool mMustScrollToTop{ false };
 		bool mMustScrollToBottom{ false };
+
 		bool mScrolledToTop{ false };
 		bool mScrolledToBottom{ false };
+		
 		glm::vec2 mViewportOffset{ 0.f };
 
 	};

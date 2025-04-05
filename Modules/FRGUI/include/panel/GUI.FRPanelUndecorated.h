@@ -8,6 +8,8 @@ namespace FR::GUI
 		: public FRAPanelTrans
 	{
 	public:
+		FRPanelUndecorated() = default;
+		
 		void _Draw_Impl() override;
 
 	private:

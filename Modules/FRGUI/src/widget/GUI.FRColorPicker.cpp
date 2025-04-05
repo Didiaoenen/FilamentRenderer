@@ -24,6 +24,6 @@ void FR::GUI::FRColorPicker::_Draw_Impl()
 	if (valueChanged)
 	{
 		ColorChangedEvent.Invoke(color);
-		this->NotifyChange();
+		NotifyChange();
 	}
 }

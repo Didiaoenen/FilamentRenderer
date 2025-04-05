@@ -21,8 +21,11 @@ namespace FR::GUI
 
 	private:
 		std::string mTitle;
+
 		std::string mContext;
+
 		std::vector<std::string> mCaptions;
+
 		bool mInited{ false };
 
 		FREvent<int> ClickedEvent;

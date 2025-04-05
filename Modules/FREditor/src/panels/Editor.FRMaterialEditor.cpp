@@ -20,18 +20,18 @@ namespace FR
 		auto& rightSide = pRoot.CreateWidget<FRGroup>();
 
 		auto& xyzWidget = rightSide.CreateWidget<FRDragMultipleScalars<float, 3>>(FRGuiDrawer::GetDataType<float>(), pMin, pMax, 0.f, pStep, "", FRGuiDrawer::GetFormat<float>());
-		auto& xyzDispatcher = xyzWidget.AddPlugin<FRDataDispatcher<std::array<float, 3>>>();
+		auto& xyzDispatcher = xyzWidget.AddPlugin<FRPluginDispatcher<std::array<float, 3>>>();
 		xyzDispatcher.RegisterReference(reinterpret_cast<std::array<float, 3>&>(pData));
-		xyzWidget.sizeType = EWidgetSizeType::ABSOLUTE;
+		xyzWidget.sizeType = EWidgetSize::ABSOLUTE;
 		xyzWidget.position = { 120.f, 0.f };
 		xyzWidget.lineBreak = false;
 		xyzWidget.enabled = true;
 		xyzWidget.size.x = 160.f;
 
 		auto& rgbWidget = rightSide.CreateWidget<FRColorEdit>(false, Color{ pData.x, pData.y, pData.z });
-		auto& rgbDispatcher = rgbWidget.AddPlugin<FRDataDispatcher<Color>>();
+		auto& rgbDispatcher = rgbWidget.AddPlugin<FRPluginDispatcher<Color>>();
 		rgbDispatcher.RegisterReference(reinterpret_cast<Color&>(pData));
-		rgbWidget.sizeType = EWidgetSizeType::ABSOLUTE;
+		rgbWidget.sizeType = EWidgetSize::ABSOLUTE;
 		rgbWidget.position = { 120.f, 0.f };
 		rgbWidget.lineBreak = false;
 		rgbWidget.enabled = false;
@@ -53,13 +53,13 @@ namespace FR
 		auto& rightSide = pRoot.CreateWidget<FRGroup>();
 
 		auto& xyzWidget = rightSide.CreateWidget<FRDragMultipleScalars<float, 4>>(FRGuiDrawer::GetDataType<float>(), pMin, pMax, 0.f, pStep, "", FRGuiDrawer::GetFormat<float>());
-		auto& xyzDispatcher = xyzWidget.AddPlugin<FRDataDispatcher<std::array<float, 4>>>();
+		auto& xyzDispatcher = xyzWidget.AddPlugin<FRPluginDispatcher<std::array<float, 4>>>();
 		xyzDispatcher.RegisterReference(reinterpret_cast<std::array<float, 4>&>(pData));
 		xyzWidget.lineBreak = false;
 		xyzWidget.enabled = true;
 
 		auto& rgbaWidget = rightSide.CreateWidget<FRColorEdit>(true, Color{ pData.x, pData.y, pData.z });
-		auto& rgbaDispatcher = rgbaWidget.AddPlugin<FRDataDispatcher<Color>>();
+		auto& rgbaDispatcher = rgbaWidget.AddPlugin<FRPluginDispatcher<Color>>();
 		rgbaDispatcher.RegisterReference(reinterpret_cast<Color&>(pData));
 		rgbaWidget.lineBreak = false;
 		rgbaWidget.enabled = false;
@@ -184,7 +184,7 @@ void FR::FRMaterialEditor::CreateHeaderButtons()
 {
 	auto& saveButton = CreateWidget<FRButton>("Save");
 	{
-		saveButton.sizeType = EWidgetSizeType::RELATIVE;
+		saveButton.sizeType = EWidgetSize::RELATIVE;
 		saveButton.idleBackgroundColor = { 0.0f, 0.5f, 0.0f };
 
 		saveButton.ClickedEvent += [this]

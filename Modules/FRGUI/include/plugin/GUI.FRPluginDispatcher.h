@@ -1,16 +1,23 @@
 #pragma once
 
+#include "GUI.FRIPlugin.h"
+
 #include <iostream>
 #include <functional>
-#include "GUI.FRIPlugin.h"
 
 namespace FR::GUI
 {
 	template<typename T>
-	class FRDataDispatcher
+	class FRPluginDispatcher
 		: public FRIPlugin
 	{
 	public:
+		FRPluginDispatcher() = default;
+
+		virtual void Execute() override
+		{
+		}
+
 		void RegisterReference(T& pReference)
 		{
 			mDataPointer = &pReference;
@@ -53,12 +60,13 @@ namespace FR::GUI
 			mValueChanged = true;
 		}
 
-		virtual void Execute() override {}
-
 	private:
 		T* mDataPointer{ nullptr };
+
 		bool mValueChanged{ false };
+		
 		std::function<void(T)> mProvider;
+		
 		std::function<T(void)> mGatherer;
 
 	};

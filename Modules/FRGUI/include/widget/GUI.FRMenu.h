@@ -9,16 +9,20 @@ namespace FR::GUI
 		: public FRDataWidget<bool>
 	{
 	public:
-		FRMenuItem(const std::string& pName, const std::string& pShortcut = "", bool pCheckable = false, bool pChecked = false);
+		FRMenuItem(const std::string& pName,
+			const std::string& pShortcut = "", bool pCheckable = false, bool pChecked = false);
 
 	protected:
 		void _Draw_Impl() override;
 
 	public:
 		std::string name;
+
 		std::string shortcut;
-		bool checked{ false };
+
 		bool checkable{ false };
+
+		bool checked{ false };
 
 		FREvent<> ClickedEvent;
 		FREvent<bool> ValueChangedEvent;
@@ -39,6 +43,7 @@ namespace FR::GUI
 
 	public:
 		std::string name;
+
 		bool locked{ false };
 
 		FREvent<> ClickedEvent;

@@ -8,7 +8,8 @@ namespace FR::GUI
 		: public FRAWidget
 	{
 	public:
-		FRImage(void* pTextureID, const glm::vec2& pSize, glm::vec2 pUV0 = { 0.0f, 1.0f }, glm::vec2 pUV1 = { 1.0f, 0.0f });
+		FRImage(void* pTextureID, const glm::vec2& pSize,
+			const glm::vec2& pUV0 = { 0.f, 1.f }, const glm::vec2& pUV1 = { 1.f, 0.f });
 
 	protected:
 		void _Draw_Impl() override;
@@ -16,8 +17,8 @@ namespace FR::GUI
 	public:
 		void* textureID{ nullptr };
 
-		glm::vec2 uv0{ 0.0f, 1.0f };
-		glm::vec2 uv1{ 1.0f, 0.0f };
+		glm::vec2 uv0{ 0.f, 1.f };
+		glm::vec2 uv1{ 1.f, 0.f };
 
 	};
 }

@@ -13,11 +13,11 @@ namespace FR::GUI
 	public:
 		FRSliderMultipleScalars(ImGuiDataType_ pDataType, T pMin, T pMax, T pValue, const std::string& pLabel, const std::string& pFormat) 
 			: FRDataWidget<std::array<T, _Size>>(values)
-			, mDataType(pDataType)
 			, min(pMin)
 			, max(pMax)
 			, label(pLabel)
 			, format(pFormat)
+			, mDataType(pDataType)
 		{
 			values.fill(pValue);
 		}
@@ -54,8 +54,10 @@ namespace FR::GUI
 	public:
 		T min;
 		T max;
+
 		std::string label;
 		std::string format;
+
 		std::array<T, _Size> values;
 
 		FREvent<std::array<T, _Size>&> ValueChangedEvent;

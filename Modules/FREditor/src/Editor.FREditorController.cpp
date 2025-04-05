@@ -78,7 +78,7 @@ void FR::FREditorController::SetupUI()
 {
 	FRServiceLocator::Provide<FREditorActions>(editorActions);
 
-	FRPanelWindowSettings settings{ .closable = true, .dockable = true, .collapsable = true };
+	FRPanelWindowSettings settings{ .dockable = true, .closable = true, .collapsable = true };
 
 	FRApplication::GuiHelper()->AddPanel<FRToolBar>("MenuBar");
 	FRApplication::GuiHelper()->AddPanel<FRConsole>("Console", true, settings);

@@ -4,7 +4,7 @@
 
 namespace FR::GUI
 {
-	enum class EWidgetSizeType : uint8_t
+	enum class EWidgetSize : uint8_t
 	{
 		ABSOLUTE,
 		RELATIVE,

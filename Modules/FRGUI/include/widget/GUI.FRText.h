@@ -83,6 +83,7 @@ namespace FR::GUI
 
 	public:
 		bool selected{ false };
+
 		bool disabled{ false };
 
 		FREvent<> SelectedEvent;
@@ -114,11 +115,17 @@ namespace FR::GUI
 
 	public:
 		glm::vec2 min{};
+
 		glm::vec2 max{};
+
 		glm::vec2 align{};
+
 		void* end{ nullptr };
+
 		const glm::vec4* rect{ nullptr };
+
 		const glm::vec2* textSize{ nullptr };
+
 		float wrapWidth{ 0.f };
 
 	};

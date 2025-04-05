@@ -3,13 +3,13 @@
 FR::GUI::FRAPlot::FRAPlot(const std::vector<float>& pData, float pMinScale,
 	float pMaxScale, const glm::vec2& pSize, const std::string& pOverlay, const std::string& pLabel, int pForceHover)
 	: FRDataWidget(data)
-	, data(pData)
+	, size(pSize)
+	, label(pLabel)
+	, overlay(pOverlay)
 	, minScale(pMinScale)
 	, maxScale(pMaxScale)
-	, size(pSize)
-	, overlay(pOverlay)
-	, label(pLabel)
 	, forceHover(pForceHover)
+	, data(pData)
 {
 }
 

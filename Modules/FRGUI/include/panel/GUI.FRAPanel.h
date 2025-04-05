@@ -15,7 +15,7 @@ namespace FR::GUI
 
 		virtual void Draw() override;
 
-		const std::string& GetPanelID() const;
+		const std::string& GetPanelID();
 
 	protected:
 		virtual void _Draw_Impl() = 0;

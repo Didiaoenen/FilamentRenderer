@@ -34,6 +34,7 @@ namespace FR::GUI
 		std::string label;
 
 		bool disabled{ false };
+
 		bool alignText{ false };
 		
 		Color textColor{};
@@ -68,6 +69,7 @@ namespace FR::GUI
 
 	public:
 		std::string label;
+
 		bool enableAlpha{ false };
 
 		Color color{};

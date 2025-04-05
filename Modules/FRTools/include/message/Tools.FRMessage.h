@@ -71,13 +71,15 @@ namespace FR
 				for (auto& [key, value] : it->second)
 				{
 					auto wrapper = static_cast<WrapperBase<Args...>*>(value);
-					wrapper->Invoke(pArgs...);
+					wrapper->Invoke(std::forward<decltype(pArgs)>(pArgs)...);
 				}
 			}
 		}
 
 	private:
 		inline static ListenerID mAvailableListenerID{ 0 };
+
 		inline static std::map<EventType, std::unordered_map<ListenerID, void*>> mEvents;
+
 	};
 }

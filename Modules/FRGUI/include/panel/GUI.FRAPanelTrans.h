@@ -48,22 +48,30 @@ namespace FR::GUI
 		bool autoSize{ true };
 
 	protected:
-		glm::vec2 mDefaultPosition;
 		glm::vec2 mDefaultSize;
-		EPanelHorizontal mDefaultHAlignment;
-		EPanelVertical mDefaultVAlignment;
-		bool mIgnoreConfigFile;
 
-		glm::vec2 mPosition{ 0.f };
+		glm::vec2 mDefaultPosition;
+		
+		EPanelHorizontal mDefaultHAlignment;
+		
+		EPanelVertical mDefaultVAlignment;
+		
+		bool mIgnoreConfigFile{ false };
+
 		glm::vec2 mSize{ 0.f };
 
-		bool mPositionChanged{ false };
+		glm::vec2 mPosition{ 0.f };
+
 		bool mSizeChanged{ false };
 
+		bool mPositionChanged{ false };
+
 		EPanelHorizontal mHAlignment{ EPanelHorizontal::LEFT };
+
 		EPanelVertical mVAlignment{ EPanelVertical::TOP };
 		
 		bool mAlignmentChanged{ false };
+
 		bool mFirstFrame{ true };
 	};
 }

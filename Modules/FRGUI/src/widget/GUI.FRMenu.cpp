@@ -23,7 +23,7 @@ void FR::GUI::FRMenuItem::_Draw_Impl()
 	if (checked != previousValue)
 	{
 		ValueChangedEvent.Invoke(checked);
-		this->NotifyChange();
+		NotifyChange();
 	}
 }
 

@@ -13,9 +13,9 @@ namespace FR::GUI
 		{
 			static_assert(std::is_base_of<FRIPlugin, T>::value, "T should derive from IPlugin");
 
-			for (auto it = mPlugins.begin(); it != mPlugins.end(); ++it)
+			for (auto& plugin : mPlugins)
 			{
-				if (T* result = dynamic_cast<T*>(*it); result)
+				if (auto result = dynamic_cast<T*>(plugin))
 				{
 					return result;
 				}
@@ -30,13 +30,13 @@ namespace FR::GUI
 			static_assert(std::is_base_of<FRIPlugin, T>::value, "T should derive from IPlugin");
 
 			T* newPlugin = new T(std::forward<Args>(pArgs)...);
-			mPlugins.push_back(newPlugin);
+			mPlugins.emplace_back(newPlugin);
 			return *newPlugin;
 		}
 
 		void ExecutePlugins()
 		{
-			for (auto& plugin : mPlugins)
+			for (const auto& plugin : mPlugins)
 			{
 				plugin->Execute();
 			}
@@ -46,7 +46,7 @@ namespace FR::GUI
 		{
 			for (auto& plugin : mPlugins)
 			{
-				delete plugin;
+				delete plugin; plugin = nullptr;
 			}
 			mPlugins.clear();
 		}

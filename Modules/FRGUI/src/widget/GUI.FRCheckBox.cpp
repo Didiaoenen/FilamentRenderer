@@ -13,7 +13,7 @@ void FR::GUI::FRCheckBox::SetItemAlign()
 	{
 	case EWidgetAlignment::LEFT:
 	{
-		if (position != glm::vec2{ 0.0f, 0.0f })
+		if (position != glm::vec2{ 0.f, 0.f })
 		{
 			ImGui::SetCursorPosX(position.x);
 		}
@@ -43,6 +43,6 @@ void FR::GUI::FRCheckBox::_Draw_Impl()
 	if (value != previousValue)
 	{
 		ValueChangedEvent.Invoke(value);
-		this->NotifyChange();
+		NotifyChange();
 	}
 }

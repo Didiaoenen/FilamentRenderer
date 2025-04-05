@@ -93,7 +93,7 @@ void FR::GUI::FRTreeNode::Close()
 	mShouldOpen = false;
 }
 
-bool FR::GUI::FRTreeNode::IsOpened() const
+bool FR::GUI::FRTreeNode::IsOpened()
 {
 	return mOpened;
 }

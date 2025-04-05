@@ -1,11 +1,6 @@
 #include "GUI.FRWidgetContainer.h"
 #include "GUI.FRAWidget.h"
 
-FR::GUI::FRWidgetContainer::~FRWidgetContainer()
-{
-	RemoveAllWidgets();
-}
-
 void FR::GUI::FRWidgetContainer::RemoveWidget(FRAWidget* pWidget)
 {
 	auto found = std::find_if(mWidgets.begin(), mWidgets.end(), [pWidget](WidgetPair& pair)
@@ -31,8 +26,7 @@ void FR::GUI::FRWidgetContainer::RemoveAllWidgets()
 		{
 			if (pair.second == EMemoryMode::INTERNAL_MANAGMENT)
 			{
-				delete pair.first;
-				pair.first = nullptr;
+				delete pair.first; pair.first = nullptr;
 			}
 		});
 
@@ -42,7 +36,7 @@ void FR::GUI::FRWidgetContainer::RemoveAllWidgets()
 void FR::GUI::FRWidgetContainer::ConsiderWidget(FRAWidget* pWidget, bool pManageMemory)
 {
 	mWidgets.emplace_back(std::make_pair(pWidget, pManageMemory ? EMemoryMode::INTERNAL_MANAGMENT : EMemoryMode::EXTERNAL_MANAGMENT));
-	pWidget->SetParent(this);
+	pWidget->parent = this;
 }
 
 void FR::GUI::FRWidgetContainer::UnconsiderWidget(FRAWidget* pWidget)
@@ -54,7 +48,7 @@ void FR::GUI::FRWidgetContainer::UnconsiderWidget(FRAWidget* pWidget)
 
 	if (found != mWidgets.end())
 	{
-		pWidget->SetParent(nullptr);
+		pWidget->parent = nullptr;
 		mWidgets.erase(found);
 	}
 }
@@ -77,8 +71,7 @@ void FR::GUI::FRWidgetContainer::CollectGarbages()
 
 			if (toDestroy && item.second == EMemoryMode::INTERNAL_MANAGMENT)
 			{
-				delete item.first;
-				item.first = nullptr;
+				delete item.first; item.first = nullptr;
 			}
 
 			return toDestroy;
@@ -105,4 +98,9 @@ void FR::GUI::FRWidgetContainer::DrawWidgets()
 			widget.first->Draw();
 		}
 	}
+}
+
+FR::GUI::FRWidgetContainer::~FRWidgetContainer()
+{
+	RemoveAllWidgets();
 }

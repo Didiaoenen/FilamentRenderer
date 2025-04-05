@@ -31,7 +31,7 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawBoolean(FRWidgetContainer& pRoot, const
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRCheckBox>();
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<bool>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<bool>>();
 	dispatcher.RegisterReference(pData);
 	return widget;
 }
@@ -40,7 +40,7 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawBoolean(FRWidgetContainer& pRoot, const
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRCheckBox>();
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<bool>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<bool>>();
 	{
 		dispatcher.RegisterGatherer([pGatherer]()
 			{
@@ -61,7 +61,7 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawString(FRWidgetContainer& pRoot, const 
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRInputText>("");
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<std::string>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<std::string>>();
 	dispatcher.RegisterReference(pData);
 	return widget;
 }
@@ -71,7 +71,7 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawString(FRWidgetContainer& pRoot, const 
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRInputText>("");
 	widget.showDefaultLable = false;
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<std::string>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<std::string>>();
 	dispatcher.RegisterGatherer(pGatherer);
 	dispatcher.RegisterProvider(pProvider);
 	return widget;
@@ -81,7 +81,7 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawVec2(FRWidgetContainer& pRoot, const st
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRDragMultipleScalars<float, 2>>(GetDataType<float>(), pMin, pMax, 0.f, pStep, "", GetFormat<float>());
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<std::array<float, 2>>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<std::array<float, 2>>>();
 	dispatcher.RegisterReference(reinterpret_cast<std::array<float, 2>&>(pData));
 	return widget;
 }
@@ -90,7 +90,7 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawVec2(FRWidgetContainer& pRoot, const st
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRDragMultipleScalars<float, 2>>(GetDataType<float>(), pMin, pMax, 0.f, pStep, "", GetFormat<float>());
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<std::array<float, 2>>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<std::array<float, 2>>>();
 	{
 		dispatcher.RegisterGatherer([pGatherer]()
 			{
@@ -111,7 +111,7 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawVec3(FRWidgetContainer& pRoot, const st
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRDragMultipleScalars<float, 3>>(GetDataType<float>(), pMin, pMax, 0.f, pStep, "", GetFormat<float>());
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<std::array<float, 3>>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<std::array<float, 3>>>();
 	dispatcher.RegisterReference(reinterpret_cast<std::array<float, 3>&>(pData));
 	return widget;
 }
@@ -120,7 +120,7 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawVec3(FRWidgetContainer& pRoot, const st
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRDragMultipleScalars<float, 3>>(GetDataType<float>(), pMin, pMax, 0.f, pStep, "", GetFormat<float>());
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<std::array<float, 3>>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<std::array<float, 3>>>();
 	{
 		dispatcher.RegisterGatherer([pGatherer]()
 			{
@@ -136,7 +136,7 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawVec3(FRWidgetContainer& pRoot, const st
 			});
 	}
 
-	widget.sizeType = EWidgetSizeType::RELATIVE;
+	widget.sizeType = EWidgetSize::RELATIVE;
 	widget.position = { 120, 0.f };
 
 	return widget;
@@ -146,7 +146,7 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawVec4(FRWidgetContainer& pRoot, const st
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRDragMultipleScalars<float, 4>>(GetDataType<float>(), pMin, pMax, 0.f, pStep, "", GetFormat<float>());
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<std::array<float, 4>>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<std::array<float, 4>>>();
 	dispatcher.RegisterReference(reinterpret_cast<std::array<float, 4>&>(pData));
 	return widget;
 }
@@ -155,7 +155,7 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawVec4(FRWidgetContainer& pRoot, const st
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRDragMultipleScalars<float, 4>>(GetDataType<float>(), pMin, pMax, 0.f, pStep, "", GetFormat<float>());
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<std::array<float, 4>>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<std::array<float, 4>>>();
 	{
 		dispatcher.RegisterGatherer([pGatherer]()
 			{
@@ -176,7 +176,7 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawQuat(FRWidgetContainer& pRoot, const st
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRDragMultipleScalars<float, 4>>(GetDataType<float>(), pMin, pMax, 0.f, pStep, "", GetFormat<float>());
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<std::array<float, 4>>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<std::array<float, 4>>>();
 	dispatcher.RegisterReference(reinterpret_cast<std::array<float, 4>&>(pData));
 	return widget;
 }
@@ -185,7 +185,7 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawQuat(FRWidgetContainer& pRoot, const st
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRDragMultipleScalars<float, 4>>(GetDataType<float>(), pMin, pMax, 0.f, pStep, "", GetFormat<float>());
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<std::array<float, 4>>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<std::array<float, 4>>>();
 	{
 		dispatcher.RegisterGatherer([pGatherer]()
 			{
@@ -206,9 +206,9 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawColor(FRWidgetContainer& pRoot, const s
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRColorEdit>(pHasAlpha);
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<Color>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<Color>>();
 	dispatcher.RegisterReference(pColor);
-	widget.sizeType = EWidgetSizeType::RELATIVE;
+	widget.sizeType = EWidgetSize::RELATIVE;
 	widget.position = { 120.f, 0.f };
 	return widget;
 }
@@ -217,10 +217,10 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawColor(FRWidgetContainer& pRoot, const s
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRColorEdit>(pHasAlpha);
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<Color>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<Color>>();
 	dispatcher.RegisterGatherer(pGatherer);
 	dispatcher.RegisterProvider(pProvider);
-	widget.sizeType = EWidgetSizeType::RELATIVE;
+	widget.sizeType = EWidgetSize::RELATIVE;
 	widget.position = { 120.f, 0.f };
 	return widget;
 }
@@ -389,7 +389,7 @@ FR::GUI::FRAWidget& FR::FRGuiDrawer::DrawDDString(FRWidgetContainer& pRoot, cons
 {
 	CreateTitle(pRoot, pName).lineBreak = false;
 	auto& widget = pRoot.CreateWidget<FRInputText>("");
-	auto& dispatcher = widget.AddPlugin<FRDataDispatcher<std::string>>();
+	auto& dispatcher = widget.AddPlugin<FRPluginDispatcher<std::string>>();
 	{
 		dispatcher.RegisterGatherer(pGatherer);
 		dispatcher.RegisterProvider(pProvider);

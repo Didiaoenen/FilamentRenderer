@@ -15,6 +15,7 @@ namespace FR::GUI
 
 	public:
 		Color color{};
+
 		bool enableAlpha{ false };
 
 		FREvent<Color&> ColorChangedEvent;

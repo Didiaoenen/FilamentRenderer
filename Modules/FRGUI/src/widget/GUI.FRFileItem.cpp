@@ -4,7 +4,7 @@
 #include <Core.FRTexture2D.h>
 #include <ImguiTextClipped.h>
 
-FR::GUI::FRFileItem::FRFileItem(const std::string& pName, glm::vec2 pSize,
+FR::GUI::FRFileItem::FRFileItem(const std::string& pName, const glm::vec2& pSize,
 	bool pDirectory, int pScalePercent, FRTexture2D* pBackgroud, FRTexture2D* pThumbnail, FRTexture2D* pColorFrame)
 	: name(pName)
 	, directory(pDirectory)

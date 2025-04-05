@@ -30,6 +30,7 @@ namespace FR::GUI
 
 	private:
 		int mRadioID{ 0 };
+
 		bool mSelected{ false };
 
 	};
@@ -57,7 +58,9 @@ namespace FR::GUI
 
 	private:
 		int mSelected{ -1 };
+
 		int mAvailableRadioID{ 0 };
+
 		std::vector<std::pair<FREvent<int>::ListenerID, std::reference_wrapper<FRRadioButton>>> mRadioButtons;
 
 	};

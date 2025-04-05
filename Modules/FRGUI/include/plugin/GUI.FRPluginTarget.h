@@ -1,9 +1,11 @@
 #pragma once
 
-#include <string>
-#include <imgui.h>
-#include <Tools.FREvent.h>
 #include "GUI.FRIPlugin.h"
+#include <Tools.FREvent.h>
+
+#include <imgui.h>
+
+#include <string>
 
 namespace FR::GUI
 {
@@ -35,11 +37,12 @@ namespace FR::GUI
 					targetFlags |= ImGuiDragDropFlags_AcceptNoDrawDefaultRect;
 				}
 
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(identifier.c_str(), targetFlags))
+				if (const auto payload = ImGui::AcceptDragDropPayload(identifier.c_str(), targetFlags))
 				{
-					T data = *(T*)payload->Data;
-					DataReceivedEvent.Invoke(data);
+					T* data = static_cast<T*>(payload->Data);
+					DataReceivedEvent.Invoke(*data);
 				}
+				
 				ImGui::EndDragDropTarget();
 			}
 			else
@@ -60,10 +63,13 @@ namespace FR::GUI
 
 	public:
 		std::string identifier;
+
 		bool showYellowRect{ true };
 
 		FREvent<> HoverEndEvent;
+		
 		FREvent<> HoverStartEvent;
+		
 		FREvent<T> DataReceivedEvent;
 
 	private:

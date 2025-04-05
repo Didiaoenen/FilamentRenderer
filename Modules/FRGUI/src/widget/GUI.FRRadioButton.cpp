@@ -27,7 +27,7 @@ void FR::GUI::FRRadioButton::_Draw_Impl()
 	if (ImGui::RadioButton((label + mWidgetID).c_str(), mSelected))
 	{
 		ClickedEvent.Invoke(mRadioID);
-		this->NotifyChange();
+		NotifyChange();
 	}
 }
 
@@ -51,8 +51,7 @@ void FR::GUI::FRRadioButtonLinker::Link(FRRadioButton& pRadioButton)
 
 void FR::GUI::FRRadioButtonLinker::Unlink(FRRadioButton& pRadioButton)
 {
-	auto it = std::find_if(mRadioButtons.begin(), mRadioButtons.end(), 
-		[&pRadioButton](std::pair<FREvent<int>::ListenerID, std::reference_wrapper<FRRadioButton>>& pPair)
+	auto it = std::find_if(mRadioButtons.begin(), mRadioButtons.end(), [&pRadioButton](auto& pPair)
 		{
 			return &pPair.second.get() == &pRadioButton;
 		});
@@ -79,9 +78,9 @@ void FR::GUI::FRRadioButtonLinker::OnRadioButtonClicked(int pRadioID)
 	{
 		mSelected = pRadioID;
 		ValueChangedEvent.Invoke(mSelected);
-		this->NotifyChange();
+		NotifyChange();
 
-		for (const auto& [listener, radioButton] : mRadioButtons)
+		for (const auto& [_, radioButton] : mRadioButtons)
 		{
 			radioButton.get().mSelected = radioButton.get().mRadioID == mSelected;
 		}

@@ -19,14 +19,14 @@
 #include <GUI.FRTableView.h>
 #include <GUI.FRItemSelect.h>
 #include <GUI.FRDragScalar.h>
-#include <GUI.FRDataDispatcher.h>
+#include <GUI.FRTextureView.h>
+#include <GUI.FRContextualMenu.h>
 #include <GUI.FRWidgetContainer.h>
 #include <GUI.FRSliderSingleScalar.h>
 #include <GUI.FRSliderMultipleScalars.h>
-#include <GUI.FRContextualMenu.h>
+#include <GUI.FRPluginDispatcher.h>
 #include <GUI.FRPluginTarget.h>
 #include <GUI.FRPluginSource.h>
-#include <GUI.FRTextureView.h>
 
 #include <Color.h>
 #include <Tools.FREvent.h>

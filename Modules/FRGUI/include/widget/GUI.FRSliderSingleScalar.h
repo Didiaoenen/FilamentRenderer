@@ -15,13 +15,13 @@ namespace FR::GUI
 		FRSliderSingleScalar(ImGuiDataType pDataType, T pMin, T pMax, T pValue,
 			ESliderOrientation pOrientation, const std::string& pLabel, const std::string& pFormat)
 			: FRDataWidget<T>(value)
-			, mDataType(pDataType)
 			, min(pMin)
 			, max(pMax)
 			, value(pValue)
-			, orientation(pOrientation)
 			, label(pLabel)
 			, format(pFormat)
+			, orientation(pOrientation)
+			, mDataType(pDataType)
 		{
 		}
 
@@ -66,9 +66,12 @@ namespace FR::GUI
 		T min;
 		T max;
 		T value;
+
 		std::string label;
 		std::string format;
+
 		glm::vec2 verticalModeSize{};
+
 		ESliderOrientation orientation{ ESliderOrientation::HORIZONTAL };
 
 		FREvent<T> ValueChangedEvent;

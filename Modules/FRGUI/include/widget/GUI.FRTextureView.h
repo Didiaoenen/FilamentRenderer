@@ -25,5 +25,6 @@ namespace FR::GUI
 		FRTexture2D* backgroud{ nullptr };
 
         FREvent<> mClickedEvent;
+
     };
 }

@@ -16,7 +16,7 @@ void FR::GUI::FRTableView::_Draw_Impl()
 {
 	auto caculateSize = CaculateSize();
 
-	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_None;
+	ImGuiTreeNodeFlags flags = 0;
 	flags |= ImGuiTableFlags_ContextMenuInBody;
 	if (scrollY)	flags |= ImGuiTableFlags_ScrollY;
 	if (resizable)	flags |= ImGuiTableFlags_Resizable;

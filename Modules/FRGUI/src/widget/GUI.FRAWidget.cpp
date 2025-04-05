@@ -40,16 +40,6 @@ bool FR::GUI::FRAWidget::IsDestroyed()
 	return mDestroyed;
 }
 
-void FR::GUI::FRAWidget::SetParent(FRWidgetContainer* pParent)
-{
-	parent = pParent;
-}
-
-FR::GUI::FRWidgetContainer* FR::GUI::FRAWidget::GetParent()
-{
-	return parent;
-}
-
 std::string FR::GUI::FRAWidget::GetWidgetID()
 {
 	return mWidgetID;
@@ -62,7 +52,7 @@ glm::vec2 FR::GUI::FRAWidget::GetLabelSize()
 
 void FR::GUI::FRAWidget::SetItemSize()
 {
-	if (sizeType == EWidgetSizeType::RELATIVE)
+	if (sizeType == EWidgetSize::RELATIVE)
 	{
 		if (size == glm::vec2{ 0.f, 0.f })
 		{
@@ -124,7 +114,8 @@ void FR::GUI::FRAWidget::SetItemLayout()
 	SetItemAlign();
 }
 
-void FR::GUI::FRAWidget::DrawItemActivityOutline(glm::vec2 pMin, glm::vec2 pMax, bool pInactive, Color pColorActive)
+void FR::GUI::FRAWidget::DrawItemActivityOutline(
+	const glm::vec2& pMin, const glm::vec2& pMax, bool pInactive, const Color& pColorActive)
 {
 	auto style = ImGui::GetStyle();
 	auto* drawList = ImGui::GetWindowDrawList();
@@ -156,12 +147,12 @@ glm::vec2 FR::GUI::FRAWidget::CaculateSize()
 	glm::vec2 result(0.f);
 	switch (sizeType)
 	{
-	case FR::GUI::EWidgetSizeType::ABSOLUTE:
+	case FR::GUI::EWidgetSize::ABSOLUTE:
 	{
 		result = size;
 	}
 		break;
-	case FR::GUI::EWidgetSizeType::RELATIVE:
+	case FR::GUI::EWidgetSize::RELATIVE:
 	{
 		result = size;
 		if (position != glm::vec2{ 0.f, 0.f })

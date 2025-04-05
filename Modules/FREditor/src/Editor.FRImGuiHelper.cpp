@@ -536,13 +536,21 @@ void FR::FRImGuiHelper::DarkTheme()
 
 	auto& style = ImGui::GetStyle();
 	
-	style.FrameRounding = 2.0f;
+	style.FrameRounding = 3.0f;
+
+	style.ScrollbarRounding = 12.0f;
 	
+	auto darkHeaderBG = ImVec4(62.0f / 255.0f, 62.0f / 255.0f, 62.0f / 255.0f, 255 / 255.0f);
+
 	auto darkWindowBG = ImVec4(56.0f / 255.0f, 56.0f / 255.0f, 56.0f / 255.0f, 255 / 255.0f);
+
 	auto darkMenuBarBG = ImVec4(25.0f / 255.0f, 25.0f / 255.0f, 25.0f / 255.0f, 255 / 255.0f);
+	
+	auto darkScrollbarBg = ImVec4(53.0f / 255.0f, 53.0f / 255.0f, 53.0f / 255.0f, 255 / 255.0f);
+
+	auto darkTabActive = darkWindowBG;
 	auto darkTabUnactive = ImVec4(40.0f / 255.0f, 40.0f / 255.0f, 40.0f / 255.0f, 255 / 255.0f);
 	auto darkTabHovered = ImVec4(48.0f / 255.0f, 48.0f / 255.0f, 48.0f / 255.0f, 255 / 255.0f);
-	auto darkTabActive = darkWindowBG;
 
 	auto darkButtonAtive = darkWindowBG;
 
@@ -566,7 +574,7 @@ void FR::FRImGuiHelper::DarkTheme()
 	//colors[ImGuiCol_TitleBgCollapsed] = Titlebar;
 	colors[ImGuiCol_MenuBarBg] = darkMenuBarBG;
 
-	//colors[ImGuiCol_ScrollbarBg] = ImVec4(0.02f, 0.02f, 0.02f, 0.39f);
+	colors[ImGuiCol_ScrollbarBg] = darkScrollbarBg;
 	//colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.6f, 0.6f, 0.6f, 1.00f);
 	//colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.7f, 0.7f, 0.7f, 1.00f);
 	//colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.8f, 0.8f, 0.8f, 1.00f);
@@ -597,7 +605,7 @@ void FR::FRImGuiHelper::DarkTheme()
 	//colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
 	//colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
 
-	//colors[ImGuiCol_Header] = TabActive + ImVec4(0.1f, 0.1f, 0.1f, 0.1f);
+	//colors[ImGuiCol_Header] = darkHeaderBG;
 	//colors[ImGuiCol_HeaderHovered] = TabActive + ImVec4(0.1f, 0.1f, 0.1f, 0.1f);
 	//colors[ImGuiCol_HeaderActive] = TabActive + ImVec4(0.05f, 0.05f, 0.05f, 0.1f);
 

@@ -17,7 +17,7 @@ namespace FR
 
 		if (&pToExpand != pRoot && pToExpand.parent)
 		{
-			ExpandTreeNode(*dynamic_cast<FRTreeNode*>(pToExpand.GetParent()), pRoot);
+			ExpandTreeNode(*dynamic_cast<FRTreeNode*>(pToExpand.parent), pRoot);
 		}
 	}
 
@@ -33,7 +33,7 @@ namespace FR
 
 		if (&pToExpand != pRoot && pToExpand.parent)
 		{
-			ExpandTreeNodeAndEnable(*dynamic_cast<FRTreeNode*>(pToExpand.GetParent()), pRoot);
+			ExpandTreeNodeAndEnable(*dynamic_cast<FRTreeNode*>(pToExpand.parent), pRoot);
 		}
 	}
 
@@ -128,7 +128,7 @@ void FR::FRHierarchy::SelectActorByWidget(FRTreeNode& pWidget)
 
 	if (pWidget.parent)
 	{
-		ExpandTreeNode(*dynamic_cast<FRTreeNode*>(pWidget.GetParent()), mRoot);
+		ExpandTreeNode(*dynamic_cast<FRTreeNode*>(pWidget.parent), mRoot);
 	}
 }
 
@@ -140,7 +140,7 @@ void FR::FRHierarchy::AttachActorToParent(FRActor* pActor)
 
 		if (widget->parent)
 		{
-			widget->GetParent()->UnconsiderWidget(widget);
+			widget->parent->UnconsiderWidget(widget);
 		}
 
 		if (pActor->HasParent())
@@ -168,7 +168,7 @@ void FR::FRHierarchy::DetachFromParent(FRActor* pActor)
 
 		if (widget->parent)
 		{
-			widget->GetParent()->UnconsiderWidget(widget);
+			widget->parent->UnconsiderWidget(widget);
 		}
 
 		mRoot->ConsiderWidget(widget);
@@ -187,7 +187,7 @@ void FR::FRHierarchy::AddActorByInstance(FRActor* pActor)
 	}
 
 	FRActor* targetPtr = pActor;
-	auto& dispatcher = actorSelectable.AddPlugin<FRDataDispatcher<std::string>>();
+	auto& dispatcher = actorSelectable.AddPlugin<FRPluginDispatcher<std::string>>();
 	{
 		dispatcher.RegisterGatherer([targetPtr] { return targetPtr->name; });
 	}
@@ -248,7 +248,7 @@ void FR::FRHierarchy::SearchBarChangedCallback(const std::string& pContent)
 
 		if (node->parent)
 		{
-			ExpandTreeNodeAndEnable(*dynamic_cast<FRTreeNode*>(node->GetParent()), mRoot);
+			ExpandTreeNodeAndEnable(*dynamic_cast<FRTreeNode*>(node->parent), mRoot);
 		}
 	}
 
@@ -267,7 +267,7 @@ void FR::FRHierarchy::RootTargetChangedCallback(ActorNode pElement)
 {
 	if (pElement.second->parent)
 	{
-		pElement.second->GetParent()->UnconsiderWidget(pElement.second);
+		pElement.second->parent->UnconsiderWidget(pElement.second);
 	}
 
 	mRoot->ConsiderWidget(pElement.second);

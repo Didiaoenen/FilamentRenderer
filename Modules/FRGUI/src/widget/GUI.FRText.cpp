@@ -112,9 +112,9 @@ FR::GUI::FRTextClipped::FRTextClipped(const std::string& pContent, void* pEnd, c
 	, end(pEnd)
 	, min(pMin)
 	, max(pMax)
-	, textSize(pTextSize)
-	, align(pAlign)
 	, rect(pRect)
+	, align(pAlign)
+	, textSize(pTextSize)
 	, wrapWidth(pWrapWidth)
 {
 }

@@ -1,7 +1,8 @@
 #pragma once
 
-#include <map>
 #include "GUI.FRDataWidget.h"
+
+#include <map>
 
 namespace FR::GUI
 {
@@ -15,9 +16,9 @@ namespace FR::GUI
 		void SetValueChanged(T* tObject, void(T::* tCallback)(TArgs...), auto... tArgs)
 		{
 			auto argsTuple = std::make_tuple(tArgs...);
-			ValueChangedEvent += [tObject, tCallback, argsTuple = std::move(argsTuple)](int p) mutable
+			ValueChangedEvent += [tObject, tCallback, argsTuple = std::move(argsTuple)](int p)
 				{
-					std::apply([tObject, tCallback, p](auto&&... args) mutable
+					std::apply([tObject, tCallback, p](auto&&... args)
 						{
 							(tObject->*tCallback)(p, std::forward<decltype(args)>(args)...);
 						}, argsTuple);
@@ -29,9 +30,9 @@ namespace FR::GUI
 
 	public:
 		int currentChoice{ 0 };
+
 		std::map<int, std::string> choices;
 
-	public:
 		FREvent<int> ItemClickedEvent;
 		FREvent<int> ValueChangedEvent;
 

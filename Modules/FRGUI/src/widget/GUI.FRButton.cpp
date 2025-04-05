@@ -30,8 +30,12 @@ void FR::GUI::FRButton::_Draw_Impl()
 	style.Colors[ImGuiCol_ButtonHovered] = MathConvert::ToImVec4(hoveredBackgroundColor);
 
 	auto flags = 0;
-	if (disabled) flags |= ImGuiItemFlags_Disabled;
 	
+	if (disabled)
+	{
+		flags |= ImGuiItemFlags_Disabled;
+	}
+
 	if (alignText)
 	{
 		flags = flags | ImGuiButtonFlags_AlignTextBaseLine;

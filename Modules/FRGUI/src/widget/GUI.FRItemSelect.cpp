@@ -57,7 +57,7 @@ void FR::GUI::FRItemSelect::_Draw_Impl()
 	// Background
 	size = { 1.f, 0.f };
 	position = mPosition;
-	sizeType = EWidgetSizeType::RELATIVE;
+	sizeType = EWidgetSize::RELATIVE;
 	alignment = EWidgetAlignment::LEFT;
 
 	SetItemLayout();
@@ -122,7 +122,7 @@ void FR::GUI::FRItemSelect::_Draw_Impl()
 
 	// Click
 	size = { iconSize.x, 0.f };
-	sizeType = EWidgetSizeType::ABSOLUTE;
+	sizeType = EWidgetSize::ABSOLUTE;
 	alignment = EWidgetAlignment::RIGHT;
 
 	SetItemLayout();

@@ -17,6 +17,7 @@ namespace FR::GUI
 
 	public:
 		std::string label;
+
 		bool value{ false };
 
 		FREvent<bool> ValueChangedEvent;

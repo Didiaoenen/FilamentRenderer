@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GUI.FRAWidget.h"
-#include "GUI.FRDataDispatcher.h"
+#include "GUI.FRPluginDispatcher.h"
 
 namespace FR::GUI
 {
@@ -29,14 +29,14 @@ namespace FR::GUI
 	{
 		if (enabled)
 		{
-			if (auto plugin = GetPlugin<FRDataDispatcher<T>>(); plugin)
+			if (auto plugin = GetPlugin<FRPluginDispatcher<T>>())
 			{
 				mData = plugin->Gather();
 			}
 
 			FRAWidget::Draw();
 
-			if (auto plugin = GetPlugin<FRDataDispatcher<T>>(); plugin)
+			if (auto plugin = GetPlugin<FRPluginDispatcher<T>>())
 			{
 				plugin->Provide(mData);
 			}
@@ -46,7 +46,7 @@ namespace FR::GUI
 	template<typename T>
 	inline void FRDataWidget<T>::NotifyChange()
 	{
-		if (auto plugin = GetPlugin<FRDataDispatcher<T>>(); plugin)
+		if (auto plugin = GetPlugin<FRPluginDispatcher<T>>())
 		{
 			plugin->NotifyChange();
 		}

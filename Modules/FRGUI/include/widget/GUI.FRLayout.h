@@ -1,9 +1,10 @@
 #pragma once
 
-#include <array>
 #include "GUI.FRAWidget.h"
 #include "GUI.FRDataWidget.h"
 #include "GUI.FRWidgetContainer.h"
+
+#include <array>
 
 namespace FR::GUI
 {
@@ -55,6 +56,7 @@ namespace FR::GUI
 
 	public:
 		std::array<float, _Size> widths;
+
 	};
 
 	class FRDummy
@@ -90,7 +92,9 @@ namespace FR::GUI
 
 	public:
 		std::string name;
+
 		bool opened{ true };
+
 		bool closable{ false };
 		
 		FREvent<> OpenEvent;
@@ -101,8 +105,12 @@ namespace FR::GUI
 	class FRNewLine
 		: public FRAWidget
 	{
+	public:
+		FRNewLine() = default;
+
 	protected:
 		void _Draw_Impl() override;
+
 	};
 
 	class FRSpacing
@@ -122,34 +130,42 @@ namespace FR::GUI
 		: public FRDataWidget<std::string>, public FRWidgetContainer
 	{
 	public:
-		FRTreeNode(const std::string& pName = "", const std::string& pOpenIcon = "", const std::string& pCloseIcon = "", bool pArrowClickToOpen = false);
+		FRTreeNode(
+			const std::string& pName = "", const std::string& pOpenIcon = "",
+			const std::string& pCloseIcon = "", bool pArrowClickToOpen = false);
 
 		void Open();
 
 		void Close();
 
-		bool IsOpened() const;
+		bool IsOpened();
 
 	protected:
 		virtual void _Draw_Impl() override;
 
 	public:
 		std::string name;
-		bool leaf{ false };
-		bool framed{ false };
-		bool selected{ false };
 
-		FREvent<> ClickedEvent;
-		FREvent<> DoubleClickedEvent;
+		bool leaf{ false };
+
+		bool framed{ false };
+
+		bool selected{ false };
 
 		FREvent<> ClosedEvent;
 		FREvent<> OpenedEvent;
 
+		FREvent<> ClickedEvent;
+		FREvent<> DoubleClickedEvent;
+
 	private:
-		bool mArrowClickToOpen{ false };
-		bool mShouldClose{ false };
-		bool mShouldOpen{ false };
 		bool mOpened{ false };
+		
+		bool mShouldOpen{ false };
+	
+		bool mShouldClose{ false };
+		
+		bool mArrowClickToOpen{ false };
 
 		std::string mOpenIcon;
 		std::string mCloseIcon;

@@ -15,12 +15,12 @@ namespace FR::GUI
 		FRInputMultipleScalars(ImGuiDataType pDataType, T pDefaultValue, T pStep,
 			T pFastStep, const std::string& pLabel, const std::string& pFormat, bool pSelectAllOnClick)
 			: FRDataWidget<std::array<T, _Size>>(values)
-			, mDataType(pDataType)
 			, step(pStep)
 			, fastStep(pFastStep)
 			, label(pLabel)
 			, format(pFormat)
 			, selectAllOnClick(pSelectAllOnClick)
+			, mDataType(pDataType)
 		{
 			values.fill(pDefaultValue);
 		}
@@ -37,7 +37,7 @@ namespace FR::GUI
 			}
 
 			bool enterPressed = ImGui::InputScalarN((label + this->mWidgetID).c_str(), mDataType, values.data(),
-				_Size, step != 0.0f ? &step : nullptr, fastStep != 0.0f ? &fastStep : nullptr, format.c_str(), flags);
+				_Size, step != 0.f ? &step : nullptr, fastStep != 0.f ? &fastStep : nullptr, format.c_str(), flags);
 
 			bool hasChanged = false;
 
@@ -64,6 +64,7 @@ namespace FR::GUI
 	public:
 		T step;
 		T fastStep;
+
 		std::string label;
 		std::string format;
 
@@ -118,4 +119,3 @@ namespace FR::GUI
 
 	};
 }
-

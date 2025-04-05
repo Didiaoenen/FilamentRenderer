@@ -562,7 +562,7 @@ FR::FRAssetBrowser::FRAssetBrowser(const std::string& pTitle, bool pOpened, cons
 		items.scrollY = true;
 		items.padOuterX = true;
 		items.sizingFixedFit = true;
-		items.sizeType = EWidgetSizeType::RELATIVE;
+		items.sizeType = EWidgetSize::RELATIVE;
 		mAssetView = &items;
 	}
 	

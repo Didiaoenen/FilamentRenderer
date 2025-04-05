@@ -23,13 +23,19 @@ namespace FR::GUI
 
 	public:
 		std::string name;
+
 		glm::vec2 cellSize{};
+
 		int columnsCount{ 1 };
 
 		bool fixed{ true };
+
 		bool scrollY{ false };
+
 		bool resizable{ false };
+
 		bool padOuterX{ false };
+
 		bool sizingFixedFit{ false };
 
 		ETableViewLayout layout{ ETableViewLayout::Horizontal };

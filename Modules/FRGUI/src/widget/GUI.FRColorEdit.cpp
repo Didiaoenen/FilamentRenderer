@@ -26,6 +26,6 @@ void FR::GUI::FRColorEdit::_Draw_Impl()
 	if (valueChanged)
 	{
 		ColorChangedEvent.Invoke(color);
-		this->NotifyChange();
+		NotifyChange();
 	}
 }

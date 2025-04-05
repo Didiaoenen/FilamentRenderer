@@ -1,7 +1,8 @@
 #pragma once
 
-#include <vector>
 #include "GUI.FRIDrawable.h"
+
+#include <vector>
 
 namespace FR::GUI
 {
@@ -13,16 +14,20 @@ namespace FR::GUI
 	public:
 		FRCanvas() = default;
 
+		virtual void Draw() override;
+
 		void AddPanel(FRAPanel* pPanel);
 
 		void RemovePanel(FRAPanel* pPanel);
 
 		void RemoveAllPanels();
 
-		virtual void Draw() override;
+	public:
+		virtual ~FRCanvas();
 
 	private:
 		bool mDockspace{ false };
+
 		std::vector<FRAPanel*> mPanels;
 
 	};

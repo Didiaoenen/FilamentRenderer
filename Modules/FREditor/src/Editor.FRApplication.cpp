@@ -106,15 +106,16 @@ void FR::FRApplication::Initialize(const std::string& pProjectPath, const std::s
 
 void FR::FRApplication::TryRun()
 {
-	while (!guiHelper->ShouldClose())
+	auto window = guiHelper->GetWindow();
+	while (!window->ShouldClose())
 	{
-		mInput.Reset();
+		window->Update();
 
-		guiHelper->Update();
 		mInput.Update();
 		editor->Update();
 
 		mTimer.Update();
+		mInput.Reset();
 	}
 }
 

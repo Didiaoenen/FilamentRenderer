@@ -167,6 +167,8 @@ void FR::FREditorController::RenderViews()
 	sceneView->Update();
 	gameView->Update();
 
+	FRApplication::GuiHelper()->Update();
+
 	if (sceneRenderer.BeginFrame({}))
 	{
 		//if (assetView.IsOpened())

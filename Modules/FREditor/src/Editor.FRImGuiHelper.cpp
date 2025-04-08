@@ -152,8 +152,6 @@ FR::FRImGuiHelper::FRImGuiHelper(const Window::Settings& pSetting, ETheme pTheme
 
 void FR::FRImGuiHelper::Update()
 {
-	mWindow->Update();
-
 	{
 		ImGui::SetCurrentContext(mImGuiContext);
 		ImGuiIO& io = ImGui::GetIO();

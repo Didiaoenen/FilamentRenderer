@@ -293,8 +293,10 @@ FR::ProjectHub::Result FR::ProjectHub::Run()
 	auto renderer = FRFilamentHelper::GetRenderer();
 	auto hubPanel = mGuiHelper->GetPanel<ProjectHubPanel>();
 
-	while (!mGuiHelper->ShouldClose())
+	auto window = mGuiHelper->GetWindow();
+	while (!window->ShouldClose())
 	{
+		window->Update();
 		mGuiHelper->Update();
 
 		if (renderer->BeginFrame(FRFilamentHelper::GetSwapChain()))

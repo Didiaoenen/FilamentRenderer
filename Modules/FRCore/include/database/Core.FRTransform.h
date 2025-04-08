@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Tools.FREvent.h"
+
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/euler_angles.hpp>
@@ -9,7 +11,17 @@ namespace FR
 	class FRTransform
 	{
 	public:
-		FRTransform(glm::vec3 pLocalPosition = {}, glm::quat pLocalRotation = {}, glm::vec3 pLocalScale = { 1.f, 1.f, 1.f });
+
+		enum class ENotification : uint8_t
+		{
+			TRANSFORM_CHANGED,
+			TRANSFORM_DESTROYED
+		};
+
+		FRTransform(
+			const glm::vec3& pLocalPosition = {},
+			const glm::quat& pLocalRotation = {},
+			const glm::vec3& pLocalScale = { 1.f, 1.f, 1.f });
 
 		void SetParent(FRTransform& pParent);
 
@@ -69,14 +81,12 @@ namespace FR
 
 		void GenerateMatricesWorld(glm::vec3 pPosition, glm::quat pRotation, glm::vec3 pScale);
 
-		//Internal::TransformNotifier Notifier;
-		//Internal::TransformNotifier::NotificationHandlerID m_notificationHandlerID;
-		//void NotificationHandler(ENotification pNotification);
-
 	private:
 		void PreDecomposeLocalMatrix();
 
 		void PreDecomposeWorldMatrix();
+
+		void NotificationHandler(ENotification pNotification);
 
 	public:
 		virtual ~FRTransform() = default;
@@ -84,8 +94,9 @@ namespace FR
 	public:
 		FRTransform* parent{ nullptr };
 
-	private:
+		FREvent<ENotification> Notifier;
 
+	private:
 		glm::vec3 mLocalPosition{ 0.f };
 		glm::vec3 mLocalScale{ 1.f };
 
@@ -98,6 +109,7 @@ namespace FR
 		glm::mat4 mLocalMatrix{ glm::identity<glm::mat4>() };
 		glm::mat4 mWorldMatrix{ glm::identity<glm::mat4>() };
 
+		FREvent<ENotification>::ListenerID mNotificationHandlerID;
 	};
 }
 

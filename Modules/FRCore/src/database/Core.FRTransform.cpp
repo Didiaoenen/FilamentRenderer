@@ -3,25 +3,27 @@
 #include <MathDefine.h>
 #include <MathExtension.h>
 
-FR::FRTransform::FRTransform(glm::vec3 pLocalPosition, glm::quat pLocalRotation, glm::vec3 pLocalScale)
+FR::FRTransform::FRTransform(const glm::vec3& pLocalPosition, const glm::quat& pLocalRotation, const glm::vec3& pLocalScale)
 {
 	GenerateMatricesLocal(pLocalPosition, pLocalRotation, pLocalScale);
 }
 
 void FR::FRTransform::SetParent(FRTransform& pParent)
 {
+	mNotificationHandlerID = pParent.Notifier.AddListener(std::bind(&FRTransform::NotificationHandler, this, std::placeholders::_1));
+	
 	parent = &pParent;
 	UpdateWorldMatrix();
-	//m_notificationHandlerID = mParent->Notifier.AddNotificationHandler(std::bind(&FTransform::NotificationHandler, this, std::placeholders::_1));
 }
 
 bool FR::FRTransform::RemoveParent()
 {
 	if (parent != nullptr)
 	{
+		parent->Notifier.RemoveListener(mNotificationHandlerID);
+
 		parent = nullptr;
 		UpdateWorldMatrix();
-		//mParent->Notifier.RemoveNotificationHandler(m_notificationHandlerID);
 
 		return true;
 	}
@@ -54,15 +56,15 @@ void FR::FRTransform::UpdateWorldMatrix()
 	mWorldMatrix = parent ? parent->mWorldMatrix * mLocalMatrix : mLocalMatrix;
 	PreDecomposeWorldMatrix();
 
-	//Notifier.NotifyChildren(Internal::TransformNotifier::ENotification::TRANSFORM_CHANGED);
+	Notifier.Invoke(ENotification::TRANSFORM_CHANGED);
 }
 
 void FR::FRTransform::UpdateLocalMatrix()
 {
-	mLocalMatrix = parent ? inverse(parent->mWorldMatrix) * mWorldMatrix : mWorldMatrix;
+	mLocalMatrix = parent ? glm::inverse(parent->mWorldMatrix) * mWorldMatrix : mWorldMatrix;
 	PreDecomposeLocalMatrix();
 
-	//Notifier.NotifyChildren(Internal::TransformNotifier::ENotification::TRANSFORM_CHANGED);
+	Notifier.Invoke(ENotification::TRANSFORM_CHANGED);
 }
 
 void FR::FRTransform::SetLocalPosition(const glm::vec3& pNewPosition)
@@ -258,4 +260,21 @@ void FR::FRTransform::PreDecomposeLocalMatrix()
 		columns[0].z, columns[1].z, columns[2].z);
 
 	mLocalRotation = glm::quat(rotationMatrix);
+}
+
+void FR::FRTransform::NotificationHandler(ENotification pNotification)
+{
+	switch (pNotification)
+	{
+	case ENotification::TRANSFORM_CHANGED:
+		UpdateWorldMatrix();
+		break;
+
+	case ENotification::TRANSFORM_DESTROYED:
+		GenerateMatricesLocal(mWorldPosition, mWorldRotation, mWorldScale);
+		
+		parent = nullptr;
+		UpdateWorldMatrix();
+		break;
+	}
 }

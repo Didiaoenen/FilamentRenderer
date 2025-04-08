@@ -289,7 +289,7 @@ void FR::FRScene::ParseScene()
 			if (renderable.GetMeshes().size() > 0)
 			{
 				auto& transform = owner.transform->GetFRTransform();
-				renderable.SetTransform(transform.GetWorldMatrix());
+				renderable.SetTransform(transform.GetLocalMatrix());
 
 				const auto& meshes = renderable.GetMeshes();
 				const auto& materials = renderable.GetMaterials();

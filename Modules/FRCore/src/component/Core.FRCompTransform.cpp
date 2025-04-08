@@ -12,8 +12,8 @@ FR::FRCompTransform::FRCompTransform(FRActor& pOwner)
 	: FRComponent(pOwner)
 {
 	auto engine = FRFilamentHelper::GetEngine();
-	auto tcm = engine->GetTransformManager();
-	tcm->Create(pOwner.NatrivePtr(), {}, glm::mat4(1.0));
+	auto transformManager = engine->GetTransformManager();
+	transformManager->Create(pOwner.NatrivePtr(), {}, glm::mat4(1.0));
 }
 
 const std::string FR::FRCompTransform::GetName()
@@ -28,11 +28,24 @@ FR::FRComponent::EComponentType FR::FRCompTransform::GetType()
 
 void FR::FRCompTransform::SetParent(FRCompTransform& pParent)
 {
+	if (pParent.owner.IsAlive())
+	{
+		auto engine = FRFilamentHelper::GetEngine();
+		auto transformManager = engine->GetTransformManager();
+		auto transIns = transformManager->GetInstance(owner.NatrivePtr());
+		transformManager->SetParent(transIns, transformManager->GetInstance(pParent.owner.NatrivePtr()));
+	}
 	mTransform.SetParent(pParent.GetFRTransform());
 }
 
 bool FR::FRCompTransform::RemoveParent()
 {
+	{
+		auto engine = FRFilamentHelper::GetEngine();
+		auto transformManager = engine->GetTransformManager();
+		auto transIns = transformManager->GetInstance(owner.NatrivePtr());
+		transformManager->SetParent(transIns, {});
+	}
 	return mTransform.RemoveParent();
 }
 

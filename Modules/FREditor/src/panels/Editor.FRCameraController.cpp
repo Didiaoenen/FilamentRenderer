@@ -225,6 +225,13 @@ void FR::FRCameraController::UnlockTargetActor()
 	mLockedActor = nullptr;
 }
 
+void FR::FRCameraController::ResetInputStates()
+{
+	mRightMousePressed = false;
+	mMiddleMousePressed = false;
+	mLeftMousePressed = false;
+}
+
 FR::FRCamera* FR::FRCameraController::GetCamera()
 {
 	return &mCamera;

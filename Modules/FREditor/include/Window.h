@@ -44,9 +44,6 @@ namespace FR
 		bool IsMaximized();
 		bool IsFullScreen();
 		
-		bool ShouldClose();
-		void SetShouldClose(bool pValue);
-
 		glm::vec2 GetWindowPosition();
 		glm::vec2 GetMousePositionRelativeToWindow();
 
@@ -64,12 +61,15 @@ namespace FR
 	public:
 		~Window();
 
-	private:
-		inline static Window* sWindow{ nullptr };
+	public:
+		bool close{ false };
 
-		bool mShouldClose{ false };
+	private:
 		void* mRawWindow{ nullptr };
+
 		SDL_Window* mWindow{ nullptr };
+
+		inline static Window* sWindow{ nullptr };
 
 	};
 }

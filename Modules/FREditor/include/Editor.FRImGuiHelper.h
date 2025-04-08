@@ -77,10 +77,6 @@ namespace FR
 
 		void SetTheme(ETheme pTheme);
 
-		bool ShouldClose();
-
-		void SetShouldClose(bool pValue);
-
 		Window* GetWindow();
 
 		glm::vec2 GetWindowPosition();

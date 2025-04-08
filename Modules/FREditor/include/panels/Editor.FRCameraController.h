@@ -40,6 +40,8 @@ namespace FR
 
 		void UnlockTargetActor();
 
+		void ResetInputStates();
+
 		FRCamera* GetCamera();
 
 	public:

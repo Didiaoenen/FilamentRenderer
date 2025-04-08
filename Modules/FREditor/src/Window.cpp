@@ -54,7 +54,7 @@ void FR::Window::Update()
 				switch (event.window.event)
 				{
 				case SDL_WINDOWEVENT_CLOSE:
-					mShouldClose = true;
+					close = true;
 					break;
 				default:
 					break;
@@ -124,16 +124,6 @@ bool FR::Window::IsMinimized()
 bool FR::Window::IsMaximized()
 {
 	return SDL_GetWindowFlags(mWindow) & SDL_WINDOW_MAXIMIZED;
-}
-
-bool FR::Window::ShouldClose()
-{
-	return mShouldClose;
-}
-
-void FR::Window::SetShouldClose(bool pValue)
-{
-	mShouldClose = pValue;
 }
 
 glm::vec2 FR::Window::GetMousePositionRelativeToWindow()

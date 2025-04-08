@@ -317,16 +317,6 @@ void FR::FRImGuiHelper::SetTheme(ETheme pTheme)
 	}
 }
 
-bool FR::FRImGuiHelper::ShouldClose()
-{
-	return mWindow->ShouldClose();
-}
-
-void FR::FRImGuiHelper::SetShouldClose(bool pValue)
-{
-	mWindow->SetShouldClose(pValue);
-}
-
 FR::Window* FR::FRImGuiHelper::GetWindow()
 {
 	return mWindow.get();

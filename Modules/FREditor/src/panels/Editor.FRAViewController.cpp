@@ -24,6 +24,10 @@ void FR::FRAViewController::Update()
 	{
 		mCameraController.HandleInputs();
 	}
+	else
+	{
+		mCameraController.ResetInputStates();
+	}
 
 	FRAPanelView::Update();
 }

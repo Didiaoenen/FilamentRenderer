@@ -107,7 +107,8 @@ void FR::FRApplication::Initialize(const std::string& pProjectPath, const std::s
 void FR::FRApplication::TryRun()
 {
 	auto window = guiHelper->GetWindow();
-	while (!window->ShouldClose())
+
+	while (!window->close)
 	{
 		window->Update();
 

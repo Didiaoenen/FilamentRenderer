@@ -290,11 +290,11 @@ FR::ProjectHub::ProjectHub()
 
 FR::ProjectHub::Result FR::ProjectHub::Run()
 {
+	auto window = mGuiHelper->GetWindow();
 	auto renderer = FRFilamentHelper::GetRenderer();
 	auto hubPanel = mGuiHelper->GetPanel<ProjectHubPanel>();
 
-	auto window = mGuiHelper->GetWindow();
-	while (!window->ShouldClose())
+	while (!window->close)
 	{
 		window->Update();
 		mGuiHelper->Update();
@@ -312,7 +312,7 @@ FR::ProjectHub::Result FR::ProjectHub::Run()
 
 		if (!hubPanel->IsOpened())
 		{
-			mGuiHelper->SetShouldClose(true);
+			window->close = true;
 		}
 	}
 

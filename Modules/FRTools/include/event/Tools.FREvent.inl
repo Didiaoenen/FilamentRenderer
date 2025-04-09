@@ -17,13 +17,13 @@ FR::FREvent<ArgTypes...>::ListenerID FR::FREvent<ArgTypes...>::operator+=(Callba
 }
 
 template<class... ArgTypes>
-bool FR::FREvent<ArgTypes...>::RemoveListener(FR::FREvent<ArgTypes...>::ListenerID pListenerID)
+bool FR::FREvent<ArgTypes...>::RemoveListener(FREvent<ArgTypes...>::ListenerID pListenerID)
 {
 	return mCallbacks.erase(pListenerID) != 0;
 }
 
 template<class... ArgTypes>
-bool FR::FREvent<ArgTypes...>::operator-=(FR::FREvent<ArgTypes...>::ListenerID pListenerID)
+bool FR::FREvent<ArgTypes...>::operator-=(FREvent<ArgTypes...>::ListenerID pListenerID)
 {
 	return RemoveListener(pListenerID);
 }
@@ -43,7 +43,7 @@ uint64_t FR::FREvent<ArgTypes...>::GetListenerCount()
 template<class... ArgTypes>
 void FR::FREvent<ArgTypes...>::Invoke(ArgTypes... pArgs)
 {
-	for (auto const& [key, value] : mCallbacks)
+	for (auto const& [_, value] : mCallbacks)
 	{
 		value(pArgs...);
 	}

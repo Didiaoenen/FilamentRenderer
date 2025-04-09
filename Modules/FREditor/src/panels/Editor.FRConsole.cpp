@@ -162,7 +162,7 @@ FR::FRConsole::FRConsole(const std::string& pTitle, bool pOpened, const FRPanelW
 
 	//EDITOR_EVENT(PlayEvent) += std::bind(&FRConsole::ClearOnPlay, this);
 
-	FRMessage::AddListener<FRConsole, FRILogHandler::LogData>(EventType::LOG, this, &FRConsole::OnLogIntercepted);
+	FRMessage::AddListener<FRConsole, FRILogHandler::LogData>(MessageType::LOG, this, &FRConsole::OnLogIntercepted);
 }
 
 void FR::FRConsole::OnLogIntercepted(FRILogHandler::LogData pLogData)

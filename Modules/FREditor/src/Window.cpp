@@ -62,7 +62,7 @@ void FR::Window::Update()
 			}
 		}
 
-		FRMessage::Invoke<SDL_Event>(EventType::SDL, event);
+		FRMessage::Invoke<SDL_Event>(MessageType::SDL, event);
 	}
 }
 

@@ -9,7 +9,7 @@
 
 namespace FR
 {
-	enum class EventType
+	enum class MessageType
 	{
 		SDL,
 		LOG,
@@ -48,27 +48,27 @@ namespace FR
 		};
 
 		template<typename T, typename... Args>
-		static ListenerID AddListener(EventType pType, T* pObj, void(T::* pCallback)(Args...))
+		static ListenerID AddListener(MessageType pType, T* pObj, void(T::* pCallback)(Args...))
 		{
 			ListenerID id = ++mAvailableListenerID;
-			mEvents[pType].emplace(id, new Wrapper<T, Args...>(pObj, pCallback));
+			mMessages[pType].emplace(id, new Wrapper<T, Args...>(pObj, pCallback));
 			return mAvailableListenerID;
 		}
 
-		static void RemoveListener(EventType pType, ListenerID pListenerID)
+		static void RemoveListener(MessageType pType, ListenerID pListenerID)
 		{
-			if (auto found = mEvents[pType].find(pListenerID); found != mEvents[pType].end())
+			if (auto found = mMessages[pType].find(pListenerID); found != mMessages[pType].end())
 			{
-				mEvents[pType].erase(found);
+				mMessages[pType].erase(found);
 			}
 		}
 
 		template<typename... Args>
-		static void Invoke(EventType pType, Args... pArgs)
+		static void Invoke(MessageType pType, Args... pArgs)
 		{
-			if (auto it = mEvents.find(pType); it != mEvents.end())
+			if (auto it = mMessages.find(pType); it != mMessages.end())
 			{
-				for (auto& [key, value] : it->second)
+				for (const auto& [_, value] : it->second)
 				{
 					auto wrapper = static_cast<WrapperBase<Args...>*>(value);
 					wrapper->Invoke(std::forward<decltype(pArgs)>(pArgs)...);
@@ -79,7 +79,7 @@ namespace FR
 	private:
 		inline static ListenerID mAvailableListenerID{ 0 };
 
-		inline static std::map<EventType, std::unordered_map<ListenerID, void*>> mEvents;
+		inline static std::map<MessageType, std::unordered_map<ListenerID, void*>> mMessages;
 
 	};
 }

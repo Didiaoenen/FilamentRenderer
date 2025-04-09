@@ -34,7 +34,7 @@ namespace FR
 			std::time_t time_t = std::chrono::system_clock::to_time_t(pMsg.time);
 			std::string time = std::format("{:02}:{:02}:{:02}", std::localtime(&time_t)->tm_hour, std::localtime(&time_t)->tm_min, std::localtime(&time_t)->tm_sec);
 
-			FRMessage::Invoke<FRILogHandler::LogData>(EventType::LOG, FRILogHandler::LogData{ time, fmt::to_string(formatted), GetMessageLevel(pMsg.level)});
+			FRMessage::Invoke<FRILogHandler::LogData>(MessageType::LOG, FRILogHandler::LogData{ time, fmt::to_string(formatted), GetMessageLevel(pMsg.level)});
 		}
 
 		virtual void flush_() override

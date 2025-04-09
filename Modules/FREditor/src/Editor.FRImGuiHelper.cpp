@@ -87,7 +87,7 @@ FR::FRImGuiHelper::~FRImGuiHelper()
 
 	mWindow = nullptr;
 
-	FRMessage::RemoveListener(EventType::SDL, mListenerID);
+	FRMessage::RemoveListener(MessageType::SDL, mListenerID);
 }
 
 FR::FRImGuiHelper::FRImGuiHelper(const Window::Settings& pSetting, ETheme pTheme)
@@ -147,7 +147,7 @@ FR::FRImGuiHelper::FRImGuiHelper(const Window::Settings& pSetting, ETheme pTheme
 
 	ImGui_ImplSDL2_InitForOther(mWindow->GetSDLWindow());
 
-	mListenerID = FRMessage::AddListener<FRImGuiHelper, SDL_Event>(EventType::SDL, this, &FRImGuiHelper::ProcessEvent);
+	mListenerID = FRMessage::AddListener<FRImGuiHelper, SDL_Event>(MessageType::SDL, this, &FRImGuiHelper::ProcessEvent);
 }
 
 void FR::FRImGuiHelper::Update()

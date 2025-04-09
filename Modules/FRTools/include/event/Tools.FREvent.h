@@ -30,6 +30,7 @@ namespace FR
 
 	private:
 		ListenerID mAvailableListenerID{ 0 };
+
 		std::unordered_map<ListenerID, Callback> mCallbacks;
 
 	};

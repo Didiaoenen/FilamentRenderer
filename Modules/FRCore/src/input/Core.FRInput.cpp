@@ -19,7 +19,7 @@ FR::FRInput::FRInput()
 	keyCodeStates.fill(false);
 	keyCodeFrameStates.fill(false);
 
-	tListenerID = FRMessage::AddListener<FRInput, SDL_Event>(EventType::SDL, this, &FR::FRInput::OnEvent);
+	tListenerID = FRMessage::AddListener<FRInput, SDL_Event>(MessageType::SDL, this, &FR::FRInput::OnEvent);
 }
 
 void FR::FRInput::Reset()
@@ -216,5 +216,5 @@ void FR::FRInput::OnEventMouse(SDL_Event pEvent)
 
 FR::FRInput::~FRInput()
 {
-	FRMessage::RemoveListener(EventType::SDL, tListenerID);
+	FRMessage::RemoveListener(MessageType::SDL, tListenerID);
 }

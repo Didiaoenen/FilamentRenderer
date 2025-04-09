@@ -35,12 +35,13 @@ void FR::FRCompLight::SetIntensity(float pIntensity)
 
 void FR::FRCompLight::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
 {
-
+	FRSerializer::SerializeInt(pDoc, pNode, "lightType", static_cast<int>(lightType));
 }
 
 void FR::FRCompLight::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
 {
-
+	lightType = static_cast<FRLightManagerWarp::EType>(FRSerializer::DeserializeInt(pDoc, pNode, "lightType"));
+	mLight.CreateLight(lightType);
 }
 
 void FR::FRCompLight::OnInspector(FRWidgetContainer& pRoot)

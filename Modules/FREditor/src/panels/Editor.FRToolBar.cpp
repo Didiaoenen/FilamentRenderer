@@ -101,6 +101,8 @@ FR::FRToolBar::FRToolBar()
 void FR::FRToolBar::CreateFileMenu()
 {
 	auto& fileMenu = CreateWidget<FRMenuList>("File");
+	fileMenu.CreateWidget<FRMenuItem>("NewScene").ClickedEvent += std::bind(&FREditorActions::LoadEmptyScene, &GetService(FREditorActions));
+	fileMenu.CreateWidget<FRMenuItem>("SaveScene").ClickedEvent += std::bind(&FREditorActions::SaveSceneChanges, &GetService(FREditorActions));
 }
 
 void FR::FRToolBar::CreateActorsMenu()

@@ -7,6 +7,7 @@
 #include "Core.FRGuiDrawer.h"
 #include "Core.FRModelManager.h"
 #include "Core.FRMaterialManager.h"
+#include "Core.FRSerializer.h"
 
 #include <FREntityManagerWarp.h>
 
@@ -55,10 +56,40 @@ void FR::FRCompRendererable::FillMaterials(FRMaterial* pMaterial)
 
 void FR::FRCompRendererable::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
 {
+	FRSerializer::SerializeString(pDoc, pNode, "modelPath", mModelPath);
+
+	tinyxml2::XMLNode* componentsNode = pDoc.NewElement("materials");
+	pNode->InsertEndChild(componentsNode);
+
+	for (const auto& material : mRenderable.GetMaterials())
+	{
+		if (material)
+		{
+			FRSerializer::SerializeMaterial(pDoc, componentsNode, "material", material);
+		}
+	}
 }
 
 void FR::FRCompRendererable::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
 {
+	SetRenderable(FRSerializer::DeserializeModel(pDoc, pNode, "modelPath"));
+
+	tinyxml2::XMLNode* materialsRoot = pNode->FirstChildElement("materials");
+
+	if (materialsRoot)
+	{
+		auto materialElem = materialsRoot->FirstChildElement("material");
+
+		int index = 0;
+		while (materialElem)
+		{
+			std::string text = materialElem->GetText();
+			auto material = GetService(FRMaterialManager).GetResource(text);
+			mRenderable.SetMaterialAtIndex(index++, material);
+
+			materialElem = materialElem->NextSiblingElement("material");
+		}
+	}
 }
 
 void FR::FRCompRendererable::OnInspector(GUI::FRWidgetContainer& pRoot)

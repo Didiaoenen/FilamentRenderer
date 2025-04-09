@@ -52,7 +52,7 @@ namespace FR
 
 		FRActor* FindActorByTag(const std::string& pTag) const;
 
-		FRActor* FindActorByID(int64_t pID) const;
+		FRActor* FindActorByUUID(int64_t pID) const;
 
 		std::vector<std::reference_wrapper<FRActor>> FindActorsByName(const std::string& pName) const;
 

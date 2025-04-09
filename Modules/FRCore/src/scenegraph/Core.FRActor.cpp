@@ -1,6 +1,9 @@
 #include "Core.FRActor.h"
+#include "Core.FRSerializer.h"
 #include "Core.FRSceneManager.h"
 #include "Core.FRCompTransform.h"
+#include "Core.FRCompRendererable.h"
+#include "Core.FRCompCamera.h"
 
 FR::FRActor::FRActor(const std::string& pName, const std::string& pTag)
 	: mScene(FRSceneManager::Instance()->GetCurrentScene())
@@ -70,10 +73,16 @@ void FR::FRActor::SetParent(FRActor* pParent)
 	DetachFromParent();
 
 	mParent = pParent;
+	mParentUUID = pParent->uUID;
 	transform->SetParent(*pParent->transform);
 	pParent->mChildren.push_back(this);
 
 	AttachEvent.Invoke(this, pParent);
+}
+
+size_t FR::FRActor::GetParentUUID()
+{
+	return mParentUUID;
 }
 
 void FR::FRActor::DetachFromParent()
@@ -89,6 +98,7 @@ void FR::FRActor::DetachFromParent()
 	}
 
 	mParent = nullptr;
+	mParentUUID = 0;
 
 	transform->RemoveParent();
 }
@@ -171,10 +181,73 @@ const std::vector<FR::FRComponent*>& FR::FRActor::GetComponents()
 
 void FR::FRActor::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pActorsRoot)
 {
+	tinyxml2::XMLNode* actorNode = pDoc.NewElement("actor");
+	pActorsRoot->InsertEndChild(actorNode);
+
+	FRSerializer::SerializeBoolean(pDoc, actorNode, "active", mActive);
+	FRSerializer::SerializeString(pDoc, actorNode, "name", name);
+	FRSerializer::SerializeString(pDoc, actorNode, "tag", tag);
+
+	FRSerializer::SerializeString(pDoc, actorNode, "uUID", std::to_string(uUID));
+	FRSerializer::SerializeString(pDoc, actorNode, "parentUUID", std::to_string(mParentUUID));
+
+	tinyxml2::XMLNode* componentsNode = pDoc.NewElement("components");
+	actorNode->InsertEndChild(componentsNode);
+
+	for (auto& component : mComponents)
+	{
+		tinyxml2::XMLNode* componentNode = pDoc.NewElement("component");
+		componentsNode->InsertEndChild(componentNode);
+
+		FRSerializer::SerializeString(pDoc, componentNode, "type", typeid(*component).name());
+
+		tinyxml2::XMLElement* data = pDoc.NewElement("data");
+		componentNode->InsertEndChild(data);
+
+		component->OnSerialize(pDoc, data);
+	}
 }
 
 void FR::FRActor::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pActorsRoot)
 {
+	
+	FRSerializer::DeserializeBoolean(pDoc, pActorsRoot, "active", mActive);
+	FRSerializer::DeserializeString(pDoc, pActorsRoot, "name", name);
+	FRSerializer::DeserializeString(pDoc, pActorsRoot, "tag", tag);
+
+	uUID = std::stoull(FRSerializer::DeserializeString(pDoc, pActorsRoot, "uUID"));
+	mParentUUID = std::stoull(FRSerializer::DeserializeString(pDoc, pActorsRoot, "parentUUID"));
+
+	{
+		tinyxml2::XMLNode* componentsRoot = pActorsRoot->FirstChildElement("components");
+		if (componentsRoot)
+		{
+			tinyxml2::XMLElement* currentComponent = componentsRoot->FirstChildElement("component");
+
+			while (currentComponent)
+			{
+				tinyxml2::XMLElement* componentType = currentComponent->FirstChildElement("type");
+				std::string text = componentType->GetText();
+				
+				FRComponent* component = nullptr;
+				if (text == typeid(FRCompTransform).name())
+					component = transform;
+				else if (text == typeid(FRCompLight).name())
+					component = AddComponent<FRCompLight>();
+				else if (text == typeid(FRCompCamera).name())
+					component = AddComponent<FRCompCamera>();
+				else if (text == typeid(FRCompRendererable).name())
+					component = AddComponent<FRCompRendererable>();
+
+				if (component)
+				{
+					component->OnDeserialize(pDoc, currentComponent->FirstChildElement("data"));
+				}
+
+				currentComponent = currentComponent->NextSiblingElement("component");
+			}
+		}
+	}
 }
 
 bool FR::FRActor::RemoveComponent(FRComponent* pComponent)

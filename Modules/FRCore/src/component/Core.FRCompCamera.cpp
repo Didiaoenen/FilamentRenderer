@@ -1,5 +1,6 @@
 #include "Core.FRCompCamera.h"
 #include "Core.FRActor.h"
+#include "Core.FRSerializer.h"
 #include "Core.FRCompTransform.h"
 
 FR::FRCompCamera::FRCompCamera(FRActor& pOwner)
@@ -86,10 +87,22 @@ FR::FRCamera& FR::FRCompCamera::GetCamera()
 
 void FR::FRCompCamera::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
 {
+	FRSerializer::SerializeFloat(pDoc, pNode, "fov", mCamera.fov);
+	FRSerializer::SerializeFloat(pDoc, pNode, "size", mCamera.size);
+	FRSerializer::SerializeFloat(pDoc, pNode, "near", mCamera.near);
+	FRSerializer::SerializeFloat(pDoc, pNode, "far", mCamera.far);
+	FRSerializer::SerializeColor(pDoc, pNode, "clearColor", mCamera.clearColor);
+	FRSerializer::SerializeInt(pDoc, pNode, "projectionMode", static_cast<int>(mCamera.projectionMode));
 }
 
 void FR::FRCompCamera::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
 {
+	mCamera.fov = FRSerializer::DeserializeFloat(pDoc, pNode, "fov");
+	mCamera.size = FRSerializer::DeserializeFloat(pDoc, pNode, "size");
+	mCamera.near = FRSerializer::DeserializeFloat(pDoc, pNode, "near");
+	mCamera.far = FRSerializer::DeserializeFloat(pDoc, pNode, "far");
+	mCamera.clearColor = FRSerializer::DeserializeVec3(pDoc, pNode, "clearColor");
+	mCamera.projectionMode = static_cast<FRCamera::EProjectionMode>(FRSerializer::DeserializeInt(pDoc, pNode, "projectionMode"));
 }
 
 void FR::FRCompCamera::OnInspector(FRWidgetContainer& pRoot)

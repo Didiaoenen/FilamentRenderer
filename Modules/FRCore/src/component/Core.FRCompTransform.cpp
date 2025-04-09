@@ -166,10 +166,19 @@ glm::vec3 FR::FRCompTransform::GetLocalRight() const
 
 void FR::FRCompTransform::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
 {
+	FRSerializer::SerializeVec3(pDoc, pNode, "position", GetLocalPosition());
+	FRSerializer::SerializeQuat(pDoc, pNode, "rotation", GetLocalRotation());
+	FRSerializer::SerializeVec3(pDoc, pNode, "scale", GetLocalScale());
 }
 
 void FR::FRCompTransform::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
 {
+	mTransform.GenerateMatricesLocal
+	(
+		FRSerializer::DeserializeVec3(pDoc, pNode, "position"),
+		FRSerializer::DeserializeQuat(pDoc, pNode, "rotation"),
+		FRSerializer::DeserializeVec3(pDoc, pNode, "scale")
+	);
 }
 
 void FR::FRCompTransform::OnInspector(FRWidgetContainer& pRoot)

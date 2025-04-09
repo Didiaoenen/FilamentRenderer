@@ -10,6 +10,8 @@ namespace FR
     public:
 		FREditorController();
 
+		void InitGizmo();
+
 		void Update();
 
 		void SetupUI();

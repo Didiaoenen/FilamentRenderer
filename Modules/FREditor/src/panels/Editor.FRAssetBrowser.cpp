@@ -404,6 +404,13 @@ namespace FR
 
 		virtual void CreateList() override
 		{
+			auto& editAction = CreateWidget<FRMenuItem>("Edit");
+
+			editAction.ClickedEvent += [this]
+				{
+					GetService(FREditorActions).LoadSceneFromDisk(filePath, true);
+				};
+
 			FileItemMenu::CreateList();
 		}
 	};

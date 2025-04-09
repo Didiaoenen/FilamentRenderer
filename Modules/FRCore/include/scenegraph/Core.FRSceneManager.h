@@ -15,9 +15,9 @@ namespace FR
 
 		void Update();
 
-		void LoadEmptyScene();
+		void DelayUpdate();
 
-		void LoadAndPlayDelayed(const std::string& pPath, bool pAbsolute = false);
+		void LoadEmptyScene();
 
 		FRScene* LoadEmptyLightedScene();
 
@@ -25,6 +25,8 @@ namespace FR
 
 		bool LoadSceneFromMemory(tinyxml2::XMLDocument& pDoc);
 
+		void UnloadLastScene();
+		
 		void UnloadCurrentScene();
 
 		FRScene* GetCurrentScene() const;
@@ -49,6 +51,8 @@ namespace FR
 
 	private:
 		inline static FRSceneManager* sInstance{ nullptr };
+
+		FRScene* mLastScene{ nullptr };
 		FRScene* mCurrentScene{ nullptr };
 
 		std::string mSceneRootFolder;

@@ -150,17 +150,17 @@ FR::FRActor* FR::FRScene::FindActorByTag(const std::string& pTag) const
 	return nullptr;
 }
 
-FR::FRActor* FR::FRScene::FindActorByID(int64_t pID) const
+FR::FRActor* FR::FRScene::FindActorByUUID(int64_t pUUID) const
 {
-	//auto result = std::find_if(mActors.begin(), mActors.end(), [pID](Actor* pElement)
-	//	{
-	//		return pElement->GetID() == pID;
-	//	});
+	auto result = std::find_if(mActors.begin(), mActors.end(), [pUUID](FRActor* pElement)
+		{
+			return pElement->uUID == pUUID;
+		});
 
-	//if (result != mActors.end())
-	//{
-	//	return *result;
-	//}
+	if (result != mActors.end())
+	{
+		return *result;
+	}
 
 	return nullptr;
 }
@@ -269,12 +269,44 @@ const FR::FRScene::FastAccessComponents& FR::FRScene::GetFastAccessComponents() 
 
 void FR::FRScene::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pRoot)
 {
+	tinyxml2::XMLNode* sceneNode = pDoc.NewElement("scene");
+	pRoot->InsertEndChild(sceneNode);
 
+	tinyxml2::XMLNode* actorsNode = pDoc.NewElement("actors");
+	sceneNode->InsertEndChild(actorsNode);
+
+	for (auto& actor : mActors)
+	{
+		actor->OnSerialize(pDoc, actorsNode);
+	}
 }
 
 void FR::FRScene::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pRoot)
 {
+	tinyxml2::XMLNode* actorsRoot = pRoot->FirstChildElement("actors");
 
+	if (actorsRoot)
+	{
+		tinyxml2::XMLElement* currentActor = actorsRoot->FirstChildElement("actor");
+
+		while (currentActor)
+		{
+			auto actor = CreateActor();
+			actor->OnDeserialize(pDoc, currentActor);
+			currentActor = currentActor->NextSiblingElement("actor");
+		}
+
+		for (auto actor : mActors)
+		{
+			if (actor->GetParentUUID() > 0)
+			{
+				if (auto found = FindActorByUUID(actor->GetParentUUID()))
+				{
+					actor->SetParent(found);
+				}
+			}
+		}
+	}
 }
 
 void FR::FRScene::ParseScene()

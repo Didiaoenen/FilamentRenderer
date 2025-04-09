@@ -35,43 +35,57 @@ namespace
 	FR::FRSceneView* sceneView = nullptr;
 	FR::FRAssetView* assetView = nullptr;
 
-	FR::FRRenderable* planeRenderable = nullptr;
+	FR::FRRenderable* plane = nullptr;
+	FR::FREnvironment* environment = nullptr;
 }
 
 FR::FREditorController::FREditorController()
 {
 	SetupUI();
 
-	auto scene = FRSceneManager::Instance()->LoadEmptyLightedScene();
+	InitGizmo();
 
+	// TODO FIX
+	{
+		auto iblTexture = FRApplication::EditorResources()->GetTexture("IBL");
+		auto skyboxTexture = FRApplication::EditorResources()->GetTexture("Skybox");
+
+		environment = new FREnvironment(skyboxTexture, iblTexture);
+	}
+
+	FRSceneManager::Instance()->SceneLoadEvent += []() {
+			auto currentScene = FRSceneManager::Instance()->GetCurrentScene();
+
+			currentScene->AddGizmo(plane);
+
+			currentScene->SetEnvironment(environment);
+		};
+
+	FRSceneManager::Instance()->LoadEmptyLightedScene();
+}
+
+void FR::FREditorController::InitGizmo()
+{
 	auto planeModel = FRApplication::EditorResources()->GetModel("Plane");
 	auto gridShader = FRApplication::EditorResources()->GetShader("Grid");
-	auto iblTexture = FRApplication::EditorResources()->GetTexture("IBL");
-	auto skyboxTexture = FRApplication::EditorResources()->GetTexture("Skybox");
 
-	planeRenderable = new FRRenderable(new FREntity(FRFilamentHelper::CreateEntity()));
+	plane = new FRRenderable(new FREntity(FRFilamentHelper::CreateEntity()));
 
 	for (auto& mesh : planeModel->GetMeshes())
 	{
-		planeRenderable->BuildMesh(mesh);
+		plane->BuildMesh(mesh);
 	}
 
 	auto t = glm::mat4(1.0f);
 	auto transform = glm::translate(t, glm::vec3(0.0f, -10.0f, 0.0f)) * glm::scale(t, glm::vec3(10000.0f, 1.0f, 10000.0f));
-	planeRenderable->SetTransform(0, transform);
+	plane->SetTransform(0, transform);
 
 	auto material = new FRMaterial(gridShader);
 	material->SetParameter("baseColor", MathConvert::ToFVec3({ 0.176f, 0.176f, 0.176f }));
 	material->SetTransparencyMode(FRMaterialInstanceWarp::ETransparencyMode::DEFAULT);
 	material->SetCullingMode(FRMaterialInstanceWarp::ECullingMode::NONE);
 
-	planeRenderable->SetMaterialAtIndex(0, material);
-
-	scene->AddGizmo(planeRenderable);
-
-	auto environment = new FREnvironment(skyboxTexture, iblTexture);
-
-	scene->SetEnvironment(environment);
+	plane->SetMaterialAtIndex(0, material);
 }
 
 void FR::FREditorController::SetupUI()
@@ -105,6 +119,11 @@ void FR::FREditorController::Update()
 
 	GetService(FREditorActions).ExecuteDelayedActions();
 
+	{
+		FRSceneManager::Instance()->GetCurrentScene()->CollectGarbages();
+		FRSceneManager::Instance()->DelayUpdate();
+	}
+
 	++mElapsedFrames;
 }
 
@@ -120,10 +139,7 @@ void FR::FREditorController::UpdateCurrentEditorMode()
 		UpdateEditMode();
 	}
 
-	{
-		FRSceneManager::Instance()->GetCurrentScene()->CollectGarbages();
-		FRSceneManager::Instance()->Update();
-	}
+	FRSceneManager::Instance()->Update();
 }
 
 void FR::FREditorController::UpdatePlayMode()

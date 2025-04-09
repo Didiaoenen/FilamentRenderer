@@ -74,11 +74,11 @@ void FR::FREditorActions::Stop()
 		bool loadedFromDisk = FRSceneManager::Instance()->IsCurrentSceneLoadedFromDisk();
 		std::string sceneSourcePath = FRSceneManager::Instance()->GetCurrentSceneSourcePath();
 
-		int64_t focusedActorID = -1;
+		uint64_t focusedActorUUID = -1;
 
 		if (auto targetActor = FRApplication::GuiHelper()->GetPanel<FRInspector>()->GetTargetActor())
 		{
-			//focusedActorID = targetActor->GetID();
+			//focusedActorUUID = targetActor->uUID;
 		}
 
 		//FRSceneManager::Instance()->LoadSceneFromMemory(mSceneBackup);
@@ -91,7 +91,7 @@ void FR::FREditorActions::Stop()
 		mSceneBackup.Clear();
 		FRApplication::GuiHelper()->GetPanel<FRSceneView>()->Focus();
 		
-		if (auto actor = FRSceneManager::Instance()->GetCurrentScene()->FindActorByID(focusedActorID))
+		if (auto actor = FRSceneManager::Instance()->GetCurrentScene()->FindActorByUUID(focusedActorUUID))
 		{
 			FRApplication::GuiHelper()->GetPanel<FRInspector>()->FocusActor(actor);
 		}
@@ -236,6 +236,40 @@ void FR::FREditorActions::LoadSceneFromDisk(const std::string& pPath, bool pAbso
 
 	FRSceneManager::Instance()->LoadScene(pPath, pAbsolute);
 	FRApplication::GuiHelper()->GetPanel<FRSceneView>()->Focus();
+}
+
+void FR::FREditorActions::SaveCurrentSceneTo(const std::string& pPath)
+{
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLNode* node = doc.NewElement("root");
+	doc.InsertFirstChild(node);
+	FRSceneManager::Instance()->StoreCurrentSceneSourcePath(pPath);
+	FRSceneManager::Instance()->GetCurrentScene()->OnSerialize(doc, node);
+	doc.SaveFile(pPath.c_str());
+}
+
+void FR::FREditorActions::SaveSceneChanges()
+{
+	if (FRSceneManager::Instance()->IsCurrentSceneLoadedFromDisk())
+	{
+		SaveCurrentSceneTo(FRSceneManager::Instance()->GetCurrentSceneSourcePath());
+		return;
+	}
+	
+	SaveAs();
+}
+
+void FR::FREditorActions::SaveAs()
+{
+	SaveFileDialog dialog("NewScene");
+	dialog.SetInitialDirectory(utils::Path(FRApplication::Instance()->projectAssetsPath).concat("NewScene"));
+	dialog.DefineExtension("NewScene", ".scene");
+	dialog.Show();
+
+	if (dialog.HasSucceeded())
+	{
+		SaveCurrentSceneTo(dialog.GetSelectedFilePath());
+	}
 }
 
 void FR::FREditorActions::DelayAction(std::function<void()> pAction, uint32_t pFrames)

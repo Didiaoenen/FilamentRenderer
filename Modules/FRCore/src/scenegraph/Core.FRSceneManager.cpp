@@ -17,29 +17,23 @@ FR::FRSceneManager::FRSceneManager()
 
 void FR::FRSceneManager::Update()
 {
+	PlayableGraphManager::Instance()->Update(FRTimer::GetDeltaTimeSec());
+}
+
+void FR::FRSceneManager::DelayUpdate()
+{
 	if (mDelayedLoadCall)
 	{
 		mDelayedLoadCall();
 		mDelayedLoadCall = 0;
 	}
 
-	PlayableGraphManager::Instance()->Update(FRTimer::GetDeltaTimeSec());
-}
-
-void FR::FRSceneManager::LoadAndPlayDelayed(const std::string& pPath, bool pAbsolute)
-{
-	mDelayedLoadCall = [this, pPath, pAbsolute]
-		{
-			std::string previousSourcePath = GetCurrentSceneSourcePath();
-			LoadScene(pPath, pAbsolute);
-			StoreCurrentSceneSourcePath(previousSourcePath);
-			GetCurrentScene()->Playing();
-		};
+	UnloadLastScene();
 }
 
 void FR::FRSceneManager::LoadEmptyScene()
 {
-	UnloadCurrentScene();
+	mLastScene = mCurrentScene;
 
 	mCurrentScene = new FRScene();
 
@@ -48,11 +42,13 @@ void FR::FRSceneManager::LoadEmptyScene()
 
 FR::FRScene* FR::FRSceneManager::LoadEmptyLightedScene()
 {
-	UnloadCurrentScene();
+	//UnloadCurrentScene();
 
-	mCurrentScene = new FRScene();
+	//mCurrentScene = new FRScene();
 
-	SceneLoadEvent.Invoke();
+	//SceneLoadEvent.Invoke();
+
+	LoadEmptyScene();
 
 	auto light = mCurrentScene->CreateActor("Directional Light");
 	light->AddComponent<FRCompLight>();
@@ -103,6 +99,18 @@ bool FR::FRSceneManager::LoadSceneFromMemory(tinyxml2::XMLDocument& pDoc)
 	}
 
 	return false;
+}
+
+void FR::FRSceneManager::UnloadLastScene()
+{
+	if (mLastScene)
+	{
+		delete mLastScene;
+		mLastScene = nullptr;
+		SceneUnloadEvent.Invoke();
+	}
+
+	ForgetCurrentSceneSourcePath();
 }
 
 void FR::FRSceneManager::UnloadCurrentScene()

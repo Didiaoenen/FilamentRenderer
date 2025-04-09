@@ -77,6 +77,8 @@ void FR::FRApplication::Initialize(const std::string& pProjectPath, const std::s
 	editorAssetsPath = "../../Resources/Data/Editor/";
 	mBinPath = "../../Resources/Bin/";
 
+	projectAssetsPath = utils::Path(pProjectPath).concat("Assets");
+
 	//logger = std::make_unique<FRLogger>();
 	FRLogger::Instance()->AddSink(std::make_shared<FR::ConsoleSink_mt>());
 
@@ -120,6 +122,4 @@ void FR::FRApplication::TryRun()
 	}
 }
 
-FR::FRApplication::~FRApplication()
-{
-}
+FR::FRApplication::~FRApplication() = default;

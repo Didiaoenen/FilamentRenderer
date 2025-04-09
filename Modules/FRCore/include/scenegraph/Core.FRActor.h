@@ -39,6 +39,8 @@ namespace FR
 
 		void SetParent(FRActor* pParent);
 
+		size_t GetParentUUID();
+
 		void DetachFromParent();
 
 		const std::vector<FRActor*>& GetChildren();
@@ -106,6 +108,8 @@ namespace FR
 		bool mStarted{ false };
 		bool mDestroyed{ false };
 		bool mWasActive{ false };
+
+		uint64_t mParentUUID{ 0 };
 
 		FRScene* mScene{ nullptr };
 		FRActor* mParent{ nullptr };

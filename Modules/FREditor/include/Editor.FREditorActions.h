@@ -77,6 +77,12 @@ namespace FR
 		void LoadEmptyScene();
 
 		void LoadSceneFromDisk(const std::string& pPath, bool pAbsolute = false);
+
+		void SaveCurrentSceneTo(const std::string& pPath);
+
+		void SaveSceneChanges();
+
+		void SaveAs();
 #pragma endregion
 
 #pragma region ACTION_SYSTEM

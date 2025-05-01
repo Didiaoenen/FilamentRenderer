@@ -7,13 +7,13 @@
 
 namespace FR
 {
-	class FRCompRendererable
+	class FRCompRenderable
 		: public FRComponent
 	{
 		static constexpr uint8_t kMaxCount = 0xFF;
 
 	public:
-		FRCompRendererable(FRActor& pOwner);
+		FRCompRenderable(FRActor& pOwner);
 
 		void SetRenderable(FRModel* pModel);
 
@@ -36,7 +36,7 @@ namespace FR
 		FRRenderable& GetRenderable();
 
 	public:
-		virtual ~FRCompRendererable();
+		virtual ~FRCompRenderable();
 
 	private:
 		FRRenderable mRenderable;

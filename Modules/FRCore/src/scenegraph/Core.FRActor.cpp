@@ -1,9 +1,12 @@
 #include "Core.FRActor.h"
 #include "Core.FRSerializer.h"
 #include "Core.FRSceneManager.h"
-#include "Core.FRCompTransform.h"
-#include "Core.FRCompRendererable.h"
+
 #include "Core.FRCompCamera.h"
+#include "Core.FRCompTransform.h"
+#include "Core.FRCompRenderable.h"
+
+#include <FRTransformManagerWarp.h>
 
 FR::FRActor::FRActor(const std::string& pName, const std::string& pTag)
 	: mScene(FRSceneManager::Instance()->GetCurrentScene())
@@ -12,6 +15,8 @@ FR::FRActor::FRActor(const std::string& pName, const std::string& pTag)
 	tag = pTag;
 	name = pName;
 	mTransform = transform->GetFRTransform();
+
+	mScene->OnComponentAdded(transform);
 
 	CreatedEvent.Invoke(this);
 }
@@ -174,6 +179,14 @@ void FR::FRActor::MarkAsDestroy()
 	}
 }
 
+void FR::FRActor::SetTransform(const glm::mat4& pMatrix)
+{
+	auto engine = FRFilamentHelper::GetEngine();
+	auto transformManager = engine->GetTransformManager();
+	auto transIns = transformManager->GetInstance(NatrivePtr());
+	transformManager->SetTransform(transIns, pMatrix);
+}
+
 const std::vector<FR::FRComponent*>& FR::FRActor::GetComponents()
 {
 	return mComponents;
@@ -236,8 +249,8 @@ void FR::FRActor::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* 
 					component = AddComponent<FRCompLight>();
 				else if (text == typeid(FRCompCamera).name())
 					component = AddComponent<FRCompCamera>();
-				else if (text == typeid(FRCompRendererable).name())
-					component = AddComponent<FRCompRendererable>();
+				else if (text == typeid(FRCompRenderable).name())
+					component = AddComponent<FRCompRenderable>();
 
 				if (component)
 				{

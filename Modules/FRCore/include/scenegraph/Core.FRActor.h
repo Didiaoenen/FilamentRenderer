@@ -65,6 +65,8 @@ namespace FR
 
 		void MarkAsDestroy();
 
+		void SetTransform(const glm::mat4& pMatrix);
+
 		const std::vector<FRComponent*>& GetComponents();
 
 		virtual void OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pActorsRoot) override;

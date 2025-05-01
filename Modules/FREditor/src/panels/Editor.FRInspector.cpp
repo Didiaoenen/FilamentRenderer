@@ -10,7 +10,7 @@
 #include <Core.FRCompAnimancer.h>
 #include <Core.FRCompTransform.h>
 #include <Core.FRIInspectorItem.h>
-#include <Core.FRCompRendererable.h>
+#include <Core.FRCompRenderable.h>
 
 #include <Tools.FRServiceLocator.h>
 

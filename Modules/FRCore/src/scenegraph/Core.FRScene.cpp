@@ -4,8 +4,7 @@
 #include "Core.FRCompLight.h"
 #include "Core.FRCompCamera.h"
 #include "Core.FRCompTransform.h"
-#include "Core.FRCompRendererable.h"
-#include "Core.FREngineDrawableDescriptor.h"
+#include "Core.FRCompRenderable.h"
 
 #include "Core.FRMesh.h"
 #include "Core.FRModel.h"
@@ -101,7 +100,7 @@ void FR::FRScene::CollectGarbages()
 		{
 			if (bool isGarbage = !pElement->IsAlive())
 			{
-				if (auto modelRenderer = pElement->GetComponent<FRCompRendererable>())
+				if (auto modelRenderer = pElement->GetComponent<FRCompRenderable>())
 				{
 					RemoveRenderable(&modelRenderer->GetRenderable());
 				}
@@ -217,9 +216,14 @@ void FR::FRScene::SetEnvironment(FREnvironment* pEnvironment)
 
 void FR::FRScene::OnComponentAdded(FRComponent* pCompononent)
 {
-	if (auto result = dynamic_cast<FRCompRendererable*>(pCompononent))
+	if (auto result = dynamic_cast<FRCompRenderable*>(pCompononent))
 	{
-		mFastAccessComponents.modelRenderers.push_back(result);
+		mFastAccessComponents.renderables.push_back(result);
+	}
+
+	if (auto result = dynamic_cast<FRCompTransform*>(pCompononent))
+	{
+		mFastAccessComponents.transforms.push_back(result);
 	}
 
 	if (auto result = dynamic_cast<FRCompCamera*>(pCompononent))
@@ -235,11 +239,11 @@ void FR::FRScene::OnComponentAdded(FRComponent* pCompononent)
 
 void FR::FRScene::OnComponentRemoved(FRComponent* pCompononent)
 {
-	if (auto result = dynamic_cast<FRCompRendererable*>(pCompononent))
+	if (auto result = dynamic_cast<FRCompRenderable*>(pCompononent))
 	{
-		mFastAccessComponents.modelRenderers.erase(
-			std::remove(mFastAccessComponents.modelRenderers.begin(), mFastAccessComponents.modelRenderers.end(), result),
-			mFastAccessComponents.modelRenderers.end());
+		mFastAccessComponents.renderables.erase(
+			std::remove(mFastAccessComponents.renderables.begin(), mFastAccessComponents.renderables.end(), result),
+			mFastAccessComponents.renderables.end());
 	}
 
 	if (auto result = dynamic_cast<FRCompCamera*>(pCompononent))
@@ -313,23 +317,25 @@ void FR::FRScene::ParseScene()
 {
 	auto components = GetFastAccessComponents();
 
-	for (auto& modelRenderer : components.modelRenderers)
+	for (auto compTransform : components.transforms)
 	{
-		if (auto& owner = modelRenderer->owner; owner.IsActive())
+		if (auto& owner = compTransform->owner; owner.IsActive())
 		{
-			auto& renderable = modelRenderer->GetRenderable();
-			if (renderable.GetMeshes().size() > 0)
-			{
-				auto& transform = owner.transform->GetFRTransform();
-				renderable.SetTransform(transform.GetLocalMatrix());
+			auto& transform = compTransform->GetFRTransform();
+			owner.SetTransform(transform.GetLocalMatrix());
 
-				const auto& meshes = renderable.GetMeshes();
-				const auto& materials = renderable.GetMaterials();
-				for (size_t i = 0; i < meshes.size(); i++)
+			if (auto compRendererable = owner.GetComponent<FRCompRenderable>())
+			{
+				auto& rendererable = compRendererable->GetRenderable();
+				if (auto& meshes = rendererable.GetMeshes(); meshes.size() > 0)
 				{
-					if (auto material = materials[i])
+					const auto& materials = rendererable.GetMaterials();
+					for (size_t i = 0; i < meshes.size(); i++)
 					{
-						material->UploadData();
+						if (auto material = materials[i])
+						{
+							material->UploadData();
+						}
 					}
 				}
 			}

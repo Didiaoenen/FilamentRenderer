@@ -5,7 +5,7 @@
 #include "Core.FRMesh.h"
 #include "Core.FRActor.h"
 #include "Core.FRGuiDrawer.h"
-#include "Core.FRCompRendererable.h"
+#include "Core.FRCompRenderable.h"
 
 #include "Animation.h"
 #include "AnimationClip.h"
@@ -41,7 +41,7 @@ FR::Animator& FR::FRCompAnimator::GetAnimator()
 
 void FR::FRCompAnimator::OnStart()
 {
-	if (auto modelRenderer = owner.GetComponent<FRCompRendererable>())
+	if (auto compRenderable = owner.GetComponent<FRCompRenderable>())
 	{
 		mAnimator.SetSkeletonRig(mSkeletonRig);
 
@@ -58,9 +58,9 @@ void FR::FRCompAnimator::OnUpdate(float pDeltaTime)
 	{
 		mAnimator.Update(pDeltaTime);
 
-		if (auto modelRenderer = owner.GetComponent<FRCompRendererable>())
+		if (auto compRenderable = owner.GetComponent<FRCompRenderable>())
 		{
-			auto& renderable = modelRenderer->GetRenderable();
+			auto& renderable = compRenderable->GetRenderable();
 			ozz::vector<ozz::math::Float4x4> skinningMat;
 			for (auto& mesh : renderable.GetMeshes())
 			{

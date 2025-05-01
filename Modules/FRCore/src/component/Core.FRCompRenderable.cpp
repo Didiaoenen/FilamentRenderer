@@ -1,4 +1,4 @@
-#include "Core.FRCompRendererable.h"
+#include "Core.FRCompRenderable.h"
 
 #include "Core.FRMesh.h"
 #include "Core.FRModel.h"
@@ -16,7 +16,7 @@
 
 using namespace FR::GUI;
 
-FR::FRCompRendererable::FRCompRendererable(FRActor& pOwner)
+FR::FRCompRenderable::FRCompRenderable(FRActor& pOwner)
 	: FRComponent(pOwner)
 	, mRenderable(&pOwner)
 {
@@ -32,7 +32,7 @@ FR::FRCompRendererable::FRCompRendererable(FRActor& pOwner)
 		};
 }
 
-void FR::FRCompRendererable::SetRenderable(FRModel* pModel)
+void FR::FRCompRenderable::SetRenderable(FRModel* pModel)
 {
 	mModelPath = pModel->path;
 
@@ -49,12 +49,12 @@ void FR::FRCompRendererable::SetRenderable(FRModel* pModel)
 	mModelChangedEvent.Invoke();
 }
 
-void FR::FRCompRendererable::FillMaterials(FRMaterial* pMaterial)
+void FR::FRCompRenderable::FillMaterials(FRMaterial* pMaterial)
 {
 	mRenderable.FillMaterials(pMaterial);
 }
 
-void FR::FRCompRendererable::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
+void FR::FRCompRenderable::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
 {
 	FRSerializer::SerializeString(pDoc, pNode, "modelPath", mModelPath);
 
@@ -70,7 +70,7 @@ void FR::FRCompRendererable::OnSerialize(tinyxml2::XMLDocument& pDoc, tinyxml2::
 	}
 }
 
-void FR::FRCompRendererable::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
+void FR::FRCompRenderable::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2::XMLNode* pNode)
 {
 	SetRenderable(FRSerializer::DeserializeModel(pDoc, pNode, "modelPath"));
 
@@ -92,7 +92,7 @@ void FR::FRCompRendererable::OnDeserialize(tinyxml2::XMLDocument& pDoc, tinyxml2
 	}
 }
 
-void FR::FRCompRendererable::OnInspector(GUI::FRWidgetContainer& pRoot)
+void FR::FRCompRenderable::OnInspector(GUI::FRWidgetContainer& pRoot)
 {
 	FRGuiDrawer::CreateTitle(pRoot, "Model").lineBreak = false;
 
@@ -166,19 +166,19 @@ void FR::FRCompRendererable::OnInspector(GUI::FRWidgetContainer& pRoot)
 	}
 }
 
-const std::string FR::FRCompRendererable::GetName()
+const std::string FR::FRCompRenderable::GetName()
 {
 	return ICON_MDI_GRID " Rendererable";
 }
 
-FR::FRComponent::EComponentType FR::FRCompRendererable::GetType()
+FR::FRComponent::EComponentType FR::FRCompRenderable::GetType()
 {
 	return FRComponent::EComponentType::MODEL_RENDERER;
 }
 
-FR::FRRenderable& FR::FRCompRendererable::GetRenderable()
+FR::FRRenderable& FR::FRCompRenderable::GetRenderable()
 {
 	return mRenderable;
 }
 
-FR::FRCompRendererable::~FRCompRendererable() = default;
+FR::FRCompRenderable::~FRCompRenderable() = default;

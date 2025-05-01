@@ -9,7 +9,7 @@
 #include <Core.FRActor.h>
 #include <Core.FRScene.h>
 #include <Core.FRCompTransform.h>
-#include <Core.FRCompRendererable.h>
+#include <Core.FRCompRenderable.h>
 #include <Core.FRSceneManager.h>
 
 #include <MathDefine.h>
@@ -186,12 +186,12 @@ void FR::FRSceneView::HandleActorPicking()
 
 			float closestDist = FLT_MAX;
 			Ray ray = GetCamera()->ClickPointToRay(screenPos);
-			for (const auto& modelRenderer : GetScene()->GetFastAccessComponents().modelRenderers)
+			for (const auto& compRenderable : GetScene()->GetFastAccessComponents().renderables)
 			{
-				auto& renderable = modelRenderer->GetRenderable();
+				auto& renderable = compRenderable->GetRenderable();
 				for (const auto& mesh : renderable.GetMeshes())
 				{
-					auto transform = modelRenderer->owner.GetComponent<FRCompTransform>();
+					auto transform = compRenderable->owner.GetComponent<FRCompTransform>();
 
 					auto worldMatrix = transform->GetWorldMatrix();
 					auto bbx = mesh->boundingBox.Transformed(worldMatrix);
@@ -201,7 +201,7 @@ void FR::FRSceneView::HandleActorPicking()
 					if (distance < closestDist)
 					{
 						closestDist = distance;
-						mHighlightedActor = &modelRenderer->owner;
+						mHighlightedActor = &compRenderable->owner;
 						break;
 					}
 				}
